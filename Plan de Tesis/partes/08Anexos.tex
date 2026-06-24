@@ -1,0 +1,92 @@
+\newpage
+\phantomsection
+\addcontentsline{toc}{section}{Anexos}
+\section*{Anexo: Fichas de Análisis}
+
+A continuación, se presentan las fichas de análisis de las cinco fuentes más relevantes para la investigación, elaboradas conforme a las exigencias de la guía metodológica del seminario.
+
+% Ficha 1
+\subsection*{Ficha 1: Orcotoma Mormontoy et al. (2025)}
+\begin{description}
+	\item[1. REFERENCIA COMPLETA (APA 7):] Orcotoma Mormontoy, G. C., Leon Nuñez, L., \& Espetia Huamanga, H. (2025). Towards the Creation of a Collao Quechua-Spanish Parallel Corpus Using Optical Character Recognition. \textit{Proceedings of the Workshop on Beyond English}, 1-6. https://doi.org/10.26615/978-954-452-105-9-001
+	\item[2. TIPO DE DOCUMENTO:] Artículo de conferencia científica
+	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Construir un corpus paralelo Quechua Collao-español utilizando reconocimiento óptico de caracteres (OCR) para superar la escasez de recursos digitales en esta lengua de bajos recursos.
+	\item[4. METODOLOGÍA:] Enfoque tecnológico. Digitación y procesamiento (filtros de mediana y binarización) de libros de grado de la Academia Mayor de la Lengua Quechua, seguido de extracción de texto con Tesseract OCR y evaluación mediante Character Error Rate (CER) y Word Error Rate (WER) frente a un texto validado manualmente (ground truth).
+	\item[5. RESULTADOS PRINCIPALES:] Se construyó un corpus de 44\,263 palabras (18\,179 en quechua y 26\,084 en español). La evaluación del OCR mostró un CER de 1.82\% y un WER de 6.59\%, demostrando la viabilidad de la extracción automática con posprocesamiento.
+	\item[6. CONCLUSIONES DEL AUTOR:] El uso de OCR es viable para crear corpus paralelos en Quechua Collao si se aplican métodos adecuados de preprocesamiento, lo que proporciona una metodología valiosa para preservar la lengua y entrenar futuras tecnologías NLP.
+	\item[7. RELEVANCIA PARA MI TESIS:] Es un antecedente directo para la obtención de datos de entrenamiento y evaluación. Justifica la delimitación del proyecto al Quechua Collao al confirmar la existencia de recursos paralelos validados procedentes de la Academia Mayor de la Lengua Quechua.
+	\item[8. CITAS TEXTUALES ÚTILES:] ``The importance of the result of this study lies in providing a methodology for the development of new technologies that require Collao Quechua-Spanish parallel corpora, such as automatic translators and sentence auto-completion systems'' (p. 1).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] Corpus paralelo, OCR, Quechua Collao, NLP de bajos recursos.
+\end{description}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% Ficha 2
+\subsection*{Ficha 2: Court \& Elsner (2024)}
+\begin{description}
+	\item[1. REFERENCIA COMPLETA (APA 7):] Court, S., \& Elsner, M. (2024). Shortcomings of LLMs for Low-Resource Translation: Retrieval and Understanding Are Both the Problem. \textit{Proceedings of the Ninth Conference on Machine Translation}, 1332-1354.
+	\item[2. TIPO DE DOCUMENTO:] Artículo de conferencia científica
+	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Investigar las habilidades de aprendizaje en contexto de Grandes Modelos de Lenguaje (LLMs) al traducir desde una lengua de bajos recursos (quechua sureño) hacia el español, utilizando información recuperada de diccionarios, gramáticas y corpus.
+	\item[4. METODOLOGÍA:] Experimental cuantitativa. Se evaluó la salida de cuatro LLMs (GPT-3.5, GPT-4o, Gemini 1.5, Llama 3) bajo ocho condiciones de prompt que combinaban información de morfemas, gramática y ejemplos de corpus, usando métricas automáticas (BLEURT, BLEU) y anotación humana de errores.
+	\item[5. RESULTADOS PRINCIPALES:] La inclusión de traducciones a nivel de morfema mejora el rendimiento de los modelos más pequeños. Sin embargo, en modelos más avanzados (GPT-4o), añadir contexto gramatical o de corpus reduce los puntajes BLEURT y aumenta la divergencia gramatical.
+	\item[6. CONCLUSIONES DEL AUTOR:] Incluso explicaciones gramaticales relevantes ayudan poco a las generaciones más recientes de LLMs en tareas de bajos recursos. Las traducciones infieles suelen ser engañosamente fluidas en español, y en ocasiones introducen estereotipos culturales no presentes en la frase original.
+	\item[7. RELEVANCIA PARA MI TESIS:] Demuestra que no basta con usar la técnica RAG para inyectar reglas gramaticales en un modelo genérico. Justifica la necesidad de afinar o cuantizar un Small Language Model especializado en lugar de depender únicamente del aprendizaje en contexto de un modelo en la nube.
+	\item[8. CITAS TEXTUALES ÚTILES:] ``providing additional information in the prompt’s context actually degrades GPT-4o’s ability to translate from S. Quechua to Spanish in all experimental conditions'' (p. 7).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] LLMs, Quechua sureño, RAG, traducción automática, aprendizaje en contexto.
+\end{description}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% Ficha 3
+\subsection*{Ficha 3: Walusimbi et al. (2026)}
+\begin{description}
+	\item[1. REFERENCIA COMPLETA (APA 7):] Walusimbi, J., Oguti, A. M., Ssentongo, J. B., \& Ainebyona, K. (2026). Arapai: An Offline-First AI Chatbot Architecture for Low-Connectivity Educational Environments. \textit{arXiv preprint arXiv:2603.03339}.
+	\item[2. TIPO DE DOCUMENTO:] Artículo científico (Preprint)
+	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Diseñar y evaluar una arquitectura de LLM orientada a operar sin conexión a internet (offline-first) para asistencia educativa en entornos con baja conectividad.
+	\item[4. METODOLOGÍA:] Investigación aplicada. Se implementaron modelos cuantizados (TinyLlama, Qwen2.5-3B, Mistral-7B) ejecutados localmente en CPU. El sistema adaptativo fue evaluado cualitativa y cuantitativamente con 120 estudiantes y 9 docentes en condiciones reales.
+	\item[5. RESULTADOS PRINCIPALES:] El sistema operó de forma estable en hardware heredado (CPU). Las consultas instructivas típicas mostraron latencias de respuesta de 1 a 3 segundos. Los usuarios reportaron una alta utilidad para el aprendizaje autodirigido a diferentes niveles de complejidad.
+	\item[6. CONCLUSIONES DEL AUTOR:] Es viable desplegar asistentes educativos basados en IA en contextos con limitaciones de infraestructura utilizando LLMs cuantizados que se ejecutan localmente, ofreciendo una alternativa confiable a los sistemas que dependen de la nube.
+	\item[7. RELEVANCIA PARA MI TESIS:] Es el principal antecedente arquitectónico. Valida la hipótesis de que los modelos cuantizados ejecutados en CPU son suficientemente rápidos y útiles para aplicaciones educativas offline en zonas rurales.
+	\item[8. CITAS TEXTUALES ÚTILES:] ``The system performs all inference locally using quantized language models and incorporates hardware-aware model selection to enable deployment on low-specification, CPU-only devices'' (p. 1).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] Arquitectura offline-first, IA educativa, modelos cuantizados, edge AI.
+\end{description}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% Ficha 4
+\subsection*{Ficha 4: Xu et al. (2024)}
+\begin{description}
+	\item[1. REFERENCIA COMPLETA (APA 7):] Xu, J., Li, Z., Chen, W., Wang, Q., Gao, X., Cai, Q., \& Ling, Z. (2024). On-Device Language Models: A Comprehensive Review. \textit{arXiv preprint arXiv:2409.00088}.
+	\item[2. TIPO DE DOCUMENTO:] Artículo de revisión (Survey)
+	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Examinar los desafíos de desplegar LLMs computacionalmente costosos en dispositivos con recursos limitados y explorar las soluciones innovadoras en múltiples dominios.
+	\item[4. METODOLOGÍA:] Revisión sistemática de literatura sobre arquitecturas eficientes de modelos de lenguaje en dispositivos (on-device), analizando técnicas de compresión de modelos, aceleración de hardware y despliegue colaborativo borde-nube.
+	\item[5. RESULTADOS PRINCIPALES:] Se identifican tres estrategias clave para habilitar modelos en dispositivos: compartición de parámetros, cuantización (PTQ y QAT) para reducir bits de peso/activación, y destilación de conocimiento. La cuantización int4/int8 resulta esencial para procesadores móviles.
+	\item[6. CONCLUSIONES DEL AUTOR:] La transición de la nube al borde (edge) reduce latencia y aumenta privacidad, pero requiere un equilibrio delicado entre el rendimiento del modelo (precisión) y la utilización de recursos (memoria y energía) que solo se logra combinando múltiples técnicas de compresión.
+	\item[7. RELEVANCIA PARA MI TESIS:] Proporciona el marco teórico tecnológico sobre Small Language Models y cuantización que fundamenta el diseño del asistente educativo para hardware de bajo costo.
+	\item[8. CITAS TEXTUALES ÚTILES:] ``deploying computationally expensive LLMs on resource-constrained devices poses significant challenges. The primary obstacles include limited computational power, reduced memory capacity, and energy constraints'' (p. 2).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] On-Device AI, cuantización, compresión de modelos, Small Language Models.
+\end{description}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% Ficha 5
+\subsection*{Ficha 5: Hevia et al. (2025)}
+\begin{description}
+	\item[1. REFERENCIA COMPLETA (APA 7):] Hevia, J. S., Arredondo, F., \& Kumar, V. (2025). Towards an Efficient, Customizable, and Accessible AI Tutor. \textit{arXiv preprint arXiv:2510.06255}.
+	\item[2. TIPO DE DOCUMENTO:] Artículo científico (Preprint)
+	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Proponer un sistema tutorial de IA fuera de línea (offline) basado en Generación Aumentada por Recuperación (RAG) emparejado con un Small Language Model (SLM) para entornos de bajos recursos.
+	\item[4. METODOLOGÍA:] Experimental cuantitativa. Evaluación de modelos de la familia SmolLM (135M y 1.7B) y RAG con libros de texto de biología de OpenStax usando métricas del benchmark MMLU para evaluar el impacto del contexto en la precisión de respuesta.
+	\item[5. RESULTADOS PRINCIPALES:] Contrario a lo esperado, la inclusión de recuperación RAG en SLMs disminuyó su precisión en el MMLU (de 21.59\% a 21.81\% con RAG en SmolLM2-135M, y una caída drástica en el modelo 1.7B), debido a la incapacidad de estos modelos pequeños para manejar ventanas de contexto extendidas y ruidosas.
+	\item[6. CONCLUSIONES DEL AUTOR:] Los Small Language Models luchan por aprovechar efectivamente el contexto extendido provisto por RAG, especialmente si los fragmentos contienen información irrelevante. Es crítico usar técnicas avanzadas de "chunking" (fragmentación semántica) y métricas de evaluación holísticas más allá de opciones múltiples.
+	\item[7. RELEVANCIA PARA MI TESIS:] Alerta sobre los riesgos de usar arquitectura RAG simple con SLMs en el diseño del asistente EIB. Justifica la necesidad de un preprocesamiento cuidadoso de los contenidos curriculares y glosarios locales para evitar introducir ruido en la consulta.
+	\item[8. CITAS TEXTUALES ÚTILES:] ``smaller models, such as SmolLM, struggle to effectively leverage extended contexts provided by the RAG pipeline, particularly when noisy or irrelevant chunks are included'' (p. 1).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] RAG, AI Tutor, Small Language Model, educación fuera de línea.
+\end{description}

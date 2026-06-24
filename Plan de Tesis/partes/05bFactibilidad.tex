@@ -1,0 +1,169 @@
+\newpage
+% *************************
+% **   FACTIBILIDAD      **
+% *************************
+\section{Estudio de Factibilidad}
+
+El estudio de factibilidad determina si el proyecto puede ejecutarse con éxito dentro de las restricciones reales de tiempo, hardware, presupuesto, datos y acceso institucional. Se estructura en tres dimensiones: viabilidad técnica, viabilidad económica y viabilidad operativa.
+
+La conclusión anticipada es que el proyecto \textbf{sí es factible como prototipo académico} (\textit{Minimum Viable Product}), pero \textbf{no} como sistema de producción ni como modelo entrenado desde cero. La razón es que el plan reduce correctamente el riesgo al proponer \textbf{seleccionar, cuantizar y desplegar} un SLM preentrenado con RAG local y detección de idioma, en lugar de entrenar un LLM desde cero. Esta estrategia es coherente con la literatura reciente sobre despliegue \textit{on-device} \citep{Xu2024} y educación \textit{offline} en entornos de baja conectividad \citep{Walusimbi2026}. La calificación global del proyecto, con la información disponible, es \textbf{AMARILLO favorable}: el mayor riesgo no es el modelo base, sino la curación de datos, la pertinencia lingüística y la validación pedagógica intercultural.
+
+\subsection{Factibilidad técnica y de datos}
+
+La viabilidad técnica es \textbf{realista dentro de un perímetro bien acotado}. El plan propone un asistente textual \textit{offline} con detección de idioma, enrutamiento lingüístico, RAG local y un SLM cuantizado; excluye voz y sitúa la contribución en la integración y evaluación del \textit{pipeline} completo, no en el entrenamiento de un modelo nuevo. Esa acotación reduce el riesgo de sobreingeniería y hace el proyecto ejecutable dentro del plazo de una tesis.
+
+\subsubsection{Hardware e inferencia local}
+
+El archivo GGUF de \textbf{Qwen2.5-7B-Instruct en cuantización Q4\_K\_M pesa 4,68 GB}; el de \textbf{Qwen2.5-3B-Instruct pesa 2,1 GB}. El consumo real de RAM en ejecución es mayor que el tamaño del archivo, porque incluye los pesos, la caché KV y el \textit{overhead} del \textit{runtime}: aproximadamente \textbf{6–7 GB} para el modelo de 7B y \textbf{3 GB} para el de 3B. Esto implica que en una laptop con \textbf{16 GB de RAM}, el 7B corre con holgura; en una con \textbf{8 GB}, el 7B es marginal y el \textbf{3B es la opción segura}. A efectos de este proyecto, se adopta el \textbf{Qwen2.5-3B como configuración base} (equipos de 8 GB) y el \textbf{Qwen2.5-7B como variante de calidad} (equipos de 16 GB).
+
+La inferencia en CPU está limitada por el ancho de banda de memoria, no por la frecuencia del procesador. En una laptop de gama media (Intel Core i5 de 10.ª a 13.ª generación o AMD Ryzen 5, con memoria DDR4/DDR5), un 7B Q4\_K\_M genera aproximadamente \textbf{8–12 tokens por segundo} y un 3B genera \textbf{10–25 tokens por segundo}. Estas velocidades son aceptables para un asistente educativo de turnos cortos. La cuantización no exige GPU; se realiza con utilidades de \texttt{llama.cpp} en CPU o, para acelerar la conversión, en el nivel gratuito de Google Colab (GPU T4) o Kaggle, sin costo adicional.
+
+\subsubsection{Datos y corpus disponible}
+
+El corpus paralelo Quechua Collao–español de \citet{Orcotoma2025} está confirmado: \textbf{44 263 palabras} digitalizadas por OCR a partir de cinco libros de la Academia Mayor de la Lengua Quechua (AMLQ). Es un conteo de palabras, no de pares de oraciones; el propio artículo advierte que no se aplicó limpieza \textit{post-OCR}. Como recursos complementarios de dominio público se identifican: el corpus monolingüe \texttt{Llamacha/monolingual-quechua-iic} (base del modelo QuBERT para quechua sureño), datos de AmericasNLP 2023 —que comprenden aproximadamente 154 000 pares quechua–español de entrenamiento— y materiales curriculares EIB abiertos del MINEDU.
+
+\textbf{Advertencia dialectal crítica:} la variante \textit{quy} utilizada en AmericasNLP corresponde al Quechua Chanka (Ayacucho), no al Quechua Collao (Cusco–Puno). Su uso en el RAG exige validación y normalización ortográfica previa por un especialista. Construir la base RAG en doce meses es \textbf{realista} porque el RAG no entrena el modelo; solo requiere curar, segmentar (\textit{chunking}) y vectorizar documentos. El \textit{tokenization premium} del quechua —lengua aglutinante con alta fertilidad de tokens— debe monitorearse como métrica de control del sistema.
+
+El carácter multilingüe de Qwen2.5 no debe confundirse con competencia real en Quechua Collao: el modelo card declara soporte para español y más de 29 idiomas, pero \textbf{no garantiza soporte específico de Quechua Collao} \citep{Court2024}. La pertinencia en esta variedad dependerá del corpus recuperado, los glosarios curados y los \textit{prompts} diseñados con revisión de hablantes nativos, no del conocimiento paramétrico del modelo.
+
+\subsubsection{Stack tecnológico}
+
+Todo el \textit{stack} propuesto es abierto, local y gratuito: \textbf{\texttt{llama.cpp} / Ollama} (inferencia \textit{offline}), \textbf{LangChain o LlamaIndex} (orquestación RAG), \textbf{sentence-transformers} (\textit{embeddings} locales) y \textbf{FAISS o ChromaDB} (base vectorial local). La curva de aprendizaje es moderada y los ecosistemas están ampliamente documentados. El costo recurrente de inferencia es \textbf{S/ 0}.
+
+\subsubsection{Matriz técnica de factibilidad}
+
+\begin{table}[H]
+\centering
+\caption{Matriz de viabilidad técnica aplicada al proyecto}
+\label{tab:factibilidad_tecnica}
+\small
+\begin{tabular}{@{}p{4.2cm}p{2.5cm}p{4.5cm}p{3.5cm}@{}}
+\toprule
+\textbf{Componente crítico} & \textbf{Estado actual} & \textbf{Justificación} & \textbf{Contingencia} \\
+\midrule
+Cómputo para inferencia (CPU-only) & Por gestionar & Inferencia local validada en literatura \citep{Walusimbi2026}; ~8–25 tok/s en laptop gama media según tamaño de modelo & Iniciar con 3B; escalar a 7B solo si el equipo lo soporta \\
+\midrule
+Dataset y corpus para RAG & Por gestionar & Corpus base disponible \citep{Orcotoma2025}; pequeño, requiere limpieza y complemento curricular & Acotar dominio a un área y grado; curación manual validada por especialista AMLQ \\
+\midrule
+Stack tecnológico & Parcialmente cubierto & \textit{Stack} abierto y documentado; soporte Qwen en ecosistemas estándar \citep{Xu2024} & Congelar versiones con \texttt{requirements.txt}; evitar dependencias de pago \\
+\midrule
+Riesgo de sobreingeniería & Alto si no se contiene & Viable como prototipo textual; riesgo si se agrega voz, app móvil o despliegue institucional masivo \citep{Hevia2025} & Interfaz mínima (CLI/web local); priorizar evaluación del \textit{pipeline} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Factibilidad económica e infraestructura}
+
+Económicamente, el proyecto es \textbf{más viable de lo que podría estimarse inicialmente}, siempre que se mantenga la estrategia \textit{offline}. El presupuesto original del plan asciende a S/ 7 205,00. Sin embargo, el análisis de mercado identifica \textbf{dos partidas mal calibradas}: el cómputo en la nube está sobreestimado (puede reducirse a casi cero con niveles gratuitos) y el almacenamiento externo está subestimado frente al precio real de un SSD en el mercado peruano.
+
+\subsubsection{Fuentes de financiamiento y niveles gratuitos}
+
+Los pasos de cuantización y vectorización son tareas \textbf{puntuales} (\textit{one-off}), no servicios persistentes. Se cubren íntegramente con niveles gratuitos:
+
+\begin{itemize}
+    \item \textbf{Kaggle:} hasta 30 horas semanales de GPU con sesiones de hasta 9 horas; suficiente para cuantización y vectorización.
+    \item \textbf{Google Colab (nivel gratuito, GPU T4):} adecuado para las mismas tareas; no imprescindible contratar Colab Pro.
+    \item \textbf{GitHub Student Developer Pack:} incluye créditos de DigitalOcean, Azure y acceso a Copilot y Codespaces. \textbf{Advertencia:} desde junio de 2026, los créditos de DigitalOcean \textit{no pueden usarse en GPU Droplets}; son útiles para hosting en CPU, no para cómputo GPU. Kaggle/Colab son la vía recomendada.
+    \item \textbf{AWS Educate:} formación autoguiada y laboratorios sin costo; no garantiza GPU sostenida para el proyecto.
+\end{itemize}
+
+Las APIs de terceros (OpenAI, Google Cloud) deben evitarse por dos razones: aumentan el costo y, al requerir internet, \textbf{contradicen el propio supuesto de la investigación} (asistente \textit{offline}).
+
+\subsubsection{Presupuesto corregido}
+
+\begin{table}[H]
+\centering
+\caption{Comparación del presupuesto original vs.\ valores de mercado corregidos (junio 2026)}
+\label{tab:presupuesto_corregido}
+\small
+\begin{tabular}{@{}p{6cm}rrp{3.5cm}@{}}
+\toprule
+\textbf{Rubro} & \textbf{Plan original (S/)} & \textbf{Valor real (S/)} & \textbf{Veredicto} \\
+\midrule
+Dispositivo de prueba (laptop/tablet 16 GB) & 2\,500,00 & 2\,299–2\,599 & \textbf{Confirmado} \\
+Almacenamiento externo 1 TB & 250,00 & 480–570 (SSD) / 280 (HDD) & \textbf{Subestimado} \\
+Cómputo en la nube & 900,00 & 0–200 (niveles gratuitos) & \textbf{Sobreestimado} \\
+Bibliografía y bases de datos & 300,00 & — & Razonable \\
+Impresiones y empastados & 200,00 & — & Razonable \\
+Transporte a zonas rurales (5 visitas) & 750,00 & — & Razonable \\
+Viáticos para trabajo de campo (5 días) & 500,00 & — & Razonable \\
+Material para talleres EIB & 200,00 & — & Razonable \\
+Consulta con especialistas Quechua Collao & 450,00 & — & Razonable \\
+Validación lingüística por hablantes nativos & 500,00 & — & Razonable \\
+\midrule
+\textbf{Subtotal} & 6\,550,00 & \textbf{6\,179,00} & \\
+\textbf{Contingencia (10\%)} & 655,00 & \textbf{618,00} & \\
+\midrule
+\textbf{TOTAL} & \textbf{7\,205,00} & \textbf{$\approx$ 6\,800,00} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Nota:} los precios corresponden a cotizaciones en retailers peruanos (Hiraoka, Falabella, Promart) a junio de 2026, con tipo de cambio BCRP/SBS de $\approx$~S/ 3,40 por USD. Se recomienda \textbf{reasignar el excedente de la partida de nube} ($\approx$ S/ 700) a la corrección del almacenamiento y al refuerzo de las sesiones de validación lingüística.
+
+\subsection{Factibilidad operativa y gestión del alcance}
+
+Operativamente, el proyecto es más viable que una tesis dependiente de sistemas empresariales, porque el artefacto propuesto es un \textbf{prototipo autónomo} que no requiere acceso a código fuente, APIs internas o bases de datos corporativas. Sin embargo, mantiene dos dependencias operativas serias: la coordinación con docentes o especialistas EIB para la validación pedagógica, y el acceso a materiales curriculares en escenarios de prueba con pertinencia lingüística responsable.
+
+\begin{table}[H]
+\centering
+\caption{Factores de riesgo operativo y estrategias de mitigación}
+\label{tab:factibilidad_operativa}
+\small
+\begin{tabular}{@{}p{5.5cm}p{8.5cm}@{}}
+\toprule
+\textbf{Factor de riesgo} & \textbf{Estrategia de mitigación / delimitación} \\
+\midrule
+Acceso a validadores EIB (DRE/UGEL/AMLQ) & Iniciar gestiones institucionales desde el arranque del proyecto; tener plan B de validación remota con panel reducido de especialistas. \\
+\midrule
+«Agujero negro» del desarrollo UI/UX & Limitar la interfaz a un mínimo funcional (CLI o web local tipo Streamlit); concentrar el esfuerzo en el \textit{pipeline} SLM+RAG y su evaluación. El valor académico no está en la interfaz, sino en el \textit{pipeline} \citep{Hevia2025}. \\
+\midrule
+Indefinición del criterio de parada & Fijar umbrales de éxito \textit{ex ante}: (i) técnicos — latencia, RAM $\leq$ capacidad del equipo objetivo, tok/s, estabilidad \textit{offline}; (ii) lingüísticos — chrF++ sobre corpus de prueba Collao–español; (iii) pedagógicos — rúbricas de docentes EIB. \\
+\midrule
+Sobreextensión del corpus y alcance & Acotar el dominio curricular a áreas de Comunicación y Ciencia y Tecnología para el primer ciclo de validación; no intentar cubrir toda la EIB en una sola iteración. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Semáforo de riesgo tecnológico}
+
+\begin{table}[H]
+\centering
+\caption{Semáforo de riesgo por dimensión}
+\label{tab:semaforo}
+\small
+\begin{tabular}{@{}p{5cm}cp{8cm}@{}}
+\toprule
+\textbf{Dimensión} & \textbf{Nivel} & \textbf{Justificación} \\
+\midrule
+Técnica (hardware / inferencia / cuantización) & \textbf{VERDE} & Modelos y herramientas probados; inferencia en CPU validada; cuantización en nivel gratuito. \\
+\midrule
+Stack / tooling & \textbf{VERDE} & Maduro, abierto, documentado; alerta menor en tokenización del quechua. \\
+\midrule
+Económica / nube & \textbf{VERDE} & Costos cubribles; nube gratuita (Kaggle/Colab) cubre tareas \textit{one-off}; presupuesto corregido holgado. \\
+\midrule
+Datos (corpus Collao) & \textbf{AMARILLO} & Corpus base disponible \citep{Orcotoma2025} pero pequeño, sin limpieza \textit{post-OCR}; variantes dialectales (Chanka vs.\ Collao) exigen validación. \\
+\midrule
+Operativo (acceso EIB / alcance) & \textbf{AMARILLO} & Depende de trámites con DRE/UGEL/AMLQ y de disciplina de alcance para evitar \textit{scope creep}. \\
+\midrule
+\textbf{GLOBAL} & \textbf{AMARILLO} & \textbf{Factible con gestión activa de los riesgos de datos y operativos.} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El proyecto pasa a \textbf{VERDE} si se consolidan estas condiciones: usar un modelo entre 3B y 7B cuantizado; mantener el sistema estrictamente textual y \textit{offline}; limitar la base de conocimiento a áreas curriculares concretas; fijar desde el inicio un corpus validado y un comité de revisión lingüística; y usar la nube solo como apoyo puntual, no como dependencia estructural \citep{Walusimbi2026, Xu2024}.
+
+El proyecto pasa a \textbf{ROJO} si deriva hacia: entrenar o afinar intensivamente el modelo base como parte central de la tesis; incorporar voz, app móvil completa y despliegue institucional simultáneamente; o depender de una API externa para la generación principal.
+
+\subsection{Conclusiones y recomendaciones}
+
+La factibilidad es un espectro, no una decisión binaria, y este proyecto se ubica en el \textbf{lado factible}. La decisión de no entrenar desde cero, sino cuantizar y orquestar un SLM preexistente con RAG local, reduce drásticamente las exigencias de cómputo y costo, haciéndolo viable bajo cualquier escenario de hardware disponible para el equipo de tesis. Las recomendaciones concretas son las siguientes:
+
+\begin{enumerate}
+    \item \textbf{Modelo base:} adoptar \textbf{Qwen2.5-3B} como configuración por defecto (equipos de 8 GB) y promover el 7B si el equipo objetivo sostiene $\geq$ 8 tok/s con $\leq$ 7 GB de RAM durante pruebas reales.
+    \item \textbf{Presupuesto:} subir el almacenamiento a S/ 500 (SSD) o S/ 300 (HDD) y reducir la nube a S/ 100–200, reasignando el excedente a validación lingüística.
+    \item \textbf{Corpus:} acotar a un dominio curricular y grado específicos para el primer ciclo de validación, priorizando curación manual sobre cantidad.
+    \item \textbf{Criterio de parada:} fijar antes del inicio del desarrollo los umbrales de latencia, RAM, chrF++ y rúbrica pedagógica como condiciones de suficiencia del prototipo.
+    \item \textbf{Gestión institucional:} iniciar de inmediato las gestiones con la DRE/UGEL de Cusco (y eventualmente Puno) y la AMLQ para asegurar acceso a validadores.
+    \item \textbf{Interfaz:} limitar el desarrollo a lo mínimo funcional; el valor académico reside en el \textit{pipeline} y su evaluación, no en la experiencia de usuario.
+\end{enumerate}

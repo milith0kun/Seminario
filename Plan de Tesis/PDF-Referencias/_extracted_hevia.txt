@@ -1,0 +1,423 @@
+--- PAGE 1 ---
+Proceedings of Machine Learning Research 1–10
+Towards an Efficient, Customizable, and Accessible AI Tutor
+Juan Segundo Hevia∗
+jh216@rice.edu
+Computer Science, Rice University, USA
+Facundo Arredondo
+fa32@rice.edu
+Computer Science, Rice University, USA
+Vishesh Kumar
+vk38@rice.edu
+Applied Physics, Rice University, USA
+Abstract
+The integration of large language models (LLMs) into education offers significant poten-
+tial to enhance accessibility and engagement, yet their high computational demands limit
+usability in low-resource settings, exacerbating educational inequities.
+To address this,
+we propose an offline Retrieval-Augmented Generation (RAG) pipeline that pairs a small
+language model (SLM) with a robust retrieval mechanism, enabling factual, contextually
+relevant responses without internet connectivity. We evaluate the efficacy of this pipeline
+using domain-specific educational content, focusing on biology coursework. Our analysis
+highlights key challenges: smaller models, such as SmolLM, struggle to effectively leverage
+extended contexts provided by the RAG pipeline, particularly when noisy or irrelevant
+chunks are included. To improve performance, we propose exploring advanced chunking
+techniques, alternative small or quantized versions of larger models, and moving beyond tra-
+ditional metrics like MMLU to a holistic evaluation framework assessing free-form response.
+This work demonstrates the feasibility of deploying AI tutors in constrained environments,
+laying the groundwork for equitable, offline, and device-based educational tools.
+Keywords: RAG, LLMs, Customizable AI Tutor, AI in education, On-Device AI
+1. Introduction
+In recent years, the integration of large language models (LLMs) into education has shown
+great potential for enhancing accessibility and engagement in learning (Kasneci et al., 2023).
+However, LLMs that excel in engagement and knowledge metrics (Zhao et al., 2024b) of-
+ten require significant computational resources. This poses a challenge for low-income and
+remote communities, where access to reliable internet and high performance computing
+is limited, exacerbating educational inequities. To address these challenges, we propose
+the development of an AI tutor utilizing an entirely offline Retrieval Augmented Genera-
+tion (RAG) pipeline. This approach enables customization and can operate effectively in
+resource-constrained environments, offering an initial step toward bridging the resource gap
+and improving equitable access to AI-powered education.
+A primary focus in the field has been the development of lightweight LLM architectures
+designed for deployment on low-resource hardware. Models such as SmolLM (Allal et al.,
+2024b,a) and TinyLlama (Zhang et al., 2024) exemplify this trend by reducing parameter
+count and leveraging optimized training techniques to maintain competitive performance.
+Moreover, RAG pipelines have emerged as a powerful technique for integrating external
+∗Corresponding Author
+© J.S. Hevia, F. Arredondo & V. Kumar.
+arXiv:2510.06255v1  [cs.CY]  4 Oct 2025
+
+--- PAGE 2 ---
+Hevia Arredondo Kumar
+knowledge into LLM responses (Chen et al., 2023). In educational settings, AI based tooling
+interaction and knowledge retrieval capabilities are critical. Therefore, research has grown
+steadily on evaluation alternatives. For example, comprehensibility has been assessed using
+human evaluations, while accuracy is often benchmarked against predefined ground truth
+responses, from MMLU (Hendrycks et al., 2021).
+2. Current Efforts
+Recent advancements in LLMs have significantly improved their performance in natural
+language understanding and generation.
+However, deploying these models in resource-
+constrained environments remains a challenge due to their high computational and memory
+demands. To address these limitations, the research community has explored several strate-
+gies aimed at optimizing LLMs for efficiency while maintaining accuracy and usability. This
+section highlights current efforts relevant to our goal of building an accessible, CPU-efficient
+LLM tutor.
+2.1. Efficient LLM Architectures
+A primary focus in the field has been the development of lightweight LLM architectures
+designed for deployment on low-resource hardware. Models such as SmolLM (Allal et al.,
+2024b,a) and TinyLlama Zhang et al. (2024) exemplify this trend by reducing parameter
+count and leveraging optimized training techniques to maintain competitive performance.
+SmolLM, for instance, achieves remarkable computational efficiency while retaining the
+ability to generate coherent and contextually relevant responses. Similarly, TinyLlama has
+demonstrated the feasibility of downsizing LLMs without significant degradation in their
+ability to understand and respond to natural language queries.
+These models form the
+foundation of our exploration into resource-efficient tutoring systems.
+2.2. Retrieval-Augmented Generation Pipelines
+Retrieval-Augmented Generation (RAG) pipelines have emerged as a powerful technique
+for integrating external knowledge into LLM responses. By retrieving relevant information
+from a database or document corpus, RAG pipelines ensure that the model’s outputs are
+grounded in factual content. This approach is particularly valuable in educational settings,
+where accuracy and relevance are critical. Recent implementations of RAG pipelines, such
+as OpenAI’s and Hugging Face’s frameworks, have shown promise in combining retrieval
+and generation seamlessly. In this work, we incorporate a RAG pipeline tailored for the
+OpenStax biology textbook, allowing users to interact with specific textbook content. This
+ensures that the LLM serves as a reliable and context-aware tutor.
+2.3. Evaluation of LLMs for Education
+The application of LLMs in education has gained significant attention, with studies ex-
+ploring their potential as tutors, teaching assistants, and content generators. Key metrics
+in evaluating these systems include accuracy, comprehensibility, and user satisfaction. For
+example, comprehensibility has been assessed using human evaluations, while accuracy is of-
+ten benchmarked against predefined ground truth responses, from MMLU(Hendrycks et al.,
+2
+
+--- PAGE 3 ---
+Towards an Efficient, Customizable, and Accessible AI Tutor
+Figure 1: Overview of the AI tutor pipeline.
+2021). Additionally, researchers have explored how well LLMs align their outputs with edu-
+cational material to avoid introducing misinformation. We plan to adopt similar evaluation
+metrics in our study, focusing on how well the system adheres to textbook content and how
+effectively it communicates complex concepts to young adults.
+3. Pipeline Overview
+The proposed closed system AI Tutor is an offline, computationally efficient system com-
+posed of two key components: a RAG pipeline and a small language model (SLM). Figure 1
+shows an outline of this pipeline. The RAG pipeline ensures factuality by managing knowl-
+edge retrieval from a local corpus of the user’s choice, using cosine similarity to provide
+contextually relevant information based on user queries (Wang et al., 2020). Meanwhile,
+the SLM delivers generative conversational capabilities, enabling engaging and human-like
+interactions. This design overcomes the limitations of SLMs (Li et al., 2024; Jin et al., 2024)
+by augmenting the input prompt with accurate, in-context knowledge, effectively balancing
+conversational fluency and factual precision.
+3.1. User Input
+An AI Tutor works under conversational setups, where a user can interact through con-
+secutive prompts to the model, dealing with an overarching, single motivation. This single
+motivation, the conversation’s topic, which can vary or feature different degrees of com-
+plexity, revolves around a factual question that a student may have regarding the content
+of a curriculum program for an individual course. Thus, our pipeline is designed on a per-
+coursework basis (i.e. College Biology) to address any conversation seeking to understand,
+correct or expand knowledge of a topic of such coursework.
+3.2. Retrieval Augmented Generation
+Given an input prompt from the user, usually in the form of a question seeking a factual
+answer, our first step is to look for domain specific knowledge that enriches the input to the
+3
+
+--- PAGE 4 ---
+Hevia Arredondo Kumar
+SLM. This enrichment process consists on the identification of relevant text blocks pieces,
+retrieved from a pre-loaded vectorized documents database.
+This database bears the responsibility of guaranteeing an accurate and grounded re-
+sponse without access to an Internet connection. Thus, it behaves as the pipeline’s spe-
+cialized search engine. Moreover, it can also compensate for the SLM’s lower knowledge
+representation capacity. To build it, we gather a sample of college and high-school level
+textbooks for the coursework of choice. We naively split these textbooks in text blocks and
+embed them using FAISS Bert1 model.
+It is important to note that the database-building step is performed entirely as a pre-
+processing step. Lowering the computational resources used during interaction with the
+model. Also, this means that we could eventually use a wide range of preprocessing steps,
+leveraging higher capacity models like GPT4o-mini of Llama3.3, and less constrained com-
+putation specifications, to allow for a better retrieval operation.
+However, we consider
+exploration on this track outside the scope of our current analysis.
+Once we have a vectorized document database, our pipeline can receive a user prompt,
+encode it using the same embedded database, and query its largest K closest text fragments
+from the knowledge base. For our distance computation, we use a traditional cosine distance
+metric, although there is ample room for exploring alternative approaches to retrieving the
+most informative chunks based on an input query. In turn, these K text blocks and the
+initial prompt are formatted in the standard prompt template that properly sets up the
+task for the language model.
+3.3. Small Language Model
+The formatted prompt is then forwarded to a small language model to generate a human-
+interpretable factual response. This component is key to ensure we can flexibly adapt to
+user queries and reply in a helpful, honest, and relatable manner.
+A key characteristic of this pipeline component is its memory footprint. In order to
+ensure a reliable deployment in computationally constrained environments, we have to work
+with a small, low-capacity model. This poses a trade-off in terms of the role the language
+model occupies. If the model is extremely small, it loses context awareness and misses out
+on generating output that is grounded on the RAG component’s context. Moreover, small
+models can also struggle to deal with complex contexts, either because of their length or
+due to the indirect relationship between the user’s question and the retrieved text blocks
+content. In turn, a larger model, while more reliable as a conversational agent, will require
+more computation power and thus higher access barriers for large-scale deployment.
+4. Evaluation
+For our evaluation, we test a range of options for a language model: quantized variations
+of SmolLM 135M (Allal et al., 2024b) and a larger SmolLM2 1.7B (Allal et al., 2024a).
+To focus on domain-specific evaluation in Biology, we only consider college and high school
+Biology tasks in MMLU.
+1. Embedding model reference
+4
+
+--- PAGE 5 ---
+Towards an Efficient, Customizable, and Accessible AI Tutor
+To construct factual support for standard Biology coursework, we construct a database
+from the textbooks Biology 2e (Clark et al., 2018) Biology AP (Rye et al., 2016), Concepts
+of Biology(Fowler et al., 2013) from the OpenStax repository 2. Following the outline in
+Section 3.2, We use Chroma3 as our database of choice and split the knowledge corpora
+into blocks of size 300 tokens. Moreover, we return the two most similar blocks and append
+them as context to the question (k = 2).
+4.1. Impact of Augmented Context
+Model
+% With RAG
+% W/out RAG
+SmolLM (135M)
+20.48
+20.04
+SmolLM2 (135M)
+21.81
+21.59
+SmolLM2 (1.7B)
+33.04
+41.00
+Table 1: Accuracy Comparison with and without RAG
+Table 1 reveals that the inclusion of the RAG component prior to processing user queries
+does not lead to an improvement in accuracy. On the contrary, it appears to reduce accuracy,
+with particularly notable declines observed in the larger model. A plausible explanation
+for this phenomenon is that smaller models may face difficulties in effectively managing
+extended context windows, such as those created by the formatted prompts that include
+both the user query and the retrieved textbook blocks.
+4.2. Effect of Context as Noise
+Our initial observed results seem to point at the added context not informing the model.
+Even worse, such added text appears to be making it harder for the model to parse the
+whole input and identify an answer. To evaluate this effect from the context, we include
+the true answers for the multiple choice questions from MMLU in the input to the language
+model.
+We implement different setups:
+• Pure MC answer: model is fed the MMLU question and an explicit phrase indicating
+the correct answer to it.
+• RAG Context + MC Answer: model is fed the same MC answer along with two
+text blocks retrieved from the RAG component.
+We also play around with the kind of true multiple-choice answer we show the model, as
+we experiment with using the option label (a letter A, B, C or D) and then using the text
+option associated with it.
+2. openstax.org/k12/biology
+3. github.com/chroma-core/chroma
+5
+
+--- PAGE 6 ---
+Hevia Arredondo Kumar
+Model
+RAG + Letter answer
+Letter answer only
+SmolLM (135M)
+26.65%
+91.63%
+SmolLM2 (135M)
+40.31%
+74.89%
+SmolLM2 (1.7B)
+73.13%
+95.81%
+Table 2: Result comparison when providing the letter answer to the model.
+Model
+RAG + Text answer
+Text answer only
+SmolLM (135M)
+20.70%
+23.35%
+SmolLM2 (135M)
+22.91%
+27.50%
+SmolLM2 (1.7B)
+29.50%
+50.40%
+Table 3: Result comparison when providing the letter answer to the model.
+The evaluation framework for MMLU favors providing the correct letter option (e.g.,
+A, B, C, or D) directly, as this simplifies the task for the model and maximizes accuracy.
+The model assigns a probability to each letter, making it easier to predict correctly when
+the letter is explicitly given. However, providing the correct answer as text requires the
+model to associate the text with its corresponding label, making the task more complex
+and challenging.
+As the tables show, in both cases there is a consistent, and significant loss in accuracy
+when adding the RAG component’s output to the model. Contrary to what one would initial
+expect, the larger model (SmolLM2 1.7B) is as vulnerable to this loss in performance.
+4.3. Effect of High-Quality Retrieval
+To evaluate the impact of context content as a potential source of noise, we construct a
+document database directly from the evaluation dataset (MMLU tasks for high-school and
+college-level Biology), example chunks shown in Figure 2. We measure model accuracy by
+feeding questions from the dataset into the pipeline. To ensure a fair comparison, all models
+are tested using the standard pipeline with context limited to either the single most similar
+question pair (k = 1) or the top two most similar questions (k = 2).
+Figure 2: Example of text chunks constructed from MMLU Database
+6
+
+--- PAGE 7 ---
+Towards an Efficient, Customizable, and Accessible AI Tutor
+Model
+MMLU @ k=1
+MMLU @ k=2
+SmolLM 135M
+24.67%
+23.35%
+SmolLM2 135M
+24.45%
+24.89%
+SmolLM2 1.7B
+58.81%
+30.84%
+Table 4: Comparison with top 1 and top 2 results when using MMLU as knowledge base
+The results align with previous observations regarding the detrimental impact of larger
+contexts on model performance. Notably, even when the retrieved context is highly relevant
+and closely aligned with the input question, the loss in performance persists. These findings
+suggest that small models are particularly sensitive to extended contexts, irrespective of
+their informational quality when handling factual tasks.
+5. Next Steps
+So far, we have focused on identifying the weaknesses in our pipeline to systematically
+address them. Based on the results highlighted above, we have identified two critical areas
+for improvement:
+1) Enhancing chunking to minimize noise: We aim to explore chunking tech-
+niques that produce highly specialized chunks, ensuring that each chunk in the embedded
+database contains only relevant information for the given query.
+Promising approaches
+include semantic chunking (Suro, 2024; Hacioglu and Ward, 2003), agentic chunking, and
+meta chunking (Zhao et al., 2024a).
+Semantic chunking clusters sentences with similar
+embeddings to create cohesive units, improving the language model’s ability to process
+and interpret the information. Agentic chunking leverages language models to dynamically
+segment text based on task-specific nuances, offering greater context adaptability. Meta
+chunking takes a broader approach by organizing text into logical units spanning multiple
+sentences or paragraphs, capturing deeper linguistic and contextual relationships. These
+techniques should improve the quality of information fed into the model.
+2) Exploring and Customizing Language Models: While SmolLM is an effective
+model on its own, our results suggest it struggles to fully leverage the additional information
+provided by the RAG pipeline. Specifically, the performance drop observed between Table 2
+and Table 3 implies that SmolLM is not adept at utilizing retrieved information to enhance
+its responses. This limitation becomes even more evident when there is noise in the chunks,
+as shown in Table 4.
+It is essential to determine whether this drawback is unique to SmolLM or indicative
+of a broader limitation in language models of similar size.
+To address this, we plan to
+conduct evaluations with a range of alternative models, including quantized versions of
+larger models. This will allow us to assess whether scaled-down versions of larger language
+models are better equipped to handle RAG’s retrieval capabilities compared to originally
+small models like SmolLM.
+As part of this exploration, we must also revisit our evaluation methods. The current
+metric, MMLU, falls short in capturing the nuanced performance required for fine-tuned
+or customized models in RAG pipelines. We plan to move to a more holistic evaluation
+framework that enables the model to generate free-form responses. These responses will
+then be evaluated for factual accuracy, coherence, and relevance, against larger models.
+7
+
+--- PAGE 8 ---
+Hevia Arredondo Kumar
+Providing a more comprehensive understanding of the model’s ability to handle real-world
+queries.
+The burden of domain-specific knowledge is on the RAG component of the pipeline
+and not the model, switching to this evaluation framework would allow us to evaluate the
+language model on what it is actually responsible for, taking in the user’s prompt and
+related RAG chunks, identifying the most relevant information and formulating an easily
+comprehensible response. With this in mind, in the future we may explore finetuning current
+models with this task in mind, or possibly training our own SLM from scratch.
+6. Implications
+With the goal of developing a compact an accessible AI tutor, we believe it’s important to
+keep some end products in mind. Once working, we will adapt the pipeline for a smartphone
+application, leveraging the rapid advancements in mobile technology over the past 15 years.
+Modern smartphones are now capable of supporting highly distilled LLMs (Fassold, 2024),
+making them a viable platform for deploying a robust, on-device RAG pipeline.
+This
+approach has the potential to bring accessible, AI-driven educational tools directly into
+users’ hands, enabling a seamless, internet-independent experience.
+However, despite the widespread proliferation of smartphones, many resource-limited
+communities still lack access to modern devices or reliable internet infrastructure. To ad-
+dress this challenge, we propose deploying the RAG pipeline on cost-effective, low-power
+systems run by a Raspberry Pi 5.
+These devices can be set up as community knowl-
+edge hubs, providing local and offline access to a comprehensive AI tutor. By combining
+smartphone-based applications for widespread reach with low-cost Raspberry Pi systems
+for under-served regions, we aim to bridge the digital divide and ensure equitable access to
+information and education.
+7. Code Availability
+All relevant code is available at https://github.com/JuanseHevia/quantized-education-v2.
+8
+
+--- PAGE 9 ---
+Towards an Efficient, Customizable, and Accessible AI Tutor
+References
+Loubna Ben Allal, Anton Lozhkov, Elie Bakouch, Gabriel Mart´ın Bl´azquez, Lewis Tunstall,
+Agust´ın Piqueres, Andres Marafioti, Cyril Zakka, Leandro von Werra, and Thomas Wolf.
+Smollm2 - with great data, comes great performance, 2024a.
+Loubna Ben Allal, Anton Lozhkov, Elie Bakouch, Leandro von Werra, and Thomas Wolf.
+Smollm - blazingly fast and remarkably powerful, 2024b.
+Jiawei Chen, Hongyu Lin, Xianpei Han, and Le Sun. Benchmarking large language models
+in retrieval-augmented generation, 2023. URL https://arxiv.org/abs/2309.01431.
+Mary Ann Clark, Matthew Douglas, and Jung Choi. Biology 2e. OpenStax, Houston, Texas,
+2018. URL https://openstax.org/books/biology-2e/pages/1-introduction. Ac-
+cessed from: https://openstax.org/books/biology-2e/pages/1-introduction.
+Hannes Fassold. Porting large language models to mobile devices for question answering,
+2024. URL https://arxiv.org/abs/2404.15851.
+Samantha Fowler, Rebecca Roush, and James Wise.
+Concepts of Biology.
+OpenStax,
+Houston, Texas, 2013. URL https://openstax.org/books/concepts-biology/pages/
+1-introduction. Accessed from: https://openstax.org/books/concepts-biology/
+pages/1-introduction.
+Kadri Hacioglu and Wayne Ward. Target word detection and semantic role chunking using
+support vector machines. In Proceedings of the 2003 Conference of the North American
+Chapter of the Association for Computational Linguistics on Human Language Technol-
+ogy: Companion Volume of the Proceedings of HLT-NAACL 2003–Short Papers - Volume
+2, NAACL-Short ’03, page 25–27, USA, 2003. Association for Computational Linguistics.
+doi: 10.3115/1073483.1073492. URL https://doi.org/10.3115/1073483.1073492.
+Dan Hendrycks, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn Song,
+and Jacob Steinhardt. Measuring massive multitask language understanding, 2021. URL
+https://arxiv.org/abs/2009.03300.
+Renren Jin, Jiangcun Du, Wuwei Huang, Wei Liu, Jian Luan, Bin Wang, and Deyi Xiong.
+A comprehensive evaluation of quantization strategies for large language models, 2024.
+URL https://arxiv.org/abs/2402.16775.
+Enkelejda Kasneci, Kathrin Sessler, Stefan K¨uchemann, Maria Bannert, Daryna Demen-
+tieva, Frank Fischer, Urs Gasser, Georg Groh, Stephan G¨unnemann, Eyke H¨ullermeier,
+Stephan Krusche, Gitta Kutyniok, Tilman Michaeli, Claudia Nerdel, J¨urgen Pfeffer, Olek-
+sandra Poquet, Michael Sailer, Albrecht Schmidt, Tina Seidel, Matthias Stadler, Jochen
+Weller, Jochen Kuhn, and Gjergji Kasneci. Chatgpt for good? on opportunities and chal-
+lenges of large language models for education. Learning and Individual Differences, 103:
+102274, 2023. ISSN 1041-6080. doi: https://doi.org/10.1016/j.lindif.2023.102274. URL
+https://www.sciencedirect.com/science/article/pii/S1041608023000195.
+9
+
+--- PAGE 10 ---
+Hevia Arredondo Kumar
+Shiyao Li, Xuefei Ning, Luning Wang, Tengxuan Liu, Xiangsheng Shi, Shengen Yan, Guohao
+Dai, Huazhong Yang, and Yu Wang. Evaluating quantized large language models, 2024.
+URL https://arxiv.org/abs/2402.18158.
+Connie Rye, Robert Wise, Vladimir Jurukovski, Jean DeSaix, Jung Choi, and Yael
+Avissar.
+Biology.
+OpenStax, Houston, Texas, 2016.
+URL https://openstax.
+org/books/biology/pages/1-introduction. Accessed from: https://openstax.org/
+books/biology/pages/1-introduction.
+Joel Suro. Semantic tokens in retrieval augmented generation, 2024. URL https://arxiv.
+org/abs/2412.02563.
+Wenhui Wang, Furu Wei, Li Dong, Hangbo Bao, Nan Yang, and Ming Zhou. Minilm: Deep
+self-attention distillation for task-agnostic compression of pre-trained transformers, 2020.
+URL https://arxiv.org/abs/2002.10957.
+Peiyuan Zhang, Guangtao Zeng, Tianduo Wang, and Wei Lu. TinyLlama: An Open-Source
+Small Language Model, 2024. URL https://arxiv.org/abs/2401.02385.
+Jihao Zhao, Zhiyuan Ji, Yuchen Feng, Pengnian Qi, Simin Niu, Bo Tang, Feiyu Xiong, and
+Zhiyu Li. Meta-chunking: Learning efficient text segmentation via logical perception,
+2024a. URL https://arxiv.org/abs/2410.12788.
+Wayne Xin Zhao, Kun Zhou, Junyi Li, Tianyi Tang, Xiaolei Wang, Yupeng Hou, Yingqian
+Min, Beichen Zhang, Junjie Zhang, Zican Dong, Yifan Du, Chen Yang, Yushuo Chen,
+Zhipeng Chen, Jinhao Jiang, Ruiyang Ren, Yifan Li, Xinyu Tang, Zikang Liu, Peiyu
+Liu, Jian-Yun Nie, and Ji-Rong Wen. A Survey of Large Language Models, 2024b. URL
+https://arxiv.org/abs/2303.18223.
+10
+

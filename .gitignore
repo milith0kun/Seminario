@@ -1,0 +1,22 @@
+# LaTeX auxiliares generados en compilación
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bcf
+*.run.xml
+
+# Archivos de respaldo
+*.bak
+*~
+
+# OS
+.DS_Store
+Thumbs.db
