@@ -12,7 +12,7 @@ Skills are available in:
 - `.agent/skills/` for Antigravity legacy workspace discovery.
 - `.claude/skills/` for Claude Code.
 
-Start with `PROJECT_INIT.md`.
+Start with `00_COMO_EMPEZAR.md`, then use `PROJECT_INIT.md` as the project initialization prompt.
 
 ## Technical Layout
 
@@ -22,3 +22,7 @@ Start with `PROJECT_INIT.md`.
 - `experiments/`: controlled experiment runs E1 to E6.
 - `reports/`: generated experiment reports.
 - `Plan de Tesis/`: current thesis sources and documents.
+
+## Practical Start
+
+Read `00_COMO_EMPEZAR.md` first. It explains the concrete flow for data intake, CSV manifests, cleaning, RAG chunks, model selection, QLoRA, and the future PWA folder.

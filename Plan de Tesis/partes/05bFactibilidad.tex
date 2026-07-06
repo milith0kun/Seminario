@@ -15,7 +15,7 @@ La evidencia comparada de la literatura reciente permite descartar rutas inviabl
 \begin{itemize}
     \item \textbf{Opción A --- Fine-tuning de SLM:} busca modificar los pesos del modelo para ``enseñarle'' Quechua Collao mediante ajuste paramétrico (LoRA, QLoRA o entrenamiento continuado).
     \item \textbf{Opción B --- SLM cuantizado + RAG local:} mantiene el modelo intacto y externaliza el conocimiento curricular en una base de documentos recuperables (\textit{Retrieval-Augmented Generation}).
-    \item \textbf{Opción C --- Enfoque híbrido:} combina RAG local disciplinado con diccionarios/glosarios, normalización ortográfica y una adaptación ligera (QLoRA) \textbf{solo} para alinear el comportamiento pedagógico del modelo, no para inyectar conocimiento factual.
+    \item \textbf{Opción C --- Enfoque híbrido:} combina RAG local disciplinado con diccionarios/glosarios, normalización ortográfica y, de ser factible, una adaptación ligera complementaria (QLoRA) únicamente para alinear el comportamiento pedagógico del modelo, no para inyectar conocimiento factual.
 \end{itemize}
 
 \begin{table}[H]
@@ -29,9 +29,9 @@ La evidencia comparada de la literatura reciente permite descartar rutas inviabl
 \midrule
 A. Fine-tuning de SLM & Mejora estilo, instrucciones y terminología si hay corpus válido & Corpus Collao escaso ($\approx$44\,000 palabras); riesgo de sobreajuste y olvido catastrófico; más complejidad experimental & Parcial & Solo como brazo comparativo \\
 \midrule
-B. SLM cuantizado + RAG local & Mejor factualidad; actualización fácil; offline realista; menor costo & Depende críticamente de la calidad del \textit{chunking}, los \textit{embeddings} y la recuperación & Muy alto & \textit{Baseline} obligatorio \\
+B. SLM cuantizado + RAG local & Mejor factualidad; actualización fácil; offline realista; menor costo & Depende críticamente de la calidad de la segmentación, las incrustaciones vectoriales y la recuperación & Muy alto & \textit{Línea base} obligatoria \\
 \midrule
-C. Híbrido (B + reglas + QLoRA ligero) & Combina \textit{grounding} factual con adaptación lingüística y pedagógica & Más ingeniería que B, aunque mucho menos que A fuerte & Máximo & \textbf{Opción recomendada} \\
+C. Híbrido (B + reglas + QLoRA ligero) & Combina \textit{anclaje} factual con adaptación lingüística y pedagógica & Más ingeniería que B, aunque mucho menos que A fuerte & Máximo & \textbf{Opción recomendada} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -48,11 +48,11 @@ La viabilidad técnica es \textbf{realista dentro de un perímetro bien acotado}
 
 \subsubsection{Hardware e inferencia local}
 
-El archivo GGUF de \textbf{Qwen2.5-7B-Instruct en cuantización Q4\_K\_M pesa 4,68 GB}; el de \textbf{Qwen2.5-3B-Instruct pesa 2,1 GB}. El consumo real de RAM en ejecución es mayor que el tamaño del archivo, porque incluye los pesos, la caché KV y el \textit{overhead} del \textit{runtime}: aproximadamente \textbf{6--7 GB} para el modelo de 7B y \textbf{3 GB} para el de 3B. La regla práctica de ingeniería es que un modelo 4-bit necesita aproximadamente \textbf{parámetros $\times$ 0,5 bytes} más la sobrecarga de la caché KV y el contexto. Esto implica que en una laptop con \textbf{16 GB de RAM}, el 7B opera con margen suficiente de memoria; en una con \textbf{8 GB}, el 7B es marginal y el \textbf{3B es la opción segura}. A efectos de este proyecto, se adopta el \textbf{Qwen2.5-3B como configuración base} (equipos de 8 GB) y el \textbf{Qwen2.5-7B como variante de calidad} (equipos de 16 GB).
+El archivo GGUF de \textbf{Qwen2.5-7B-Instruct en cuantización Q4\_K\_M pesa 4,68 GB}; el de \textbf{Qwen2.5-3B-Instruct pesa 2,1 GB}. El consumo real de RAM en ejecución es mayor que el tamaño del archivo, porque incluye los pesos, la caché KV y la sobrecarga (\textit{overhead}) del entorno de ejecución: aproximadamente \textbf{6--7 GB} para el modelo de 7B y \textbf{3 GB} para el de 3B. La regla práctica de ingeniería es que un modelo 4-bit necesita aproximadamente \textbf{parámetros $\times$ 0,5 bytes} más la sobrecarga de la caché KV y el contexto. Esto implica que en una laptop con \textbf{16 GB de RAM}, el 7B opera con margen suficiente de memoria; en una con \textbf{8 GB}, el 7B es marginal y el \textbf{3B es la opción segura}. A efectos de este proyecto, se adopta el \textbf{Qwen2.5-3B como configuración base} (equipos de 8 GB) y el \textbf{Qwen2.5-7B como variante de calidad} (equipos de 16 GB).
 
 La inferencia en CPU está limitada por el ancho de banda de memoria, no por la frecuencia del procesador. En una laptop de gama media (Intel Core i5 de 10.ª a 13.ª generación o AMD Ryzen 5, con memoria DDR4/DDR5), un 7B Q4\_K\_M genera aproximadamente \textbf{8--12 tokens por segundo} y un 3B genera \textbf{10--25 tokens por segundo}. Estas velocidades son aceptables para un asistente educativo de turnos cortos. La cuantización no exige GPU; se realiza con utilidades de \texttt{llama.cpp} en CPU o, para acelerar la conversión, en el nivel gratuito de Google Colab (GPU T4) o Kaggle, sin costo adicional.
 
-Otros modelos candidatos viables son \textbf{Llama 3.2} (variantes de 1B y 3B orientadas a \textit{edge}) y \textbf{Ministral 3B/8B} (familia Mistral compacta). La decisión final se tomará durante la fase de \textit{baselines} (experimentos E1--E2), comparando calidad de generación, latencia y consumo de RAM en el hardware real disponible.
+Otros modelos candidatos viables son \textbf{Llama 3.2} (variantes de 1B y 3B orientadas a \textit{edge}) y \textbf{variantes compactas de Mistral}. La decisión final se tomará durante la fase de \textit{líneas base} (experimentos E1--E2), comparando calidad de generación, latencia y consumo de RAM en el hardware real disponible.
 
 \subsubsection{Datos y corpus disponible}
 
@@ -64,7 +64,7 @@ El corpus paralelo Quechua Collao--español de \citet{Orcotoma2025} está confir
 
 La evidencia más prometedora para compensar la escasez de datos está en \textbf{datos sintéticos cuidadosamente controlados}. Dhawan et~al. (2026) reportaron mejoras consistentes en traducción quechua--español cuando añadieron datos sintéticos con preprocesamiento específico, usando \textbf{chrF++} como métrica principal. Esto sugiere que la tesis puede beneficiarse de aumentación de datos, pero con datos normalizados y revisados por hablantes nativos, no con generación automática sin validar.
 
-El carácter multilingüe de Qwen2.5 no debe confundirse con competencia real en Quechua Collao: el \textit{model card} declara soporte para español y más de 29 idiomas, pero \textbf{no garantiza soporte específico de Quechua Collao} \citep{Court2024}. La pertinencia en esta variedad dependerá del corpus recuperado, los glosarios curados y los \textit{prompts} diseñados con revisión de hablantes nativos, no del conocimiento paramétrico del modelo.
+El carácter multilingüe de Qwen2.5 no debe confundirse con competencia real en Quechua Collao: el \textit{model card} declara soporte para español y más de 29 idiomas, pero \textbf{no garantiza soporte específico de Quechua Collao} (Court y Elsner, \citeyear{Court2024}). La pertinencia en esta variedad dependerá del corpus recuperado, los glosarios curados y los \textit{prompts} diseñados con revisión de hablantes nativos, no del conocimiento paramétrico del modelo.
 
 \begin{table}[H]
 \centering
@@ -81,7 +81,7 @@ Currículo nacional, materiales EIB, libros y guías docentes & Núcleo de RAG f
 \midrule
 Glosarios terminológicos y diccionarios locales & Reglas, normalización y \textit{chunks} léxicos & No especificado & Ortografía / dialectalidad & Muy alta \\
 \midrule
-Recursos de Quechua en AmericasNLP / NLLB / FLORES & \textit{Baselines} y transferencia controlada & Amplios, pero no Collao puro & Mezcla dialectal & Media \\
+Recursos de Quechua en AmericasNLP / NLLB / FLORES & \textit{Líneas base} y transferencia controlada & Amplios, pero no Collao puro & Mezcla dialectal & Media \\
 \midrule
 Datos sintéticos validados por hablantes/docentes & Aumentación para adaptación ligera & Escala variable & Amplificación de errores & Alta (si hay validación) \\
 \bottomrule
@@ -90,7 +90,7 @@ Datos sintéticos validados por hablantes/docentes & Aumentación para adaptaci�
 
 \subsubsection{Stack tecnológico y configuración RAG}
 
-El desarrollo se fundamenta en un ecosistema de software libre y local para garantizar la ejecución offline. Para la inferencia y cuantización del SLM se utilizará \texttt{llama.cpp} como runtime principal, el cual permite ejecutar modelos en formato GGUF directamente en CPU con un consumo optimizado de recursos. La base de datos vectorial local se gestionará mediante FAISS o Milvus Lite, procesando vectores generados por modelos de incrustación livianos como \texttt{multilingual-e5-small} o \texttt{BGE-M3}. La recuperación semántica se complementará con recuperación léxica mediante BM25 para asegurar la fidelidad en términos exactos de glosarios. La orquestación general del pipeline se construirá mediante LangChain o un desarrollo modular directo en Python.
+El desarrollo se fundamenta en un ecosistema de software libre y local para garantizar la ejecución offline. Para la inferencia y cuantización del SLM se utilizará \texttt{llama.cpp} \citep{llamacpp} como entorno de ejecución principal, el cual permite ejecutar modelos en formato GGUF directamente en CPU con un consumo optimizado de recursos. La base de datos vectorial local se gestionará mediante FAISS \citep{faiss2019} o Milvus Lite \citep{Milvus2024}, procesando vectores generados por modelos de incrustación livianos como \texttt{multilingual-e5-small} \citep{Wang2022} o \texttt{BGE-M3} \citep{bgem32024}. La recuperación semántica se complementará con recuperación léxica mediante BM25 \citep{bm252009} para asegurar la fidelidad en términos exactos de glosarios. La orquestación general del canal de procesamiento se construirá mediante LangChain \citep{langchain} o un desarrollo modular directo en Python.
 
 Para mitigar el cuello de botella de la tokenización, la configuración del RAG local aplicará un diseño disciplinado: (i)~los fragmentos de prosa curricular se limitarán a un rango de 250 a 400 tokens con un traslape (\textit{overlap}) de 50 a 80 tokens; (ii)~las entradas de glosarios y diccionarios se indexarán individualmente (una entrada por fragmento); (iii)~se empleará recuperación híbrida (lexical BM25 + semántica densa) recuperando un \textit{top-k} máximo de 3 a 5 fragmentos; y (iv)~se evaluará un paso opcional de reordenamiento (\textit{reranking}) liviano siempre que no degrade la latencia del sistema en CPU. Esta configuración estructurada minimiza el ruido de contexto y previene la saturación de la memoria caché KV en el SLM.
 
@@ -110,9 +110,9 @@ Cómputo para inferencia (CPU-only) & Por gestionar & Inferencia local validada 
 \midrule
 Dataset y corpus para RAG & Por gestionar & Corpus base disponible \citep{Orcotoma2025}; pequeño, requiere limpieza y complemento curricular & Acotar dominio a un área y grado; curación manual validada por especialista AMLQ \\
 \midrule
-Cuello de botella de tokenización & Identificado & Fertilidad $\approx$3,4$\times$; penaliza caché KV y latencia en CPU con fragmentos largos & \textit{Chunking} corto (250--400 tokens); \textit{top-k} $\leq$ 5; monitorear fertilidad como métrica \\
+Cuello de botella de tokenización & Identificado & Fertilidad $\approx$3,4$\times$; penaliza caché KV y latencia en CPU con fragmentos largos & Segmentación corta (250--400 tokens); \textit{top-k} $\leq$ 5; monitorear fertilidad como métrica \\
 \midrule
-Adaptación ligera (QLoRA) & Factible con GPU gratuita & Viable en Kaggle/Colab (GPU T4) o alquiler por demanda ($\sim$US\$ 0,69/h) para modelos $\leq$ 7B & Solo para alinear comportamiento pedagógico; no para inyectar conocimiento \\
+Adaptación ligera (QLoRA) & Factible con GPU gratuita & Viable en Kaggle/Colab (GPU T4) o alquiler por demanda ($\sim$US\$ 0,69/h) para modelos $\leq$ 7B & Solo como configuración experimental complementaria; no para inyectar conocimiento factual \\
 \midrule
 Stack tecnológico & Parcialmente cubierto & \textit{Stack} abierto y documentado; soporte Qwen en ecosistemas estándar \citep{Xu2024} & Congelar versiones con \texttt{requirements.txt}; evitar dependencias de pago \\
 \midrule
@@ -125,7 +125,7 @@ Riesgo de sobreingeniería & Alto si no se contiene & Viable como prototipo text
 
 Económicamente, el proyecto es altamente viable ya que el presupuesto total consolidado es de S/ 6\,962,00 (detallado en la Sección~\ref{sec:presupuesto}), el cual será asumido con recursos propios de los investigadores. Al optar por una arquitectura local basada en un modelo de lenguaje de código abierto e inferencia offline, los costos operativos y recurrentes de APIs comerciales en producción se reducen a cero, eliminando dependencias externas de suscripción.
 
-El cómputo requerido para el ajuste QLoRA experimental y la cuantización de modelos consiste en tareas puntuales que no requieren servidores GPU permanentes. Estas tareas pueden cubrirse principalmente con recursos gratuitos de desarrollo (ej. Kaggle o Google Colab en sus capas de acceso libre con GPU T4) y créditos académicos. Ante saturación en las cuotas gratuitas, se contempla una partida de S/ 150,00 para el alquiler por demanda de GPUs comerciales (como RTX 4090 o similares en plataformas en la nube), donde el costo relevante corresponde al proceso iterativo de experimentación. Adicionalmente, el presupuesto asigna S/ 500,00 para la adquisición de una unidad SSD de alta velocidad de 1 TB para almacenar de forma persistente los modelos base en formato GGUF y el corpus bilingüe local. Por consiguiente, no existen riesgos financieros que comprometan el desarrollo del proyecto.
+El cómputo requerido para el ajuste QLoRA experimental y la cuantización de modelos consiste en tareas puntuales que no requieren servidores GPU permanentes. Estas tareas pueden cubrirse principalmente con recursos gratuitos de desarrollo (ej. Kaggle o Google Colab en sus capas de acceso libre con GPU T4) y créditos académicos. Ante saturación en las cuotas gratuitas, se contempla una partida de S/ 150,00 para el alquiler por demanda de GPUs comerciales (como RTX 4090 o similares en plataformas en la nube), donde el costo relevante corresponde al proceso iterativo de experimentación. Adicionalmente, el presupuesto asigna S/ 500,00 para la adquisición de una unidad SSD de alta velocidad de 1 TB para almacenar de forma persistente los modelos base en formato GGUF y el corpus bilingüe local. Por consiguiente, no se identifican riesgos financieros críticos que comprometan el desarrollo del proyecto.
 
 
 
@@ -144,7 +144,7 @@ Operativamente, el proyecto es más viable que una tesis dependiente de sistemas
 \midrule
 Acceso a validadores EIB (DRE/UGEL/AMLQ) & Iniciar gestiones institucionales desde el arranque del proyecto; tener plan B de validación remota con panel reducido de especialistas. \\
 \midrule
-Riesgo de sobreextensión del desarrollo UI/UX & Limitar la interfaz a un mínimo funcional (CLI o web local tipo Streamlit); concentrar el esfuerzo en el \textit{pipeline} SLM+RAG y su evaluación. El valor académico no está en la interfaz, sino en el \textit{pipeline} \citep{Hevia2025}. \\
+Riesgo de sobreextensión del desarrollo UI/UX & Limitar la interfaz a un mínimo funcional (CLI o web local tipo Streamlit); concentrar el esfuerzo en el canal de procesamiento SLM+RAG y su evaluación. El valor académico no está en la interfaz, sino en la arquitectura bilingüe \citep{Hevia2025}. \\
 \midrule
 Indefinición del criterio de parada & Fijar umbrales de éxito \textit{ex ante}: (i) técnicos --- latencia, RAM $\leq$ capacidad del equipo objetivo, tok/s, estabilidad \textit{offline}; (ii) lingüísticos --- chrF++ sobre corpus de prueba Collao--español; (iii) pedagógicos --- rúbricas de docentes EIB. \\
 \midrule
@@ -182,7 +182,7 @@ E5 & SLM + QLoRA ligero sin RAG & Medir si la adaptación paramétrica mejora es
 \midrule
 E6 & SLM + RAG + QLoRA + reglas & Evaluar el enfoque C completo \\
 \midrule
-E7 & Ablaciones de \textit{chunking}/\textit{top-k}/\textit{embedding} & Identificar los cuellos de botella del \textit{pipeline} RAG \\
+E7 & Ablaciones de segmentación/\textit{top-k}/incrustación & Identificar los cuellos de botella del canal de procesamiento RAG \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -205,15 +205,15 @@ Las métricas deben ser multidimensionales. Para una tesis sobre una lengua de b
 \toprule
 \textbf{Dimensión} & \textbf{Métrica automática} & \textbf{Métrica humana} \\
 \midrule
-Traducción & chrF++, SacreBLEU, COMET, BERTScore & Adecuación, fluidez, terminología, adecuación dialectal \\
+Traducción & chrF++, SacreBLEU \citep{sacrebleu2018}, COMET \citep{Comet2020}, BERTScore \citep{bertscore2019} & Adecuación, fluidez, terminología, adecuación dialectal \\
 \midrule
-QA factual & Exact match / F1 (cuando aplique); \textit{faithfulness} RAGAS & Veracidad y cita de fuente \\
+QA factual & Exact match / F1 (cuando aplique); \textit{faithfulness} RAGAS \citep{Ragas2024} & Veracidad y cita de fuente \\
 \midrule
 Recuperación & Recall@k, MRR, nDCG & Relevancia del fragmento recuperado \\
 \midrule
-Pedagogía & Ninguna automática basta por sí sola & Andamiaje, claridad, \textit{feedback} accionable \\
+Pedagogía & Ninguna automática basta por sí sola & Andamiaje, claridad, retroalimentación (\textit{feedback}) accionable \\
 \midrule
-Usabilidad & SUS o escala Likert & Utilidad percibida, confianza, carga cognitiva \\
+Usabilidad & SUS \citep{Brooke1996} o escala Likert & Utilidad percibida, confianza, carga cognitiva \\
 \midrule
 Rendimiento técnico & Latencia (ms), tokens/s, RAM/VRAM, estabilidad & Satisfacción de uso \\
 \midrule
@@ -247,9 +247,9 @@ La validación humana constituye un componente esencial de la validez del artefa
 \midrule
 Técnica (hardware / inferencia / cuantización) & \textbf{VERDE} & Modelos y herramientas probados; inferencia en CPU validada; cuantización en nivel gratuito. \\
 \midrule
-Stack / tooling & \textbf{VERDE} & Maduro, abierto, documentado; la penalización por tokenización aglutinante ($\approx$3,4$\times$) se mitiga con la estrategia híbrida, \textit{chunking} corto y \textit{top-k} pequeño. \\
+Stack / tooling & \textbf{VERDE} & Maduro, abierto, documentado; la penalización por tokenización aglutinante ($\approx$3,4$\times$) se mitiga con la estrategia híbrida, segmentación corta y \textit{top-k} pequeño. \\
 \midrule
-Económica / nube & \textbf{VERDE} & Costos cubribles; nube gratuita (Kaggle/Colab) cubre tareas \textit{puntuales}; QLoRA absorbible por presupuesto ($\sim$S/ 50--200); presupuesto corregido holgado. \\
+Económica / nube & \textbf{VERDE} & Costos cubribles; nube gratuita (Kaggle/Colab) cubre tareas \textit{puntuales}; QLoRA absorbible por presupuesto ($\sim$S/ 50--200); presupuesto corregido suficiente. \\
 \midrule
 Adaptación ligera (QLoRA) & \textbf{VERDE} & Viable en GPU gratuita para modelos $\leq$ 7B; el riesgo se contiene limitando QLoRA a comportamiento pedagógico, no a inyección de conocimiento. \\
 \midrule

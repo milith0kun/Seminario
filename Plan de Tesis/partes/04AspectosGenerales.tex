@@ -64,7 +64,7 @@ El presente estudio abarca el diseño, implementación y evaluación de un proto
 Se reconocen las siguientes limitaciones que condicionan la ejecución del proyecto:
 
 \begin{itemize}
-	\item \textbf{Disponibilidad de datos:} Al tratarse de una lengua de bajos recursos digitales, el corpus paralelo disponible es reducido y heterogéneo \citep{Court2024}. Para mitigar esto, se complementará el banco de RAG con glosarios, materiales EIB y datos sintéticos validados por hablantes nativos \citep{Dhawan2026}.
+	\item \textbf{Disponibilidad de datos:} Al tratarse de una lengua de bajos recursos digitales, el corpus paralelo disponible es reducido y heterogéneo (Court y Elsner, \citeyear{Court2024}). Para mitigar esto, se complementará el banco de RAG con glosarios, materiales EIB y datos sintéticos validados por hablantes nativos \citep{Dhawan2026}.
 	\item \textbf{Cuello de botella de la tokenización:} La morfología aglutinante del quechua genera una fertilidad de tokens estimada en $\approx$3,4$\times$ respecto al español, lo que penaliza la latencia en CPU e infla el consumo de la caché KV del modelo con contextos extensos.
 	\item \textbf{Restricción dialectal:} El prototipo está orientado exclusivamente al Quechua Collao, por lo que el sistema no está diseñado para generalizarse a otras variedades dialectales.
 	\item \textbf{Restricciones de hardware:} La ejecución offline de un modelo compacto depende de la memoria disponible (RAM) del dispositivo local, limitando el tamaño del modelo utilizable y la latencia aceptable de generación \citep{Xu2024}.

@@ -16,9 +16,9 @@ La Tabla~\ref{tab:antecedentes} resume los trabajos empíricos y desarrollos tec
 \midrule
 \citet{SullaTorres2024} & Optimizar traducción quechua--español. & NMT basado en codificador BERT y fine-tuning. & Alcanzó un puntaje BLEU de 20.13. & Evidencia las limitaciones de modelos de traducción pura. \\
 \midrule
-\citet{Duran2026} & Construir diccionarios quechua--español. & Métodos semi-automáticos con formalismos léxicos. & Diccionario bilingüe estructurado de alta precisión. & Fuente léxica para las reglas de normalización del RAG. \\
+Duran y Silberztein (\citeyear{Duran2026}) & Construir diccionarios quechua--español. & Métodos semi-automáticos con formalismos léxicos. & Diccionario bilingüe estructurado de alta precisión. & Fuente léxica para las reglas de normalización del RAG. \\
 \midrule
-\citet{Court2024} & Evaluar LLMs comerciales en quechua. & In-context learning con reglas gramaticales inyectadas. & Reglas extensas degradan fidelidad; prompt simple es insuficiente. & Justifica no usar LLMs comerciales en la nube y diseñar sistema local. \\
+Court y Elsner (\citeyear{Court2024}) & Evaluar LLMs comerciales en quechua. & In-context learning con reglas gramaticales inyectadas. & Reglas extensas degradan fidelidad; prompt simple es insuficiente. & Justifica no usar LLMs comerciales en la nube y diseñar sistema local. \\
 \midrule
 \citet{Chen2024} & Optimizar traducción quechua--inglés. & Enfoque híbrido: RAG léxico + LoRA. & Aumento de BLEU de 1.5 a 17.6. & Precedente directo de la viabilidad de acoplar RAG y adaptadores. \\
 \midrule
@@ -56,7 +56,7 @@ Las implicaciones técnicas de esta inflación son significativas: (i)~la caché
 \subsubsection{Traducción automática neuronal}
 La Traducción Automática Neuronal (NMT, \textit{Neural Machine Translation}) es el paradigma actual en traducción automática, basado en redes neuronales profundas de arquitectura encoder-decoder con mecanismos de atención. A diferencia de los enfoques estadísticos anteriores, los modelos NMT aprenden representaciones contextuales de las lenguas fuente y objetivo, produciendo traducciones más fluidas y coherentes. Sin embargo, su eficacia depende de la disponibilidad de corpus paralelos de gran tamaño.
 
-En el par español-Quechua Collao, la escasez de datos limita el rendimiento de los modelos NMT: \citet{SullaTorres2024} reportaron un BLEU de 20.13, considerado bajo según los estándares para lenguas con recursos abundantes. Adicionalmente, \citet{Court2024} evaluaron la capacidad de los Grandes Modelos de Lenguaje comerciales (GPT-4, Gemini) para traducir quechua sureño mediante técnicas de recuperación en contexto, encontrando que la inyección de reglas gramaticales complejas puede paradójicamente degradar el rendimiento de los modelos más avanzados, generando traducciones fluidas pero semánticamente infieles. Este hallazgo refuerza la decisión de no depender de LLMs comerciales en la nube para la lengua objetivo y justifica el diseño de un sistema con recursos locales especializados.
+En el par español--Quechua Collao, la escasez de datos limita el rendimiento de los modelos NMT: \citet{SullaTorres2024} reportaron un BLEU de 20.13, considerado bajo según los estándares para lenguas con recursos abundantes. Adicionalmente, Court y Elsner (\citeyear{Court2024}) evaluaron la capacidad de los Grandes Modelos de Lenguaje comerciales (GPT-4, Gemini) para traducir quechua sureño mediante técnicas de recuperación en contexto, encontrando que la inyección de reglas gramaticales complejas puede paradójicamente degradar el rendimiento de los modelos más avanzados, generando traducciones fluidas pero semánticamente infieles. Este hallazgo refuerza la decisión de no depender de LLMs comerciales en la nube para la lengua objetivo y justifica el diseño de un sistema con recursos locales especializados.
 
 En el presente proyecto, la generación en Quechua Collao no es una tarea de traducción aislada, sino parte de la capacidad general del asistente de responder en el idioma del usuario. La métrica chrF++ se empleará para evaluar la coherencia lingüística de las respuestas generadas en Quechua Collao respecto a referencias validadas por especialistas.
 
@@ -91,7 +91,7 @@ Qwen2.5-7B-Instruct   & 7,6B & $\sim$4,7 GB & Sí / Sí       & \textbf{Candidat
 Qwen2.5-3B-Instruct   & 3,1B & $\sim$2,1 GB & Sí / Sí       & \textbf{Candidato base} — equipos 8 GB \\
 Llama 3.2 3B-Instruct & 3,2B & $\sim$2,0 GB & Sí / Sí       & Alternativa viable; buena instrucción \\
 Phi-3.5-mini-Instruct & 3,8B & $\sim$2,5 GB & Parcial / Sí  & Razonamiento fuerte; menos multilingüe \\
-Gemma 3 4B-IT         & 4,0B & $\sim$2,7 GB & Sí / Sí       & Alternativa futura (Google, 2025) \\
+Gemma 2 2B-IT         & 2,6B & $\sim$1,7 GB & Sí / Sí       & Alternativa de alta calidad (Google, 2024) \\
 SmolLM2-1.7B-Instruct & 1,7B & $\sim$1,1 GB & Parcial / Sí  & Hardware muy restringido ($<$4 GB RAM) \\
 Llama 3.2 1B-Instruct & 1,2B & $\sim$0,7 GB & Limitado / Sí & Dispositivos ultra-restringidos \\
 TinyLlama-1.1B        & 1,1B & $\sim$0,8 GB & No / Sí       & Descartado — sin soporte multilingüe \\
@@ -99,7 +99,7 @@ TinyLlama-1.1B        & 1,1B & $\sim$0,8 GB & No / Sí       & Descartado — si
 \end{tabularx}
 \end{table}
 
-\textit{Nota:} los modelos marcados como «candidato» serán evaluados empíricamente en la Fase 2 del DSR. Los modelos de generación siguiente (Gemma 3, Qwen3) representan opciones a considerar en trabajos derivados o en una segunda iteración del prototipo si el cronograma lo permite.
+\textit{Nota:} Los valores de memoria RAM son aproximados y serán verificados empíricamente durante la fase de evaluación del prototipo en el hardware disponible. Los modelos marcados como «candidato» serán evaluados empíricamente en la Fase 2 del DSR. Los modelos de generación complementarios (como Gemma 2 o variantes compactas de Mistral) representan opciones a considerar en trabajos derivados o en una segunda iteración del prototipo si el cronograma lo permite.
 
 \subsection{Adaptación ligera: LoRA y QLoRA}
 La adaptación de bajo rango (\textit{Low-Rank Adaptation}, LoRA) es una técnica de ajuste paramétrico eficiente que, en lugar de modificar todos los pesos de un modelo preentrenado, inyecta matrices de bajo rango en las capas de atención del Transformer. Esto permite adaptar el comportamiento del modelo ---estilo de respuesta, formato pedagógico, consistencia terminológica--- con un número muy reducido de parámetros entrenables (típicamente $<$1\% del total), reduciendo drásticamente los requerimientos de memoria y tiempo de entrenamiento.
@@ -165,5 +165,5 @@ Dado que el piloto exploratorio contempla la interacción potencial con estudian
 \begin{enumerate}
     \item \textbf{Permisos y autorizaciones:} Firma previa del consentimiento informado por parte de los padres o apoderados legales, el asentimiento del estudiante menor de edad, y la autorización de los directores de las Instituciones Educativas coordinadas con el aval de la UGEL/DRE correspondiente.
     \item \textbf{Protección y privacidad de datos:} Anonimización completa de los registros de interacción. El prototipo operará offline y no recopilará datos personales, datos biométricos ni información sensible de los usuarios.
-    \item \textbf{Mitigación de riesgos de contenido:} El RAG local disciplinado actúa como un filtro restrictivo de seguridad, reduciendo el riesgo de respuestas no pertinentes al restringir la generación a información curricular previamente seleccionada, previniendo alucinaciones con temáticas inapropiadas o sensibles para menores.
+    \item \textbf{Mitigación de riesgos de contenido:} El RAG local disciplinado actúa como un filtro restrictivo de seguridad, reduciendo la probabilidad de respuestas no pertinentes, alucinaciones o contenidos inapropiados para menores.
 \end{enumerate}
