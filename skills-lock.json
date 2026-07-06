@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "skills": {
+    "Chat with PDF": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "chat-with-pdf/SKILL.md",
+      "computedHash": "a94946c79e9282ccd6f32ed426357418ab277d007f6fe1954b53053b464c4ef8"
+    },
+    "Content Research Writer": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "content-writer/SKILL.md",
+      "computedHash": "d73aea695b42bfa5c22952968fafb26f55569f65ae990bd82bb331fe2894ab11"
+    },
+    "academic-search": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "academic-search/SKILL.md",
+      "computedHash": "9fff78ca98bd5bd7ed08bd5e38d8552bfdad5c9d9ce0f0b2531c5e54d691a58f"
+    },
+    "ai-research-explore": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ai-research-explore/SKILL.md",
+      "computedHash": "43cc1e0e9595f4932cd63ecad82582cfb13eb7440382c71aec69729b059e51fc"
+    },
+    "ai-research-reproduction": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ai-research-reproduction/SKILL.md",
+      "computedHash": "26685482ed02a9c67c5a7131120c429b3f3f5990ba8584a7ad8a292bb93ada53"
+    },
+    "ai-slides": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "ai-slides/SKILL.md",
+      "computedHash": "881086dd6dd4db9fdc07f144f40b56bdc102519822af0ac3e348ec562602b58f"
+    },
+    "analyze-project": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/analyze-project/SKILL.md",
+      "computedHash": "65fac6f4a0f3d458ee3a920451a4fe6f8052a051a47c44126624320ba201c7a8"
+    },
+    "deep-research": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "deep-research/SKILL.md",
+      "computedHash": "4064d780b10a31b7feaa4f06734e5bf7063ea844bf40038d11274c090339ea82"
+    },
+    "diagram-creator": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "diagram-creator/SKILL.md",
+      "computedHash": "0d49a66afe8d7f3f9d077ead066837801ed910e54dfbcc4cd2e49d37de373d96"
+    },
+    "doc-parser": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "doc-parser/SKILL.md",
+      "computedHash": "da32b77e17b44ea26de3ff530404576901fde34d5418ac24e712b7fd357adeb3"
+    },
+    "doc-pipeline": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "doc-pipeline/SKILL.md",
+      "computedHash": "392ef08ffd594187be642cd3923cfd0865976ca84eda33632414c3c33139fb65"
+    },
+    "docx-manipulation": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "docx-manipulation/SKILL.md",
+      "computedHash": "bcc46df3f1891c0150f209857b7e510ab016925c71bca0bf48ade99d02f0bc80"
+    },
+    "env-and-assets-bootstrap": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/env-and-assets-bootstrap/SKILL.md",
+      "computedHash": "c37ab83210c7c885949d10fe3f6bbcb2811d49e9d1a792dd3a9d35dc2721494e"
+    },
+    "explore-code": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/explore-code/SKILL.md",
+      "computedHash": "1b561d34f02cce37b9ecac7acc7f02bbc9bc4051a77ab04066344b0f78fee882"
+    },
+    "explore-run": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/explore-run/SKILL.md",
+      "computedHash": "af68548a24c1306d646460dc15a73639c01431c7aa637f7a27fb9c2eb2a859d6"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "computedHash": "781bd6d3f9b19f8c9af6b53d8d0e4876d0183841b565db34ca7092ffa412d111"
+    },
+    "md-to-office": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "md-to-office/SKILL.md",
+      "computedHash": "7634f6d67e23293513d4618c199e6c628aec637ddbad12ee18ce85d25ea21e37"
+    },
+    "minimal-run-and-audit": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/minimal-run-and-audit/SKILL.md",
+      "computedHash": "e4a909a8252796ebf54204f66c41e957b2449c7faca1e80a8da251ae0c374737"
+    },
+    "office-to-md": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "office-to-md/SKILL.md",
+      "computedHash": "6b2c3d53bc07a7d1017b1c6917f5b971eefa36a55957ab555a8217e6d7ce2a5f"
+    },
+    "paper-context-resolver": {
+      "source": "lllllllama/ai-paper-reproduction-skill",
+      "sourceType": "github",
+      "skillPath": "skills/paper-context-resolver/SKILL.md",
+      "computedHash": "b3892afe8dd5559fdd3ed030e90d471c232c375c4d93e6958787b94fb80b124e"
+    },
+    "pdf-extraction": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "pdf-extraction/SKILL.md",
+      "computedHash": "44ec33ec9d178e3c04c3dd210a98cb6ad0c3a45f9383019071bc9556cfc323e6"
+    },
+    "qmd": {
+      "source": "tobi/qmd",
+      "sourceType": "github",
+      "skillPath": "skills/qmd/SKILL.md",
+      "computedHash": "9b8be880d9ca03057b4dbebd6232bdd54e23147b15137de6bbe4ccb415276fbe"
+    },
+    "repo-intake-and-plan": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/repo-intake-and-plan/SKILL.md",
+      "computedHash": "c0d54a9e1385ec6d66ad027fa100f1286af7c27ace8fa9a9ab5945e452ab93e7"
+    },
+    "run-train": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/run-train/SKILL.md",
+      "computedHash": "b7d4991594b5660a2eda00b13873edd2ebf74c8d6b20ae4a4050da6905678efa"
+    },
+    "safe-debug": {
+      "source": "lllllllama/rigorpilot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/safe-debug/SKILL.md",
+      "computedHash": "34e2604d4f8671d646aca7ec1fc9a3a947c08736e7fbeffb7d9c8670684ea821"
+    }
+  }
+}

@@ -1,0 +1,100 @@
+\newpage
+
+% *************************
+% **     PROBLEMA        **
+% *************************
+
+\section{Problema de Investigación}
+\subsection{Descripción del problema}A nivel global, la educación en lenguas indígenas y minoritarias enfrenta una brecha tecnológica persistente. Más de la mitad de los niños en edad escolar no aprende en su lengua materna durante los primeros años de escolaridad, lo que afecta negativamente su comprensión lectora, su identidad cultural y sus trayectorias educativas a largo plazo \citep{unesco2022}. El acceso a recursos pedagógicos culturalmente pertinentes —adaptados a la lengua y al contexto del estudiante— representa una necesidad urgente y aún no resuelta, especialmente en regiones rurales con limitaciones de infraestructura digital.
+
+En América Latina, esta problemática adquiere una dimensión étnica y lingüística particular. Más de 45 millones de personas pertenecen a pueblos indígenas distribuidos en 23 países, con lenguas que en su mayoría carecen de recursos digitales estructurados para la enseñanza formal. Los estados de la región han avanzado normativamente hacia la Educación Intercultural Bilingüe (EIB), pero la brecha entre el mandato normativo y la disponibilidad real de herramientas tecnológicas pertinentes permanece amplia.
+
+En el Perú, esta tensión se manifiesta de manera crítica. El sistema EIB atiende a más de 1,2 millones de estudiantes en aproximadamente 26\,400 instituciones educativas \citep{minedu2018}, concentradas principalmente en el sur andino y la Amazonía. Según datos del INEI, al primer trimestre de 2025 solo el 20,5\% de los hogares del área rural cuenta con acceso a internet, frente al promedio nacional que supera el 58\% \citep{inei2025}. Esta brecha digital se profundiza especialmente en los departamentos del sur andino —Cusco, Apurímac, Ayacucho, Puno y Huancavelica—, donde se concentra una proporción importante del alumnado EIB y persisten limitaciones significativas de acceso a herramientas tecnológicas adaptadas.
+
+Dentro de este ámbito regional, la lengua originaria predominante es el Quechua Collao. Esta variedad posee particularidades lingüísticas de alta relevancia para el diseño de recursos tecnológicos: su morfología aglutinante permite construir palabras de gran complejidad semántica mediante sufijación encadenada, y su fonología incluye rasgos consonánticos que no tienen equivalente en el español. Estas características la convierten en una lengua especialmente compleja para los sistemas de procesamiento automático del lenguaje. Adicionalmente, los estudiantes de estas comunidades frecuentemente alternan entre el quechua y el español en una misma interacción (translengüaje o alternancia de códigos), lo que exige que cualquier herramienta de apoyo educativo sea capaz de operar en ambas lenguas y de identificar el idioma predominante de cada consulta.
+
+Frente a este escenario, los avances recientes en inteligencia artificial generativa han abierto posibilidades para el desarrollo de asistentes educativos capaces de responder preguntas, explicar contenidos y apoyar procesos de aprendizaje. Sin embargo, la gran mayoría de estas soluciones presentan limitaciones estructurales que restringen su aplicabilidad en el contexto EIB rural: primero, dependen de conectividad estable a internet para acceder a modelos alojados en servidores remotos; segundo, están diseñadas con datos de lenguas de alta disponibilidad, con escasa o nula representación del Quechua Collao; tercero, no están adaptadas a contenidos curriculares ni a la realidad pedagógica de las aulas EIB.
+
+El problema se agrava cuando los estudiantes formulan consultas bilingües. En estos casos, un sistema de apoyo debe identificar el idioma predominante, reconocer posibles segmentos alternados y recuperar materiales adecuados al contexto de forma local. El reto no es únicamente técnico, sino también pedagógico y lingüístico.
+
+En consecuencia, existe una brecha de investigación y desarrollo: no se identifica una solución integrada de asistente educativo bilingüe español--Quechua Collao que funcione \textit{offline}, combine un modelo compacto cuantizado con generación aumentada por recuperación (RAG) local y recursos lingüísticos validados, incorpore detección automática del idioma y recupere contenido curricular local. Esta brecha justifica el diseño de una propuesta que articule las capas lingüística, pedagógica y tecnológica en un prototipo funcional evaluable.
+
+\subsection{Identificación del problema}
+El problema central de la investigación es la ausencia de un asistente educativo bilingüe español--Quechua Collao, ejecutable sin conexión a internet, basado en una arquitectura híbrida de modelo compacto cuantizado, generación aumentada por recuperación local y recursos lingüísticos validados, para responder consultas pedagógicas en contextos rurales de Educación Intercultural Bilingüe.
+
+\subsection{Formulación del problema}
+\subsubsection{Problema general}
+¿Cómo diseñar, implementar y evaluar un asistente educativo offline español--Quechua Collao que apoye consultas curriculares en contextos rurales de Educación Intercultural Bilingüe mediante una arquitectura basada en un modelo compacto cuantizado, generación aumentada por recuperación local y recursos lingüísticos validados?
+
+\subsubsection{Subproblemas}
+\begin{itemize}
+	\item ¿Cuáles son los requerimientos lingüísticos, pedagógicos y tecnológicos que debe satisfacer un asistente educativo bilingüe offline para contextos rurales de EIB?
+	\item ¿Cómo diseñar una arquitectura offline que integre detección automática del idioma, recuperación local de contenidos curriculares, recursos lingüísticos explícitos y generación de respuestas pedagógicas?
+	\item ¿Cómo implementar y configurar un modelo compacto cuantizado para operar de forma eficiente sin conexión a internet en dispositivos de bajo costo?
+	\item ¿Qué diferencia en rendimiento y pertinencia se registra al comparar tres configuraciones básicas del sistema: modelo base sin RAG, modelo con RAG local y modelo con el enfoque híbrido completo?
+	\item ¿Cómo evaluar la calidad del prototipo resultante mediante métricas técnicas, lingüísticas y rúbricas de pertinencia pedagógica?
+\end{itemize}
+\section{Justificación}
+La investigación se justifica porque las condiciones descritas en el problema —escasa conectividad rural, ausencia de herramientas tecnológicas en Quechua Collao y más de 1,2 millones de estudiantes EIB desatendidos tecnológicamente \citep{minedu2018}— no se resuelven suficientemente con las herramientas de inteligencia artificial generativa comerciales en la nube, las cuales dependen de conectividad permanente y operan mayoritariamente sobre lenguas de alta disponibilidad. El proyecto propone una alternativa a esa brecha desde tres perspectivas:
+
+\begin{itemize}
+	\item \textbf{Justificación Teórica:} El estudio aporta a la integración del procesamiento de lenguas de bajos recursos digitales con la tecnología educativa. Aunque existen investigaciones previas sobre traducción automática o evaluación de modelos para quechua de manera aislada, no se ha propuesto un diseño que acople el entendimiento bilingüe contextualizado, la recuperación local de contenidos y mecanismos de adaptación orientados al andamiaje pedagógico para el Quechua Collao.
+	\item \textbf{Justificación Práctica:} Propone un prototipo funcional offline de apoyo pedagógico complementario en áreas rurales de baja o nula conectividad, facilitando el acceso a materiales oficiales en la lengua originaria del estudiante.
+	\item \textbf{Justificación Metodológica:} Diseña un marco de evaluación comparativo que permite medir el aporte real de cada componente del sistema (el modelo base, la recuperación local de contenidos y la alineación de estilo del modelo), combinando métricas automatizadas de rendimiento y calidad de texto con valoraciones cualitativas aplicadas por especialistas bilingües.
+\end{itemize}
+
+% *************************
+% **     ALCANCES        **
+% *************************
+\section{Alcances y limitaciones}
+\subsection{Alcances}
+El presente estudio abarca el diseño, implementación y evaluación de un prototipo de asistente educativo bilingüe español--Quechua Collao basado en un modelo compacto de lenguaje. La investigación se centra en la asistencia textual para estudiantes y docentes de contextos de EIB, considerando los siguientes alcances específicos:
+
+\begin{itemize}
+	\item \textbf{Alcance lingüístico:} Se delimita de forma exclusiva al Quechua Collao, de acuerdo con la ubicación geográfica del estudio y la disponibilidad de corpus paralelos como los construidos por \citet{Orcotoma2025}. Esta variedad presenta rasgos fonológicos diferenciadores (consonantes oclusivas glotizadas y aspiradas) que deben reflejarse cuidadosamente en los recursos del sistema. Esta delimitación evita prometer cobertura de otras variedades dialectales, permitiendo construir un prototipo de alta pertinencia regional.
+
+	\item \textbf{Alcance pedagógico:} El primer ciclo de validación se centrará en consultas curriculares de 3.° a 6.° grado de primaria, priorizando las áreas de Comunicación y Ciencia y Tecnología según la disponibilidad de materiales EIB bilingües. Las respuestas del sistema seguirán el principio de andamiaje cognitivo, priorizando explicaciones graduales sobre respuestas directas.
+
+	\item \textbf{Alcance tecnológico:} Comprende una arquitectura offline compuesta por detección automática del idioma, enrutamiento lingüístico, generación aumentada por recuperación (RAG) local y un modelo compacto de lenguaje cuantizado, preferentemente a 4 bits según las pruebas de rendimiento realizadas. El aporte tecnológico radica en la integración, configuración y evaluación comparativa de esta arquitectura.
+
+	\item \textbf{Alcance disciplinar:} Se ubica en la convergencia de la ingeniería informática, el procesamiento de lenguaje natural y la tecnología educativa para contextos bilingües interculturales.
+\end{itemize}
+
+\subsection{Limitaciones}
+Se reconocen las siguientes limitaciones que condicionan la ejecución del proyecto:
+
+\begin{itemize}
+	\item \textbf{Disponibilidad de datos:} Al tratarse de una lengua de bajos recursos digitales, el corpus paralelo disponible es reducido y heterogéneo \citep{Court2024}. Para mitigar esto, se complementará el banco de RAG con glosarios, materiales EIB y datos sintéticos validados por hablantes nativos \citep{Dhawan2026}.
+	\item \textbf{Cuello de botella de la tokenización:} La morfología aglutinante del quechua genera una fertilidad de tokens estimada en $\approx$3,4$\times$ respecto al español, lo que penaliza la latencia en CPU e infla el consumo de la caché KV del modelo con contextos extensos.
+	\item \textbf{Restricción dialectal:} El prototipo está orientado exclusivamente al Quechua Collao, por lo que el sistema no está diseñado para generalizarse a otras variedades dialectales.
+	\item \textbf{Restricciones de hardware:} La ejecución offline de un modelo compacto depende de la memoria disponible (RAM) del dispositivo local, limitando el tamaño del modelo utilizable y la latencia aceptable de generación \citep{Xu2024}.
+	\item \textbf{Validación pedagógica y lingüística:} La evaluación de pertinencia y adecuación dependerá del acceso real a docentes EIB, especialistas y hablantes nativos, así como de las autorizaciones institucionales correspondientes.
+	\item \textbf{Alcance textual:} El prototipo no incorpora reconocimiento ni síntesis de voz, considerando la asistencia por audio fuera del alcance de este trabajo.
+\end{itemize}
+
+% *************************
+% **     OBJETIVOS       **
+% *************************
+
+\section{Objetivos}
+\subsection{Objetivo General}
+Diseñar, implementar y evaluar un prototipo de asistente educativo offline español--Quechua Collao basado en un modelo de lenguaje compacto cuantizado y generación aumentada por recuperación local, orientado al apoyo de consultas curriculares en contextos rurales de Educación Intercultural Bilingüe.
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+	\item \textbf{Curar y estructurar} una base documental bilingüe español--Quechua Collao, integrando materiales curriculares oficiales, glosarios terminológicos, diccionarios locales y datos sintéticos validados.
+	\item \textbf{Diseñar} una arquitectura offline que integre detección automática del idioma, recuperación local de información y generación de respuestas pedagógicas.
+	\item \textbf{Implementar} un prototipo funcional del asistente educativo seleccionando, cuantizando y configurando el modelo compacto base y el pipeline de recuperación.
+	\item \textbf{Comparar} configuraciones básicas del sistema para medir el aporte real de la recuperación local, las reglas de normalización y la adaptación de estilo del modelo.
+	\item \textbf{Evaluar} el prototipo mediante métricas técnicas de rendimiento offline, fidelidad lingüística mediante métricas automáticas y pertinencia pedagógica a través de rúbricas de juicio de expertos.
+	\item \textbf{Documentar} las limitaciones de la arquitectura propuesta, los riesgos de transferencia dialectal y las recomendaciones de mejora.
+\end{itemize}
+
+\subsection{Alineación con los Objetivos de Desarrollo Sostenible}
+La investigación se alinea con los siguientes Objetivos de Desarrollo Sostenible (ODS):
+
+\begin{itemize}
+	\item \textbf{ODS 4 — Educación de calidad.} El estudio contribuye a una educación inclusiva y equitativa al proveer una herramienta de apoyo pedagógico en lengua materna para estudiantes de zonas rurales bajo el modelo EIB.
+	\item \textbf{ODS 9 — Industria, innovación e infraestructura.} Promueve la innovación tecnológica al diseñar una solución de inteligencia artificial offline, adaptada a condiciones de hardware de bajo costo e infraestructura digital limitada.
+	\item \textbf{ODS 10 — Reducción de las desigualdades.} Aborda la brecha digital y lingüística que afecta a comunidades quechuahablantes, facilitando el acceso a recursos educativos interactivos sin requerir conexión a internet.
+\end{itemize}

@@ -1,0 +1,31 @@
+# Core SLM/RAG tooling for local experiments.
+torch
+transformers
+datasets
+accelerate
+peft
+trl
+
+# RAG and retrieval
+langchain
+llama-index
+faiss-cpu
+chromadb
+sentence-transformers
+rank-bm25
+
+# Evaluation
+ragas
+evaluate
+sacrebleu
+bert-score
+
+# Experiment utilities
+numpy
+pandas
+scikit-learn
+tqdm
+rich
+python-dotenv
+pyyaml
+jupyter

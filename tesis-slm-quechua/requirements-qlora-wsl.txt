@@ -1,0 +1,4 @@
+# Install this inside WSL2 Ubuntu or Linux with a compatible NVIDIA/CUDA setup.
+# On native Windows, bitsandbytes is often the fragile dependency.
+bitsandbytes
+unsloth

@@ -1,100 +1,57 @@
-% *************************
-% **     ANTECEDENTES    **
-% *************************
+\section{Marco Teórico y Conceptual}
 
-\section{Antecedentes}
+\subsection{Antecedentes de la investigación}
+La Tabla~\ref{tab:antecedentes} resume los trabajos empíricos y desarrollos tecnológicos previos que fundamentan la presente investigación, detallando sus objetivos, metodologías, hallazgos clave y el aporte específico que brindan al diseño del asistente educativo.
 
-\noindent
-Orcotoma Mormontoy G. C. et al., (2025), \textit{Towards the Creation of a Collao Quechua-Spanish Parallel Corpus Using Optical Character Recognition}, Universidad Andina del Cusco, Perú.
-\begin{itemize}
-	\item \textbf{Objetivo:} Construir un corpus paralelo Quechua Collao-español utilizando reconocimiento óptico de caracteres (OCR) para superar la escasez de recursos digitales en esta variante.
-	\item \textbf{Metodología:} Escaneo y procesamiento de libros de la Academia Mayor de la Lengua Quechua (AMLQ), seguido de extracción de texto con Tesseract OCR y corrección manual para establecer una verdad base.
-	\item \textbf{Resultados:} Se generó un corpus de 44\,263 palabras con tasas de error de carácter (CER) de 1.82\% y de palabra (WER) de 6.59\%, demostrando la eficacia de la técnica para digitalizar materiales en lenguas de bajos recursos.
-	\item \textbf{Comentario:} Esta investigación proporciona tanto la metodología como la fuente de datos (libros de la AMLQ) que servirán como base para recolectar el corpus paralelo necesario para el banco de conocimiento RAG del asistente propuesto. Es el antecedente más directamente aprovechable del proyecto, ya que trabaja con la misma variedad lingüística y los mismos materiales de referencia.
-\end{itemize}
-
-\vspace{0.5cm}
-\noindent
-Sulla Torres J. A., Cueva Medina B., y Tuco Casquino G. F., (2024), \textit{Development of a Neural Machine Translation Model Optimized with BERT for Translation from Quechua to Spanish}, Universidad Católica de Santa María, Perú.
-\begin{itemize}
-	\item \textbf{Objetivo:} Desarrollar y evaluar un modelo de traducción automática neuronal (NMT) optimizado con BERT para la dirección quechua-español.
-	\item \textbf{Metodología:} Pre-entrenamiento y afinamiento de un modelo transformador utilizando un corpus bilingüe quechua-español, con evaluación mediante la métrica BLEU.
-	\item \textbf{Resultados:} El modelo propuesto alcanzó un puntaje BLEU de 20.13, superando a líneas base previas pero evidenciando dificultades con la morfología aglutinante del quechua.
-	\item \textbf{Comentario:} Define el estado del arte y establece un umbral base (baseline) métrico para la evaluación de la capacidad del asistente al momento de procesar y generar texto en Quechua Collao. Justifica la necesidad de estrategias especializadas frente a la morfología de la lengua.
-\end{itemize}
-
-\vspace{0.5cm}
-\noindent
-Walusimbi J. et al., (2026), \textit{Arapai: An Offline-First AI Chatbot Architecture for Low-Connectivity Educational Environments}, Soroti University, Uganda.
-\begin{itemize}
-	\item \textbf{Objetivo:} Presentar una arquitectura de chatbot educativo basada en modelos de lenguaje que funcione completamente sin conexión (offline-first) para entornos con conectividad limitada.
-	\item \textbf{Metodología:} Implementación de modelos de lenguaje cuantizados (Qwen y Mistral) en hardware heredado (solo CPU) y evaluación piloto con 120 estudiantes midiendo rendimiento técnico y usabilidad.
-	\item \textbf{Resultados:} El sistema demostró una latencia de 1 a 3 segundos en CPUs estándar, proveyendo respuestas instructivas adaptables a diferentes niveles educativos con alta aceptación de usuarios.
-	\item \textbf{Comentario:} Constituye el antecedente metodológico más cercano al proyecto: mismo tipo de sistema (asistente educativo offline), mismo enfoque tecnológico (modelos cuantizados en CPU) y mismo contexto de aplicación (entornos educativos de baja infraestructura). Aporta validación empírica directa de la viabilidad técnica del enfoque propuesto.
-\end{itemize}
-
-\vspace{0.5cm}
-\noindent
-Hevia J. S., Arredondo F., y Kumar V., (2025), \textit{Towards an Efficient, Customizable, and Accessible AI Tutor}, Rice University, Estados Unidos.
-\begin{itemize}
-	\item \textbf{Objetivo:} Proponer un flujo de Generación Aumentada por Recuperación (RAG) offline emparejado con un Small Language Model (SLM) para entornos educativos de bajos recursos.
-	\item \textbf{Metodología:} Implementación de SmolLM con un sistema RAG sobre libros de texto de biología y evaluación de su precisión en respuestas de opción múltiple (MMLU).
-	\item \textbf{Resultados:} La inclusión del RAG redujo la precisión del SLM al introducir contextos extensos que el modelo pequeño luchaba por procesar de forma efectiva, evidenciando la importancia del fragmentado semántico.
-	\item \textbf{Comentario:} Antecedente metodológicamente muy cercano: combina RAG y SLM para uso educativo offline. Su hallazgo crítico —que el fragmentado de documentos es determinante para el rendimiento— orienta directamente el diseño del módulo RAG del asistente propuesto y advierte contra inyecciones de contexto extensas sin optimización.
-\end{itemize}
-
-\vspace{0.5cm}
-\noindent
-Duran M. y Silberztein M., (2026), \textit{Semi-automatic Construction of a Quechua-Spanish Dictionary}, Université de Franche-Comté, Francia.
-\begin{itemize}
-	\item \textbf{Objetivo:} Proponer un enfoque semi-automático para construir diccionarios electrónicos quechua-español a partir de textos digitalizados y corpus.
-	\item \textbf{Metodología:} Uso de transductores de estados finitos y herramientas NooJ para alinear lemas y afijos entre ambos idiomas, capturando la polisemia y la morfología aglutinante.
-	\item \textbf{Resultados:} Se generó un recurso léxico estructurado que captura adecuadamente las correspondencias morfológicas y semánticas entre quechua y español.
-	\item \textbf{Comentario:} Ilustra métodos viables para estructurar diccionarios locales que pueden ser indexados en el banco de datos RAG del asistente. Su metodología de alineación léxica es directamente aplicable a la construcción de los recursos lingüísticos de Quechua Collao del proyecto.
-\end{itemize}
-
-
-% *************************
-% **     MARCO TEÓRICO   **
-% *************************
-\section{Marco Teórico}
+\begin{table}[H]
+\centering
+\caption{Matriz resumida de antecedentes y aportes a la investigación}
+\label{tab:antecedentes}
+\small
+\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{2.3cm}p{2.3cm}p{2.8cm}p{2.8cm}@{}}
+\toprule
+\textbf{Autor(es)} & \textbf{Objetivo} & \textbf{Método} & \textbf{Resultados clave} & \textbf{Aporte a la tesis} \\
+\midrule
+\citet{Orcotoma2025} & Crear corpus paralelo español--Quechua Collao. & OCR en textos académicos e indexación. & Corpus de 44\,263 palabras con WER de 6.59\%. & Provee el corpus de texto base para poblar el RAG local. \\
+\midrule
+\citet{SullaTorres2024} & Optimizar traducción quechua--español. & NMT basado en codificador BERT y fine-tuning. & Alcanzó un puntaje BLEU de 20.13. & Evidencia las limitaciones de modelos de traducción pura. \\
+\midrule
+\citet{Duran2026} & Construir diccionarios quechua--español. & Métodos semi-automáticos con formalismos léxicos. & Diccionario bilingüe estructurado de alta precisión. & Fuente léxica para las reglas de normalización del RAG. \\
+\midrule
+\citet{Court2024} & Evaluar LLMs comerciales en quechua. & In-context learning con reglas gramaticales inyectadas. & Reglas extensas degradan fidelidad; prompt simple es insuficiente. & Justifica no usar LLMs comerciales en la nube y diseñar sistema local. \\
+\midrule
+\citet{Chen2024} & Optimizar traducción quechua--inglés. & Enfoque híbrido: RAG léxico + LoRA. & Aumento de BLEU de 1.5 a 17.6. & Precedente directo de la viabilidad de acoplar RAG y adaptadores. \\
+\midrule
+\citet{Walusimbi2026} & Desarrollar asistente educativo offline. & Inferencia de SLM cuantizado en CPU. & Latencia de 1--3s en hardware de baja gama en aulas sin internet. & Valida la viabilidad técnica del despliegue offline. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Educación Intercultural Bilingüe (EIB)}
-La Educación Intercultural Bilingüe es el modelo pedagógico promovido por el Ministerio de Educación del Perú (MINEDU) para garantizar el derecho a una educación pertinente a los estudiantes de pueblos originarios. Según el Modelo de Servicio Educativo Intercultural Bilingüe \citep{minedu2018}, el enfoque busca desarrollar competencias en los estudiantes a partir de su matriz cultural, en un diálogo de saberes con otras culturas, y promover el uso comunicativo de su lengua originaria y el castellano. El modelo establece dos formas de atención principales:
+La Educación Intercultural Bilingüe es el modelo pedagógico promovido por el Ministerio de Educación del Perú (MINEDU) para garantizar el derecho a una educación pertinente a los estudiantes de pueblos originarios \citep{minedu2018}. El modelo establece dos formas de atención principales:
 \begin{itemize}
-    \item \textbf{EIB de Fortalecimiento Cultural y Lingüístico:} Orientada a estudiantes que tienen la lengua originaria (como el Quechua Collao) como lengua materna y el castellano como segunda lengua. El asistente propuesto debe apoyar el desarrollo de aprendizajes principalmente en quechua.
-    \item \textbf{EIB de Revitalización Cultural y Lingüística:} Dirigida a estudiantes cuya lengua materna es el castellano, pero pertenecen a comunidades con herencia cultural originaria. Aquí, el asistente puede funcionar como apoyo para la enseñanza progresiva del quechua como segunda lengua.
+    \item \textbf{EIB de Fortalecimiento Cultural y Lingüístico:} Orientada a estudiantes que tienen la lengua originaria (como el Quechua Collao) como lengua materna y el castellano como segunda lengua.
+    \item \textbf{EIB de Revitalización Cultural y Lingüística:} Dirigida a estudiantes cuya lengua materna es el castellano, pero pertenecen a comunidades con herencia cultural originaria.
 \end{itemize}
 Cualquier tecnología educativa insertada en este contexto debe respetar el enfoque de bilingüismo aditivo, en el que ninguna lengua desplaza a la otra.
 
-\subsection{Quechua Collao: caracterización y justificación dialectal}
-El Quechua Collao (qheswa sureño) pertenece a la rama Quechua II-C de la clasificación de Torero. Dentro de esta rama coexisten dos variedades principales con raíz compartida pero diferencias relevantes: el Quechua Cusqueño (qheswa Qusqu) y el Quechua Collao (qheswa Qulla). Ambas comparten las tres series consonánticas —simple, aspirada y glotizada—, pero difieren en aspectos léxicos, morfológicos y en la disponibilidad de recursos digitales.
+\subsection{Quechua Collao: caracterización dialectal}
+El Quechua Collao es la variedad predominante en Puno, Moquegua y el sur de Arequipa, con presencia también en partes de Cusco. A nivel morfosintáctico, es una lengua aglutinante y sufijadora: una sola raíz puede recibir múltiples sufijos derivativos y flexivos para expresar significados que en español requerirían varias palabras. A nivel fonológico, se caracteriza por la presencia de consonantes oclusivas glotizadas y aspiradas, rasgos fonológicos diferenciadores que deben considerarse en el procesamiento del texto. Adicionalmente, la digitalización de esta variante enfrenta el problema de escasez de recursos estructurados y alta variabilidad ortográfica \citep{Orcotoma2025}.
 
-El Quechua Collao es la variedad predominante en Puno, Moquegua y el sur de Arequipa, con presencia también en partes de Cusco. El Quechua Cusqueño, en cambio, es predominante en la ciudad del Cusco y zonas aledañas. Si bien son mutuamente inteligibles en gran medida, presentan diferencias de vocabulario, preferencias morfológicas y convenciones ortográficas que hacen inviable tratarlas como una sola variedad para propósitos tecnológicos.
+\subsection{Translengüaje y alternancia de códigos}
+El translengüaje es el proceso por el cual los hablantes bilingües utilizan su repertorio lingüístico completo de manera dinámica y estratégica. La alternancia de códigos (\textit{code-switching}) es una manifestación de este fenómeno que implica el cambio sistemático entre dos lenguas dentro de una misma interacción. Para el asistente educativo propuesto, el sistema debe ser capaz de identificar el idioma predominante en entradas mixtas, reconocer segmentos alternados y responder en el idioma más pertinente.
 
-La presente investigación delimita su alcance exclusivamente al Quechua Collao por tres razones académicamente justificadas: primero, el único corpus paralelo validado y disponible para tareas de PLN fue construido específicamente con materiales de la Academia Mayor de la Lengua Quechua orientados a esta variedad \citep{Orcotoma2025}; segundo, la zona geográfica de intervención del estudio corresponde predominantemente al área de habla Collao (Puno, Moquegua, sur de Arequipa); tercero, los materiales curriculares EIB del MINEDU disponibles para estas regiones están adaptados a esta variedad. Utilizar recursos del Quechua Cusqueño introduciría variación dialectal no controlada que afectaría negativamente la pertinencia lingüística del asistente.
 
-A nivel morfosintáctico, el Quechua Collao es una lengua aglutinante y sufijadora: una sola raíz puede recibir múltiples sufijos derivativos y flexivos para expresar significados que en español requerirían varias palabras. A nivel fonológico, la variedad Collao se caracteriza por la presencia de consonantes oclusivas glotizadas y aspiradas, rasgos fonológicos diferenciadores que deben considerarse al diseñar la tokenización y el procesamiento de texto del sistema. Adicionalmente, la digitalización de esta variante enfrenta el problema de escasez de recursos estructurados \citep{Orcotoma2025} y alta variabilidad ortográfica, debido a las tensiones entre alfabetos pentavocálicos y trivocálicos en el entorno académico \citep{Court2024}.
+\subsection{Procesamiento de Lenguaje Natural en Lenguas de Bajos Recursos}
+El procesamiento de lenguas morfológicamente complejas y de bajos recursos digitales (\textit{low-resource languages}) como el Quechua Collao impone restricciones severas a las arquitecturas estándar. Su naturaleza aglutinante y sufijadora implica que una sola palabra contiene información semántica equivalente a una oración completa en español, lo que dificulta la tokenización y la generación de incrustaciones vectoriales (\textit{embeddings}). Asimismo, la escasez de corpus paralelos digitalizados e indexados impide construir modelos de lenguaje de alta calidad mediante métodos de aprendizaje masivo tradicionales.
 
-\subsection{Translengüaje y alternancia de códigos en aulas EIB}
-El translengüaje (\textit{translanguaging}) es el proceso por el cual los hablantes bilingües o multilingües utilizan su repertorio lingüístico completo de manera dinámica y estratégica, sin respetar los límites estrictos entre lenguas. Lejos de ser un déficit, el translengüaje es reconocido actualmente como una práctica comunicativa legítima que refleja la competencia lingüística integrada del hablante. En las aulas EIB del sur andino, este fenómeno es habitual: un estudiante puede iniciar una pregunta en quechua, continuar en español para un término técnico y retomar el quechua para concluir.
+En este contexto, el Entendimiento del Lenguaje Natural (NLU) se aborda de forma dirigida: en lugar de depender exclusivamente de la representación paramétrica interna del modelo, se inyecta información léxica y contextual validada mediante un pipeline RAG local. Esto permite al modelo diferenciar intenciones de consulta (vocabulario, explicación o aplicación pedagógica) basándose en documentos específicos del dominio, mitigando las alucinaciones típicas que ocurren al procesar lenguas sin suficiente representación.
 
-La alternancia de códigos (\textit{code-switching}) es una manifestación del translengüaje que implica el cambio sistemático entre dos lenguas dentro de un mismo enunciado o entre enunciados sucesivos. Para el asistente educativo propuesto, esta realidad representa un requerimiento funcional crítico: el sistema debe ser capaz de identificar el idioma predominante en entradas mixtas, reconocer posibles segmentos alternados y responder en el idioma más pertinente para el contexto pedagógico, sin penalizar al estudiante por usar ambas lenguas en una misma consulta.
 
-\subsection{Procesamiento de Lenguaje Natural}
-El Procesamiento de Lenguaje Natural (PLN), también conocido por sus siglas en inglés NLP (\textit{Natural Language Processing}), es el campo de la inteligencia artificial que estudia la interacción computacional entre las lenguas humanas y las máquinas. Sus tareas incluyen la tokenización, el análisis morfológico y sintáctico, el reconocimiento de entidades nombradas, la clasificación de texto, la traducción automática, la generación de texto y la comprensión del lenguaje.
+\subsubsection{Cuello de botella de la tokenización en lenguas aglutinantes}
+Un problema técnico crítico para el diseño de sistemas RAG en Quechua Collao es el \textit{cuello de botella de la tokenización}. La morfología aglutinante del quechua permite construir palabras de gran complejidad semántica mediante sufijación encadenada. Cuando estas palabras son procesadas por tokenizadores sub-palabra (como BPE o SentencePiece), cada palabra quechua se fragmenta en múltiples tokens, generando una \textit{fertilidad de tokens} estimada en aproximadamente 3,4$\times$ respecto al español según la literatura técnica disponible. Esto significa de manera estimada que una oración en quechua consume alrededor de 3,4 veces más tokens que su equivalente en español, lo cual será verificado empíricamente durante la fase de evaluación.
 
-En el caso de lenguas morfológicamente complejas como el Quechua Collao, las tareas de PLN enfrentan desafíos adicionales. Su naturaleza aglutinante implica que un solo token puede contener información semántica equivalente a una oración completa en español, lo que afecta directamente a la tokenización, al modelado de representaciones vectoriales (\textit{embeddings}) y a la capacidad de comprensión de los modelos estándar entrenados principalmente en lenguas analíticas como el inglés.
-
-\subsubsection{Entendimiento del Lenguaje Natural (NLU)}
-El Entendimiento del Lenguaje Natural (NLU, \textit{Natural Language Understanding}) es el subcampo del PLN orientado a que los sistemas informáticos comprendan el significado, la intención y el contexto de los enunciados, más allá del reconocimiento superficial de patrones. En el contexto de un asistente educativo, la capacidad de NLU determina si el sistema puede diferenciar entre una consulta de vocabulario («¿qué significa...?»), una solicitud de explicación («¿cómo funciona...?») o una pregunta de aplicación práctica («¿cómo se resuelve...?»), y responder de manera pedagógicamente apropiada a cada tipo de intención.
-
-Sin capacidad de NLU, el asistente se limita a generar texto estadísticamente probable sin comprender el propósito educativo de la consulta. En la arquitectura propuesta, el pipeline RAG actúa como mecanismo de NLU implícito al recuperar documentos semánticamente relevantes para la intención detectada en la consulta, mientras que el SLM genera una respuesta coherente con ese contexto recuperado.
-
-\subsubsection{PLN para lenguas de bajos recursos}
-Una lengua de bajos recursos digitales (\textit{low-resource language}) es aquella para la cual los datos de entrenamiento disponibles son insuficientes para construir modelos de lenguaje de alta calidad mediante métodos estándar. El Quechua Collao se inscribe en esta categoría: los corpus paralelos digitalizados son escasos y heterogéneos, los recursos léxicos estructurados son limitados y los modelos de lenguaje preentrenados disponibles no han sido entrenados con datos representativos de esta variedad.
-
-Las estrategias adoptadas en el campo para abordar este problema incluyen: la construcción de corpus mediante técnicas de OCR sobre materiales impresos \citep{Orcotoma2025}, el uso de transferencia de aprendizaje desde modelos multilingües, la generación de datos sintéticos validados por hablantes nativos, y el diseño de arquitecturas RAG que no dependen del conocimiento paramétrico del modelo sino de fuentes externas validadas. Esta última estrategia es especialmente relevante para el presente proyecto.
+Las implicaciones técnicas de esta inflación son significativas: (i)~la caché de clave-valor (KV cache) del mecanismo de atención crece linealmente con la longitud de la secuencia, aumentando de manera aproximada el consumo de RAM; (ii)~la complejidad computacional del mecanismo de autoatención escala cuadráticamente como $O(N^2 \cdot D)$, donde $N$ es la longitud de la secuencia y $D$ la dimensión del modelo según los formalismos de la arquitectura, lo que penaliza asintóticamente la latencia en CPU. Para un SLM ejecutado en CPU, este fenómeno teórico representa una limitación para el uso de un RAG no optimizado con fragmentos largos, lo que fundamenta de forma preliminar dos decisiones de diseño del presente proyecto: (a)~\textit{chunking} corto y disciplinado (250--400 tokens para prosa curricular; una entrada por \textit{chunk} para glosarios), y (b)~un \textit{top-k} final pequeño (3--5 fragmentos) para evitar la saturación de la ventana de contexto \citep{Hevia2025}.
 
 \subsubsection{Traducción automática neuronal}
 La Traducción Automática Neuronal (NMT, \textit{Neural Machine Translation}) es el paradigma actual en traducción automática, basado en redes neuronales profundas de arquitectura encoder-decoder con mecanismos de atención. A diferencia de los enfoques estadísticos anteriores, los modelos NMT aprenden representaciones contextuales de las lenguas fuente y objetivo, produciendo traducciones más fluidas y coherentes. Sin embargo, su eficacia depende de la disponibilidad de corpus paralelos de gran tamaño.
@@ -113,7 +70,7 @@ Los Small Language Models (SLM) son modelos de lenguaje fundamentados en la arqu
 
 Para hacer factible su ejecución en dispositivos con limitaciones estrictas de hardware (como CPU sin GPU dedicada), se emplean técnicas de compresión. La más extendida es la \textbf{Cuantización Post-Entrenamiento (PTQ, \textit{Post-Training Quantization})}, la cual reduce la precisión en bits de los pesos del modelo (por ejemplo, de Float16 a Int4 o Int8), minimizando el espacio en memoria RAM requerido y acelerando la inferencia de \textit{tokens} con una pérdida mínima de calidad \citep{Xu2024}.
 
-Para el presente proyecto, el modelo base candidato principal es \textbf{Qwen2.5-7B} (o su variante de 3B), por cuatro razones: (1) soporte multilingüe nativo para más de 29 idiomas, incluido el español, con mejor manejo de morfemas no latinos que modelos entrenados mayoritariamente en inglés; (2) rendimiento competitivo en \textit{benchmarks} de comprensión en configuraciones cuantizadas a 4 bits; (3) validación empírica de ejecución \textit{offline} en hardware CPU-only en contextos educativos de baja conectividad \citep{Walusimbi2026}; (4) requerimientos de RAM en cuantización Q4\_K\_M de aproximadamente 4,5 GB, compatibles con equipos de gama media. La selección definitiva se realizará en la Fase 2 del Design Science Research mediante evaluación comparativa de latencia, consumo de memoria y calidad de respuesta.
+Para el presente proyecto, el modelo base candidato principal es \textbf{Qwen2.5-7B} (o su variante de 3B), por cuatro razones: (1) soporte multilingüe nativo para más de 29 idiomas, incluido el español, con mejor manejo de morfemas no latinos que modelos entrenados mayoritariamente en inglés; (2) rendimiento competitivo en \textit{benchmarks} de comprensión en configuraciones cuantizadas preferentemente a 4 bits; (3) validación empírica de ejecución \textit{offline} en hardware CPU-only en contextos educativos de baja conectividad \citep{Walusimbi2026}; (4) requerimientos de RAM en cuantización Q4\_K\_M estimados en aproximadamente 4,5 GB según pruebas preliminares de literatura, compatibles con equipos de gama media. La selección definitiva se realizará en la Fase 2 del Design Science Research mediante evaluación comparativa de latencia, consumo de memoria y calidad de respuesta.
 
 \begin{table}[H]
 \centering
@@ -144,6 +101,14 @@ TinyLlama-1.1B        & 1,1B & $\sim$0,8 GB & No / Sí       & Descartado — si
 
 \textit{Nota:} los modelos marcados como «candidato» serán evaluados empíricamente en la Fase 2 del DSR. Los modelos de generación siguiente (Gemma 3, Qwen3) representan opciones a considerar en trabajos derivados o en una segunda iteración del prototipo si el cronograma lo permite.
 
+\subsection{Adaptación ligera: LoRA y QLoRA}
+La adaptación de bajo rango (\textit{Low-Rank Adaptation}, LoRA) es una técnica de ajuste paramétrico eficiente que, en lugar de modificar todos los pesos de un modelo preentrenado, inyecta matrices de bajo rango en las capas de atención del Transformer. Esto permite adaptar el comportamiento del modelo ---estilo de respuesta, formato pedagógico, consistencia terminológica--- con un número muy reducido de parámetros entrenables (típicamente $<$1\% del total), reduciendo drásticamente los requerimientos de memoria y tiempo de entrenamiento.
+
+\textbf{QLoRA} (\textit{Quantized LoRA}) combina la cuantización a 4 bits del modelo base con la inyección de adaptadores LoRA, permitiendo ajustar modelos de hasta 7B parámetros en GPUs de 24 GB de VRAM \citep{Dettmers2023}. La adaptación ligera mediante QLoRA se considera una configuración experimental complementaria, condicionada a la disponibilidad de corpus validado y recursos computacionales, no como requisito obligatorio del prototipo base. De ser factible, se reservará únicamente para alinear el comportamiento pedagógico del modelo (andamiaje, formato de respuesta, consistencia terminológica), no para inyectar conocimiento factual. La evidencia reciente demuestra que, para inyección de conocimiento, RAG supera consistentemente al \textit{fine-tuning} paramétrico \citep{Ovadia2024}; sin embargo, la adaptación ligera sí aporta valor cuando el objetivo es enseñar al modelo \textit{cómo} usar el contexto recuperado, no \textit{qué} conocimiento contener.
+
+\subsection{RAFT: Retrieval-Augmented Fine-Tuning}
+Este enfoque se considera como referencia conceptual para justificar la adaptación ligera del modelo y enseñarle a ignorar distractores, pero no constituye un componente obligatorio del prototipo inicial. Su utilidad teórica radica en el potencial para filtrar distractores dialectales derivados de otras variedades quechuas (como el Chanka o Cusqueño), entrenando al modelo a responder de forma coherente y anclada únicamente en la base documental de control.
+
 \subsection{Asistentes educativos inteligentes}
 Los Sistemas de Tutoría Inteligente (ITS, \textit{Intelligent Tutoring Systems}) son sistemas informáticos diseñados para proporcionar instrucción personalizada adaptada al nivel de comprensión del estudiante, sin intervención humana directa en tiempo real. Los ITS modernos basados en modelos de lenguaje incorporan principios pedagógicos como el andamiaje cognitivo (\textit{scaffolding}), que consiste en ofrecer apoyos estructurados que el aprendiz retira progresivamente a medida que adquiere competencia; la Zona de Desarrollo Próximo (ZDP) de Vygotsky, que delimita el rango de tareas que el estudiante puede realizar con guía pero no de forma autónoma; y el \textit{feedback} formativo, que orienta al estudiante hacia la comprensión correcta en lugar de limitarse a confirmar o refutar respuestas.
 
@@ -166,34 +131,39 @@ En entornos bilingües en los que ocurre el translengüaje o la alternancia de c
 \subsection{Evaluación de sistemas educativos con IA}
 La evaluación de sistemas generativos en entornos educativos abarca tres dimensiones complementarias. En la \textbf{dimensión técnica}, se miden variables como latencia (\textit{Time-To-First-Token}), consumo de memoria RAM y velocidad de generación (tokens por segundo) en el hardware objetivo \citep{Walusimbi2026}. En la \textbf{dimensión lingüística}, se utilizan métricas de correspondencia léxica como chrF++ para evaluar la coherencia de las respuestas generadas en Quechua Collao frente a referencias validadas por especialistas \citep{SullaTorres2024}. En la \textbf{dimensión pedagógica}, se requiere la intervención de docentes y especialistas EIB para validar la exactitud factual, la adecuación al tono educativo, la seguridad del contenido y la pertinencia intercultural de las respuestas generadas. \citet{Levonian2025} proponen marcos multidimensionales que incorporan criterios de relevancia curricular, tono apropiado al nivel educativo y ausencia de contenidos dañinos o culturalmente inadecuados, superando así la evaluación basada exclusivamente en métricas automáticas.
 
-
-% *************************
-% **     METODOLOGIA     **
-% *************************
-
 \section{Metodología}
 
-\subsection{Enfoque}
-La presente investigación tendrá un enfoque metodológico predominantemente \textbf{cuantitativo}. Esto se debe a que la validación y evaluación de la solución se sustentará en la recolección y análisis de datos medibles para comprobar el cumplimiento de los objetivos. Se cuantificarán variables de rendimiento técnico del software (latencia, uso de memoria, tokens por segundo) y se emplearán métricas lingüísticas algorítmicas estandarizadas (chrF++) para medir el desempeño del sistema. La evaluación pedagógica también se apoyará en escalas numéricas estandarizadas aplicadas a instrumentos de juicio de expertos.
+\subsection{Tipo y diseño de investigación}
+La investigación es de tipo \textbf{aplicada y tecnológica}, orientada al diseño, implementación y evaluación de un artefacto informático para solucionar un problema real de soporte educativo. 
 
-\subsection{Alcance}
-El alcance de la investigación será \textbf{descriptivo} con una naturaleza de investigación tecnológica-aplicada. Se implementará una arquitectura de \textit{software} con parámetros específicos y se describirá y medirá su comportamiento individual frente a métricas predefinidas, sin la intención de buscar causalidad estadística pura ni la generalización a toda otra variante de la lengua. Su propósito es resolver un problema práctico en un escenario particular mediante ingeniería y medir sus indicadores de éxito.
+El enfoque es \textbf{mixto con predominio cuantitativo}. Es cuantitativo al medir variables técnicas de rendimiento (latencia, uso de RAM, tokens por segundo), métricas de correspondencia léxica (chrF++, SacreBLEU) y puntuaciones estructuradas en rúbricas de evaluación. Es cualitativo al recoger apreciaciones y observaciones del juicio de expertos sobre la adecuación cultural y pertinencia del andamiaje pedagógico.
 
-\subsection{Diseño}
-El diseño de investigación adoptará el modelo \textbf{No Experimental Transversal}. No se manipularán variables independientes ni se crearán grupos de control de usuarios. En cambio, se recolectarán datos en un único momento temporal una vez que el prototipo esté completamente funcional y expuesto a las consultas del corpus de prueba o a las sesiones de validación por parte de los especialistas, describiendo los resultados de estas interacciones directas.
+El diseño metodológico adoptado es \textbf{comparativo-experimental sobre el artefacto}. Se manipularán configuraciones técnicas internas del sistema para contrastar su desempeño, complementado con un diseño descriptivo para la validación humana mediante juicio de expertos. Las dimensiones de evaluación serán: rendimiento técnico, calidad lingüística, calidad de recuperación, pertinencia pedagógica y adecuación intercultural.
 
 \subsection{Metodología de desarrollo}
-Para la construcción del sistema basado en inteligencia artificial y arquitecturas SLM, se empleará el paradigma \textbf{Design Science Research (DSR)}. Esta metodología iterativa es idónea para investigaciones en sistemas de información que buscan crear un artefacto innovador para resolver problemas reales. El proceso contemplará las siguientes fases:
+El desarrollo del prototipo de asistente bilingüe sigue el paradigma \textbf{Design Science Research (DSR)}, estructurado en las siguientes fases:
 \begin{enumerate}
-    \item \textbf{Identificación del problema y motivación:} Caracterización de las limitaciones de conectividad y la carencia de herramientas educativas en Quechua Collao.
-    \item \textbf{Definición de los objetivos de la solución:} Establecimiento de requisitos técnicos (inferencia offline, uso en CPU) y pedagógicos (pertinencia curricular EIB).
-    \item \textbf{Diseño y desarrollo:} Selección y cuantización del Small Language Model óptimo, diseño de la arquitectura RAG local y construcción del pipeline de detección de idioma y generación de respuestas.
-    \item \textbf{Demostración:} Integración del prototipo funcional y curación del banco de conocimiento con el corpus de la Academia Mayor de la Lengua Quechua y textos del MINEDU.
-    \item \textbf{Evaluación:} Sometimiento del artefacto a pruebas de rendimiento en hardware de bajo costo, medición de calidad lingüística (chrF++) y evaluación de pertinencia por parte de especialistas EIB.
-    \item \textbf{Comunicación:} Documentación de resultados, arquitectura y recomendaciones de uso en la tesis final.
+    \item \textbf{Identificación del problema y motivación:} Delimitación de las brechas de conectividad y la carencia de recursos bilingües contextualizados en el ámbito rural.
+    \item \textbf{Definición de objetivos de la solución:} Establecimiento de requisitos funcionales y de restricciones técnicas offline.
+    \item \textbf{Diseño y desarrollo:} Selección, cuantización del modelo base, diseño de la base vectorial local, estructuración de las reglas gramaticales y configuración opcional de adaptadores QLoRA.
+    \item \textbf{Demostración:} Integración del prototipo funcional alimentado con el corpus bilingüe seleccionado.
+    \item \textbf{Evaluación:} Comparación de tres configuraciones básicas (modelo base sin RAG, RAG local y enfoque híbrido completo) mediante métricas automáticas y juicios cualitativos de expertos.
+    \item \textbf{Comunicación:} Documentación de hallazgos, límites del prototipo y recomendaciones metodológicas.
 \end{enumerate}
 
 \subsection{Población y muestra}
-La evaluación del artefacto requerirá poblaciones de distinta naturaleza. Por el lado de los datos de \textit{software}, la población estará conformada por el corpus digitalizado disponible en Quechua Collao-español. La muestra de datos para el bloque RAG consistirá en manuales y currículos oficiales EIB para primaria (3.° a 6.° grado) y secundaria básica, y los textos paralelos validados por \citet{Orcotoma2025}. La muestra de interacción incluirá un banco de pruebas mínimo de 100 consultas estructuradas extraídas de contextos académicos reales, organizadas por nivel educativo y área curricular.
+La definición de las unidades de análisis se organiza bajo cuatro dimensiones de control:
+\begin{itemize}
+    \item \textbf{Unidad documental:} Compuesta por materiales curriculares de EIB del MINEDU para primaria (3.° a 6.° grado) en Comunicación y Ciencia y Tecnología, glosarios terminológicos de Quechua Collao del Ministerio de Educación y el corpus bilingüe digitalizado \citep{Orcotoma2025}.
+    \item \textbf{Unidad de prueba:} Un banco compuesto por 100 consultas patrón. Las consultas serán elaboradas a partir de contenidos curriculares oficiales y revisadas por docentes EIB para asegurar pertinencia temática, nivel educativo y equilibrio lingüístico.
+    \item \textbf{Unidad de validación humana:} Evaluadores especializados conformados por dos paneles: (i) de 3 a 5 especialistas lingüísticos (hablantes nativos quechua, vinculados a la AMLQ) para validar adecuación dialectal; y (ii) de 8 a 15 docentes EIB activos en el sur andino para calificar pertinencia pedagógica.
+    \item \textbf{Piloto exploratorio con estudiantes:} Muestra de 20 a 40 estudiantes del nivel primario en escuelas EIB seleccionadas. Esta validación es de carácter exploratorio y opcional, sin constituir una dependencia crítica para los hitos principales del cronograma.
+\end{itemize}
 
-Para la validación pedagógica, la población objetivo estará constituida por la comunidad educativa EIB del sur andino. La muestra será de tipo no probabilística intencional, seleccionando de 3 a 5 especialistas o docentes activos en Instituciones Educativas EIB con dominio acreditado de la variante Quechua Collao. Ellos evaluarán muestras de respuestas generadas por el sistema mediante rúbricas estandarizadas, garantizando que el diseño experimental cuente con rigor cualitativo en la comprobación final de viabilidad pedagógica.
+\subsection{Consideraciones éticas}
+Dado que el piloto exploratorio contempla la interacción potencial con estudiantes menores de edad, el protocolo de investigación se somete a salvaguardas éticas estrictas:
+\begin{enumerate}
+    \item \textbf{Permisos y autorizaciones:} Firma previa del consentimiento informado por parte de los padres o apoderados legales, el asentimiento del estudiante menor de edad, y la autorización de los directores de las Instituciones Educativas coordinadas con el aval de la UGEL/DRE correspondiente.
+    \item \textbf{Protección y privacidad de datos:} Anonimización completa de los registros de interacción. El prototipo operará offline y no recopilará datos personales, datos biométricos ni información sensible de los usuarios.
+    \item \textbf{Mitigación de riesgos de contenido:} El RAG local disciplinado actúa como un filtro restrictivo de seguridad, reduciendo el riesgo de respuestas no pertinentes al restringir la generación a información curricular previamente seleccionada, previniendo alucinaciones con temáticas inapropiadas o sensibles para menores.
+\end{enumerate}

@@ -2,8 +2,9 @@
 \phantomsection
 \addcontentsline{toc}{section}{Anexos}
 \section*{Anexo: Fichas de Análisis}
+\label{sec:anexos}
 
-A continuación, se presentan las fichas de análisis de las cinco fuentes más relevantes para la investigación, elaboradas conforme a las exigencias de la guía metodológica del seminario.
+A continuación, se presentan las fichas de análisis de las siete fuentes más relevantes para la investigación, elaboradas conforme a las exigencias de la guía metodológica del seminario.
 
 % Ficha 1
 \subsection*{Ficha 1: Orcotoma Mormontoy et al. (2025)}
@@ -51,7 +52,7 @@ A continuación, se presentan las fichas de análisis de las cinco fuentes más 
 	\item[5. RESULTADOS PRINCIPALES:] El sistema operó de forma estable en hardware heredado (CPU). Las consultas instructivas típicas mostraron latencias de respuesta de 1 a 3 segundos. Los usuarios reportaron una alta utilidad para el aprendizaje autodirigido a diferentes niveles de complejidad.
 	\item[6. CONCLUSIONES DEL AUTOR:] Es viable desplegar asistentes educativos basados en IA en contextos con limitaciones de infraestructura utilizando LLMs cuantizados que se ejecutan localmente, ofreciendo una alternativa confiable a los sistemas que dependen de la nube.
 	\item[7. RELEVANCIA PARA MI TESIS:] Es el principal antecedente arquitectónico. Valida la hipótesis de que los modelos cuantizados ejecutados en CPU son suficientemente rápidos y útiles para aplicaciones educativas offline en zonas rurales.
-	\item[8. CITAS TEXTUALES ÚTILES:] ``The system performs all inference locally using quantized language models and incorporates hardware-aware model selection to enable deployment on low-specification, CPU-only devices'' (p. 1).
+	\item[8. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``The system performs all inference locally using quantized language models and incorporates hardware-aware model selection to enable deployment on low-specification, CPU-only devices''} (p. 1).
 	\item[9. PALABRAS CLAVE ASIGNADAS:] Arquitectura offline-first, IA educativa, modelos cuantizados, edge AI.
 \end{description}
 
@@ -69,8 +70,8 @@ A continuación, se presentan las fichas de análisis de las cinco fuentes más 
 	\item[5. RESULTADOS PRINCIPALES:] Se identifican tres estrategias clave para habilitar modelos en dispositivos: compartición de parámetros, cuantización (PTQ y QAT) para reducir bits de peso/activación, y destilación de conocimiento. La cuantización int4/int8 resulta esencial para procesadores móviles.
 	\item[6. CONCLUSIONES DEL AUTOR:] La transición de la nube al borde (edge) reduce latencia y aumenta privacidad, pero requiere un equilibrio delicado entre el rendimiento del modelo (precisión) y la utilización de recursos (memoria y energía) que solo se logra combinando múltiples técnicas de compresión.
 	\item[7. RELEVANCIA PARA MI TESIS:] Proporciona el marco teórico tecnológico sobre Small Language Models y cuantización que fundamenta el diseño del asistente educativo para hardware de bajo costo.
-	\item[8. CITAS TEXTUALES ÚTILES:] ``deploying computationally expensive LLMs on resource-constrained devices poses significant challenges. The primary obstacles include limited computational power, reduced memory capacity, and energy constraints'' (p. 2).
-	\item[9. PALABRAS CLAVE ASIGNADAS:] On-Device AI, cuantización, compresión de modelos, Small Language Models.
+	\item[8. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``deploying computationally expensive LLMs on resource-constrained devices poses significant challenges. The primary obstacles include limited computational power, reduced memory capacity, and energy constraints''} (p. 2).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] \foreignlanguage{english}{On-Device} AI, cuantización, compresión de modelos, Small Language Models.
 \end{description}
 
 \vspace{0.5cm}
@@ -85,8 +86,44 @@ A continuación, se presentan las fichas de análisis de las cinco fuentes más 
 	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Proponer un sistema tutorial de IA fuera de línea (offline) basado en Generación Aumentada por Recuperación (RAG) emparejado con un Small Language Model (SLM) para entornos de bajos recursos.
 	\item[4. METODOLOGÍA:] Experimental cuantitativa. Evaluación de modelos de la familia SmolLM (135M y 1.7B) y RAG con libros de texto de biología de OpenStax usando métricas del benchmark MMLU para evaluar el impacto del contexto en la precisión de respuesta.
 	\item[5. RESULTADOS PRINCIPALES:] Contrario a lo esperado, la inclusión de recuperación RAG en SLMs disminuyó su precisión en el MMLU (de 21.59\% a 21.81\% con RAG en SmolLM2-135M, y una caída drástica en el modelo 1.7B), debido a la incapacidad de estos modelos pequeños para manejar ventanas de contexto extendidas y ruidosas.
-	\item[6. CONCLUSIONES DEL AUTOR:] Los Small Language Models luchan por aprovechar efectivamente el contexto extendido provisto por RAG, especialmente si los fragmentos contienen información irrelevante. Es crítico usar técnicas avanzadas de "chunking" (fragmentación semántica) y métricas de evaluación holísticas más allá de opciones múltiples.
+	\item[6. CONCLUSIONES DEL AUTOR:] Los Small Language Models luchan por aprovechar efectivamente el contexto extendido provisto por RAG, especialmente si los fragmentos contienen información irrelevante. Es crítico usar técnicas avanzadas de \foreignlanguage{english}{\textit{``chunking''}} (fragmentación semántica) y métricas de evaluación holísticas más allá de opciones múltiples.
 	\item[7. RELEVANCIA PARA MI TESIS:] Alerta sobre los riesgos de usar arquitectura RAG simple con SLMs en el diseño del asistente EIB. Justifica la necesidad de un preprocesamiento cuidadoso de los contenidos curriculares y glosarios locales para evitar introducir ruido en la consulta.
-	\item[8. CITAS TEXTUALES ÚTILES:] ``smaller models, such as SmolLM, struggle to effectively leverage extended contexts provided by the RAG pipeline, particularly when noisy or irrelevant chunks are included'' (p. 1).
+	\item[8. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``smaller models, such as SmolLM, struggle to effectively leverage extended contexts provided by the RAG pipeline, particularly when noisy or irrelevant chunks are included''} (p. 1).
 	\item[9. PALABRAS CLAVE ASIGNADAS:] RAG, AI Tutor, Small Language Model, educación fuera de línea.
+\end{description}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% Ficha 6
+\subsection*{Ficha 6: Chen et al. (2024)}
+\begin{description}
+	\item[1. REFERENCIA COMPLETA (APA 7):] Chen, Z., Liu, J., Dong, R., \& Mao, H. (2024). QueEn: Leveraging RAG and LLM-Based Agents for Quechua-English Translation. \textit{Proceedings of the Conference on Machine Translation}. https://aclanthology.org/2024.wmt-1.126/
+	\item[2. TIPO DE DOCUMENTO:] Artículo de conferencia científica
+	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Mejorar la traducción automática quechua--inglés mediante un sistema multi-agente que combina RAG sobre recursos lingüísticos con adaptación paramétrica ligera (LoRA).
+	\item[4. METODOLOGÍA:] Experimental cuantitativa. Implementación de un pipeline multi-agente que integra recuperación de diccionarios y reglas gramaticales con ajuste LoRA sobre un modelo base. Evaluación con BLEU y chrF++ sobre conjuntos de prueba estándar de WMT.
+	\item[5. RESULTADOS PRINCIPALES:] La hibridación de RAG con LoRA elevó el puntaje BLEU de 1,5 (baseline sin contexto) a 17,6, demostrando que la combinación de RAG con adaptación paramétrica ligera produce mejoras dramáticas para lenguas de bajos recursos.
+	\item[6. CONCLUSIONES DEL AUTOR:] La combinación de agentes RAG especializados con ajuste paramétrico ligero supera significativamente tanto al prompting directo como al RAG puro para traducción de lenguas de bajos recursos como el quechua.
+	\item[7. RELEVANCIA PARA MI TESIS:] Es el antecedente más directo del enfoque híbrido propuesto. Valida empíricamente que la arquitectura RAG + LoRA es la vía más prometedora para el quechua, fundamentando la decisión de combinar RAG disciplinado con QLoRA en el asistente EIB.
+	\item[8. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``Our system integrates dictionary-based retrieval, grammar rule application, and fine-tuned translation models to handle the morphological complexity of Quechua''} (p. 1).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] RAG, LoRA, quechua, traducción automática, sistema multi-agente.
+\end{description}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% Ficha 7
+\subsection*{Ficha 7: Zhang et al. (2024)}
+\begin{description}
+	\item[1. REFERENCIA COMPLETA (APA 7):] Zhang, T., Patil, S. G., Jain, N., Shen, S., Zaharia, M., Stoica, I., \& Gonzalez, J. E. (2024). RAFT: Adapting Language Model to Domain Specific RAG. \textit{arXiv preprint arXiv:2403.10131}.
+	\item[2. TIPO DE DOCUMENTO:] Artículo científico (Preprint)
+	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Proponer un método de ajuste fino que enseñe a los modelos de lenguaje a usar el contexto RAG de forma resiliente, distinguiendo fragmentos relevantes de distractores.
+	\item[4. METODOLOGÍA:] Experimental cuantitativa. Entrenamiento de modelos con datasets que incluyen documentos relevantes mezclados con distractores, evaluando la capacidad del modelo para generar respuestas ancladas únicamente en la evidencia pertinente.
+	\item[5. RESULTADOS PRINCIPALES:] RAFT mejoró consistentemente el rendimiento en benchmarks de dominio específico frente a tanto RAG puro como fine-tuning sin contexto, demostrando que entrenar al modelo a ``ignorar distractores'' es tan importante como entrenarle a ``usar contexto''.
+	\item[6. CONCLUSIONES DEL AUTOR:] La combinación de fine-tuning con entrenamiento en presencia de distractores produce modelos más robustos para aplicaciones RAG de dominio específico.
+	\item[7. RELEVANCIA PARA MI TESIS:] Fundamenta teóricamente la capa de adaptación ligera del enfoque híbrido: el QLoRA del asistente EIB debe enseñar al modelo no solo a responder pedagógicamente, sino a distinguir fragmentos dialectalmente correctos (Collao) de distractores (Cusqueño, Chanka).
+	\item[8. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``RAFT learns to ignore distractor documents and cite the relevant sequence from the oracle document to generate the answer''} (p. 3).
+	\item[9. PALABRAS CLAVE ASIGNADAS:] RAFT, RAG, fine-tuning, distractores, adaptación de dominio.
 \end{description}

@@ -1,5 +1,7 @@
-\usepackage[spanish]{babel}   % español
-\usepackage[utf8]{inputenc}   % acentos sin codigo
+\usepackage[T1]{fontenc}        % codificación de fuente para fuentes vectoriales
+\usepackage{lmodern}            % fuentes vectoriales Latin Modern
+\usepackage[spanish]{babel}     % español
+\usepackage[utf8]{inputenc}     % acentos sin codigo
 \usepackage[right=2cm,left=2.5cm,top=2cm,bottom=2cm,headsep=0.5cm,footskip=0.8cm]{geometry}
 \usepackage{amssymb, amsmath} % Paquetes matemáticos de la American Mathematical Society
 \usepackage{graphicx}		  % para imagenes
@@ -8,6 +10,8 @@
 \usepackage{enumerate}        % para listas numeradas con letras
 \usepackage{natbib}			  % para referencias bibliograficas
 \usepackage{url}			  % referencias bibliograficas WEB
+\usepackage{xurl}             % corte inteligente de URLs largas
+\usepackage{microtype}        % optimización tipográfica del espaciado
 \usepackage{ragged2e}         % alineacion de texto
 \usepackage{subcaption}	      % para imagenes multiples
 \usepackage{hyperref} 		  % para generar marcadores en el PDF ponerlo antes del \begin{document}
@@ -24,8 +28,9 @@
 		colorlinks=true,
 		allcolors=black,
 		pdfstartview=Fit,
-		breaklinks=true
-	}	%para quitar marco rojo
+		breaklinks=true,
+		hypertexnames=false
+	}	%para quitar marco rojo y evitar identificadores de pagina duplicados
 
 % quitar el 0.
 \renewcommand\thesection{\arabic{section}}
