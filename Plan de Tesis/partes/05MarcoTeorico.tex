@@ -1,31 +1,6 @@
 \section{Marco Teórico y Conceptual}
 
-\subsection{Antecedentes de la investigación}
-La Tabla~\ref{tab:antecedentes} resume los trabajos empíricos y desarrollos tecnológicos previos que fundamentan la presente investigación, detallando sus objetivos, metodologías, hallazgos clave y el aporte específico que brindan al diseño del asistente educativo.
-
-\begin{table}[H]
-\centering
-\caption{Matriz resumida de antecedentes y aportes a la investigación}
-\label{tab:antecedentes}
-\small
-\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{2.3cm}p{2.3cm}p{2.8cm}p{2.8cm}@{}}
-\toprule
-\textbf{Autor(es)} & \textbf{Objetivo} & \textbf{Método} & \textbf{Resultados clave} & \textbf{Aporte a la tesis} \\
-\midrule
-\citet{Orcotoma2025} & Crear corpus paralelo español--Quechua Collao. & OCR en textos académicos e indexación. & Corpus de 44\,263 palabras con WER de 6.59\%. & Provee el corpus de texto base para poblar el RAG local. \\
-\midrule
-\citet{SullaTorres2024} & Optimizar traducción quechua--español. & NMT basado en codificador BERT y fine-tuning. & Alcanzó un puntaje BLEU de 20.13. & Evidencia las limitaciones de modelos de traducción pura. \\
-\midrule
-Duran y Silberztein (\citeyear{Duran2026}) & Construir diccionarios quechua--español. & Métodos semi-automáticos con formalismos léxicos. & Diccionario bilingüe estructurado de alta precisión. & Fuente léxica para las reglas de normalización del RAG. \\
-\midrule
-Court y Elsner (\citeyear{Court2024}) & Evaluar LLMs comerciales en quechua. & In-context learning con reglas gramaticales inyectadas. & Reglas extensas degradan fidelidad; prompt simple es insuficiente. & Justifica no usar LLMs comerciales en la nube y diseñar sistema local. \\
-\midrule
-\citet{Chen2024} & Optimizar traducción quechua--inglés. & Enfoque híbrido: RAG léxico + LoRA. & Aumento de BLEU de 1.5 a 17.6. & Precedente directo de la viabilidad de acoplar RAG y adaptadores. \\
-\midrule
-\citet{Walusimbi2026} & Desarrollar asistente educativo offline. & Inferencia de SLM cuantizado en CPU. & Latencia de 1--3s en hardware de baja gama en aulas sin internet. & Valida la viabilidad técnica del despliegue offline. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+El presente marco teórico articula los fundamentos conceptuales que sustentan el diseño de un asistente educativo bilingüe español--Quechua Collao con capacidad de operación \textit{offline}. Su construcción sigue una organización jerárquica que avanza desde los marcos normativos y sociolingüísticos más generales ---la Educación Intercultural Bilingüe y la caracterización del Quechua Collao--- hacia los componentes técnicos progresivamente más específicos que definen el artefacto propuesto: el procesamiento de lenguas de bajos recursos, los modelos de lenguaje y su compresión, la adaptación paramétrica ligera, la Generación Aumentada por Recuperación y los criterios de evaluación educativa. Esta secuencia busca evidenciar no solo qué es cada concepto, sino cómo se relaciona con el problema de investigación y de qué modo su integración fundamenta las decisiones de diseño que se operacionalizan en la metodología.
 
 \subsection{Educación Intercultural Bilingüe (EIB)}
 La Educación Intercultural Bilingüe es el modelo pedagógico promovido por el Ministerio de Educación del Perú (MINEDU) para garantizar el derecho a una educación pertinente a los estudiantes de pueblos originarios \citep{minedu2018}. El modelo establece dos formas de atención principales:
@@ -39,7 +14,7 @@ Cualquier tecnología educativa insertada en este contexto debe respetar el enfo
 El Quechua Collao es la variedad predominante en Puno, Moquegua y el sur de Arequipa, con presencia también en partes de Cusco. A nivel morfosintáctico, es una lengua aglutinante y sufijadora: una sola raíz puede recibir múltiples sufijos derivativos y flexivos para expresar significados que en español requerirían varias palabras. A nivel fonológico, se caracteriza por la presencia de consonantes oclusivas glotizadas y aspiradas, rasgos fonológicos diferenciadores que deben considerarse en el procesamiento del texto. Adicionalmente, la digitalización de esta variante enfrenta el problema de escasez de recursos estructurados y alta variabilidad ortográfica \citep{Orcotoma2025}.
 
 \subsection{Translengüaje y alternancia de códigos}
-El translengüaje es el proceso por el cual los hablantes bilingües utilizan su repertorio lingüístico completo de manera dinámica y estratégica. La alternancia de códigos (\textit{code-switching}) es una manifestación de este fenómeno que implica el cambio sistemático entre dos lenguas dentro de una misma interacción. Para el asistente educativo propuesto, el sistema debe ser capaz de identificar el idioma predominante en entradas mixtas, reconocer segmentos alternados y responder en el idioma más pertinente.
+El translengüaje es el proceso por el cual los hablantes bilingües utilizan su repertorio lingüístico completo de manera dinámica y estratégica \citep{Garcia2009}. La alternancia de códigos (\textit{code-switching}) es una manifestación de este fenómeno que implica el cambio sistemático entre dos lenguas dentro de una misma interacción. Para el asistente educativo propuesto, el sistema debe ser capaz de identificar el idioma predominante en entradas mixtas, reconocer segmentos alternados y responder en el idioma más pertinente.
 
 
 \subsection{Procesamiento de Lenguaje Natural en Lenguas de Bajos Recursos}
@@ -61,7 +36,7 @@ En el par español--Quechua Collao, la escasez de datos limita el rendimiento de
 En el presente proyecto, la generación en Quechua Collao no es una tarea de traducción aislada, sino parte de la capacidad general del asistente de responder en el idioma del usuario. La métrica chrF++ se empleará para evaluar la coherencia lingüística de las respuestas generadas en Quechua Collao respecto a referencias validadas por especialistas.
 
 \subsection{Modelos de lenguaje y arquitectura Transformer}
-Un modelo de lenguaje es un sistema estadístico entrenado para modelar la distribución de probabilidad de secuencias de tokens en una lengua. Los modelos de lenguaje modernos se basan en la arquitectura Transformer (Vaswani et al., 2017), que introduce mecanismos de autoatención multi-cabeza para capturar dependencias de largo alcance en el texto sin recurrir a estructuras recurrentes. Esta arquitectura permitió escalar el entrenamiento a corpus de cientos de miles de millones de tokens, dando origen a los Grandes Modelos de Lenguaje (LLM, \textit{Large Language Models}), como GPT-4, Llama y Gemini.
+Un modelo de lenguaje es un sistema estadístico entrenado para modelar la distribución de probabilidad de secuencias de tokens en una lengua. Los modelos de lenguaje modernos se basan en la arquitectura Transformer \citep{Vaswani2017}, que introduce mecanismos de autoatención multi-cabeza para capturar dependencias de largo alcance en el texto sin recurrir a estructuras recurrentes. Esta arquitectura permitió escalar el entrenamiento a corpus de cientos de miles de millones de tokens, dando origen a los Grandes Modelos de Lenguaje (LLM, \textit{Large Language Models}), como GPT-4, Llama y Gemini.
 
 Los LLM poseen capacidades notables de generación, razonamiento y comprensión, pero su tamaño —que puede superar los 70 mil millones de parámetros— los hace inaccesibles para el despliegue en hardware de bajo costo sin conectividad permanente a la nube. Esta limitación es determinante para el contexto rural del sur andino peruano, donde la conectividad es escasa y los dispositivos disponibles son de gama baja o media.
 
@@ -70,7 +45,7 @@ Los Small Language Models (SLM) son modelos de lenguaje fundamentados en la arqu
 
 Para hacer factible su ejecución en dispositivos con limitaciones estrictas de hardware (como CPU sin GPU dedicada), se emplean técnicas de compresión. La más extendida es la \textbf{Cuantización Post-Entrenamiento (PTQ, \textit{Post-Training Quantization})}, la cual reduce la precisión en bits de los pesos del modelo (por ejemplo, de Float16 a Int4 o Int8), minimizando el espacio en memoria RAM requerido y acelerando la inferencia de \textit{tokens} con una pérdida mínima de calidad \citep{Xu2024}.
 
-Para el presente proyecto, el modelo base candidato principal es \textbf{Qwen2.5-7B} (o su variante de 3B), por cuatro razones: (1) soporte multilingüe nativo para más de 29 idiomas, incluido el español, con mejor manejo de morfemas no latinos que modelos entrenados mayoritariamente en inglés; (2) rendimiento competitivo en \textit{benchmarks} de comprensión en configuraciones cuantizadas preferentemente a 4 bits; (3) validación empírica de ejecución \textit{offline} en hardware CPU-only en contextos educativos de baja conectividad \citep{Walusimbi2026}; (4) requerimientos de RAM en cuantización Q4\_K\_M estimados en aproximadamente 4,5 GB según pruebas preliminares de literatura, compatibles con equipos de gama media. La selección definitiva se realizará en la Fase 2 del Design Science Research mediante evaluación comparativa de latencia, consumo de memoria y calidad de respuesta.
+Para el presente proyecto, el modelo base candidato principal es \textbf{Qwen2.5-7B} \citep{qwen2024} (o su variante de 3B), por cuatro razones: (1) soporte multilingüe nativo para más de 29 idiomas, incluido el español, con mejor manejo de morfemas no latinos que modelos entrenados mayoritariamente en inglés; (2) rendimiento competitivo en \textit{benchmarks} de comprensión en configuraciones cuantizadas preferentemente a 4 bits; (3) validación empírica de ejecución \textit{offline} en hardware CPU-only en contextos educativos de baja conectividad \citep{Walusimbi2026}; (4) requerimientos de RAM en cuantización Q4\_K\_M estimados en aproximadamente 4,5 GB según pruebas preliminares de literatura, compatibles con equipos de gama media. La selección definitiva se realizará en la Fase 2 del Design Science Research mediante evaluación comparativa de latencia, consumo de memoria y calidad de respuesta.
 
 \begin{table}[H]
 \centering
@@ -91,7 +66,7 @@ Qwen2.5-7B-Instruct   & 7,6B & $\sim$4,7 GB & Sí / Sí       & \textbf{Candidat
 Qwen2.5-3B-Instruct   & 3,1B & $\sim$2,1 GB & Sí / Sí       & \textbf{Candidato base} — equipos 8 GB \\
 Llama 3.2 3B-Instruct & 3,2B & $\sim$2,0 GB & Sí / Sí       & Alternativa viable; buena instrucción \\
 Phi-3.5-mini-Instruct & 3,8B & $\sim$2,5 GB & Parcial / Sí  & Razonamiento fuerte; menos multilingüe \\
-Gemma 2 2B-IT         & 2,6B & $\sim$1,7 GB & Sí / Sí       & Alternativa de alta calidad (Google, 2024) \\
+Gemma 2 2B-IT         & 2,6B & $\sim$1,7 GB & Sí / Sí       & Alternativa de alta calidad \citep{gemma2024} \\
 SmolLM2-1.7B-Instruct & 1,7B & $\sim$1,1 GB & Parcial / Sí  & Hardware muy restringido ($<$4 GB RAM) \\
 Llama 3.2 1B-Instruct & 1,2B & $\sim$0,7 GB & Limitado / Sí & Dispositivos ultra-restringidos \\
 TinyLlama-1.1B        & 1,1B & $\sim$0,8 GB & No / Sí       & Descartado — sin soporte multilingüe \\
@@ -110,7 +85,7 @@ La adaptación de bajo rango (\textit{Low-Rank Adaptation}, LoRA) es una técnic
 Este enfoque se considera como referencia conceptual para justificar la adaptación ligera del modelo y enseñarle a ignorar distractores, pero no constituye un componente obligatorio del prototipo inicial. Su utilidad teórica radica en el potencial para filtrar distractores dialectales derivados de otras variedades quechuas (como el Chanka o Cusqueño), entrenando al modelo a responder de forma coherente y anclada únicamente en la base documental de control.
 
 \subsection{Asistentes educativos inteligentes}
-Los Sistemas de Tutoría Inteligente (ITS, \textit{Intelligent Tutoring Systems}) son sistemas informáticos diseñados para proporcionar instrucción personalizada adaptada al nivel de comprensión del estudiante, sin intervención humana directa en tiempo real. Los ITS modernos basados en modelos de lenguaje incorporan principios pedagógicos como el andamiaje cognitivo (\textit{scaffolding}), que consiste en ofrecer apoyos estructurados que el aprendiz retira progresivamente a medida que adquiere competencia; la Zona de Desarrollo Próximo (ZDP) de Vygotsky, que delimita el rango de tareas que el estudiante puede realizar con guía pero no de forma autónoma; y el \textit{feedback} formativo, que orienta al estudiante hacia la comprensión correcta en lugar de limitarse a confirmar o refutar respuestas.
+Los Sistemas de Tutoría Inteligente (ITS, \textit{Intelligent Tutoring Systems}) son sistemas informáticos diseñados para proporcionar instrucción personalizada adaptada al nivel de comprensión del estudiante, sin intervención humana directa en tiempo real. Los ITS modernos basados en modelos de lenguaje incorporan principios pedagógicos como el andamiaje cognitivo (\textit{scaffolding}), que consiste en ofrecer apoyos estructurados que el aprendiz retira progresivamente a medida que adquiere competencia; la Zona de Desarrollo Próximo (ZDP) de \citet{Vygotsky1978}, que delimita el rango de tareas que el estudiante puede realizar con guía pero no de forma autónoma; y el \textit{feedback} formativo, que orienta al estudiante hacia la comprensión correcta en lugar de limitarse a confirmar o refutar respuestas.
 
 El asistente educativo propuesto se inscribe en este marco conceptual. Su propósito no es reemplazar al docente bilingüe sino proveer un apoyo adicional disponible fuera del horario de clase y en entornos sin conectividad, respondiendo consultas curriculares con un tono pedagógico adecuado a la edad y al nivel educativo del usuario. \citet{Levonian2025} establecen que los sistemas de tutoría generativa deben diseñarse para generar interacciones seguras y relevantes, priorizando el andamiaje cognitivo sobre la simple provisión de respuestas directas, criterio que guía el diseño del pipeline de generación del presente proyecto.
 
@@ -130,6 +105,9 @@ En entornos bilingües en los que ocurre el translengüaje o la alternancia de c
 
 \subsection{Evaluación de sistemas educativos con IA}
 La evaluación de sistemas generativos en entornos educativos abarca tres dimensiones complementarias. En la \textbf{dimensión técnica}, se miden variables como latencia (\textit{Time-To-First-Token}), consumo de memoria RAM y velocidad de generación (tokens por segundo) en el hardware objetivo \citep{Walusimbi2026}. En la \textbf{dimensión lingüística}, se utilizan métricas de correspondencia léxica como chrF++ para evaluar la coherencia de las respuestas generadas en Quechua Collao frente a referencias validadas por especialistas \citep{SullaTorres2024}. En la \textbf{dimensión pedagógica}, se requiere la intervención de docentes y especialistas EIB para validar la exactitud factual, la adecuación al tono educativo, la seguridad del contenido y la pertinencia intercultural de las respuestas generadas. \citet{Levonian2025} proponen marcos multidimensionales que incorporan criterios de relevancia curricular, tono apropiado al nivel educativo y ausencia de contenidos dañinos o culturalmente inadecuados, superando así la evaluación basada exclusivamente en métricas automáticas.
+
+\subsection{Síntesis integradora del marco teórico}
+Los conceptos desarrollados en este marco ---el mandato pedagógico de la Educación Intercultural Bilingüe, la naturaleza aglutinante del Quechua Collao y el cuello de botella de tokenización que impone, la viabilidad de los Small Language Models cuantizados para inferencia \textit{offline}, la adaptación paramétrica ligera y la Generación Aumentada por Recuperación como estrategia de anclaje factual--- no constituyen definiciones aisladas, sino un cuerpo conceptual articulado en torno a un mismo problema: cómo ofrecer apoyo educativo pertinente y confiable en contextos rurales sin conectividad. La evidencia revisada fundamenta las decisiones centrales del artefacto: se prioriza el RAG local disciplinado sobre el \textit{fine-tuning} para la inyección de conocimiento \citep{Ovadia2024}; se reserva la adaptación ligera QLoRA únicamente para alinear el comportamiento pedagógico y el uso del contexto recuperado, no para memorizar conocimiento factual \citep{Dettmers2023}; y se adopta un modelo compacto cuantizado por su factibilidad demostrada en hardware de baja gama sin conectividad \citep{Walusimbi2026, Xu2024}. Con esta base conceptual, la metodología que se presenta a continuación operacionaliza dichas decisiones mediante el paradigma Design Science Research, definiendo el diseño experimental, las configuraciones a comparar y los instrumentos de evaluación técnica, lingüística y pedagógica del prototipo.
 
 \section{Metodología}
 

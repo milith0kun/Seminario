@@ -26,6 +26,33 @@ El enfoque RAFT (\textit{Retrieval-Augmented Fine-Tuning}) propuesto por \citet{
 \subsection{Política Educativa y Educación Intercultural Bilingüe en el Perú}
 El desarrollo tecnológico debe alinearse con los marcos normativos y pedagógicos vigentes. El Modelo de Servicio Educativo Intercultural Bilingüe (MSEIB) del Ministerio de Educación del Perú \citep{minedu2018} establece lineamientos para garantizar una educación pertinente a estudiantes de pueblos originarios. El MSEIB distingue escenarios de fortalecimiento lingüístico (donde el quechua es lengua materna y el español segunda lengua) y revitalización (donde el español es lengua materna). Esto exige que cualquier herramienta de asistencia educativa no sea un simple traductor bidireccional, sino un sistema capaz de alternar códigos, detectar el idioma predominante del estudiante y recuperar contenidos con pertinencia cultural e intercultural, apoyando directamente la labor del docente bilingüe.
 
+\subsection{Matriz resumida de antecedentes}
+Para consolidar la revisión precedente, la Tabla~\ref{tab:antecedentes} sintetiza los antecedentes empíricos y tecnológicos más directamente relacionados con el diseño del asistente, contrastando los objetivos, métodos, resultados clave y el aporte específico de cada trabajo a la presente investigación.
+
+\begin{table}[H]
+\centering
+\caption{Matriz resumida de antecedentes y aportes a la investigación}
+\label{tab:antecedentes}
+\small
+\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{2.3cm}p{2.3cm}p{2.8cm}p{2.8cm}@{}}
+\toprule
+\textbf{Autor(es)} & \textbf{Objetivo} & \textbf{Método} & \textbf{Resultados clave} & \textbf{Aporte a la tesis} \\
+\midrule
+\citet{Orcotoma2025} & Crear corpus paralelo español--Quechua Collao. & OCR en textos académicos e indexación. & Corpus de 44\,263 palabras con WER de 6.59\%. & Provee el corpus de texto base para poblar el RAG local. \\
+\midrule
+\citet{SullaTorres2024} & Optimizar traducción quechua--español. & NMT basado en codificador BERT y fine-tuning. & Alcanzó un puntaje BLEU de 20.13. & Evidencia las limitaciones de modelos de traducción pura. \\
+\midrule
+Duran y Silberztein (\citeyear{Duran2026}) & Construir diccionarios quechua--español. & Métodos semi-automáticos con formalismos léxicos. & Diccionario bilingüe estructurado de alta precisión. & Fuente léxica para las reglas de normalización del RAG. \\
+\midrule
+Court y Elsner (\citeyear{Court2024}) & Evaluar LLMs comerciales en quechua. & In-context learning con reglas gramaticales inyectadas. & Reglas extensas degradan fidelidad; prompt simple es insuficiente. & Justifica no usar LLMs comerciales en la nube y diseñar sistema local. \\
+\midrule
+\citet{Chen2024} & Optimizar traducción quechua--inglés. & Enfoque híbrido: RAG léxico + LoRA. & Aumento de BLEU de 1,5 a 17,6. & Precedente directo de la viabilidad de acoplar RAG y adaptadores. \\
+\midrule
+\citet{Walusimbi2026} & Desarrollar asistente educativo offline. & Inferencia de SLM cuantizado en CPU. & Latencia de 1--3s en hardware de baja gama en aulas sin internet. & Valida la viabilidad técnica del despliegue offline. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \subsection{Síntesis crítica y vacíos de investigación}
 La revisión de literatura demuestra que existen avances maduros, pero aislados, en los componentes necesarios para el sistema propuesto. Por un lado, se han construido corpus y evaluado LLMs para quechua (Orcotoma Mormontoy et al., \citeyear{Orcotoma2025}; Court y Elsner, \citeyear{Court2024}), y se ha demostrado que la hibridación de RAG con adaptación ligera produce mejoras significativas \citep{Chen2024}. Por otro lado, la viabilidad de SLMs \textit{offline} y sistemas RAG ha sido probada (\citealt{Walusimbi2026, Hevia2025, Xu2024}), pero principalmente para inglés y lenguas mayoritarias. La evidencia comparada confirma que RAG supera al \textit{fine-tuning} para inyección de conocimiento \citep{Ovadia2024}, pero que un RAG no optimizado con modelos pequeños puede degradar el rendimiento. La técnica RAFT \citep{Zhang2024RAFT} ofrece una vía para resolver este problema, pero no ha sido aplicada al Quechua Collao. Finalmente, la política EIB (\citealt{minedu2018}) exige recursos pertinentes que la actual oferta de LLMs comerciales en la nube no puede satisfacer, ya sea por barreras de conectividad o por la degradación del rendimiento al inyectarles reglas complejas (Court y Elsner, \citeyear{Court2024}).
 

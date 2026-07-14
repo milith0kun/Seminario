@@ -36,7 +36,7 @@ C. Híbrido (B + reglas + QLoRA ligero) & Combina \textit{anclaje} factual con a
 \end{tabular}
 \end{table}
 
-La razón principal para descartar A como vía principal es de \textbf{escala de datos y riesgo metodológico}. El trabajo de Ovadia et~al. encontró que, para inyección de conocimiento, RAG superó consistentemente al fine-tuning no supervisado tanto para conocimiento existente como nuevo. En lenguas de bajos recursos como el Quechua Collao, el corpus disponible ($\approx$44\,263 palabras) es valioso como semilla, pero demasiado pequeño para sostener una aspiración de ``modelo bilingüe entrenado'' sin riesgo de sobreajuste o mejoras frágiles. En cambio, RAG permite alojar el conocimiento curricular \textbf{fuera de los pesos del modelo}, actualizarlo sin reentrenar y reducir alucinaciones si la recuperación está cuidadosamente diseñada.
+La razón principal para descartar A como vía principal es de \textbf{escala de datos y riesgo metodológico}. El trabajo de \citet{Ovadia2024} encontró que, para inyección de conocimiento, RAG superó consistentemente al fine-tuning no supervisado tanto para conocimiento existente como nuevo. En lenguas de bajos recursos como el Quechua Collao, el corpus disponible ($\approx$44\,263 palabras) es valioso como semilla, pero demasiado pequeño para sostener una aspiración de ``modelo bilingüe entrenado'' sin riesgo de sobreajuste o mejoras frágiles. En cambio, RAG permite alojar el conocimiento curricular \textbf{fuera de los pesos del modelo}, actualizarlo sin reentrenar y reducir alucinaciones si la recuperación está cuidadosamente diseñada.
 
 Sin embargo, la evidencia \textbf{no avala un RAG no optimizado}. El \textit{cuello de botella de la tokenización} del quechua --- lengua aglutinante con una fertilidad de tokens estimada en $\approx$3,4$\times$ respecto al español--- infla el consumo de la caché KV con complejidad asintótica $O(N^2 \cdot D)$, donde $N$ es la longitud de la secuencia y $D$ la dimensión del modelo. Esto penaliza severamente la latencia en CPU cuando el contexto recuperado es largo. El trabajo de \citet{Hevia2025} con un tutor offline basado en SLM+RAG mostró que los modelos pequeños \textbf{no aprovechan bien contextos largos o ruidosos}: si el pipeline recupera demasiado texto o fragmentos mal delimitados, la precisión empeora en lugar de mejorar.
 
@@ -62,7 +62,7 @@ El corpus paralelo Quechua Collao--español de \citet{Orcotoma2025} está confir
 
 \textbf{Mitigación del cuello de botella de tokenización:} Como se fundamentó en la sección anterior, la alta fertilidad de tokens en Quechua Collao ($\approx$3,4$\times$) exige restringir el tamaño del contexto del RAG. En consecuencia, la preparación del corpus documental aplicará una segmentación corta (250--400 tokens para prosa curricular y una entrada por fragmento para glosarios) y limitará el enrutamiento a un \textit{top-k} máximo de 3 a 5 fragmentos, garantizando la viabilidad de la inferencia local en CPU.
 
-La evidencia más prometedora para compensar la escasez de datos está en \textbf{datos sintéticos cuidadosamente controlados}. Dhawan et~al. (2026) reportaron mejoras consistentes en traducción quechua--español cuando añadieron datos sintéticos con preprocesamiento específico, usando \textbf{chrF++} como métrica principal. Esto sugiere que la tesis puede beneficiarse de aumentación de datos, pero con datos normalizados y revisados por hablantes nativos, no con generación automática sin validar.
+La evidencia más prometedora para compensar la escasez de datos está en \textbf{datos sintéticos cuidadosamente controlados}. \citet{Dhawan2026} reportaron mejoras consistentes en traducción quechua--español cuando añadieron datos sintéticos con preprocesamiento específico, usando \textbf{chrF++} como métrica principal. Esto sugiere que la tesis puede beneficiarse de aumentación de datos, pero con datos normalizados y revisados por hablantes nativos, no con generación automática sin validar.
 
 El carácter multilingüe de Qwen2.5 no debe confundirse con competencia real en Quechua Collao: el \textit{model card} declara soporte para español y más de 29 idiomas, pero \textbf{no garantiza soporte específico de Quechua Collao} (Court y Elsner, \citeyear{Court2024}). La pertinencia en esta variedad dependerá del corpus recuperado, los glosarios curados y los \textit{prompts} diseñados con revisión de hablantes nativos, no del conocimiento paramétrico del modelo.
 
@@ -129,6 +129,10 @@ El cómputo requerido para el ajuste QLoRA experimental y la cuantización de mo
 
 
 
+\subsection{Factibilidad legal y de licencias}
+
+El proyecto reutiliza materiales de terceros cuyo régimen de uso debe verificarse antes de su incorporación al corpus, por lo que la licencia de cada recurso se documentará en el manifiesto de datos. Los materiales curriculares y guías docentes del MINEDU son de acceso público y su uso con fines académicos y de investigación es admisible citando la fuente; no obstante, su incorporación al prototipo se limitará a fragmentos indexados para recuperación (RAG), sin republicar las obras completas. El corpus paralelo Quechua Collao--español \citep{Orcotoma2025} y los recursos vinculados a la Academia Mayor de la Lengua Quechua (AMLQ) se emplearán conforme a los términos de sus autores y con el debido reconocimiento; cuando la licencia no sea explícita, se gestionará la autorización correspondiente o se restringirá el recurso a uso interno de validación. Los recursos externos (AmericasNLP, NLLB, FLORES) se utilizarán únicamente bajo sus licencias de investigación y con etiquetado dialectal, evitando su redistribución como si correspondieran al Quechua Collao. El modelo base y las herramientas del \textit{stack} (\texttt{llama.cpp}, FAISS, LangChain, entre otras) se distribuyen bajo licencias de código abierto compatibles con el uso académico. Finalmente, dado que el piloto exploratorio puede involucrar a menores de edad, el tratamiento de datos se ceñirá a las salvaguardas éticas y de privacidad detalladas en la metodología (anonimización, consentimiento informado y operación estrictamente \textit{offline}). En síntesis, no se identifican impedimentos legales críticos, siempre que se respete la atribución de fuentes, se limite la redistribución a fragmentos y se documente la licencia de cada recurso.
+
 \subsection{Factibilidad operativa y gestión del alcance}
 
 Operativamente, el proyecto es más viable que una tesis dependiente de sistemas empresariales, porque el artefacto propuesto es un \textbf{prototipo autónomo} que no requiere acceso a código fuente, APIs internas o bases de datos corporativas. Sin embargo, mantiene dos dependencias operativas serias: la coordinación con docentes o especialistas EIB para la validación pedagógica, y el acceso a materiales curriculares en escenarios de prueba con pertinencia lingüística responsable.
@@ -186,6 +190,8 @@ E7 & Ablaciones de segmentación/\textit{top-k}/incrustación & Identificar los 
 \bottomrule
 \end{tabular}
 \end{table}
+
+Estos siete experimentos operacionalizan las \textbf{tres configuraciones básicas} declaradas en los objetivos: E1 corresponde al modelo base sin RAG, E2 a la configuración con RAG local y E6 al enfoque híbrido completo; los experimentos intermedios (E3--E5) y las ablaciones (E7) aíslan la contribución individual de las reglas de normalización, la adaptación ligera y los parámetros de recuperación. De este modo, el desglose experimental no amplía el alcance declarado, sino que descompone dichas configuraciones para atribuir con precisión el aporte de cada componente.
 
 Este diseño permite demostrar empíricamente \textbf{por qué RAG solo no basta} (comparando E2 vs.\ E4 vs.\ E6) y \textbf{por qué el fine-tuning solo tampoco basta} (comparando E5 vs.\ E6). La factibilidad de ejecutar los siete experimentos depende de que la infraestructura (GPU gratuita para QLoRA, CPU local para inferencia) esté disponible; los experimentos E1--E4 y E7 son ejecutables \textbf{sin GPU}, y E5--E6 requieren solo sesiones puntuales en Kaggle/Colab.
 
@@ -258,6 +264,8 @@ Diseño experimental & \textbf{VERDE} & Experimentos E1--E4 y E7 ejecutables sin
 Datos (corpus Collao) & \textbf{AMARILLO} & Corpus base disponible \citep{Orcotoma2025} pero pequeño, sin limpieza \textit{post-OCR}; variantes dialectales (Chanka vs.\ Collao) exigen validación; cuello de botella de tokenización identificado pero mitigable. \\
 \midrule
 Operativo (acceso EIB / alcance) & \textbf{AMARILLO} & Depende de trámites con DRE/UGEL/AMLQ y de disciplina de alcance para evitar \textit{scope creep}. \\
+\midrule
+Legal / licencias & \textbf{VERDE} & Materiales MINEDU de acceso público y \textit{stack} de código abierto; uso limitado a fragmentos indexados con atribución de fuente; licencias documentadas en el manifiesto de datos. \\
 \midrule
 \textbf{GLOBAL} & \textbf{AMARILLO} & \textbf{Factible con gestión activa de los riesgos de datos y operativos. El enfoque híbrido reduce significativamente el riesgo técnico y económico respecto a alternativas de entrenamiento.} \\
 \bottomrule
