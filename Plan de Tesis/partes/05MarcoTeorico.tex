@@ -98,6 +98,77 @@ El enfoque es \textbf{mixto con predominio cuantitativo}. Es cuantitativo al med
 
 El diseño metodológico adoptado es \textbf{comparativo-experimental sobre el artefacto}. Se manipularán configuraciones técnicas internas del sistema para contrastar su desempeño, complementado con un diseño descriptivo para la validación humana mediante juicio de expertos. Las dimensiones de evaluación serán: rendimiento técnico, calidad lingüística, calidad de recuperación, pertinencia pedagógica y adecuación intercultural.
 
+\subsection{Variables de la investigación}
+La investigación se estructura en torno a una relación de causalidad tecnológica. La manipulación de la arquitectura interna del asistente (Variable Independiente) influye directamente sobre las dimensiones de rendimiento técnico, calidad lingüística y pertinencia pedagógica de las respuestas (Variables Dependientes).
+
+\subsubsection{Variable Independiente (VI)}
+La variable independiente es de tipo cualitativa nominal y representa el grado de estructuración tecnológica del prototipo funcional:
+\begin{itemize}
+    \item \textbf{Nombre:} Arquitectura del sistema asistente educativo.
+    \item \textbf{Definición conceptual:} Configuración del stack tecnológico interno y la inyección de recursos lingüísticos/paramétricos que regulan el comportamiento del chatbot.
+    \item \textbf{Definición operacional:} Se manipula mediante tres configuraciones experimentales definidas en el diseño de pruebas (Experimentos E1, E2 y E3):
+        \begin{enumerate}
+            \item \textbf{E1 (Modelo Base):} Inferencia local del SLM cuantizado sin contexto ni reglas.
+            \item \textbf{E2 (SLM + RAG local):} SLM cuantizado con recuperación local y normalización morfo-léxica mediante diccionarios del Quechua Collao.
+            \item \textbf{E3 (Enfoque Híbrido):} SLM cuantizado con RAG local, reglas y adaptadores QLoRA preentrenados para la alineación del estilo pedagógico de respuesta.
+        \end{enumerate}
+\end{itemize}
+
+\subsubsection{Variables Dependientes (VD)}
+Las variables dependientes miden los efectos provocados por la manipulación de la variable independiente y se organizan bajo tres dimensiones críticas de control:
+\begin{enumerate}
+    \item \textbf{Dimensión de Rendimiento Técnico (Cuantitativa):}
+        \begin{itemize}
+            \item \textbf{Latencia de generación (VD1):} Tiempo transcurrido (en ms) desde el envío de la consulta hasta la generación del token de fin de texto.
+            \item \textbf{Velocidad de procesamiento (VD2):} Tasa de generación medida en tokens por segundo (tokens/s) durante el proceso de inferencia local.
+            \item \textbf{Consumo de memoria RAM (VD3):} Cantidad máxima de memoria RAM (en GB) requerida por el proceso de ejecución del SLM y la KV caché local.
+        \end{itemize}
+    \item \textbf{Dimensión de Calidad Lingüística (Mixta):}
+        \begin{itemize}
+            \item \textbf{Correspondencia léxica (VD4):} Similitud con oraciones de control validadas mediante las métricas automáticas chrF++ y SacreBLEU.
+            \item \textbf{Coherencia semántica RAG (VD5):} Nivel de fidelidad factual medido mediante el puntaje de contextualización de la librería de evaluación automática Ragas.
+            \item \textbf{Adecuación dialectal y ortográfica (VD6):} Grado de conformidad con la ortografía del Quechua Collao estándar (oclusivas glotizadas y aspiradas), evaluado cualitativamente por el especialista lingüístico nativo en escala Likert de 1 a 5.
+        \end{itemize}
+    \item \textbf{Dimensión de Pertinencia Pedagógica e Intercultural (Cualitativa):}
+        \begin{itemize}
+            \item \textbf{Nivel de andamiaje formativo (VD7):} Calidad del acompañamiento conversacional (preguntas orientadoras, pistas, ejemplos en lugar de traducción directa), calificado por el docente especialista en EIB en escala Likert de 1 a 5.
+            \item \textbf{Pertinencia curricular (VD8):} Correspondencia factual y temática de las explicaciones con las áreas de Comunicación y Ciencia y Tecnología (3.° a 6.° grado de primaria), calificado por el docente especialista en EIB en escala Likert de 1 a 5.
+        \end{itemize}
+\end{enumerate}
+
+\subsubsection{Operacionalización de variables}
+Para sistematizar la medición, la Tabla~\ref{tab:operacionalizacion} detalla de manera consolidada la definición operacional, indicadores, escalas de medición e instrumentos específicos a emplear para cada variable.
+
+\begin{table}[H]
+\centering
+\caption{Matriz de operacionalización de variables}
+\label{tab:operacionalizacion}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}p{1.7cm}p{1.7cm}p{2.3cm}p{2.2cm}p{2.3cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Tipo} & \textbf{Dimensión} & \textbf{Definición Operacional} & \textbf{Indicador} & \textbf{Instrumento\,/\,Herramienta} \\
+\midrule
+\textbf{VI: Arquitectura del asistente} & Cualitativa nominal & Arquitectura de software & Configuración del stack interno y uso de recursos paramétricos y de recuperación. & Configuración evaluada: E1, E2, E3 & Scripts de orquestación en Python y compilador \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD1: Latencia} & Cuantitativa continua & Rendimiento técnico & Medición del tiempo de respuesta del sistema bajo inferencia local CPU. & Tiempo de respuesta en milisegundos (ms) & Librería \texttt{time} de Python, logs de \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD2: Velocidad de tokens} & Cuantitativa continua & Rendimiento técnico & Cantidad de unidades mínimas generadas por unidad de tiempo. & Tokens generados por segundo (tokens/s) & Profiler de ejecución de \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD3: Memoria RAM} & Cuantitativa continua & Rendimiento técnico & Espacio de almacenamiento temporal ocupado por el proceso del modelo. & Memoria RAM en Gigabytes (GB) & Monitor de recursos del sistema operativo (\texttt{psutil}). \\
+\midrule
+\textbf{VD4: Correspondencia léxica} & Cuantitativa continua & Calidad lingüística & Medición estadística de similitud con oraciones de control. & Puntajes automáticos chrF++ y SacreBLEU & Script de evaluación automática en Python. \\
+\midrule
+\textbf{VD5: Coherencia semántica RAG} & Cuantitativa continua & Calidad lingüística & Evaluación de anclaje y veracidad factual del contexto inyectado. & Métrica de \textit{faithfulness} y precisión de respuesta & Framework de evaluación Ragas. \\
+\midrule
+\textbf{VD6: Adecuación dialectal} & Cualitativa ordinal & Calidad lingüística & Conformidad fonológico-ortográfica con el Quechua Collao estándar. & Escala Likert de 1 a 5 (Consistencia de morfemas y glotización) & Rúbrica de evaluación lingüística para especialista. \\
+\midrule
+\textbf{VD7: Nivel de andamiaje} & Cualitativa ordinal & Pertinencia pedagógica & Estructura gradual de ayuda pedagógica (preguntas, pistas y ejemplos). & Escala Likert de 1 a 5 (Progresión cognitiva y bilingüismo) & Rúbrica de evaluación pedagógica para docente EIB. \\
+\midrule
+\textbf{VD8: Pertinencia curricular} & Cualitativa ordinal & Pertinencia pedagógica & Adecuación temática y lingüística a las áreas de Comunicación y CyT. & Escala Likert de 1 a 5 (Grado de correspondencia oficial) & Rúbrica de evaluación curricular para docente EIB. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \subsection{Metodología de desarrollo}
 El desarrollo del prototipo de asistente bilingüe sigue el paradigma \textbf{Design Science Research (DSR)}, estructurado en las siguientes fases:
 \begin{enumerate}
