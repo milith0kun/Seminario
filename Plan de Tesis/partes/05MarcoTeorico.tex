@@ -1,31 +1,6 @@
 \section{Marco Teórico y Conceptual}
 
-\subsection{Antecedentes de la investigación}
-La Tabla~\ref{tab:antecedentes} resume los trabajos empíricos y desarrollos tecnológicos previos que fundamentan la presente investigación, detallando sus objetivos, metodologías, hallazgos clave y el aporte específico que brindan al diseño del asistente educativo.
-
-\begin{table}[H]
-\centering
-\caption{Matriz resumida de antecedentes y aportes a la investigación}
-\label{tab:antecedentes}
-\small
-\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{2.3cm}p{2.3cm}p{2.8cm}p{2.8cm}@{}}
-\toprule
-\textbf{Autor(es)} & \textbf{Objetivo} & \textbf{Método} & \textbf{Resultados clave} & \textbf{Aporte a la tesis} \\
-\midrule
-\citet{Orcotoma2025} & Crear corpus paralelo español--Quechua Collao. & OCR en textos académicos e indexación. & Corpus de 44\,263 palabras con WER de 6.59\%. & Provee el corpus de texto base para poblar el RAG local. \\
-\midrule
-\citet{SullaTorres2024} & Optimizar traducción quechua--español. & NMT basado en codificador BERT y fine-tuning. & Alcanzó un puntaje BLEU de 20.13. & Evidencia las limitaciones de modelos de traducción pura. \\
-\midrule
-Duran y Silberztein (\citeyear{Duran2026}) & Construir diccionarios quechua--español. & Métodos semi-automáticos con formalismos léxicos. & Diccionario bilingüe estructurado de alta precisión. & Fuente léxica para las reglas de normalización del RAG. \\
-\midrule
-Court y Elsner (\citeyear{Court2024}) & Evaluar LLMs comerciales en quechua. & In-context learning con reglas gramaticales inyectadas. & Reglas extensas degradan fidelidad; prompt simple es insuficiente. & Justifica no usar LLMs comerciales en la nube y diseñar sistema local. \\
-\midrule
-\citet{Chen2024} & Optimizar traducción quechua--inglés. & Enfoque híbrido: RAG léxico + LoRA. & Aumento de BLEU de 1.5 a 17.6. & Precedente directo de la viabilidad de acoplar RAG y adaptadores. \\
-\midrule
-\citet{Walusimbi2026} & Desarrollar asistente educativo offline. & Inferencia de SLM cuantizado en CPU. & Latencia de 1--3s en hardware de baja gama en aulas sin internet. & Valida la viabilidad técnica del despliegue offline. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+El presente marco teórico articula los fundamentos conceptuales que sustentan el diseño de un asistente educativo bilingüe español--Quechua Collao con capacidad de operación \textit{offline}. Su construcción sigue una organización jerárquica que avanza desde los marcos normativos y sociolingüísticos más generales ---la Educación Intercultural Bilingüe y la caracterización del Quechua Collao--- hacia los componentes técnicos progresivamente más específicos que definen el artefacto propuesto: el procesamiento de lenguas de bajos recursos, los modelos de lenguaje y su compresión, la adaptación paramétrica ligera, la Generación Aumentada por Recuperación y los criterios de evaluación educativa. Esta secuencia busca evidenciar no solo qué es cada concepto, sino cómo se relaciona con el problema de investigación y de qué modo su integración fundamenta las decisiones de diseño que se operacionalizan en la metodología.
 
 \subsection{Educación Intercultural Bilingüe (EIB)}
 La Educación Intercultural Bilingüe es el modelo pedagógico promovido por el Ministerio de Educación del Perú (MINEDU) para garantizar el derecho a una educación pertinente a los estudiantes de pueblos originarios \citep{minedu2018}. El modelo establece dos formas de atención principales:
@@ -39,97 +14,80 @@ Cualquier tecnología educativa insertada en este contexto debe respetar el enfo
 El Quechua Collao es la variedad predominante en Puno, Moquegua y el sur de Arequipa, con presencia también en partes de Cusco. A nivel morfosintáctico, es una lengua aglutinante y sufijadora: una sola raíz puede recibir múltiples sufijos derivativos y flexivos para expresar significados que en español requerirían varias palabras. A nivel fonológico, se caracteriza por la presencia de consonantes oclusivas glotizadas y aspiradas, rasgos fonológicos diferenciadores que deben considerarse en el procesamiento del texto. Adicionalmente, la digitalización de esta variante enfrenta el problema de escasez de recursos estructurados y alta variabilidad ortográfica \citep{Orcotoma2025}.
 
 \subsection{Translengüaje y alternancia de códigos}
-El translengüaje es el proceso por el cual los hablantes bilingües utilizan su repertorio lingüístico completo de manera dinámica y estratégica. La alternancia de códigos (\textit{code-switching}) es una manifestación de este fenómeno que implica el cambio sistemático entre dos lenguas dentro de una misma interacción. Para el asistente educativo propuesto, el sistema debe ser capaz de identificar el idioma predominante en entradas mixtas, reconocer segmentos alternados y responder en el idioma más pertinente.
-
+El translengüaje es el proceso por el cual los hablantes bilingües utilizan su repertorio lingüístico completo de manera dinámica y estratégica \citep{Garcia2009}. La alternancia de códigos (\textit{code-switching}) es una manifestación de este fenómeno que implica el cambio sistemático entre dos lenguas dentro de una misma interacción. Para el asistente educativo propuesto, el sistema debe ser capaz de identificar el idioma predominante en entradas mixtas, reconocer segmentos alternados y responder en el idioma más pertinente.
 
 \subsection{Procesamiento de Lenguaje Natural en Lenguas de Bajos Recursos}
-El procesamiento de lenguas morfológicamente complejas y de bajos recursos digitales (\textit{low-resource languages}) como el Quechua Collao impone restricciones severas a las arquitecturas estándar. Su naturaleza aglutinante y sufijadora implica que una sola palabra contiene información semántica equivalente a una oración completa en español, lo que dificulta la tokenización y la generación de incrustaciones vectoriales (\textit{embeddings}). Asimismo, la escasez de corpus paralelos digitalizados e indexados impide construir modelos de lenguaje de alta calidad mediante métodos de aprendizaje masivo tradicionales.
+El procesamiento de lenguaje natural (PLN) para lenguas de bajos recursos digitales (\textit{low-resource languages}), como el Quechua Collao, enfrenta dos desafíos teóricos principales: la escasez de datos paralelos estructurados para el entrenamiento de representaciones vectoriales, y la complejidad morfosintáctica de la lengua. 
 
-En este contexto, el Entendimiento del Lenguaje Natural (NLU) se aborda de forma dirigida: en lugar de depender exclusivamente de la representación paramétrica interna del modelo, se inyecta información léxica y contextual validada mediante un pipeline RAG local. Esto permite al modelo diferenciar intenciones de consulta (vocabulario, explicación o aplicación pedagógica) basándose en documentos específicos del dominio, mitigando las alucinaciones típicas que ocurren al procesar lenguas sin suficiente representación.
-
+Al ser una lengua aglutinante y sufijadora, una sola palabra en quechua puede contener el equivalente semántico de una frase completa en español. Esto dificulta la tokenización estándar y la alineación léxica. Por esta razón, el Entendimiento del Lenguaje Natural (NLU) en este tipo de lenguas se beneficia del uso de mecanismos de inyección de conocimiento explícito (diccionarios, glosarios y reglas gramaticales) y arquitecturas de recuperación, en lugar de depender exclusivamente de la representación paramétrica de los modelos probabilísticos generales.
 
 \subsubsection{Cuello de botella de la tokenización en lenguas aglutinantes}
-Un problema técnico crítico para el diseño de sistemas RAG en Quechua Collao es el \textit{cuello de botella de la tokenización}. La morfología aglutinante del quechua permite construir palabras de gran complejidad semántica mediante sufijación encadenada. Cuando estas palabras son procesadas por tokenizadores sub-palabra (como BPE o SentencePiece), cada palabra quechua se fragmenta en múltiples tokens, generando una \textit{fertilidad de tokens} estimada en aproximadamente 3,4$\times$ respecto al español según la literatura técnica disponible. Esto significa de manera estimada que una oración en quechua consume alrededor de 3,4 veces más tokens que su equivalente en español, lo cual será verificado empíricamente durante la fase de evaluación.
+La fragmentación del texto en unidades mínimas o tokens representa un punto crítico en el procesamiento de lenguas aglutinantes. Los tokenizadores basados en subpalabras (como BPE o SentencePiece) tienden a dividir las palabras complejas del quechua en múltiples morfemas breves e independientes. Este fenómeno se describe cuantitativamente a través de la \textit{fertilidad de tokens}, que mide el ratio de tokens generados para un texto en quechua frente a su equivalente en español. Para el Quechua Collao, la literatura reporta estimaciones de fertilidad de hasta aproximadamente 3,4$\times$ respecto al español. No obstante, este valor constituye una estimación teórica preliminar que se encuentra sujeta a validación empírica sobre el corpus de prueba del proyecto.
 
-Las implicaciones técnicas de esta inflación son significativas: (i)~la caché de clave-valor (KV cache) del mecanismo de atención crece linealmente con la longitud de la secuencia, aumentando de manera aproximada el consumo de RAM; (ii)~la complejidad computacional del mecanismo de autoatención escala cuadráticamente como $O(N^2 \cdot D)$, donde $N$ es la longitud de la secuencia y $D$ la dimensión del modelo según los formalismos de la arquitectura, lo que penaliza asintóticamente la latencia en CPU. Para un SLM ejecutado en CPU, este fenómeno teórico representa una limitación para el uso de un RAG no optimizado con fragmentos largos, lo que fundamenta de forma preliminar dos decisiones de diseño del presente proyecto: (a)~\textit{chunking} corto y disciplinado (250--400 tokens para prosa curricular; una entrada por \textit{chunk} para glosarios), y (b)~un \textit{top-k} final pequeño (3--5 fragmentos) para evitar la saturación de la ventana de contexto \citep{Hevia2025}.
+La alta fertilidad de tokens se proyecta con dos consecuencias principales en el diseño del sistema:
+\begin{itemize}
+    \item \textbf{Carga en memoria:} La caché de clave-valor (KV cache) del Transformer almacena los estados de atención de los tokens previos; a mayor cantidad de tokens generados, mayor es el consumo de RAM.
+    \item \textbf{Complejidad computacional:} La autoatención tiene una complejidad cuadrática $O(N^2 \cdot D)$ respecto a la longitud de la secuencia $N$. La inflación de tokens penaliza directamente la latencia de inferencia en dispositivos locales CPU.
+\end{itemize}
+Por ello, un diseño optimizado exige limitar el tamaño de los fragmentos recuperados en el RAG (250--400 tokens) y el número de contextos inyectados (\textit{top-k} entre 3 y 5) para no saturar la ventana de contexto.
 
 \subsubsection{Traducción automática neuronal}
-La Traducción Automática Neuronal (NMT, \textit{Neural Machine Translation}) es el paradigma actual en traducción automática, basado en redes neuronales profundas de arquitectura encoder-decoder con mecanismos de atención. A diferencia de los enfoques estadísticos anteriores, los modelos NMT aprenden representaciones contextuales de las lenguas fuente y objetivo, produciendo traducciones más fluidas y coherentes. Sin embargo, su eficacia depende de la disponibilidad de corpus paralelos de gran tamaño.
-
-En el par español--Quechua Collao, la escasez de datos limita el rendimiento de los modelos NMT: \citet{SullaTorres2024} reportaron un BLEU de 20.13, considerado bajo según los estándares para lenguas con recursos abundantes. Adicionalmente, Court y Elsner (\citeyear{Court2024}) evaluaron la capacidad de los Grandes Modelos de Lenguaje comerciales (GPT-4, Gemini) para traducir quechua sureño mediante técnicas de recuperación en contexto, encontrando que la inyección de reglas gramaticales complejas puede paradójicamente degradar el rendimiento de los modelos más avanzados, generando traducciones fluidas pero semánticamente infieles. Este hallazgo refuerza la decisión de no depender de LLMs comerciales en la nube para la lengua objetivo y justifica el diseño de un sistema con recursos locales especializados.
-
-En el presente proyecto, la generación en Quechua Collao no es una tarea de traducción aislada, sino parte de la capacidad general del asistente de responder en el idioma del usuario. La métrica chrF++ se empleará para evaluar la coherencia lingüística de las respuestas generadas en Quechua Collao respecto a referencias validadas por especialistas.
+La Traducción Automática Neuronal (NMT, \textit{Neural Machine Translation}) es un enfoque de traducción basado en redes neuronales profundas (típicamente arquitecturas de codificador-decodificador con atención). Aunque la NMT logra una gran fluidez al modelar relaciones contextuales completas, su precisión disminuye drásticamente ante la escasez de datos bilingües alineados. En lenguas de bajos recursos, los modelos de traducción pura son propensos a cometer errores de fidelidad semántica o a generar frases fluidas en el idioma de salida pero inconexas con el significado original. Esto fundamenta el uso de un enfoque asistido por recuperación semántica local para asegurar que la generación se ancle a documentos de control preexistentes.
 
 \subsection{Modelos de lenguaje y arquitectura Transformer}
-Un modelo de lenguaje es un sistema estadístico entrenado para modelar la distribución de probabilidad de secuencias de tokens en una lengua. Los modelos de lenguaje modernos se basan en la arquitectura Transformer (Vaswani et al., 2017), que introduce mecanismos de autoatención multi-cabeza para capturar dependencias de largo alcance en el texto sin recurrir a estructuras recurrentes. Esta arquitectura permitió escalar el entrenamiento a corpus de cientos de miles de millones de tokens, dando origen a los Grandes Modelos de Lenguaje (LLM, \textit{Large Language Models}), como GPT-4, Llama y Gemini.
-
-Los LLM poseen capacidades notables de generación, razonamiento y comprensión, pero su tamaño —que puede superar los 70 mil millones de parámetros— los hace inaccesibles para el despliegue en hardware de bajo costo sin conectividad permanente a la nube. Esta limitación es determinante para el contexto rural del sur andino peruano, donde la conectividad es escasa y los dispositivos disponibles son de gama baja o media.
+Los modelos de lenguaje modernos se sustentan en la arquitectura Transformer \citep{Vaswani2017}, la cual reemplaza las estructuras recurrentes por mecanismos de autoatención multi-cabeza. Esto permite procesar secuencias de texto en paralelo y capturar dependencias lingüísticas de largo alcance. Sin embargo, los Grandes Modelos de Lenguaje (LLM) que se basan en esta arquitectura poseen miles de millones de parámetros, lo que imposibilita su ejecución en computadores de bajo costo sin acceso a internet o servidores dedicados en la nube.
 
 \subsection{Small Language Models y cuantización}
-Los Small Language Models (SLM) son modelos de lenguaje fundamentados en la arquitectura Transformer que típicamente poseen menos de 10 mil millones (10B) de parámetros. A diferencia de los LLM masivos, los SLM (como Llama 3 8B, Phi-3-mini, Gemma-2 9B, Qwen2.5) están diseñados para operar con menores requerimientos de cómputo y memoria, siendo idóneos para despliegues locales (\textit{on-device}) o en dispositivos de borde (\textit{edge computing}) \citep{Xu2024}.
+Los Small Language Models (SLM) son modelos basados en Transformers optimizados para operar con menos de 10 mil millones (10B) de parámetros. Para viabilizar su ejecución local (\textit{on-device}) en dispositivos de consumo (CPU-only), se aplican técnicas de compresión de parámetros.
 
-Para hacer factible su ejecución en dispositivos con limitaciones estrictas de hardware (como CPU sin GPU dedicada), se emplean técnicas de compresión. La más extendida es la \textbf{Cuantización Post-Entrenamiento (PTQ, \textit{Post-Training Quantization})}, la cual reduce la precisión en bits de los pesos del modelo (por ejemplo, de Float16 a Int4 o Int8), minimizando el espacio en memoria RAM requerido y acelerando la inferencia de \textit{tokens} con una pérdida mínima de calidad \citep{Xu2024}.
-
-Para el presente proyecto, el modelo base candidato principal es \textbf{Qwen2.5-7B} (o su variante de 3B), por cuatro razones: (1) soporte multilingüe nativo para más de 29 idiomas, incluido el español, con mejor manejo de morfemas no latinos que modelos entrenados mayoritariamente en inglés; (2) rendimiento competitivo en \textit{benchmarks} de comprensión en configuraciones cuantizadas preferentemente a 4 bits; (3) validación empírica de ejecución \textit{offline} en hardware CPU-only en contextos educativos de baja conectividad \citep{Walusimbi2026}; (4) requerimientos de RAM en cuantización Q4\_K\_M estimados en aproximadamente 4,5 GB según pruebas preliminares de literatura, compatibles con equipos de gama media. La selección definitiva se realizará en la Fase 2 del Design Science Research mediante evaluación comparativa de latencia, consumo de memoria y calidad de respuesta.
-
-\begin{table}[H]
-\centering
-\caption{Modelos candidatos evaluados y de referencia para el asistente \textit{offline}}
-\label{tab:modelos}
-\small
-\begin{tabularx}{\textwidth}{@{}
-  p{4.4cm}
-  >{\centering\arraybackslash}c
-  >{\centering\arraybackslash}c
-  >{\centering\arraybackslash}c
-  >{\RaggedRight\arraybackslash}X
-@{}}
-\toprule
-\textbf{Modelo} & \textbf{Params.} & \textbf{RAM (Q4\_K\_M)} & \textbf{ES\,/\,CPU} & \textbf{Rol en el proyecto} \\
-\midrule
-Qwen2.5-7B-Instruct   & 7,6B & $\sim$4,7 GB & Sí / Sí       & \textbf{Candidato principal} — equipos 16 GB \\
-Qwen2.5-3B-Instruct   & 3,1B & $\sim$2,1 GB & Sí / Sí       & \textbf{Candidato base} — equipos 8 GB \\
-Llama 3.2 3B-Instruct & 3,2B & $\sim$2,0 GB & Sí / Sí       & Alternativa viable; buena instrucción \\
-Phi-3.5-mini-Instruct & 3,8B & $\sim$2,5 GB & Parcial / Sí  & Razonamiento fuerte; menos multilingüe \\
-Gemma 2 2B-IT         & 2,6B & $\sim$1,7 GB & Sí / Sí       & Alternativa de alta calidad (Google, 2024) \\
-SmolLM2-1.7B-Instruct & 1,7B & $\sim$1,1 GB & Parcial / Sí  & Hardware muy restringido ($<$4 GB RAM) \\
-Llama 3.2 1B-Instruct & 1,2B & $\sim$0,7 GB & Limitado / Sí & Dispositivos ultra-restringidos \\
-TinyLlama-1.1B        & 1,1B & $\sim$0,8 GB & No / Sí       & Descartado — sin soporte multilingüe \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\textit{Nota:} Los valores de memoria RAM son aproximados y serán verificados empíricamente durante la fase de evaluación del prototipo en el hardware disponible. Los modelos marcados como «candidato» serán evaluados empíricamente en la Fase 2 del DSR. Los modelos de generación complementarios (como Gemma 2 o variantes compactas de Mistral) representan opciones a considerar en trabajos derivados o en una segunda iteración del prototipo si el cronograma lo permite.
+La técnica principal es la \textbf{Cuantización Post-Entrenamiento (PTQ, \textit{Post-Training Quantization})}, que convierte las representaciones de los pesos del modelo de precisión de coma flotante de alta resolución (como Float16, que consume 2 bytes por parámetro) a formatos de baja resolución (como enteros de 4 u 8 bits). Esto reduce el tamaño del modelo en disco y memoria RAM en más del 70\%, permitiendo que un modelo de 3B parámetros se ejecute localmente consumiendo aproximadamente 3 GB de RAM.
 
 \subsection{Adaptación ligera: LoRA y QLoRA}
-La adaptación de bajo rango (\textit{Low-Rank Adaptation}, LoRA) es una técnica de ajuste paramétrico eficiente que, en lugar de modificar todos los pesos de un modelo preentrenado, inyecta matrices de bajo rango en las capas de atención del Transformer. Esto permite adaptar el comportamiento del modelo ---estilo de respuesta, formato pedagógico, consistencia terminológica--- con un número muy reducido de parámetros entrenables (típicamente $<$1\% del total), reduciendo drásticamente los requerimientos de memoria y tiempo de entrenamiento.
+La adaptación de bajo rango (\textit{Low-Rank Adaptation}, LoRA) permite ajustar el comportamiento de un modelo sin modificar todos sus parámetros. En lugar de reentrenar la matriz de pesos original $W_0 \in \mathbb{R}^{d \times k}$, se inyecta una descomposición de bajo rango de los cambios necesarios $\Delta W = B \cdot A$, donde $B \in \mathbb{R}^{d \times r}$ y $A \in \mathbb{R}^{r \times k}$, siendo el rango $r \ll \min(d,k)$. Durante el entrenamiento, los pesos del modelo base permanecen congelados y solo se actualizan los parámetros de las matrices $A$ y $B$, lo que reduce los requisitos de memoria del optimizador.
 
-\textbf{QLoRA} (\textit{Quantized LoRA}) combina la cuantización a 4 bits del modelo base con la inyección de adaptadores LoRA, permitiendo ajustar modelos de hasta 7B parámetros en GPUs de 24 GB de VRAM \citep{Dettmers2023}. La adaptación ligera mediante QLoRA se considera una configuración experimental complementaria, condicionada a la disponibilidad de corpus validado y recursos computacionales, no como requisito obligatorio del prototipo base. De ser factible, se reservará únicamente para alinear el comportamiento pedagógico del modelo (andamiaje, formato de respuesta, consistencia terminológica), no para inyectar conocimiento factual. La evidencia reciente demuestra que, para inyección de conocimiento, RAG supera consistentemente al \textit{fine-tuning} paramétrico \citep{Ovadia2024}; sin embargo, la adaptación ligera sí aporta valor cuando el objetivo es enseñar al modelo \textit{cómo} usar el contexto recuperado, no \textit{qué} conocimiento contener.
+\textbf{QLoRA} combina la cuantización de los pesos del modelo base a un tipo de datos de 4 bits optimizado (\textit{NormalFloat4}) con la adición de adaptadores LoRA de precisión Float16. En el contexto de asistentes bilingües, esta técnica se utiliza para refinar el estilo pedagógico de respuesta del modelo o su resiliencia terminológica ante contextos de RAG, sin alterar el conocimiento factual básico del modelo base.
 
 \subsection{RAFT: Retrieval-Augmented Fine-Tuning}
-Este enfoque se considera como referencia conceptual para justificar la adaptación ligera del modelo y enseñarle a ignorar distractores, pero no constituye un componente obligatorio del prototipo inicial. Su utilidad teórica radica en el potencial para filtrar distractores dialectales derivados de otras variedades quechuas (como el Chanka o Cusqueño), entrenando al modelo a responder de forma coherente y anclada únicamente en la base documental de control.
+RAFT es una estrategia conceptual de ajuste fino orientada a adaptar modelos de lenguaje para tareas de RAG de dominio específico. El objetivo no es inyectar conocimientos factuales dentro de los pesos del modelo, sino entrenar al modelo a: (a) extraer citas textuales y pruebas directas de los documentos provistos en el prompt; y (b) ignorar fragmentos de información irrelevante o dialectalmente incorrecta (distractores) inyectados en la ventana de contexto.
 
 \subsection{Asistentes educativos inteligentes}
-Los Sistemas de Tutoría Inteligente (ITS, \textit{Intelligent Tutoring Systems}) son sistemas informáticos diseñados para proporcionar instrucción personalizada adaptada al nivel de comprensión del estudiante, sin intervención humana directa en tiempo real. Los ITS modernos basados en modelos de lenguaje incorporan principios pedagógicos como el andamiaje cognitivo (\textit{scaffolding}), que consiste en ofrecer apoyos estructurados que el aprendiz retira progresivamente a medida que adquiere competencia; la Zona de Desarrollo Próximo (ZDP) de Vygotsky, que delimita el rango de tareas que el estudiante puede realizar con guía pero no de forma autónoma; y el \textit{feedback} formativo, que orienta al estudiante hacia la comprensión correcta en lugar de limitarse a confirmar o refutar respuestas.
-
-El asistente educativo propuesto se inscribe en este marco conceptual. Su propósito no es reemplazar al docente bilingüe sino proveer un apoyo adicional disponible fuera del horario de clase y en entornos sin conectividad, respondiendo consultas curriculares con un tono pedagógico adecuado a la edad y al nivel educativo del usuario. \citet{Levonian2025} establecen que los sistemas de tutoría generativa deben diseñarse para generar interacciones seguras y relevantes, priorizando el andamiaje cognitivo sobre la simple provisión de respuestas directas, criterio que guía el diseño del pipeline de generación del presente proyecto.
+Los Sistemas de Tutoría Inteligente (ITS) son arquitecturas informáticas diseñadas para emular interacciones personalizadas de aprendizaje. En este ámbito, el diseño conceptual se apoya en tres principios pedagógicos fundamentales:
+\begin{itemize}
+    \item \textbf{Andamiaje cognitivo (\textit{scaffolding}):} Provisión de soportes estructurados temporales que guían al estudiante paso a paso y se retiran conforme este demuestra autonomía.
+    \item \textbf{Zona de Desarrollo Próximo (ZDP):} Enfoque en resolver tareas que el estudiante puede realizar mediante asistencia, pero que no podría resolver solo.
+    \item \textbf{Retroalimentación formativa:} Respuestas explicativas orientadas a corregir el proceso de razonamiento del alumno en lugar de limitarse a indicar si una respuesta es correcta o incorrecta.
+\end{itemize}
 
 \subsection{Generación Aumentada por Recuperación (RAG)}
-La Generación Aumentada por Recuperación (\textit{Retrieval-Augmented Generation}, RAG) es una arquitectura que acopla un modelo generativo con un mecanismo de recuperación de información \citep{Li2025}. El proceso típico involucra tres etapas:
+La Generación Aumentada por Recuperación (RAG) es una arquitectura que acopla un modelo de lenguaje con un sistema de búsqueda externa sobre un corpus documental delimitado. El pipeline conceptual consta de tres etapas:
 \begin{enumerate}
-    \item \textbf{Indexación:} Los documentos base (currículo, glosarios, materiales EIB) se dividen en fragmentos (\textit{chunks}) y se convierten en vectores mediante un modelo de incrustación (\textit{embedding}), almacenándose en una base de datos vectorial local.
-    \item \textbf{Recuperación (\textit{Retrieval}):} Cuando el usuario realiza una consulta, esta se vectoriza para buscar los fragmentos más similares semánticamente, utilizando métricas de similitud de coseno.
-    \item \textbf{Generación:} Los fragmentos recuperados se inyectan en el contexto del \textit{prompt} junto a la consulta original, permitiendo que el SLM genere una respuesta anclada a esa información específica.
+    \item \textbf{Indexación:} Segmentación del corpus documental en fragmentos cortos (\textit{chunks}), generación de incrustaciones vectoriales (\textit{embeddings}) y almacenamiento en una base vectorial local.
+    \item \textbf{Recuperación:} Búsqueda de los fragmentos semánticamente más similares a la consulta del usuario utilizando métricas de distancia (como similitud de coseno).
+    \item \textbf{Generación:} Inyección de los fragmentos recuperados en el prompt de contexto para que el SLM formule una respuesta factual y anclada a las fuentes locales.
 \end{enumerate}
-La revisión sistemática de \citet{Li2025} confirma que los sistemas RAG mejoran significativamente la precisión factual y la personalización en aplicaciones educativas, permitiendo que la IA asuma roles de tutoría basados en el currículo local en lugar de depender del conocimiento paramétrico genérico del modelo.
-
-En contextos de SLM, el tamaño y la relevancia (ausencia de ruido) de los fragmentos recuperados es crítico, ya que ventanas de contexto muy largas o ruidosas pueden degradar severamente la precisión del modelo pequeño \citep{Hevia2025}. Por ello, la estrategia de fragmentado semántico y la selección del número óptimo de fragmentos recuperados por consulta constituyen decisiones de diseño determinantes para el rendimiento del asistente propuesto.
 
 \subsection{Detección automática de idioma}
-En entornos bilingües en los que ocurre el translengüaje o la alternancia de códigos, es necesario identificar si la consulta del usuario se formula predominantemente en español, en Quechua Collao o tiene naturaleza mixta. Para lenguas de bajos recursos, la detección basada en reglas combinada con modelos ligeros de clasificación de texto permite enrutar internamente la consulta al \textit{prompt} específico o al índice documental correcto (español o quechua) antes de activar la generación computacionalmente más costosa del SLM \citep{Walusimbi2026}. La precisión de este módulo tiene impacto directo en la pertinencia de la respuesta final: un error de detección produce respuestas en el idioma equivocado, lo que rompe la experiencia pedagógica del usuario.
+En interacciones bilingües donde se manifiesta la alternancia de códigos, la detección automática de idioma actúa como un enrutador lógico. Este clasificador liviano evalúa el texto del usuario para determinar la lengua predominante. Esto permite seleccionar la plantilla de prompt pedagógico correspondiente y el índice de documentos RAG específico antes de ejecutar la inferencia del modelo generativo, reduciendo la latencia general del sistema.
 
 \subsection{Evaluación de sistemas educativos con IA}
-La evaluación de sistemas generativos en entornos educativos abarca tres dimensiones complementarias. En la \textbf{dimensión técnica}, se miden variables como latencia (\textit{Time-To-First-Token}), consumo de memoria RAM y velocidad de generación (tokens por segundo) en el hardware objetivo \citep{Walusimbi2026}. En la \textbf{dimensión lingüística}, se utilizan métricas de correspondencia léxica como chrF++ para evaluar la coherencia de las respuestas generadas en Quechua Collao frente a referencias validadas por especialistas \citep{SullaTorres2024}. En la \textbf{dimensión pedagógica}, se requiere la intervención de docentes y especialistas EIB para validar la exactitud factual, la adecuación al tono educativo, la seguridad del contenido y la pertinencia intercultural de las respuestas generadas. \citet{Levonian2025} proponen marcos multidimensionales que incorporan criterios de relevancia curricular, tono apropiado al nivel educativo y ausencia de contenidos dañinos o culturalmente inadecuados, superando así la evaluación basada exclusivamente en métricas automáticas.
+La validación de estas arquitecturas requiere una evaluación multidimensional:
+\begin{itemize}
+    \item \textbf{Evaluación Técnica:} Medición objetiva de la latencia (tiempo hasta el primer token), consumo de memoria RAM y velocidad de generación (tokens/s) en el hardware local CPU.
+    \item \textbf{Evaluación Lingüística:} Uso de métricas automáticas basadas en n-gramas de caracteres (como chrF++) para medir la correspondencia léxica frente a referencias traducidas y normalizadas.
+    \item \textbf{Evaluación Pedagógica:} Uso de rúbricas cualitativas y juicio de expertos para validar la exactitud de los contenidos, el andamiaje bilingüe y la adecuación intercultural de las respuestas.
+\end{itemize}
+
+\subsection{Síntesis integradora del marco teórico}
+Los conceptos de este marco no operan de forma indistinta, sino que desempeñan roles independientes y complementarios en la arquitectura del asistente:
+\begin{itemize}
+    \item \textbf{Educación Intercultural Bilingüe (EIB):} Proporciona el marco pedagógico y normativo (bilingüismo aditivo, pertinencia regional), estableciendo la necesidad de un sistema conversacional contextualizado y adaptado a las dinámicas del translenguaje.
+    \item \textbf{Sistemas de Tutoría Inteligente (ITS):} Guían el diseño conversacional del asistente, implementando la lógica de andamiaje formativo gradual (explicaciones, pistas, retroalimentación) en lugar de respuestas directas o traducciones mecánicas.
+    \item \textbf{Generación Aumentada por Recuperación (RAG) local:} Funciona como la base de conocimiento factual externa. Aloja los contenidos curriculares y glosarios oficiales fuera del modelo base, reduciendo alucinaciones factuales sin requerir reentrenamiento del modelo.
+    \item \textbf{Adaptación ligera (QLoRA):} Ajusta exclusivamente el comportamiento y estilo del modelo (el "cómo" responder), enseñándole a adherirse al tono del andamiaje educativo y a extraer de forma resiliente la información inyectada por el RAG local.
+    \item \textbf{Traducción Automática (NMT) y Métricas:} Actúan únicamente como herramientas de evaluación lingüística y referencia comparativa para verificar la fidelidad semántica de las generaciones del asistente, sin que el sistema constituya un traductor estadístico autónomo.
+\end{itemize}
+
+Esta delimitación de roles fundamenta las decisiones centrales del artefacto: se prioriza el RAG local para el conocimiento factual \citep{Ovadia2024}; se reserva QLoRA para alinear el estilo pedagógico y el uso del contexto \citep{Dettmers2023}; y se selecciona un modelo compacto cuantizado por su factibilidad en CPU local sin conectividad \citep{Walusimbi2026, Xu2024}. Con esta base conceptual, la metodología operacionaliza dichas decisiones bajo el paradigma Design Science Research, definiendo el diseño experimental (experimentos E1--E3) y los instrumentos de evaluación técnica, lingüística y pedagógica.
 
 \section{Metodología}
 
@@ -152,18 +110,16 @@ El desarrollo del prototipo de asistente bilingüe sigue el paradigma \textbf{De
 \end{enumerate}
 
 \subsection{Población y muestra}
-La definición de las unidades de análisis se organiza bajo cuatro dimensiones de control:
+La definición de las unidades de análisis se organiza bajo tres dimensiones de control:
 \begin{itemize}
-    \item \textbf{Unidad documental:} Compuesta por materiales curriculares de EIB del MINEDU para primaria (3.° a 6.° grado) en Comunicación y Ciencia y Tecnología, glosarios terminológicos de Quechua Collao del Ministerio de Educación y el corpus bilingüe digitalizado \citep{Orcotoma2025}.
-    \item \textbf{Unidad de prueba:} Un banco compuesto por 100 consultas patrón. Las consultas serán elaboradas a partir de contenidos curriculares oficiales y revisadas por docentes EIB para asegurar pertinencia temática, nivel educativo y equilibrio lingüístico.
-    \item \textbf{Unidad de validación humana:} Evaluadores especializados conformados por dos paneles: (i) de 3 a 5 especialistas lingüísticos (hablantes nativos quechua, vinculados a la AMLQ) para validar adecuación dialectal; y (ii) de 8 a 15 docentes EIB activos en el sur andino para calificar pertinencia pedagógica.
-    \item \textbf{Piloto exploratorio con estudiantes:} Muestra de 20 a 40 estudiantes del nivel primario en escuelas EIB seleccionadas. Esta validación es de carácter exploratorio y opcional, sin constituir una dependencia crítica para los hitos principales del cronograma.
+    \item \textbf{Unidad documental:} Compuesta por materiales curriculares de EIB del MINEDU para primaria (3.° a 6.° grado) en Comunicación y Ciencia y Tecnología, glosarios terminológicos de Quechua Collao del Ministerio de Educación y el corpus bilingüe de referencia.
+    \item \textbf{Unidad de prueba:} Un banco compuesto por 100 consultas patrón. Las consultas serán elaboradas a partir de contenidos curriculares oficiales y validadas por el docente especialista en EIB para asegurar pertinencia temática, nivel educativo y equilibrio lingüístico.
+    \item \textbf{Unidad de validación humana:} Evaluadores especializados conformados por: (i)~un (1) docente especialista en Educación Intercultural Bilingüe (EIB) activo, encargado de definir las pautas pedagógicas del asistente y validar la adecuación del andamiaje formativo; y (ii)~un (1) especialista lingüístico en la variedad Quechua Collao (hablante nativo), encargado de validar la adecuación dialectal y ortográfica de las respuestas generadas.
 \end{itemize}
 
 \subsection{Consideraciones éticas}
-Dado que el piloto exploratorio contempla la interacción potencial con estudiantes menores de edad, el protocolo de investigación se somete a salvaguardas éticas estrictas:
+Dado que el proyecto no involucra la participación de estudiantes menores de edad y se basa en la reutilización de materiales educativos y la validación por especialistas adultos, el protocolo se rige por los siguientes principios éticos:
 \begin{enumerate}
-    \item \textbf{Permisos y autorizaciones:} Firma previa del consentimiento informado por parte de los padres o apoderados legales, el asentimiento del estudiante menor de edad, y la autorización de los directores de las Instituciones Educativas coordinadas con el aval de la UGEL/DRE correspondiente.
-    \item \textbf{Protección y privacidad de datos:} Anonimización completa de los registros de interacción. El prototipo operará offline y no recopilará datos personales, datos biométricos ni información sensible de los usuarios.
-    \item \textbf{Mitigación de riesgos de contenido:} El RAG local disciplinado actúa como un filtro restrictivo de seguridad, reduciendo la probabilidad de respuestas no pertinentes, alucinaciones o contenidos inapropiados para menores.
+    \item \textbf{Propiedad intelectual y atribución:} Se respetará el derecho de autor de todos los recursos del MINEDU y corpus de referencia empleados, utilizándolos de forma estrictamente académica y con la debida citación de fuentes.
+    \item \textbf{Rigor científico y honestidad académica:} La generación de datos asistida por IA se somete a validación cruzada y revisión manual por el especialista para evitar la distorsión del idioma originario y garantizar la pertinencia cultural.
 \end{enumerate}
