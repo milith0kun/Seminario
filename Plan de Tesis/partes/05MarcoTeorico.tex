@@ -92,11 +92,45 @@ Esta delimitación de roles fundamenta las decisiones centrales del artefacto: s
 \section{Metodología}
 
 \subsection{Tipo y diseño de investigación}
-La investigación es de tipo \textbf{aplicada y tecnológica}, orientada al diseño, implementación y evaluación de un artefacto informático para solucionar un problema real de soporte educativo. 
+La investigación es de tipo \textbf{aplicada y tecnológica}, orientada al diseño, implementación y evaluación de un prototipo funcional de asistente educativo para solucionar un problema real de soporte curricular en EIB.
 
-El enfoque es \textbf{mixto con predominio cuantitativo}. Es cuantitativo al medir variables técnicas de rendimiento (latencia, uso de RAM, tokens por segundo), métricas de correspondencia léxica (chrF++, SacreBLEU) y puntuaciones estructuradas en rúbricas de evaluación. Es cualitativo al recoger apreciaciones y observaciones del juicio de expertos sobre la adecuación cultural y pertinencia del andamiaje pedagógico.
+El enfoque es \textbf{mixto con predominio cuantitativo}. Se estructura sobre la base de una relación de causalidad tecnológica, donde la manipulación de la \textbf{Variable Independiente (VI)} ---la arquitectura del asistente--- produce efectos medibles sobre las \textbf{Variables Dependientes (VD)} del sistema, agrupadas en dimensiones de rendimiento técnico, calidad lingüística y pertinencia pedagógica. 
 
-El diseño metodológico adoptado es \textbf{comparativo-experimental sobre el artefacto}. Se manipularán configuraciones técnicas internas del sistema para contrastar su desempeño, complementado con un diseño descriptivo para la validación humana mediante juicio de expertos. Las dimensiones de evaluación serán: rendimiento técnico, calidad lingüística, calidad de recuperación, pertinencia pedagógica y adecuación intercultural.
+La \textbf{Variable Independiente (VI)} es cualitativa nominal y representa la configuración del chatbot, evaluada a través de tres niveles experimentales: (i)~\textit{E1 (Modelo Base)}: inferencia local del SLM base cuantizado; (ii)~\textit{E2 (SLM + RAG local)}: SLM con inyección de contexto RAG y normalización morfo-léxica; y (iii)~\textit{E3 (Híbrido)}: SLM con RAG, reglas y adaptadores QLoRA. 
+
+Las \textbf{Variables Dependientes (VD)} abarcan: (a)~\textit{Rendimiento técnico (cuantitativas continuas)}: latencia (ms), velocidad (tokens/s) y consumo de memoria RAM (GB); (b)~\textit{Calidad lingüística (mixtas)}: correspondencia léxica (chrF++ y SacreBLEU), consistencia semántica (faithfulness Ragas) y adecuación dialectal (Likert 1-5); y (c)~\textit{Pertinencia pedagógica (cualitativas ordinales)}: nivel de andamiaje formativo y relevancia curricular (Likert 1-5). Para asegurar la validez metodológica, la Tabla~\ref{tab:operacionalizacion} detalla la operacionalización de estas variables.
+
+\begin{table}[H]
+\centering
+\caption{Matriz de operacionalización de variables}
+\label{tab:operacionalizacion}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}p{1.7cm}p{1.7cm}p{2.3cm}p{2.2cm}p{2.3cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Tipo} & \textbf{Dimensión} & \textbf{Definición Operacional} & \textbf{Indicador} & \textbf{Instrumento\,/\,Herramienta} \\
+\midrule
+\textbf{VI: Arquitectura del asistente} & Cualitativa nominal & Arquitectura de software & Configuración del stack interno y uso de recursos paramétricos y de recuperación. & Configuración evaluada: E1, E2, E3 & Scripts de orquestación en Python y compilador \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD1: Latencia} & Cuantitativa continua & Rendimiento técnico & Medición del tiempo de respuesta del sistema bajo inferencia local CPU. & Tiempo de respuesta en milisegundos (ms) & Librería \texttt{time} de Python, logs de \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD2: Velocidad de tokens} & Cuantitativa continua & Rendimiento técnico & Cantidad de unidades mínimas generadas por unidad de tiempo. & Tokens generados por segundo (tokens/s) & Profiler de ejecución de \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD3: Memoria RAM} & Cuantitativa continua & Rendimiento técnico & Espacio de almacenamiento temporal ocupado por el proceso del modelo. & Memoria RAM en Gigabytes (GB) & Monitor de recursos del sistema operativo (\texttt{psutil}). \\
+\midrule
+\textbf{VD4: Correspondencia léxica} & Cuantitativa continua & Calidad lingüística & Medición estadística de similitud con oraciones de control. & Puntajes automáticos chrF++ y SacreBLEU & Script de evaluación automática en Python. \\
+\midrule
+\textbf{VD5: Coherencia semántica RAG} & Cuantitativa continua & Calidad lingüística & Evaluación de anclaje y veracidad factual del contexto inyectado. & Métrica de \textit{faithfulness} y precisión de respuesta & Framework de evaluación Ragas. \\
+\midrule
+\textbf{VD6: Adecuación dialectal} & Cualitativa ordinal & Calidad lingüística & Conformidad fonológico-ortográfica con el Quechua Collao estándar. & Escala Likert de 1 a 5 (Consistencia de morfemas y glotización) & Rúbrica de evaluación lingüística para especialista. \\
+\midrule
+\textbf{VD7: Nivel de andamiaje} & Cualitativa ordinal & Pertinencia pedagógica & Estructura gradual de ayuda pedagógica (preguntas, pistas y ejemplos). & Escala Likert de 1 a 5 (Progresión cognitiva y bilingüismo) & Rúbrica de evaluación pedagógica para docente EIB. \\
+\midrule
+\textbf{VD8: Pertinencia curricular} & Cualitativa ordinal & Pertinencia pedagógica & Adecuación temática y lingüística a las áreas de Comunicación y CyT. & Escala Likert de 1 a 5 (Grado de correspondencia oficial) & Rúbrica de evaluación curricular para docente EIB. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El diseño metodológico adoptado es \textbf{comparativo-experimental sobre el artefacto}. Se manipularán configuraciones técnicas internas del sistema para contrastar su desempeño, complementado con un diseño descriptivo para la validación humana mediante juicio de expertos (docente EIB y validador lingüístico Collao). Las dimensiones de evaluación corresponden a las variables dependientes especificadas, permitiendo aislar la contribución de cada componente tecnológico en la inferencia offline.
 
 \subsection{Metodología de desarrollo}
 El desarrollo del prototipo de asistente bilingüe sigue el paradigma \textbf{Design Science Research (DSR)}, estructurado en las siguientes fases:
