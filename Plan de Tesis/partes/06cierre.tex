@@ -1,20 +1,20 @@
 \section{Importancia del estudio}
 \subsection{Resultados esperados}
-El artefacto principal de esta investigación es un \textbf{prototipo de sistema informático}: un asistente educativo bilingüe español--Quechua Collao ejecutable sin conexión a internet en dispositivos de bajo o mediano costo. Este prototipo no constituye un modelo de lenguaje nuevo ni realiza entrenamiento del modelo base desde cero, sino que implementa un \textbf{enfoque híbrido} que integra un modelo compacto pre-entrenado y cuantizado con un canal de procesamiento RAG local disciplinado, recursos lingüísticos explícitos (glosarios, diccionarios, reglas de normalización) y, de ser factible, una adaptación ligera complementaria (QLoRA) como configuración experimental, adaptado específicamente para responder consultas pedagógicas en contextos EIB del sur andino peruano. Los productos derivados de su construcción y evaluación son:
+El artefacto principal de esta investigación es un \textbf{prototipo funcional de sistema informático}: un asistente educativo bilingüe español--Quechua Collao ejecutable sin conexión a internet en dispositivos de bajo o mediano costo. Este prototipo no constituye un modelo de lenguaje nuevo ni realiza entrenamiento del modelo base desde cero, sino que implementa un \textbf{enfoque híbrido} que integra un modelo compacto pre-entrenado y cuantizado con un canal de procesamiento RAG local disciplinado, recursos lingüísticos explícitos (glosarios, diccionarios, reglas de normalización) y, de ser factible, una adaptación ligera complementaria (QLoRA) como configuración experimental, adaptado específicamente para responder consultas pedagógicas en contextos EIB del sur andino peruano. Los productos derivados de su construcción y evaluación son:
 \begin{itemize}
 	\item Un prototipo funcional de asistente educativo bilingüe español--Quechua Collao, ejecutable sin conexión a internet en dispositivos de bajo o mediano costo, basado en un modelo compacto cuantizado con canal de procesamiento RAG disciplinado y, de ser factible, adaptación ligera complementaria.
 	\item Una base local de contenidos curriculares, glosarios terminológicos, diccionarios y materiales EIB en español y Quechua Collao, organizados para su recuperación híbrida (léxica + densa) y orientados al nivel primaria (3.° a 6.° grado), con posibilidad de ampliación posterior hacia secundaria básica en futuras iteraciones.
-	\item Un corpus curado de recursos lingüísticos español--Quechua Collao, complementado con datos sintéticos y validado por especialistas hablantes nativos.
+	\item Un corpus curado de datos bilingües español--Quechua Collao, generado con modelos de IA y validado contra corpus de referencia existentes (Orcotoma et al., AMLQ).
 	\item Un reporte comparativo de las configuraciones experimentales (\textit{línea base} sin RAG, RAG disciplinado y enfoque híbrido completo) que documente la contribución de cada componente del sistema.
 	\item Un reporte de evaluación técnica que documente métricas de latencia, consumo de memoria, tokens por segundo y estabilidad del prototipo en hardware de bajo o mediano costo de forma local.
-	\item Un reporte de evaluación lingüística y pedagógica con resultados de métricas automáticas (chrF++, RAGAS, Recall@k) y valoraciones de docentes y especialistas EIB sobre la utilidad educativa, pertinencia intercultural y adecuación pedagógica de las respuestas generadas.
+	\item Un reporte de evaluación lingüística y pedagógica con resultados de métricas automáticas (chrF++, RAGAS, Recall@k) y valoraciones del docente especialista EIB y del especialista lingüístico en Quechua Collao sobre la utilidad educativa, pertinencia intercultural y adecuación pedagógica de las respuestas generadas.
 \end{itemize}
 
 \subsection{Contribuciones}
 \begin{itemize}
 	\item \textbf{Contribución tecnológica:} Arquitectura híbrida funcional de un asistente educativo orientado al funcionamiento offline que integra detección de idioma, enrutamiento lingüístico, RAG local disciplinado y recursos lingüísticos explícitos, incorporando adaptación ligera mediante QLoRA como configuración experimental complementaria, y la generación de respuestas mediante un modelo compacto cuantizado, ejecutable en dispositivos de bajo o mediano costo sin conexión a internet.
 	\item \textbf{Contribución educativa:} Base de conocimiento local organizada con materiales curriculares EIB en español y Quechua Collao, orientada a apoyar consultas pedagógicas de estudiantes y docentes en zonas rurales, junto con un corpus curado de recursos lingüísticos para la variedad Quechua Collao aplicados a tareas de educación intercultural bilingüe.
-	\item \textbf{Contribución metodológica:} Diseño de comparación escalonada que cuantifica la contribución de cada componente del enfoque híbrido, combinando métricas automáticas de calidad lingüística (chrF++), calidad de recuperación (RAGAS) y criterios pedagógicos e interculturales validados por especialistas EIB, aplicable a otros proyectos de tecnología educativa en lenguas indígenas de bajos recursos del sur andino.
+	\item \textbf{Contribución metodológica:} Diseño de comparación escalonada que cuantifica la contribución de cada componente del enfoque híbrido, combinando métricas automáticas de calidad lingüística (chrF++), calidad de recuperación (RAGAS) y criterios pedagógicos e interculturales validados por los especialistas, aplicable a otros proyectos de tecnología educativa en lenguas indígenas de bajos recursos del sur andino.
 \end{itemize}
 
 \subsection{Impacto social}
@@ -53,9 +53,9 @@ Adaptación ligera QLoRA (condicionada)* & & & & & & & & $\bullet$ & $\bullet$ &
 Integración final del prototipo & & & & & & & & $\bullet$ & $\bullet$ & & & \\
 \midrule
 \textbf{Fase 5: Evaluación} & & & & & & & & & & & & \\
-Diseño de rúbricas y experimentos E1--E7 & & & & & & & & & $\bullet$ & & & \\
+Diseño de rúbricas y experimentos E1--E3 & & & & & & & & & $\bullet$ & & & \\
 Evaluación técnica y lingüística & & & & & & & & & $\bullet$ & $\bullet$ & & \\
-Prueba piloto exploratoria y juicio de expertos EIB & & & & & & & & & & $\bullet$ & $\bullet$ & \\
+Validación con docente EIB y especialista lingüístico & & & & & & & & & & $\bullet$ & $\bullet$ & \\
 Análisis y procesamiento de resultados & & & & & & & & & & & $\bullet$ & \\
 \midrule
 \textbf{Fase 6: Documentación} & & & & & & & & & & & & \\
@@ -70,7 +70,7 @@ Revisión final con asesor y sustentación & & & & & & & & & & & & $\bullet$ \\
 
 \section{Presupuesto}
 \label{sec:presupuesto}
-El presupuesto estimado para el desarrollo de la tesis se detalla a continuación. Se consideran los recursos necesarios para la implementación del prototipo, la evaluación y la documentación.
+El proyecto se ejecuta íntegramente con recursos propios de los investigadores. La laptop de desarrollo y pruebas es un recurso personal ya disponible. El cómputo puntual para cuantización y QLoRA se cubrirá con niveles gratuitos de Kaggle y Google Colab.
 
 \begin{table}[H]
 \centering
@@ -78,34 +78,22 @@ El presupuesto estimado para el desarrollo de la tesis se detalla a continuació
 \label{tab:presupuesto}
 \begin{tabular}{@{}p{7cm}rr@{}}
 \toprule
-\textbf{Rubro} & \textbf{Cantidad} & \textbf{Costo (S/.)} \\
+	\textbf{Rubro} & \textbf{Cantidad} & \textbf{Costo (S/)} \\
 \midrule
 \multicolumn{3}{@{}l}{\textbf{Recursos tecnológicos}} \\
-Dispositivo de prueba (laptop de gama media) & 1 & 2\,579.00 \\
-Almacenamiento externo (SSD 1 TB) & 1 & 500.00 \\
-Servicio de cómputo en la nube (cuantización y vectorización) & Puntual & 200.00 \\
-Adaptación QLoRA (GPU por demanda) & Puntual & 150.00 \\
+Almacenamiento SSD 1 TB (modelos y corpus) & 1 & 500,00 \\
 \midrule
 \multicolumn{3}{@{}l}{\textbf{Recursos académicos}} \\
-Material bibliográfico y acceso a bases de datos & Global & 300.00 \\
-Impresiones y empastados & Global & 200.00 \\
-\midrule
-\multicolumn{3}{@{}l}{\textbf{Trabajo de campo}} \\
-Transporte a zonas rurales (validación) & 5 visitas & 750.00 \\
-Viáticos para trabajo de campo & 5 días & 500.00 \\
-Material para talleres con docentes EIB & Global & 200.00 \\
-\midrule
-\multicolumn{3}{@{}l}{\textbf{Servicios profesionales}} \\
-Consulta con especialistas en Quechua Collao & 3 sesiones & 450.00 \\
-Validación lingüística por hablantes nativos & 5 sesiones & 500.00 \\
+Material bibliográfico y acceso a bases de datos & Global & 300,00 \\
+Impresiones y empastados & Global & 200,00 \\
 \midrule
 \multicolumn{3}{@{}l}{\textbf{Otros}} \\
-Imprevistos (10\%) & Global & 633.00 \\
+Imprevistos (10\%) & Global & 100,00 \\
 \midrule
-\textbf{TOTAL} & & \textbf{6\,962.00} \\
+\textbf{TOTAL} & & \textbf{1\,100,00} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textit{Nota:} El uso de servicios de cómputo en la nube se restringe exclusivamente a tareas puntuales de desarrollo experimental (cuantización y afinamiento ligero) y no forma parte del funcionamiento final del asistente, el cual opera de forma 100\% offline. Los honorarios de especialistas y hablantes nativos corresponden a retribuciones por sesiones de validación lingüística y pedagógica del corpus y del prototipo.
+\textit{Nota:} La laptop de desarrollo (recurso personal existente), los servicios de cómputo gratuitos (Kaggle, Google Colab) y las herramientas de software libre no representan costo adicional para el proyecto.
 

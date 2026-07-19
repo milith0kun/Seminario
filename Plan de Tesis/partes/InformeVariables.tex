@@ -1,0 +1,122 @@
+% INFORME DE VARIABLES DE INVESTIGACIÓN: ASISTENTE EDUCATIVO OFFLINE EIB
+% Diseñado para ser integrado o compilado de forma modular.
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{hyperref}
+
+\geometry{a4paper, margin=2.5cm}
+
+\title{\textbf{Informe Metodológico: Identificación y Operacionalización de Variables para el Plan de Tesis}}
+\author{\textbf{Escuela Profesional de Ingeniería de Sistemas}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+El presente informe metodológico tiene como propósito identificar, clasificar y operacionalizar las variables del proyecto de tesis titulado \textit{«Asistente educativo offline español--Quechua Collao basado en un modelo de lenguaje compacto con RAG local para Educación Intercultural Bilingüe»}. 
+
+Dado que la investigación sigue el paradigma \textit{Design Science Research} (DSR) y aplica un enfoque mixto (predominio cuantitativo experimental), la definición precisa de las variables es fundamental para estructurar el diseño experimental de comparación (Experimentos E1, E2 y E3) y justificar la validez metodológica ante el jurado evaluador.
+
+---
+
+\section{Clasificación de las Variables de la Investigación}
+
+La investigación se estructura en torno a una relación de causalidad tecnológica: la manipulación de la arquitectura interna del sistema de asistencia (Variable Independiente) produce variaciones medibles en la calidad lingüística, pertinencia pedagógica y rendimiento en hardware (Variables Dependientes).
+
+\subsection{Variable Independiente (VI)}
+La variable independiente es de naturaleza cualitativa nominal y representa el grado de estructuración tecnológica del prototipo.
+\begin{itemize}
+    \item \textbf{Nombre:} Arquitectura del sistema asistente educativo.
+    \item \textbf{Definición conceptual:} Configuración del stack tecnológico interno y la inyección de recursos lingüísticos/paramétricos que regulan el comportamiento del chatbot.
+    \item \textbf{Valores (Configuraciones experimentales):}
+        \begin{enumerate}
+            \item \textbf{E1 (Modelo Base):} Small Language Model (SLM) cuantizado a 4 bits sin inyección de base documental ni reglas de normalización (Línea base).
+            \item \textbf{E2 (SLM + RAG local):} SLM cuantizado con recuperación local de documentos bilingües y normalización morfo-léxica mediante diccionarios del Quechua Collao.
+            \item \textbf{E3 (Enfoque Híbrido):} SLM cuantizado con RAG local y reglas, integrado adicionalmente con adaptadores QLoRA preentrenados para la alineación del estilo pedagógico de respuesta.
+        \end{enumerate}
+\end{itemize}
+
+\subsection{Variables Dependientes (VD)}
+Las variables dependientes miden los efectos causados por la manipulación de la arquitectura. Se dividen en tres dimensiones de control: técnica, lingüística y pedagógica.
+
+\subsubsection{Dimensión 1: Rendimiento Técnico (Cuantitativa)}
+Mide la viabilidad de ejecución local en hardware con restricciones de conectividad y procesamiento (solo CPU).
+\begin{itemize}
+    \item \textbf{Latencia de generación (Cuantitativa continua):} Tiempo total transcurrido en milisegundos (ms) desde la recepción de la consulta bilingüe hasta la generación del token de fin de secuencia (\textit{End of Text}).
+    \item \textbf{Velocidad de procesamiento (Cuantitativa continua):} Tasa de generación medida en tokens por segundo (tokens/s) durante el proceso de inferencia local.
+    \item \textbf{Consumo de memoria RAM (Cuantitativa continua):} Cantidad máxima de memoria RAM de acceso aleatorio (medida en Gigabytes, GB) requerida por el proceso de ejecución del SLM y la caché de claves-valores (KV Cache).
+\end{itemize}
+
+\subsubsection{Dimensión 2: Calidad Lingüística del Quechua Collao (Mixta)}
+Evalúa la fidelidad del texto resultante y la mitigación de errores de traducción y dialecto.
+\begin{itemize}
+    \item \textbf{Correspondencia léxica (Cuantitativa continua):} Grado de similitud entre el texto en quechua generado por el asistente y el texto de referencia validado, calculado mediante la métrica automática de n-gramas de caracteres \textbf{chrF++} y la métrica de n-gramas de palabras \textbf{SacreBLEU}.
+    \item \textbf{Alineación y consistencia semántica (Cuantitativa continua):} Nivel de fidelidad factual medido mediante el puntaje de coherencia contextual de la librería de evaluación automática \textbf{Ragas} (\textit{faithfulness}).
+    \item \textbf{Adecuación dialectal y ortográfica (Cualitativa ordinal):} Grado de conformidad del texto generado respecto a la ortografía oficial del Quechua Collao y su inventario fonológico de oclusivas glotizadas y aspiradas, calificado por el especialista lingüístico (Escala Likert de 1 a 5).
+\end{itemize}
+
+\subsubsection{Dimensión 3: Pertinencia Pedagógica e Intercultural (Cualitativa)}
+Mide el valor educativo y la pertinencia intercultural del andamiaje conversacional.
+\begin{itemize}
+    \item \textbf{Nivel de andamiaje formativo (Cualitativa ordinal):} Capacidad del asistente de guiar progresivamente al alumno (pregunta orientadora, pistas, explicación bilingüe y aplicación) en lugar de limitarse a proveer una traducción directa o respuesta directa literal. Calificado por el docente especialista en EIB (Escala Likert de 1 a 5).
+    \item \textbf{Relevancia y pertinencia curricular (Cualitativa ordinal):} Adecuación pedagógica del contenido factual recuperado y explicado en las áreas de Comunicación y Ciencia y Tecnología para el nivel primario (3.° a 6.° grado). Calificado por el docente especialista en EIB (Escala Likert de 1 a 5).
+\end{itemize}
+
+---
+
+\section{Operacionalización de Variables}
+La Tabla~\ref{tab:operacionalizacion} presenta de forma consolidada la matriz de operacionalización, detallando la definición operacional, indicadores, escala de medición y los instrumentos/herramientas específicos que se utilizarán en el proyecto.
+
+\begin{table}[H]
+\centering
+\caption{Matriz de Operacionalización de Variables}
+\label{tab:operacionalizacion}
+\tiny
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}p{1.8cm}p{1.8cm}p{2.4cm}p{1.8cm}p{2.2cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Tipo} & \textbf{Dimensión} & \textbf{Definición Operacional} & \textbf{Indicador} & \textbf{Instrumento\,/\,Herramienta} \\
+\midrule
+\textbf{VI: Arquitectura del asistente} & Cualitativa nominal & Arquitectura de software & Configuración del stack interno y uso de recursos paramétricos y de recuperación. & Configuración evaluada: E1 (SLM base), E2 (SLM+RAG), E3 (Híbrido) & Scripts de orquestación en Python, \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD1: Latencia} & Cuantitativa continua & Rendimiento técnico & Medición del tiempo de respuesta del sistema bajo inferencia local CPU. & Tiempo de respuesta en milisegundos (ms) & Librería \texttt{time} de Python, logs de \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD2: Velocidad de tokens} & Cuantitativa continua & Rendimiento técnico & Cantidad de unidades mínimas generadas por unidad de tiempo. & Tokens generados por segundo (tokens/s) & Profiler de ejecución de \texttt{llama.cpp}. \\
+\midrule
+\textbf{VD3: Memoria RAM} & Cuantitativa continua & Rendimiento técnico & Espacio de almacenamiento temporal ocupado por el proceso del modelo. & Memoria RAM en Gigabytes (GB) & Monitor de recursos del sistema operativo (\texttt{psutil}). \\
+\midrule
+\textbf{VD4: Correspondencia léxica} & Cuantitativa continua & Calidad lingüística & Medición estadística de similitud textual con oraciones de control. & Puntajes automáticos chrF++ y SacreBLEU & Script de evaluación automática en Python. \\
+\midrule
+\textbf{VD5: Coherencia semántica RAG} & Cuantitativa continua & Calidad lingüística & Evaluación de anclaje y veracidad factual del contexto inyectado. & Métrica de \textit{faithfulness} y precisión de respuesta & Framework de evaluación Ragas. \\
+\midrule
+\textbf{VD6: Adecuación dialectal} & Cualitativa ordinal & Calidad lingüística & Conformidad fonológico-ortográfica con el Quechua Collao estándar. & Escala Likert de 1 a 5 (Consistencia de morfemas y glotización) & Rúbrica de evaluación lingüística para especialista. \\
+\midrule
+\textbf{VD7: Nivel de andamiaje} & Cualitativa ordinal & Pertinencia pedagógica & Estructura gradual de ayuda pedagógica (preguntas, pistas y ejemplos). & Escala Likert de 1 a 5 (Progresión cognitiva y bilingüismo) & Rúbrica de evaluación pedagógica para docente EIB. \\
+\midrule
+\textbf{VD8: Pertinencia curricular} & Cualitativa ordinal & Pertinencia pedagógica & Adecuación temática y lingüística a las áreas de Comunicación y CyT. & Escala Likert de 1 a 5 (Grado de correspondencia oficial) & Rúbrica de evaluación curricular para docente EIB. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+---
+
+\section{Conexión de las Variables con el Diseño Experimental}
+En las fases de evaluación metodológica del Design Science Research, los tres experimentos configurarán el entorno de control:
+\begin{align*}
+    \text{Experimento E1 (Control 1)} &\longrightarrow \text{Inferencia base sin RAG (Mide VD1, VD2, VD3 como línea base)} \\
+    \text{Experimento E2 (Control 2)} &\longrightarrow \text{Inferencia con RAG local + reglas (Mide ganancia en VD4, VD5, VD6, VD7)} \\
+    \text{Experimento E3 (Tratamiento)} &\longrightarrow \text{Inferencia con RAG + adaptadores QLoRA (Optimización de VD6, VD7, VD8)}
+\end{align*}
+
+Este diseño permitirá aislar la contribución de cada componente. Si bien la incorporación de RAG (E2) aumenta teóricamente la fidelidad factual (VD5), también infla la ventana de tokens e incrementa la latencia (VD1) debido al cuello de botella de tokenización del quechua. Por otro lado, la adición de adaptadores QLoRA (E3) busca mejorar el andamiaje pedagógico (VD7) sin elevar significativamente el consumo de RAM en comparación con RAG solo. La validación cruzada por el docente especialista en EIB y el especialista lingüístico decidirá si el incremento en rendimiento cualitativo compensa el costo de cómputo adicional en CPU.
+
+\end{document}
