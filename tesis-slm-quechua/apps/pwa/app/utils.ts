@@ -332,13 +332,19 @@ export function traducirErrorModelo(
   errorMessage: string,
   modeloActual?: string,
   seEscaloACpu?: boolean,
+  esLimiteHardware?: boolean,
 ): string {
   const msg = errorMessage || "";
 
   if (seEscaloACpu) {
+    const motivo = esLimiteHardware
+      ? "La GPU de este dispositivo tiene un límite de hardware que este " +
+        "modelo supera (no es un problema de caché ni algo que se " +
+        "arregle reintentando)."
+      : "Se probó tanto el motor normal como un motor alternativo, y " +
+        "ambos fallaron igual.";
     return (
-      "⚠️ Este dispositivo no tiene WebGPU utilizable (se probó tanto el " +
-      "motor normal como un motor alternativo, y ambos fallaron igual). " +
+      `⚠️ Este dispositivo no tiene WebGPU utilizable. ${motivo} ` +
       "La app ya cambió, en esta misma conversación, a un **motor por " +
       "CPU** que no depende de GPU en absoluto — más lento, pero " +
       "funciona en cualquier celular o PC.\n\n" +

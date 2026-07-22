@@ -416,33 +416,54 @@ export const useChatStore = createPersistStore(
             const errorMessage = extraerMensajeError(error);
             const isAborted = errorMessage?.includes("aborted");
             let seEscaloACpu = false;
-            if (
-              !isAborted &&
-              /ShaderModule|GPUPipelineError|reshape.*_kernel/i.test(
-                errorMessage || "",
-              ) &&
-              typeof window !== "undefined"
-            ) {
-              const yaProboWebWorker =
-                window.localStorage.getItem(FORZAR_WEBWORKER_KEY) === "1";
-              if (yaProboWebWorker) {
-                // Ya se había intentado el respaldo WebWorker y volvió a
-                // fallar igual: no es un problema del Service Worker, es
-                // que este dispositivo no tiene WebGPU utilizable. Se pasa
-                // directo al motor CPU (wllama), que no depende de GPU.
-                // Se cambia el motor activo YA MISMO (sin esperar a que se
-                // recargue la página): el próximo mensaje que se envíe en
-                // esta misma sesión ya va a usar wllama/CPU.
+            let esLimiteHardware = false;
+            if (!isAborted && typeof window !== "undefined") {
+              const esErrorLimiteGPU =
+                /Cannot initialize runtime|exceeds limit|maxComputeWorkgroupStorageSize/i.test(
+                  errorMessage || "",
+                );
+              const esErrorShader =
+                /ShaderModule|GPUPipelineError|reshape.*_kernel/i.test(
+                  errorMessage || "",
+                );
+
+              if (esErrorLimiteGPU) {
+                // Límite físico del hardware de la GPU (ej. memoria
+                // compartida por workgroup insuficiente para el kernel
+                // compilado del modelo). No depende de qué motor (Service
+                // Worker vs WebWorker) se use ni de la caché — es la misma
+                // GPU en ambos casos, así que reintentar con el otro motor
+                // fallaría exactamente igual. Se salta directo al motor
+                // CPU (wllama) sin gastar un segundo intento inútil.
                 window.localStorage.setItem(FORZAR_CPU_KEY, "1");
                 useAppConfig.getState().update((c) => {
                   c.modelClientType = ModelClient.WLLAMA_CPU;
                 });
                 seEscaloACpu = true;
-              } else {
-                // El GPUDevice roto vive en el Service Worker, que persiste
-                // entre recargas de página. Se marca para usar un WebWorker
-                // (se destruye y recrea con cada carga) la próxima vez.
-                window.localStorage.setItem(FORZAR_WEBWORKER_KEY, "1");
+                esLimiteHardware = true;
+              } else if (esErrorShader) {
+                const yaProboWebWorker =
+                  window.localStorage.getItem(FORZAR_WEBWORKER_KEY) === "1";
+                if (yaProboWebWorker) {
+                  // Ya se había intentado el respaldo WebWorker y volvió a
+                  // fallar igual: no es un problema del Service Worker, es
+                  // que este dispositivo no tiene WebGPU utilizable. Se pasa
+                  // directo al motor CPU (wllama), que no depende de GPU.
+                  // Se cambia el motor activo YA MISMO (sin esperar a que se
+                  // recargue la página): el próximo mensaje que se envíe en
+                  // esta misma sesión ya va a usar wllama/CPU.
+                  window.localStorage.setItem(FORZAR_CPU_KEY, "1");
+                  useAppConfig.getState().update((c) => {
+                    c.modelClientType = ModelClient.WLLAMA_CPU;
+                  });
+                  seEscaloACpu = true;
+                } else {
+                  // El GPUDevice roto vive en el Service Worker, que
+                  // persiste entre recargas de página. Se marca para usar
+                  // un WebWorker (se destruye y recrea con cada carga) la
+                  // próxima vez.
+                  window.localStorage.setItem(FORZAR_WEBWORKER_KEY, "1");
+                }
               }
             }
             botMessage.content += isAborted
@@ -452,6 +473,7 @@ export const useChatStore = createPersistStore(
                   errorMessage || "",
                   botMessage.model,
                   seEscaloACpu,
+                  esLimiteHardware,
                 );
             botMessage.streaming = false;
             userMessage.isError = !isAborted;
