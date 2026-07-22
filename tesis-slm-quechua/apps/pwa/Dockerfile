@@ -1,54 +1,28 @@
-FROM node:18-alpine AS base
-
-FROM base AS deps
+FROM node:18-alpine AS deps
 
 RUN apk add --no-cache libc6-compat
-
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-
 RUN npm ci
 
-FROM base AS builder
+FROM node:18-alpine AS builder
 
 RUN apk update && apk add --no-cache git
-
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN npm run build
+# Export estático: sin servidor Node, todo el chat/RAG/modelo corre en el
+# navegador de cada usuario. BUILD_MODE=export ya es el default de
+# next.config.mjs, se deja explícito acá para que quede claro.
+ENV BUILD_MODE=export
+RUN npm run export
 
-FROM base AS runner
-WORKDIR /app
+FROM nginx:1.27-alpine AS runner
 
-RUN apk add proxychains-ng
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/out /usr/share/nginx/html
 
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/.next/server ./.next/server
-
-EXPOSE 3000
-
-CMD if [ -n "$PROXY_URL" ]; then \
-    export HOSTNAME="127.0.0.1"; \
-    protocol=$(echo $PROXY_URL | cut -d: -f1); \
-    host=$(echo $PROXY_URL | cut -d/ -f3 | cut -d: -f1); \
-    port=$(echo $PROXY_URL | cut -d: -f3); \
-    conf=/etc/proxychains.conf; \
-    echo "strict_chain" > $conf; \
-    echo "proxy_dns" >> $conf; \
-    echo "remote_dns_subnet 224" >> $conf; \
-    echo "tcp_read_time_out 15000" >> $conf; \
-    echo "tcp_connect_time_out 8000" >> $conf; \
-    echo "localnet 127.0.0.0/255.0.0.0" >> $conf; \
-    echo "localnet ::1/128" >> $conf; \
-    echo "[ProxyList]" >> $conf; \
-    echo "$protocol $host $port" >> $conf; \
-    cat /etc/proxychains.conf; \
-    proxychains -f $conf node server.js; \
-    else \
-    node server.js; \
-    fi
+EXPOSE 80
