@@ -1,0 +1,7 @@
+id,path,title,language,dialect,domain,grade,source_type,source_url,license_status,use_in_rag,use_in_train,use_in_eval,notes
+sample_ciencia_foto,datos/crudos/muestras/ciencia_fotosintesis_es.txt,Muestra fotosintesis EIB,es,collao,ciencia_y_tecnologia,4,txt,,sample,true,false,true,Texto de prueba local
+sample_glosario,datos/crudos/muestras/glosario_collao_sample.txt,Glosario muestra Collao,qu-es,collao,glossary,na,glossary,,sample,true,true,false,Entradas de prueba; validar con especialista
+americasnlp_quy_es,datos/crudos/external/americasnlp2021/data/quechua-spanish/train.quy,AmericasNLP 2021 Parallel Quechua-Spanish,qu-es,chanka,transfer,na,tsv,https://github.com/AmericasNLP/americasnlp2021,research,false,true,false,Variante Chanka; requiere validacion/normalizacion antes de RAG Collao
+llamacha_monolingual,datos/crudos/external/llamacha_monolingual_quechua.jsonl,Corpus Monolingue Quechua Llamacha,qu,collao,general,na,jsonl,https://huggingface.co/datasets/Llamacha/monolingual-quechua-iic,research,true,true,false,175408 registros monolingues quechua
+
+

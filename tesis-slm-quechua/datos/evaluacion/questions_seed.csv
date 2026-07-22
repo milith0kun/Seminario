@@ -1,0 +1,31 @@
+id,question,language,dialect,domain,grade,expected_source_id,reference_answer_es,reference_answer_qu,evaluation_type
+q001,Que es la fotosintesis?,es,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Proceso por el cual las plantas elaboran alimento con luz agua y CO2.,,factual
+q002,Que necesitan las plantas para hacer fotosintesis?,es,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Luz solar agua y dioxido de carbono.,,factual
+q003,Que gas liberan las plantas en la fotosintesis?,es,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Oxigeno.,,factual
+q004,Como explicarias la fotosintesis a un nino de primaria sin dar solo la respuesta final?,es,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Guiar con observacion de hojas sol y agua antes de definir.,,pedagogical
+q005,Por que es importante el sol para las plantas?,es,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Porque aporta la energia luminosa para elaborar alimento.,,factual
+q006,Como relacionarias la fotosintesis con la chacra local?,es,collao,ciencia_y_tecnologia,5,sample_ciencia_foto,Con plantas de la chacra hojas verdes sol y agua del entorno.,,pedagogical
+q007,Que significa inti en Quechua Collao?,es,collao,glossary,na,sample_glosario,Sol.,inti,glossary
+q008,Como se dice agua en Quechua Collao?,es,collao,glossary,na,sample_glosario,Yaku.,yaku,glossary
+q009,Que es yachay wasi?,es,collao,glossary,na,sample_glosario,Escuela o casa del saber.,yachay wasi,glossary
+q010,Cual es un termino quechua para aprender?,es,collao,glossary,na,sample_glosario,Yachay.,yachay,glossary
+q011,Explica con andamiaje: primero observa una hoja y luego describe que necesita para vivir.,es,collao,ciencia_y_tecnologia,3,sample_ciencia_foto,Observar hoja; preguntar por sol y agua; luego relacionar con alimento.,,pedagogical
+q012,Que diferencia hay entre memorizar la definicion y entender la fotosintesis?,es,collao,ciencia_y_tecnologia,6,sample_ciencia_foto,Entender implica conectar el proceso con el entorno y causas.,,pedagogical
+q013,Da un ejemplo de pregunta guia para clase de fotosintesis.,es,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Que necesita una planta para crecer?, ,pedagogical
+q014,Como se dice tierra en el glosario muestra?,es,collao,glossary,na,sample_glosario,Allpa.,allpa,glossary
+q015,Como se dice hablar en Quechua Collao segun el glosario?,es,collao,glossary,na,sample_glosario,Rimay.,rimay,glossary
+q016,Imaynata fotosintesis ruwakun?,qu_collao,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Las plantas elaboran alimento con luz agua y CO2.,,factual
+q017,Ima ninchik inti?,qu_collao,collao,glossary,na,sample_glosario,Sol.,inti,glossary
+q018,Yaku ima nin?,qu_collao,collao,glossary,na,sample_glosario,Agua.,yaku,glossary
+q019,Yachay wasi ima nin?,qu_collao,collao,glossary,na,sample_glosario,Escuela.,yachay wasi,glossary
+q020,Allinchu wawa yachananpaq inti?,qu_collao,collao,ciencia_y_tecnologia,3,sample_ciencia_foto,Si el sol es necesario para que las plantas elaboren alimento.,,pedagogical
+q021,Ima necesitakun qura / planta?,qu_collao,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Luz agua y dioxido de carbono.,,factual
+q022,Rimay ima nin espanolpi?,qu_collao,collao,glossary,na,sample_glosario,Hablar.,rimay,glossary
+q023,Qillqay ima nin?,qu_collao,collao,glossary,na,sample_glosario,Escribir.,qillqay,glossary
+q024,Wawa ima nin?,qu_collao,collao,glossary,na,sample_glosario,Nino o nina.,wawa,glossary
+q025,Allpa ima nin?,qu_collao,collao,glossary,na,sample_glosario,Tierra o suelo.,allpa,glossary
+q026,Que es la fotosintesis y imaynata plantas ruwanku mikhunata?,mixed_es_qu,collao,ciencia_y_tecnologia,5,sample_ciencia_foto,Proceso de elaborar alimento con luz agua y CO2.,,factual
+q027,Como se dice sol en quechua y por que es importante para la planta?,mixed_es_qu,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,Inti; aporta energia luminosa.,inti,mixed
+q028,Explica yachay con un ejemplo de clase de ciencia.,mixed_es_qu,collao,comunicacion,4,sample_glosario,Yachay es aprender; ejemplo observar y explicar fotosintesis.,yachay,pedagogical
+q029,Usa el termino yaku y explica su rol en la fotosintesis.,mixed_es_qu,collao,ciencia_y_tecnologia,4,sample_ciencia_foto,El agua (yaku) es un insumo del proceso.,yaku,mixed
+q030,Guia al estudiante: observa inti y yaku en la chacra y relaciona con fotosintesis.,mixed_es_qu,collao,ciencia_y_tecnologia,5,sample_ciencia_foto,Observar sol y agua; luego conectar con elaboracion de alimento.,,pedagogical

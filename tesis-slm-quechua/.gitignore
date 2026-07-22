@@ -1,0 +1,35 @@
+# Entornos y caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.env
+.DS_Store
+
+# Archivos de Next.js / Node
+node_modules/
+.next/
+out/
+
+# Modelos y pesos pesados (no incluir en git)
+modelos/base/**
+modelos/gguf/**
+modelos/embeddings/**
+modelos/adapters/**
+!modelos/**/.gitkeep
+models/base/**
+models/gguf/**
+models/embeddings/**
+models/adapters/**
+!models/**/.gitkeep
+*.gguf
+*.bin
+*.safetensors
+*.ckpt
+
+# Datos crudos externos pesados y salidas de experimentos
+datos/crudos/external/**
+reports/smoke/
+experimentos/**/outputs/

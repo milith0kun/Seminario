@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-07-22T00:25:13.074547+00:00",
+  "prompt": "Responde en espanol, breve: que es la fotosintesis?",
+  "language": "es",
+  "text": "La fotosintesis es un proceso por el cual las plantas, algas y algunas bacterias convertirán la luz solar en energía química, utilizando agua y dióxido de carbono. Esto les permite producir su propio alimento y liberar oxígeno.",
+  "latency_ms": 4670.268500001839,
+  "tokens_per_s": 12.847227091970488,
+  "prompt_tokens": 107,
+  "completion_tokens": 60,
+  "backend": "llama_cpp",
+  "model_path": "D:\\Proyectos\\Seminario\\tesis-slm-quechua\\modelos\\gguf\\qwen2.5-3b-instruct-q4_k_m.gguf",
+  "error": null
+}

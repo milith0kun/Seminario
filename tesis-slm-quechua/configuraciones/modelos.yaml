@@ -1,0 +1,21 @@
+base:
+  hf_id: Qwen/Qwen2.5-3B-Instruct
+  local_dir: modelos/base/Qwen2.5-3B-Instruct
+  purpose: research_and_qlora
+
+inference_offline:
+  backend: llama_cpp
+  gguf_repo: Qwen/Qwen2.5-3B-Instruct-GGUF
+  gguf_file: qwen2.5-3b-instruct-q4_k_m.gguf
+  local_path: modelos/gguf/qwen2.5-3b-instruct-q4_k_m.gguf
+
+  n_ctx: 2048
+  n_gpu_layers: 0
+  n_threads: 4
+  temperature: 0.2
+  max_tokens: 256
+  chat_format: qwen
+
+smoke_test:
+  prompt: "Responde en espanol, breve: que es la fotosintesis?"
+  max_tokens: 120

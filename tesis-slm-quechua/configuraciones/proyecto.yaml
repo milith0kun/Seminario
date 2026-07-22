@@ -1,0 +1,29 @@
+project:
+  name: tesis-slm-quechua
+  language_pair:
+    primary: es
+    target: qu-collao
+  scope:
+    grades: ["3", "4", "5", "6"]
+    domains: ["comunicacion", "ciencia_y_tecnologia"]
+  offline_required: true
+  voice_enabled: false
+
+hardware:
+  gpu: "NVIDIA GTX 1050 Ti"
+  vram_gb: 4
+  preferred_base_model: "Qwen2.5-3B-Instruct"
+  qlora_native_windows: false
+
+paths:
+  data_raw: datos/crudos
+  data_cleaned: datos/limpios
+  data_rag: datos/corpus_rag
+  data_eval: datos/evaluacion
+  data_train: datos/entrenamiento
+  models_base: modelos/base
+  models_gguf: modelos/gguf
+  models_adapters: modelos/adaptadores
+  experiments: experimentos
+  reports: reportes
+

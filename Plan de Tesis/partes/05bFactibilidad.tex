@@ -83,6 +83,44 @@ Materiales EIB del MINEDU & Contenido curricular para RAG pedagógico & Áreas d
 \end{tabular}
 \end{table}
 
+\subsubsection{Inventario de fuentes de datos, repositorios y DOIs}
+
+Para garantizar la trazabilidad académica e ingenieril del plan de tesis, la Tabla~\ref{tab:inventario_data_repos} detalla el inventario completo de repositorios de datos, modelos base, publicaciones con DOI y archivos de referencia locales que alimentan la construcción de la base documental, los experimentos y el prototipo.
+
+\begin{table}[H]
+\centering
+\caption{Inventario de fuentes de datos, repositorios, DOIs y archivos de referencia del proyecto}
+\label{tab:inventario_data_repos}
+\small
+\begin{tabularx}{\textwidth}{@{}p{2.8cm}p{3.4cm}X p{3.0cm}@{}}
+\toprule
+\textbf{Recurso / Data} & \textbf{Tipo y Alcance} & \textbf{Repositorio / DOI / URL} & \textbf{Archivo / Ruta Local} \\
+\midrule
+Corpus Paralelo Quechua Collao--Español & 44\,263 palabras OCR de libros AMLQ \citep{Orcotoma2025} & \url{https://aclanthology.org/2025.globalnlp-1.1/}\newline DOI: \url{https://doi.org/10.26615/978-954-452-105-9-001} & \texttt{PDF-Referencias/\allowbreak 2025.globalnlp-1.1.pdf} \\
+\midrule
+Diccionario Quechua--Español Semiautomático & 111--118 pp., reglas NooJ \citep{Duran2026} & DOI: \url{https://doi.org/10.18653/v1/2026.loresmt-1.9} & \texttt{PDF-Referencias/\allowbreak 2026.loresmt-1.9.pdf} \\
+\midrule
+Benchmark AmericasNLP (Dataset Quechua) & 154\,000+ pares de entrenamiento MT & GitHub: \url{https://github.com/americasnlp/americasnlp2021}\newline HF: \url{https://huggingface.co/datasets/americas_nlp} & \texttt{datos/crudos/\allowbreak external/} \\
+\midrule
+Corpus Monolingüe Quechua (Llamacha) & Base monolingüe Quechua Sureño / QuBERT & HF: \url{https://huggingface.co/datasets/Llamacha/monolingual-quechua-iic} & \texttt{datos/crudos/\allowbreak external/} \\
+\midrule
+Modelo Base Qwen2.5-3B-Instruct (GGUF) & Modelo SLM causal cuantizado Q4\_K\_M & HF Model: \url{https://huggingface.co/Qwen/Qwen2.5-3B-Instruct}\newline HF GGUF: \url{https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF} & \texttt{modelos/gguf/\allowbreak qwen2.5-3b-instruct-q4\_k\_m.gguf} \\
+\midrule
+Modelo EIB y Currículo Nacional MINEDU & Contenido curricular y marco normativo EIB \citep{minedu2018, minedu2016} & Repositorio MINEDU:\newline \url{https://repositorio.minedu.gob.pe/handle/20.500.12799/5971} & \texttt{PDF-Referencias/\allowbreak Modelo\_de\_Servicio...pdf} \\
+\midrule
+Arquitectura Offline Arapai & Antecedente de inferencia CPU offline \citep{Walusimbi2026} & arXiv: \url{https://arxiv.org/abs/2603.03339} & \texttt{PDF-Referencias/\allowbreak 2603.03339v6.pdf} \\
+\midrule
+Tutor de IA con RAG Offline & Evaluación de SmolLM + RAG \citep{Hevia2025} & arXiv: \url{https://arxiv.org/abs/2510.06255} & \texttt{PDF-Referencias/\allowbreak 2510.06255v1.pdf} \\
+\midrule
+Modelos On-Device & Compresión y cuantización edge \citep{Xu2024} & arXiv: \url{https://arxiv.org/abs/2409.00088} & \texttt{PDF-Referencias/\allowbreak 2409.00088v2.pdf} \\
+\midrule
+Vectorizador Multilingüe \texttt{multilingual-e5-small} & Modelo de embeddings de 384 dimensiones \citep{Wang2022} & HF: \url{https://huggingface.co/intfloat/multilingual-e5-small} & \texttt{modelos/embeddings/} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+
 \subsubsection{Stack tecnológico}
 
 El desarrollo se fundamenta en software libre y local: \texttt{llama.cpp} \citep{llamacpp} u Ollama \citep{ollama} para inferencia; FAISS \citep{faiss2019} como base vectorial local; modelos de incrustación livianos como \texttt{multilingual-e5-small} \citep{Wang2022}; recuperación híbrida BM25 \citep{bm252009} + densa; y LangChain \citep{langchain} o desarrollo modular en Python para la orquestación. Los fragmentos de prosa se limitarán a 250--400 tokens con traslape de 50--80 tokens y las entradas de glosario se indexarán individualmente, con un \textit{top-k} de 3--5 fragmentos.

@@ -1,0 +1,30 @@
+seed_questions: datos/evaluacion/questions_seed.csv
+min_questions: 30
+languages:
+  - es
+  - qu_collao
+  - mixed_es_qu
+
+metrics:
+  technical:
+    - latency_ms
+    - ram_gb
+    - tokens_per_s
+    - error_rate
+  retrieval:
+    - recall_at_k
+    - mrr
+  generation:
+    - chrfpp
+    - sacrebleu
+    - ragas_faithfulness
+  human:
+    - pedagogical_scaffold
+    - dialect_adequacy
+    - curricular_relevance
+
+experiments:
+  - E1_base
+  - E2_rag
+  - E3_rules
+  - E4_rag_rules

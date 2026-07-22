@@ -30,6 +30,11 @@ __pycache__/
 .ruff_cache/
 .ipynb_checkpoints/
 
+# Node / Next.js
+node_modules/
+.next/
+out/
+
 # Local ML caches and heavy artifacts
 .cache/
 hf_cache/
@@ -42,23 +47,10 @@ mlruns/
 *.pth
 *.gguf
 *.onnx
+tesis-slm-quechua/modelos/base/*
+tesis-slm-quechua/modelos/gguf/*
+tesis-slm-quechua/modelos/adapters/*
 tesis-slm-quechua/models/base/*
 tesis-slm-quechua/models/gguf/*
 tesis-slm-quechua/models/adapters/*
-!tesis-slm-quechua/models/base/.gitkeep
-!tesis-slm-quechua/models/gguf/.gitkeep
-!tesis-slm-quechua/models/adapters/.gitkeep
-
-# Data outputs can be large or sensitive; keep folder placeholders only.
-tesis-slm-quechua/data/raw/*
-tesis-slm-quechua/data/cleaned/*
-tesis-slm-quechua/data/rag_corpus/*
-tesis-slm-quechua/data/train/*
-tesis-slm-quechua/data/eval/*
-tesis-slm-quechua/data/synthetic/*
-!tesis-slm-quechua/data/raw/.gitkeep
-!tesis-slm-quechua/data/cleaned/.gitkeep
-!tesis-slm-quechua/data/rag_corpus/.gitkeep
-!tesis-slm-quechua/data/train/.gitkeep
-!tesis-slm-quechua/data/eval/.gitkeep
-!tesis-slm-quechua/data/synthetic/.gitkeep
+tesis-slm-quechua/datos/crudos/external/*

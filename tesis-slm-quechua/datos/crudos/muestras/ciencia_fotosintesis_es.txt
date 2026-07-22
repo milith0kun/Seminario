@@ -1,0 +1,10 @@
+La fotosintesis es el proceso por el cual las plantas verdes elaboran su propio alimento.
+Usan luz solar, agua y dioxido de carbono para producir azucares y liberar oxigeno.
+En el aula de Ciencia y Tecnologia de primaria EIB, se puede explicar con ejemplos locales:
+plantas de la chacra, hojas verdes y la importancia del sol (inti) y del agua (yaku).
+El docente puede guiar con preguntas: Que necesita una planta para crecer? Que sale de las hojas?
+Se recomienda andamiaje: primero observar, luego nombrar, despues explicar la relacion causa-efecto.
+No basta memorizar la definicion; el estudiante debe conectar el proceso con su entorno.
+En contextos bilingues, se pueden presentar terminos clave en espanol y Quechua Collao.
+Ejemplo: sol = inti, agua = yaku, planta = planta/qura segun el uso local validado.
+Este material es de muestra para pruebas del prototipo RAG y no reemplaza textos oficiales MINEDU.

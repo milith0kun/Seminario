@@ -83,17 +83,17 @@ Los datos no empiezan en el modelo. Empiezan en una carpeta de fuentes y un mani
 Todo documento original se coloca en:
 
 ```text
-tesis-slm-quechua/data/raw/
+tesis-slm-quechua/datos/crudos/
 ```
 
 Ejemplos:
 
 ```text
-data/raw/minedu/comunicacion_3ro.pdf
-data/raw/minedu/ciencia_4to.pdf
-data/raw/glosarios/glosario_collao.xlsx
-data/raw/corpus/orcotoma_collao_ocr.txt
-data/raw/diccionarios/diccionario_collao.pdf
+datos/crudos/minedu/comunicacion_3ro.pdf
+datos/crudos/minedu/ciencia_4to.pdf
+datos/crudos/glosarios/glosario_collao.xlsx
+datos/crudos/corpus/orcotoma_collao_ocr.txt
+datos/crudos/diccionarios/diccionario_collao.pdf
 ```
 
 ### Paso B: registrar cada fuente en CSV
@@ -101,7 +101,7 @@ data/raw/diccionarios/diccionario_collao.pdf
 Crear:
 
 ```text
-tesis-slm-quechua/data/manifest.csv
+tesis-slm-quechua/datos/manifiesto.csv
 ```
 
 Columnas:
@@ -113,15 +113,15 @@ id,path,title,language,dialect,domain,grade,source_type,source_url,license_statu
 Ejemplo:
 
 ```csv
-minedu_com_3,data/raw/minedu/comunicacion_3ro.pdf,Comunicacion 3ro EIB,es-qu,collao,comunicacion,3,pdf,https://...,public,true,false,false,Material curricular
-glosario_001,data/raw/glosarios/glosario_collao.xlsx,Glosario Quechua Collao,qu-es,collao,glossary,na,xlsx,,review_required,true,true,false,Requiere validacion
-americasnlp_quy,data/raw/external/americasnlp_quy.tsv,AmericasNLP QUY,qu-es,chanka,transfer,na,tsv,https://...,research,false,false,false,No usar como Collao sin validacion
+minedu_com_3,datos/crudos/minedu/comunicacion_3ro.pdf,Comunicacion 3ro EIB,es-qu,collao,comunicacion,3,pdf,https://...,public,true,false,false,Material curricular
+glosario_001,datos/crudos/glosarios/glosario_collao.xlsx,Glosario Quechua Collao,qu-es,collao,glossary,na,xlsx,,review_required,true,true,false,Requiere validacion
+americasnlp_quy,datos/crudos/external/americasnlp_quy.tsv,AmericasNLP QUY,qu-es,chanka,transfer,na,tsv,https://...,research,false,false,false,No usar como Collao sin validacion
 ```
 
 Regla importante:
 
 ```text
-Si no esta en manifest.csv, no entra al sistema.
+Si no esta en manifiesto.csv, no entra al sistema.
 ```
 
 ### Paso C: limpiar y normalizar
@@ -129,14 +129,14 @@ Si no esta en manifest.csv, no entra al sistema.
 Entrada:
 
 ```text
-data/raw/
-data/manifest.csv
+datos/crudos/
+datos/manifiesto.csv
 ```
 
 Salida:
 
 ```text
-data/cleaned/
+datos/limpios/
 ```
 
 Aqui se hace:
@@ -153,13 +153,13 @@ Aqui se hace:
 Entrada:
 
 ```text
-data/cleaned/
+datos/limpios/
 ```
 
 Salida:
 
 ```text
-data/rag_corpus/chunks.jsonl
+datos/corpus_rag/chunks.jsonl
 ```
 
 Cada linea sera un chunk:
@@ -180,8 +180,9 @@ Reglas:
 Antes de probar modelos se crea un banco fijo:
 
 ```text
-tesis-slm-quechua/data/eval/questions_seed.csv
+tesis-slm-quechua/datos/evaluacion/questions_seed.csv
 ```
+
 
 Columnas:
 

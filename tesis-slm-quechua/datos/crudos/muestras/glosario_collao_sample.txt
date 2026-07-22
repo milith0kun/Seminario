@@ -1,0 +1,10 @@
+# termino_es | termino_qu | nota
+sol | inti | astro diurno
+agua | yaku | liquido vital
+tierra | allpa | suelo / chacra
+planta | qura | vegetacion (validar uso local)
+aprender | yachay | proceso de aprendizaje
+nino/a | wawa | estudiante pequeno
+escuela | yachay wasi | casa del saber
+hablar | rimay | comunicacion oral
+escribir | qillqay | comunicacion escrita
