@@ -21,51 +21,51 @@ El artefacto principal de esta investigación es un \textbf{prototipo funcional 
 El desarrollo de un asistente educativo bilingüe offline tiene el potencial de beneficiar a docentes y estudiantes de comunidades quechuahablantes del sur andino peruano que actualmente carecen de herramientas tecnológicas adaptadas a su realidad lingüística y territorial. Al operar sin conexión a internet y en Quechua Collao, el prototipo podría contribuir a reducir la brecha digital educativa en zonas rurales, fortalecer el uso de la lengua materna en contextos de aprendizaje formal y apoyar los objetivos del modelo de servicio educativo intercultural bilingüe del Ministerio de Educación.
 
 \section{Cronograma de actividades}
-El desarrollo de la tesis se planifica en un horizonte de doce meses a partir de la aprobación del plan. Las actividades se organizan en seis fases según la metodología Design Science Research.
+El desarrollo de la tesis se planifica en un horizonte de doce meses, ejecutándose entre \textbf{agosto de 2026 y julio de 2027}. Las actividades se estructuran en seis fases correlativas según la metodología \textit{Design Science Research} (DSR) y la factibilidad técnica del proyecto.
 
 \begin{table}[H]
 \centering
-\caption{Cronograma de actividades por fases y meses}
+\caption{Cronograma de actividades por fases DSR y períodos calendario (2026--2027)}
 \label{tab:cronograma}
 \small
-\begin{tabular}{@{}p{5.5cm}cccccccccccc@{}}
+\begin{tabular}{@{}p{6cm}p{3cm}c@{}}
 \toprule
-\textbf{Actividad} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} & \textbf{11} & \textbf{12} \\
+\textbf{Fase / Actividad} & \textbf{Período Calendario} & \textbf{Meses} \\
 \midrule
-\textbf{Fase 1: Preparación y permisos} & & & & & & & & & & & & \\
-Revisión de literatura y estado del arte & $\bullet$ & $\bullet$ & & & & & & & & & & \\
-Caracterización de requerimientos EIB & $\bullet$ & $\bullet$ & & & & & & & & & & \\
-Permisos institucionales y validación ética & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & & & \\
+\multicolumn{3}{@{}l}{\textbf{Fase 1: Preparación y marco ético}} \\
+Revisión de literatura y estado del arte & Agosto -- Septiembre 2026 & M1--M2 \\
+Caracterización de requerimientos EIB & Agosto -- Septiembre 2026 & M1--M2 \\
+Permisos institucionales y validación ética & Agosto -- Octubre 2026 & M1--M3 \\
 \midrule
-\textbf{Fase 2: Diseño de la solución} & & & & & & & & & & & & \\
-Diseño de la arquitectura híbrida \textit{offline} & & $\bullet$ & $\bullet$ & & & & & & & & & \\
-Selección del modelo compacto base & & & $\bullet$ & $\bullet$ & & & & & & & & \\
+\multicolumn{3}{@{}l}{\textbf{Fase 2: Diseño de la solución}} \\
+Diseño de la arquitectura híbrida \textit{offline} & Septiembre -- Octubre 2026 & M2--M3 \\
+Selección del modelo compacto base (Qwen2.5-3B) & Octubre -- Noviembre 2026 & M3--M4 \\
 \midrule
-\textbf{Fase 3: Recursos y corpus} & & & & & & & & & & & & \\
-Curación, depuración y normalización de corpus & & & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & \\
-Glosarios, diccionarios y base curricular & & & & $\bullet$ & $\bullet$ & & & & & & & \\
-Construcción del banco de consultas & & & & $\bullet$ & $\bullet$ & & & & & & & \\
+\multicolumn{3}{@{}l}{\textbf{Fase 3: Recursos y corpus bilingüe}} \\
+Curación, depuración y normalización del corpus & Octubre -- Diciembre 2026 & M3--M5 \\
+Glosarios, diccionarios y base curricular EIB & Noviembre -- Diciembre 2026 & M4--M5 \\
+Construcción del banco de 100 consultas patrón & Noviembre -- Diciembre 2026 & M4--M5 \\
 \midrule
-\textbf{Fase 4: Implementación} & & & & & & & & & & & & \\
-Cuantización y configuración local del modelo & & & & & $\bullet$ & $\bullet$ & $\bullet$ & & & & & \\
-Módulo de detección e integración de RAG local & & & & & & $\bullet$ & $\bullet$ & $\bullet$ & & & & \\
-Adaptación ligera QLoRA (condicionada)* & & & & & & & & $\bullet$ & $\bullet$ & & & \\
-Integración final del prototipo & & & & & & & & $\bullet$ & $\bullet$ & & & \\
+\multicolumn{3}{@{}l}{\textbf{Fase 4: Implementación del prototipo}} \\
+Cuantización 4-bit y configuración local CPU & Diciembre 2026 -- Febrero 2027 & M5--M7 \\
+Detección de idioma e integración de RAG local & Enero -- Marzo 2027 & M6--M8 \\
+Adaptación ligera QLoRA (fase condicionada)* & Marzo -- Abril 2027 & M8--M9 \\
+Integración final del prototipo PWA & Marzo -- Abril 2027 & M8--M9 \\
 \midrule
-\textbf{Fase 5: Evaluación} & & & & & & & & & & & & \\
-Diseño de rúbricas y experimentos E1--E3 & & & & & & & & & $\bullet$ & & & \\
-Evaluación técnica y lingüística & & & & & & & & & $\bullet$ & $\bullet$ & & \\
-Validación con docente EIB y especialista lingüístico & & & & & & & & & & $\bullet$ & $\bullet$ & \\
-Análisis y procesamiento de resultados & & & & & & & & & & & $\bullet$ & \\
+\multicolumn{3}{@{}l}{\textbf{Fase 5: Evaluación experimental}} \\
+Diseño de rúbricas y configuración E1--E3 & Abril 2027 & M9 \\
+Evaluación técnica y lingüística (chrF++, RAGAS) & Abril -- Mayo 2027 & M9--M10 \\
+Validación con docente EIB y lingüista nativo & Mayo -- Junio 2027 & M10--M11 \\
+Análisis estadístico (Friedman / Wilcoxon) & Junio 2027 & M11 \\
 \midrule
-\textbf{Fase 6: Documentación} & & & & & & & & & & & & \\
-Redacción del informe de tesis & & & & & & & & & & $\bullet$ & $\bullet$ & $\bullet$ \\
-Revisión final con asesor y sustentación & & & & & & & & & & & & $\bullet$ \\
+\multicolumn{3}{@{}l}{\textbf{Fase 6: Documentación y sustentación}} \\
+Redacción de borrador e informe de tesis & Mayo -- Julio 2027 & M10--M12 \\
+Revisión final con asesor y sustentación & Julio 2027 & M12 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textit{*Nota: La adaptación QLoRA (Fase 4) se considera opcional y condicionada a la disponibilidad de recursos de cómputo y a la escala del corpus curricular validado.}
+\textit{*Nota: La adaptación QLoRA (Fase 4) se considera opcional y condicionada a la disponibilidad de cómputo y escala del corpus validado.}
 
 
 \section{Presupuesto}
