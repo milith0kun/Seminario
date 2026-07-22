@@ -131,22 +131,15 @@ export const DEFAULT_WLLAMA_MODELS: ModelRecord[] = [
   {
     // Primero en la lista a propósito: setModels() usa el primer modelo
     // como respaldo cuando el modelo previamente seleccionado no está en
-    // el catálogo (ej. al pasar de GPU a CPU) — así el respaldo cae en el
-    // modelo de la tesis, no en el más chico.
-    name: "Qwen2.5-3B-Instruct-Q4_K_M-GGUF",
-    display_name: "Qwen (CPU) — modelo de la tesis",
-    provider: "Alibaba",
-    family: ModelFamily.QWEN,
-    size: "3B",
-    quantization: "Q4_K_M",
-    recommended_config: {
-      temperature: 0.7,
-      presence_penalty: 0,
-      frequency_penalty: 0,
-      top_p: 0.8,
-    },
-  },
-  {
+    // el catálogo (ej. al pasar de GPU a CPU tras un error de hardware).
+    // Ese cambio automático ocurre justo en los dispositivos más débiles
+    // (los que no pudieron ni con la GPU), así que el respaldo tiene que
+    // ser el modelo MÁS LIVIANO, no el de la tesis: el .gguf del 3B pesa
+    // ~2 GB, y cargarlo (no solo descargarlo, sino además volcarlo a la
+    // memoria del WASM de un solo hilo) puede tardar varios minutos o
+    // directamente agotar la memoria disponible en un navegador móvil,
+    // sin ningún error visible (se queda "colgado" en 100%). El 3B sigue
+    // disponible para quien lo elija a mano desde el selector.
     name: "Qwen2.5-1.5B-Instruct-Q4_K_M-GGUF",
     display_name: "Qwen (CPU) — liviano",
     provider: "Alibaba",
@@ -166,6 +159,20 @@ export const DEFAULT_WLLAMA_MODELS: ModelRecord[] = [
     provider: "Alibaba",
     family: ModelFamily.QWEN,
     size: "0.5B",
+    quantization: "Q4_K_M",
+    recommended_config: {
+      temperature: 0.7,
+      presence_penalty: 0,
+      frequency_penalty: 0,
+      top_p: 0.8,
+    },
+  },
+  {
+    name: "Qwen2.5-3B-Instruct-Q4_K_M-GGUF",
+    display_name: "Qwen (CPU) — modelo de la tesis",
+    provider: "Alibaba",
+    family: ModelFamily.QWEN,
+    size: "3B",
     quantization: "Q4_K_M",
     recommended_config: {
       temperature: 0.7,

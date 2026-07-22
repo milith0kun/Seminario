@@ -46,17 +46,40 @@ export class WllamaApi implements LLMApi {
     }
 
     const startedAt = Date.now();
-    await this.wllama.loadModelFromHF(
-      { repo: source.repo, file: source.file },
-      {
-        progressCallback: ({ loaded, total }) => {
-          const pct = total ? Math.floor((loaded / total) * 100) : 0;
-          const secs = Math.round((Date.now() - startedAt) / 1000);
-          const text = `Descargando modelo (CPU): ${pct}% completed, ${secs} secs elapsed.`;
-          onUpdate?.(text, text);
+    let descargaCompleta = false;
+
+    // loadModelFromHF no avisa nada mientras vuelca el archivo (~1-2 GB) a
+    // la memoria del WASM de un solo hilo, paso que puede tardar varios
+    // minutos en un celular. Sin este ticker, la barra quedaría fija en
+    // "100%" apenas termina la descarga y parecería que la app se colgó.
+    const ticker = setInterval(() => {
+      if (!descargaCompleta) return;
+      const secs = Math.round((Date.now() - startedAt) / 1000);
+      const text =
+        "Modelo descargado. Preparando en memoria (puede tardar varios " +
+        `minutos en un celular), ${secs} segs transcurridos...`;
+      onUpdate?.(text, text);
+    }, 2_000);
+
+    try {
+      await this.wllama.loadModelFromHF(
+        { repo: source.repo, file: source.file },
+        {
+          progressCallback: ({ loaded, total }) => {
+            const pct = total ? Math.floor((loaded / total) * 100) : 0;
+            const secs = Math.round((Date.now() - startedAt) / 1000);
+            if (pct >= 100) {
+              descargaCompleta = true;
+              return;
+            }
+            const text = `Descargando modelo (CPU): ${pct}% completed, ${secs} secs elapsed.`;
+            onUpdate?.(text, text);
+          },
         },
-      },
-    );
+      );
+    } finally {
+      clearInterval(ticker);
+    }
     this.initialized = true;
   }
 
