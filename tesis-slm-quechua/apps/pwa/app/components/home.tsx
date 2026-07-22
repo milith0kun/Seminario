@@ -31,12 +31,13 @@ import {
 import { ErrorBoundary } from "./error";
 import { getISOLang, getLang } from "../locales";
 import { SideBar } from "./sidebar";
-import { useAppConfig } from "../store/config";
+import { useAppConfig, DEFAULT_MODEL, Model } from "../store/config";
 import { WebLLMApi } from "../client/webllm";
 import { ModelClient, useChatStore } from "../store";
 import { MLCLLMContext, WebLLMContext, WllamaContext } from "../context";
 import { MlcLLMApi } from "../client/mlcllm";
 import { WllamaApi } from "../client/wllama";
+import { showToast } from "./ui-lib";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -332,6 +333,56 @@ const useUsarMotorCpu = () => {
   return usarCpu;
 };
 
+// Muchos navegadores/GPUs no soportan la extensión WebGPU "shader-f16"
+// (confirmado en pruebas: falla igual en Service Worker y en WebWorker con
+// GPUPipelineError/ShaderModule inválido, cualquiera sea el tamaño de
+// modelo). Si el modelo guardado en este dispositivo (de una sesión
+// anterior, quizás antes de este fix) es una variante "q4f16_1", se migra
+// a su par "q4f32_1" ANTES de que se intente cargar — así se evita repetir
+// dos intentos fallidos de GPU (con cientos de errores de shader en
+// consola) solo para terminar cayendo al motor CPU innecesariamente,
+// cuando el dispositivo sí puede usar GPU sin la extensión f16.
+const useMigrarModeloSinF16 = (usarCpu: boolean) => {
+  const config = useAppConfig();
+
+  useEffect(() => {
+    if (usarCpu) return;
+    if (typeof navigator === "undefined" || !("gpu" in navigator)) return;
+    if (!config.modelConfig.model.includes("q4f16_1")) return;
+
+    let cancelado = false;
+    navigator.gpu
+      ?.requestAdapter()
+      .then((adapter) => {
+        if (cancelado || !adapter) return;
+        if (adapter.features.has("shader-f16")) return;
+
+        const modeloActual = config.modelConfig.model;
+        const modeloF32 = modeloActual.replace("q4f16_1", "q4f32_1");
+        const existeF32 = DEFAULT_MODELS.some((m) => m.name === modeloF32);
+        const destino = existeF32 ? modeloF32 : DEFAULT_MODEL;
+
+        log.info(
+          `Este dispositivo no soporta la extensión WebGPU "shader-f16". ` +
+            `Se migra el modelo de "${modeloActual}" a "${destino}".`,
+        );
+        showToast(
+          `Este dispositivo no admite modelos "f16". Se cambió a "${destino}".`,
+        );
+        config.selectModel(destino as Model);
+      })
+      .catch(() => {
+        // Si requestAdapter falla, se deja que el flujo normal de carga
+        // reporte el error (no hay nada más que migrar aquí).
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [usarCpu]);
+};
+
 const useLoadUrlParam = () => {
   const config = useAppConfig();
 
@@ -408,6 +459,7 @@ const useModels = (mlcllm: MlcLLMApi | undefined) => {
 export function Home() {
   const hasHydrated = useHasHydrated();
   const usarCpu = useUsarMotorCpu();
+  useMigrarModeloSinF16(usarCpu);
   const { webllm, isWebllmActive } = useWebLLM();
   const mlcllm = useMlcLLM();
   const wllama = useWllama();

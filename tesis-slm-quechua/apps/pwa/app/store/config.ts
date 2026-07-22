@@ -88,7 +88,7 @@ export type ConfigType = {
 // extensión WebGPU "shader-f16" que necesitan las variantes f16 — cuando
 // falta, falla con GPUPipelineError/ShaderModule inválido en cualquier
 // tamaño. q4f32_1 evita ese requisito y es compatible con más hardware.
-const DEFAULT_MODEL = "Qwen2.5-3B-Instruct-q4f32_1-MLC";
+export const DEFAULT_MODEL = "Qwen2.5-3B-Instruct-q4f32_1-MLC";
 
 
 const DEFAULT_MODEL_CONFIG: ModelConfig = {

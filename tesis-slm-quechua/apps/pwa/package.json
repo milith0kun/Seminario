@@ -5,10 +5,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "dev": "next dev",
-    "build": "cross-env BUILD_MODE=standalone next build",
-    "start": "cross-env BUILD_MODE=standalone next start -H 0.0.0.0 -p 3000",
-
-
+    "build": "cross-env BUILD_MODE=export next build",
+    "start": "npx serve@latest out -l 3000",
     "lint": "next lint",
     "export": "cross-env BUILD_MODE=export next build",
     "export:dev": "cross-env BUILD_MODE=export next dev",
