@@ -54,3 +54,12 @@ tesis-slm-quechua/models/base/*
 tesis-slm-quechua/models/gguf/*
 tesis-slm-quechua/models/adapters/*
 tesis-slm-quechua/datos/crudos/external/*
+
+# Gradle / Android / Flutter build artifacts
+.gradle/
+build/
+*.apk
+*.aab
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/

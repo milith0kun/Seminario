@@ -44,11 +44,18 @@ export class WebLLMApi implements LLMApi {
   constructor(
     type: "serviceWorker" | "webWorker",
     logLevel: LogLevel = "WARN",
+    // OJO: no leer `this.llmConfig?.cache` acá — en este punto del
+    // constructor `this.llmConfig` todavía no se asignó (eso pasa recién
+    // en `chat()`), así que siempre daba `undefined` y este ajuste de
+    // Settings ("tipo de caché") no tenía ningún efecto real. Se recibe
+    // ya resuelto desde quien crea la instancia (useWebLLM en home.tsx),
+    // que sí conoce el `cacheType` configurado.
+    useIndexedDBCache: boolean = false,
   ) {
     const engineConfig = {
       appConfig: {
         ...prebuiltAppConfig,
-        useIndexedDBCache: this.llmConfig?.cache === "index_db",
+        useIndexedDBCache,
       },
       logLevel,
     };

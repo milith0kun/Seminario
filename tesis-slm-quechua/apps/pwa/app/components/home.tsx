@@ -31,7 +31,7 @@ import {
 import { ErrorBoundary } from "./error";
 import { getISOLang, getLang } from "../locales";
 import { SideBar } from "./sidebar";
-import { useAppConfig, DEFAULT_MODEL, Model } from "../store/config";
+import { useAppConfig, DEFAULT_MODEL, Model, CacheType } from "../store/config";
 import { WebLLMApi } from "../client/webllm";
 import { ModelClient, useChatStore } from "../store";
 import { MLCLLMContext, WebLLMContext, WllamaContext } from "../context";
@@ -176,6 +176,7 @@ const useWebLLM = () => {
   const [isWebllmActive, setWebllmAlive] = useState(false);
 
   const isWebllmInitialized = useRef(false);
+  const useIndexedDBCache = config.cacheType === CacheType.IndexDB;
 
   // If service worker registration timeout, fall back to web worker
   const timeout = setTimeout(() => {
@@ -183,7 +184,7 @@ const useWebLLM = () => {
       log.info(
         "Service Worker activation is timed out. Falling back to use web worker.",
       );
-      setWebLLM(new WebLLMApi("webWorker", config.logLevel));
+      setWebLLM(new WebLLMApi("webWorker", config.logLevel, useIndexedDBCache));
       setWebllmAlive(true);
     }
   }, 2_000);
@@ -197,7 +198,7 @@ const useWebLLM = () => {
       log.info(
         "Se fuerza WebWorkerMLCEngine (recuperación tras error de GPU previo).",
       );
-      setWebLLM(new WebLLMApi("webWorker", config.logLevel));
+      setWebLLM(new WebLLMApi("webWorker", config.logLevel, useIndexedDBCache));
       setWebllmAlive(true);
       isWebllmInitialized.current = true;
       clearTimeout(timeout);
@@ -233,6 +234,7 @@ const useWebLLM = () => {
                 new WebLLMApi(
                   isWebGPUAvailable ? "serviceWorker" : "webWorker",
                   config.logLevel,
+                  useIndexedDBCache,
                 ),
               );
               setWebllmAlive(true);
@@ -255,11 +257,12 @@ const useWebLLM = () => {
       log.info(
         "Service Worker API is unavailable. Falling back to use web worker.",
       );
-      setWebLLM(new WebLLMApi("webWorker", config.logLevel));
+      setWebLLM(new WebLLMApi("webWorker", config.logLevel, useIndexedDBCache));
       setWebllmAlive(true);
       isWebllmInitialized.current = true;
       clearTimeout(timeout);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (webllm?.webllm.type === "serviceWorker") {
@@ -383,6 +386,34 @@ const useMigrarModeloSinF16 = (usarCpu: boolean) => {
   }, [usarCpu]);
 };
 
+// Sin este permiso, el navegador considera la caché del modelo (Cache
+// Storage / IndexedDB, cientos de MB a varios GB) como "best-effort" y
+// puede liberarla sola bajo presión de espacio (frecuente en celulares),
+// aunque el código nunca la borre — causa típica de "se descarga el
+// modelo cada vez que abro la app" sin ningún error de por medio.
+const useAlmacenamientoPersistente = () => {
+  useEffect(() => {
+    if (typeof navigator === "undefined" || !navigator.storage?.persist) {
+      return;
+    }
+    navigator.storage
+      .persisted()
+      .then((yaPersistente) => {
+        if (yaPersistente) return;
+        return navigator.storage.persist();
+      })
+      .then((concedido) => {
+        if (concedido === undefined) return;
+        log.info(
+          concedido
+            ? "Almacenamiento persistente concedido: la caché del modelo no debería liberarse sola."
+            : "Almacenamiento persistente NO concedido por el navegador: la caché del modelo podría liberarse bajo presión de espacio.",
+        );
+      })
+      .catch((err) => log.warn("No se pudo solicitar almacenamiento persistente:", err));
+  }, []);
+};
+
 const useLoadUrlParam = () => {
   const config = useAppConfig();
 
@@ -458,6 +489,7 @@ const useModels = (mlcllm: MlcLLMApi | undefined) => {
 
 export function Home() {
   const hasHydrated = useHasHydrated();
+  useAlmacenamientoPersistente();
   const usarCpu = useUsarMotorCpu();
   useMigrarModeloSinF16(usarCpu);
   const { webllm, isWebllmActive } = useWebLLM();
