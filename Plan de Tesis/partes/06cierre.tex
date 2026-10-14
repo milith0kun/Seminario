@@ -1,99 +1,115 @@
-\section{Importancia del estudio}
-\subsection{Resultados esperados}
-El artefacto principal de esta investigación es un \textbf{prototipo funcional de sistema informático}: un asistente educativo bilingüe español--Quechua Collao ejecutable sin conexión a internet en dispositivos de bajo o mediano costo. Este prototipo no constituye un modelo de lenguaje nuevo ni realiza entrenamiento del modelo base desde cero, sino que implementa un \textbf{enfoque híbrido} que integra un modelo compacto pre-entrenado y cuantizado con un canal de procesamiento RAG local disciplinado, recursos lingüísticos explícitos (glosarios, diccionarios, reglas de normalización) y, de ser factible, una adaptación ligera complementaria (QLoRA) como configuración experimental, adaptado específicamente para responder consultas pedagógicas en contextos EIB del sur andino peruano. Los productos derivados de su construcción y evaluación son:
+\newpage
+\section{Aspectos Administrativos}
+
+\subsection{Viabilidad y sostenibilidad del proyecto}
+
+El proyecto es totalmente viable en los aspectos técnico, computacional y operativo:
+
 \begin{itemize}
-	\item Un prototipo funcional de asistente educativo bilingüe español--Quechua Collao, ejecutable sin conexión a internet en dispositivos de bajo o mediano costo, basado en un modelo compacto cuantizado con canal de procesamiento RAG disciplinado y, de ser factible, adaptación ligera complementaria.
-	\item Una base local de contenidos curriculares, glosarios terminológicos, diccionarios y materiales EIB en español y Quechua Collao, organizados para su recuperación híbrida (léxica + densa) y orientados al nivel primaria (3.° a 6.° grado), con posibilidad de ampliación posterior hacia secundaria básica en futuras iteraciones.
-	\item Un corpus curado de datos bilingües español--Quechua Collao, generado con modelos de IA y validado contra corpus de referencia existentes (Orcotoma et al., AMLQ).
-	\item Un reporte comparativo de las configuraciones experimentales (\textit{línea base} sin RAG, RAG disciplinado y enfoque híbrido completo) que documente la contribución de cada componente del sistema.
-	\item Un reporte de evaluación técnica que documente métricas de latencia, consumo de memoria, tokens por segundo y estabilidad del prototipo en hardware de bajo o mediano costo de forma local.
-	\item Un reporte de evaluación lingüística y pedagógica con resultados de métricas automáticas (chrF++, RAGAS, Recall@k) y valoraciones del docente especialista EIB y del especialista lingüístico en Quechua Collao sobre la utilidad educativa, pertinencia intercultural y adecuación pedagógica de las respuestas generadas.
+  \item \textbf{Viabilidad técnica:} Los experimentos se ejecutan de manera 100\% autolocal en hardware de consumo accesible (computadora convencional con CPU de gama media, 8~GB RAM y acelerador modesto $\le$ 4 GB de VRAM, ejecutable vía \texttt{llama.cpp} cuantizado a 4 bits). No se requiere infraestructura de servidor dedicada ni clusters de alta gama.
+  \item \textbf{Viabilidad económica:} Se utilizan modelos de código abierto (Qwen2.5-3B-Instruct) bajo licencias comunitarias permisivas y marcos de desarrollo de código libre. El costo recurrente por consumo de APIs en la nube es \$0,00.
+  \item \textbf{Viabilidad operativa:} Al operar sin conexión a internet y basarse en datos abiertos y generación controlada reproducible, el proyecto no depende de trámites burocráticos, permisos institucionales ni trabajo de campo con sujetos humanos.
+  \item \textbf{Sostenibilidad lingüística:} La curación e indización bilingüe (español--Quechua Collao) respetan el marco normativo ortográfico y protegen el patrimonio lingüístico mediante herramientas abiertas e independientes de plataformas propietarias.
 \end{itemize}
 
-\subsection{Contribuciones}
-\begin{itemize}
-	\item \textbf{Contribución tecnológica:} Arquitectura híbrida funcional de un asistente educativo orientado al funcionamiento offline que integra detección de idioma, enrutamiento lingüístico, RAG local disciplinado y recursos lingüísticos explícitos, incorporando adaptación ligera mediante QLoRA como configuración experimental complementaria, y la generación de respuestas mediante un modelo compacto cuantizado, ejecutable en dispositivos de bajo o mediano costo sin conexión a internet.
-	\item \textbf{Contribución educativa:} Base de conocimiento local organizada con materiales curriculares EIB en español y Quechua Collao, orientada a apoyar consultas pedagógicas de estudiantes y docentes en zonas rurales, junto con un corpus curado de recursos lingüísticos para la variedad Quechua Collao aplicados a tareas de educación intercultural bilingüe.
-	\item \textbf{Contribución metodológica:} Diseño de comparación escalonada que cuantifica la contribución de cada componente del enfoque híbrido, combinando métricas automáticas de calidad lingüística (chrF++), calidad de recuperación (RAGAS) y criterios pedagógicos e interculturales validados por los especialistas, aplicable a otros proyectos de tecnología educativa en lenguas indígenas de bajos recursos del sur andino.
-\end{itemize}
+\subsection{Cronograma de actividades (DSR)}
 
-\subsection{Impacto social}
-El desarrollo de un asistente educativo bilingüe offline tiene el potencial de beneficiar a docentes y estudiantes de comunidades quechuahablantes del sur andino peruano que actualmente carecen de herramientas tecnológicas adaptadas a su realidad lingüística y territorial. Al operar sin conexión a internet y en Quechua Collao, el prototipo podría contribuir a reducir la brecha digital educativa en zonas rurales, fortalecer el uso de la lengua materna en contextos de aprendizaje formal y apoyar los objetivos del modelo de servicio educativo intercultural bilingüe del Ministerio de Educación.
+El plan de trabajo comprende un período de 6 meses (M1--M6, agosto 2026 -- enero 2027) organizado en seis fases metodológicas bajo el enfoque \textit{Design Science Research} (DSR).
 
-\section{Cronograma de actividades}
-El desarrollo de la tesis se planifica en un horizonte de doce meses, ejecutándose entre \textbf{agosto de 2026 y julio de 2027}. Las actividades se estructuran en seis fases correlativas según la metodología \textit{Design Science Research} (DSR) y la factibilidad técnica del proyecto.
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{ganttchart}[
+  vgrid, hgrid,
+  x unit=1.2cm,
+  y unit chart=0.6cm,
+  y unit title=0.7cm,
+  bar/.append style={fill=tcTeal!55, draw=tcTeal!85!black},
+  bar height=0.55,
+  group/.append style={fill=tcAzul!70, draw=tcAzul},
+  group height=0.5,
+  title/.append style={fill=tcAzul!18, draw=tcAzul},
+  title label font=\scriptsize,
+  bar label font=\scriptsize,
+  group label font=\scriptsize\bfseries,
+  milestone/.append style={fill=tcNaranja, draw=tcNaranja!70!black}
+]{1}{6}
+\gantttitle{Cronograma de actividades por fases DSR (M1--M6, 2026--2027)}{6} \\
+\gantttitlelist{1,...,6}{1} \\
+
+\ganttgroup{Fase 1: Preparación y fundamentación}{1}{1} \\
+\ganttbar{Revisión sistemática de literatura y SLM-RAG}{1}{1} \\
+\ganttbar{Revisión de licencias y preparación de entorno}{1}{1} \\
+
+\ganttgroup{Fase 2: Diseño de la arquitectura}{2}{2} \\
+\ganttbar{Diseño del pipeline RAG y adaptadores QLoRA}{2}{2} \\
+\ganttbar{Selección y cuantización del modelo compacto base}{2}{2} \\
+
+\ganttgroup{Fase 3: Datos y base de conocimiento}{3}{3} \\
+\ganttbar{Curación y normalización del corpus Quechua Collao}{3}{3} \\
+\ganttbar{Construcción del banco de 100 consultas patrón}{3}{3} \\
+
+\ganttgroup{Fase 4: Implementación del prototipo}{4}{4} \\
+\ganttbar{Indexación vectorial local (\texttt{sqlite-vec}/FAISS)}{4}{4} \\
+\ganttbar{Entrenamiento y ajuste de adaptadores QLoRA (PEFT)}{4}{4} \\
+
+\ganttgroup{Fase 5: Evaluación experimental}{5}{5} \\
+\ganttbar{Evaluación técnica: latencia, RAM y throughput}{5}{5} \\
+\ganttbar{Evaluación de fidelidad: chrF++, BLEU y RAGAS}{5}{5} \\
+
+\ganttgroup{Fase 6: Documentación y sustentación}{6}{6} \\
+\ganttbar{Redacción del informe de tesis y borrador final}{6}{6} \\
+\ganttbar{Revisión final del plan y sustentación}{6}{6}
+\end{ganttchart}}
+\caption{Diagrama de Gantt del cronograma de actividades por fases DSR (6 Meses)}
+\label{fig:gantt_cronograma}
+\end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Cronograma de actividades por fases DSR y períodos calendario (2026--2027)}
+\caption{Cronograma de actividades por fases DSR y períodos calendario (6 Meses, 2026--2027)}
 \label{tab:cronograma}
 \small
-\begin{tabular}{@{}p{6cm}p{3cm}c@{}}
+\begin{tabular}{@{}p{6.8cm}p{3.5cm}c@{}}
 \toprule
 \textbf{Fase / Actividad} & \textbf{Período Calendario} & \textbf{Meses} \\
 \midrule
-\multicolumn{3}{@{}l}{\textbf{Fase 1: Preparación y marco ético}} \\
-Revisión de literatura y estado del arte & Agosto -- Septiembre 2026 & M1--M2 \\
-Caracterización de requerimientos EIB & Agosto -- Septiembre 2026 & M1--M2 \\
-Permisos institucionales y validación ética & Agosto -- Octubre 2026 & M1--M3 \\
+\multicolumn{3}{@{}l}{\textbf{Fase 1: Preparación y fundamentación}} \\
+Revisión sistemática de literatura y SLM-RAG & Agosto 2026 & M1 \\
+Revisión de licencias y preparación de entorno & Agosto 2026 & M1 \\
 \midrule
-\multicolumn{3}{@{}l}{\textbf{Fase 2: Diseño de la solución}} \\
-Diseño de la arquitectura híbrida \textit{offline} & Septiembre -- Octubre 2026 & M2--M3 \\
-Selección del modelo compacto base (Qwen2.5-3B) & Octubre -- Noviembre 2026 & M3--M4 \\
+\multicolumn{3}{@{}l}{\textbf{Fase 2: Diseño de la arquitectura}} \\
+Diseño del pipeline RAG y adaptadores QLoRA & Septiembre 2026 & M2 \\
+Selección y cuantización del modelo compacto base (Qwen2.5-3B) & Septiembre 2026 & M2 \\
 \midrule
-\multicolumn{3}{@{}l}{\textbf{Fase 3: Recursos y corpus bilingüe}} \\
-Curación, depuración y normalización del corpus & Octubre -- Diciembre 2026 & M3--M5 \\
-Glosarios, diccionarios y base curricular EIB & Noviembre -- Diciembre 2026 & M4--M5 \\
-Construcción del banco de 100 consultas patrón & Noviembre -- Diciembre 2026 & M4--M5 \\
+\multicolumn{3}{@{}l}{\textbf{Fase 3: Datos y base de conocimiento}} \\
+Curación y normalización del corpus Quechua Collao & Octubre 2026 & M3 \\
+Construcción del banco de 100 consultas patrón y ground-truth & Octubre 2026 & M3 \\
 \midrule
 \multicolumn{3}{@{}l}{\textbf{Fase 4: Implementación del prototipo}} \\
-Cuantización 4-bit y configuración local CPU & Diciembre 2026 -- Febrero 2027 & M5--M7 \\
-Detección de idioma e integración de RAG local & Enero -- Marzo 2027 & M6--M8 \\
-Adaptación ligera QLoRA (fase condicionada)* & Marzo -- Abril 2027 & M8--M9 \\
-Integración final del prototipo PWA & Marzo -- Abril 2027 & M8--M9 \\
+Indexación vectorial local (\texttt{sqlite-vec} / FAISS) & Noviembre 2026 & M4 \\
+Entrenamiento y ajuste de adaptadores QLoRA (PEFT) & Noviembre 2026 & M4 \\
 \midrule
 \multicolumn{3}{@{}l}{\textbf{Fase 5: Evaluación experimental}} \\
-Diseño de rúbricas y configuración E1--E3 & Abril 2027 & M9 \\
-Evaluación técnica y lingüística (chrF++, RAGAS) & Abril -- Mayo 2027 & M9--M10 \\
-Validación con docente EIB y lingüista nativo & Mayo -- Junio 2027 & M10--M11 \\
-Análisis estadístico (Friedman / Wilcoxon) & Junio 2027 & M11 \\
+Evaluación técnica de hardware (latencia, RAM, tokens/s) & Diciembre 2026 & M5 \\
+Evaluación computacional de fidelidad (chrF++, BLEU, RAGAS) & Diciembre 2026 & M5 \\
 \midrule
 \multicolumn{3}{@{}l}{\textbf{Fase 6: Documentación y sustentación}} \\
-Redacción de borrador e informe de tesis & Mayo -- Julio 2027 & M10--M12 \\
-Revisión final con asesor y sustentación & Julio 2027 & M12 \\
+Redacción del informe de tesis y borrador final & Enero 2027 & M6 \\
+Revisión final del plan y sustentación & Enero 2027 & M6 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textit{*Nota: La adaptación QLoRA (Fase 4) se considera opcional y condicionada a la disponibilidad de cómputo y escala del corpus validado.}
+\subsection{Estructura tentativa del informe de tesis}
 
+La memoria final de tesis se estructurará conforme a la directiva de la Facultad de Ingeniería Eléctrica, Electrónica, Informática y Mecánica de la UNSAAC:
 
-\section{Presupuesto}
-\label{sec:presupuesto}
-El proyecto se ejecuta íntegramente con recursos propios de los investigadores. La laptop de desarrollo y pruebas es un recurso personal ya disponible. El cómputo puntual para cuantización y QLoRA se cubrirá con niveles gratuitos de Kaggle y Google Colab.
-
-\begin{table}[H]
-\centering
-\caption{Presupuesto estimado del proyecto}
-\label{tab:presupuesto}
-\begin{tabular}{@{}p{7cm}rr@{}}
-\toprule
-	\textbf{Rubro} & \textbf{Cantidad} & \textbf{Costo (S/)} \\
-\midrule
-\multicolumn{3}{@{}l}{\textbf{Recursos tecnológicos}} \\
-Almacenamiento SSD 1 TB (modelos y corpus) & 1 & 500,00 \\
-\midrule
-\multicolumn{3}{@{}l}{\textbf{Recursos académicos}} \\
-Material bibliográfico y acceso a bases de datos & Global & 300,00 \\
-Impresiones y empastados & Global & 200,00 \\
-\midrule
-\multicolumn{3}{@{}l}{\textbf{Otros}} \\
-Imprevistos (10\%) & Global & 100,00 \\
-\midrule
-\textbf{TOTAL} & & \textbf{1\,100,00} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textit{Nota:} La laptop de desarrollo (recurso personal existente), los servicios de cómputo gratuitos (Kaggle, Google Colab) y las herramientas de software libre no representan costo adicional para el proyecto.
-
+\begin{enumerate}[leftmargin=1.5em, itemsep=0.3em]
+  \item \textbf{Capítulo I: Introducción.} Planteamiento del problema de ingeniería, formulación de preguntas de investigación, objetivos (general y específicos), hipótesis y justificación (técnica, científica y metodológica).
+  \item \textbf{Capítulo II: Marco Teórico y Estado del Arte.} Fundamentos de modelos de lenguaje compactos (SLM), cuantización (GGUF, 4 bits), generación aumentada por recuperación (RAG), mecanismos de atención Transformer, adaptadores de bajo rango (LoRA/QLoRA), procesamiento de lenguaje natural en Quechua Collao y revisión crítica de trabajos previos.
+  \item \textbf{Capítulo III: Metodología y Diseño de la Arquitectura.} Aplicación del marco DSR, arquitectura del pipeline offline, enrutamiento bilingüe, indexación vectorial local, entrenamiento de adaptadores QLoRA y diseño del benchmark de evaluación.
+  \item \textbf{Capítulo IV: Implementación Computacional.} Detalles de ingeniería del sistema, cuantización del modelo Qwen2.5-3B, configuración de almacenamiento vectorial embebido y pipeline de inferencia con \texttt{llama.cpp}.
+  \item \textbf{Capítulo V: Resultados y Evaluación Experimental.} Presentación de resultados cuantitativos: eficiencia en hardware (latencia, TPS, RAM/VRAM), métricas de PLN (chrF++, BLEU, perplejidad), métricas Ragas (\textit{faithfulness}, \textit{context recall}), análisis comparativo de configuraciones E1, E2 y E3, e inferencia estadística (Friedman / Wilcoxon).
+  \item \textbf{Capítulo VI: Conclusiones y Trabajos Futuros.} Síntesis de hallazgos computacionales, lecciones aprendidas sobre adaptadores QLoRA en lenguas aglutinantes de bajos recursos y recomendaciones técnicas de escalabilidad.
+\end{enumerate}

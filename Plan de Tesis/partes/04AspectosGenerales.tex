@@ -1,94 +1,192 @@
 \newpage
 
-% *************************
-% **     PROBLEMA        **
-% *************************
+% =========================================================================
+% CAPÍTULO 1: ASPECTOS GENERALES DE LA INVESTIGACIÓN
+% =========================================================================
 
-\section{Problema de Investigación}
-\subsection{Descripción del problema}La educación rural bajo el modelo de Educación Intercultural Bilingüe (EIB) en el Perú enfrenta una profunda brecha de recursos y herramientas tecnológicas adaptadas. A pesar de que el sistema EIB atiende a más de 1,2 millones de estudiantes en el país \citep{minedu2018}, su implementación en el ámbito rural se ve limitada por la falta de conectividad digital: según el INEI, apenas el 20,5\% de los hogares rurales tiene acceso a internet \citep{inei2025}. Esta desconexión digital afecta de manera crítica a los departamentos del sur andino (Cusco y Puno), donde se concentra una alta proporción de población escolar quechuahablante.
+\section{Aspectos Generales de la Investigación}
 
-En este contexto regional, la lengua originaria predominante es el Quechua Collao. Esta variedad lingüística impone desafíos complejos para los sistemas de procesamiento automático: su naturaleza aglutinante y sufijadora genera palabras de alta densidad semántica, y en la práctica educativa, los estudiantes y docentes interactúan de forma dinámica alternando constantemente entre el quechua y el español (translenguaje o alternancia de códigos). Las herramientas tecnológicas estándar no están preparadas para indexar, segmentar o tokenizar esta variedad lingüística de bajos recursos digitales, ni para discernir entre las consultas formuladas en una u otra lengua.
+\subsection{Introducción}
+El vertiginoso desarrollo del procesamiento de lenguaje natural (PLN) y de los modelos fundacionales basados en la arquitectura Transformer ha transformado la interacción hombre--máquina a escala global. No obstante, este avance técnico ha beneficiado primordialmente a lenguas de alta disponibilidad de datos digitales (como el inglés y el español), consolidando una profunda asimetría tecnológica respecto a las lenguas originarias de bajos recursos computacionales. En el contexto peruano, el Quechua Collao (variedad predominante en los departamentos de Cusco y Puno) carece de herramientas modernas de generación de lenguaje fidedignas y adaptadas a sus particularidades morfosintácticas aglutinantes.
 
-Por otro lado, aunque el avance de la inteligencia artificial generativa ha popularizado el uso de asistentes virtuales para el aprendizaje, las soluciones comerciales son inviables para las escuelas rurales EIB. Esto se debe a tres limitaciones estructurales: (a) requieren conexión permanente a internet para consultar modelos remotos en la nube, (b) carecen de representación real y alineación con la variedad Quechua Collao, y (c) no están adaptadas al currículo oficial del Ministerio de Educación ni siguen estrategias instruccionales de andamiaje formativo.
+A esta brecha digital se añade un condicionamiento de infraestructura crítico: un porcentaje sustantivo de las comunidades andinas quechuahablantes habita en zonas con conectividad a internet inexistente o intermitente, lo que invalida el empleo de servicios comerciales de inteligencia artificial en la nube. Esta realidad exige el desarrollo de soluciones computacionales autónomas que operen en modo estrictamente local (\textit{on-device}) sobre equipos de cómputo convencionales y de presupuesto accesible ($\le$ 4~GB de VRAM o ejecución en CPU).
 
-En consecuencia, existe una brecha técnica y pedagógica no resuelta: la ausencia de un asistente educativo bilingüe español--Quechua Collao que funcione 100\% offline, que integre un enrutamiento lingüístico automático para consultas bilingües, y que recupere localmente contenidos curriculares validados mediante una arquitectura de modelo compacto y RAG local. Esta brecha justifica el desarrollo y evaluación del prototipo propuesto.
+La conjunción de Modelos de Lenguaje Pequeños (SLMs, $\le$ 3 mil millones de parámetros cuantizados a 4 bits) y sistemas de Generación Aumentada por Recuperación (RAG local) emerge como la respuesta técnica más viable para almacenar conocimiento documental fuera de los pesos del modelo. Sin embargo, los modelos compactos estándar sufren de un cuello de botella intrínseco al asimilar contexto externo (\textit{context utilization bottleneck}): su limitada capacidad atencional no logra focalizar los morfemas quechuas pertinentes, induciendo alucinaciones factuales o forzando la respuesta hacia el español. Frente a este desafío, la presente investigación propone, implementa y evalúa una arquitectura de ingeniería que acopla adaptadores de ajuste fino de bajo rango (QLoRA) en las capas de atención del SLM cuantizado para condicionar y maximizar la asimilación del contexto RAG en Quechua Collao dentro de un entorno computacional 100\% offline.
 
-\subsection{Identificación del problema}
-El problema central de la investigación es la ausencia de un asistente educativo bilingüe español--Quechua Collao que funcione sin conexión a internet, basado en un modelo compacto con RAG local, para responder consultas pedagógicas en contextos de Educación Intercultural Bilingüe.
+\subsection{Problema de Investigación}
 
-\subsection{Formulación del problema}
-\subsubsection{Problema general}
-¿Cómo diseñar, implementar y evaluar un asistente educativo offline español--Quechua Collao basado en un modelo compacto con RAG local para apoyar consultas curriculares en contextos de Educación Intercultural Bilingüe?
+\subsubsection{Descripción del problema}
+El procesamiento de lenguaje natural (PLN) para lenguas originarias de bajos recursos digitales enfrenta una severa brecha tecnológica en entornos sin conectividad digital. En regiones del sur andino peruano como Cusco y Puno, la lengua originaria predominante es el Quechua Collao. Esta variedad lingüística impone desafíos complejos para los sistemas computacionales modernos: su estructura morfológica aglutinante y sufijadora genera palabras de alta densidad semántica y una tasa de fertilidad de tokens estimada en $\approx$3,4 veces superior respecto al español, penalizando severamente el consumo de memoria y la latencia en arquitecturas basadas en Transformers.
 
-\subsubsection{Subproblemas}
+Por otro lado, aunque los modelos de lenguaje de gran escala (LLMs) comerciales en la nube han alcanzado altos niveles de fluidez, son inviables para despliegues locales y aislados debido a tres limitaciones estructurales: (a) dependen estrictamente de conexión permanente a internet para interactuar con servidores remotos, (b) carecen de representación factual y dialectal adecuada para el Quechua Collao, propiciando alucinaciones severas, y (c) presentan un alto costo de cómputo inalcanzable para hardware convencional.
+
+La alternativa técnica radica en el uso de Modelos de Lenguaje Pequeños (SLMs, $\le$ 3 mil millones de parámetros) cuantizados a 4 bits ejecutados de forma local (\textit{on-device}). Sin embargo, los SLMs presentan una capacidad de memoria paramétrica intrínseca muy limitada para almacenar conocimiento factual en lenguas de bajos recursos. Al acoplarles un sistema estándar de Generación Aumentada por Recuperación (RAG, \textit{Retrieval-Augmented Generation}) para inyectar información externa sin reentrenar todo el modelo, surge un cuello de botella crítico de ingeniería: los SLMs convencionales exhiben fallas sistemáticas en la atención y utilización del contexto recuperado (\textit{context utilization bottleneck}), resultando en alucinaciones, respuestas truncadas o desvío no deseado hacia el español.
+
+Entrenar un modelo desde cero o realizar un ajuste fino completo (\textit{Full Fine-Tuning}) resulta contraproducente y técnicamente inviable ante la escasez de corpus paralelos masivos en Quechua Collao, acarreando riesgos de sobreajuste y olvido catastrófico. En consecuencia, existe una brecha técnica abierta en la ingeniería de inteligencia artificial: la necesidad de una arquitectura SLM--RAG offline que adapte eficientemente las matrices de pesos del modelo (mediante técnicas de ajuste fino de bajo rango, PEFT/QLoRA) para maximizar la asimilación del contexto recuperado y garantizar la generación fidedigna en Quechua Collao sobre hardware de recursos limitados.
+
+\subsubsection{Identificación del problema}
+El problema central de la investigación es la limitada capacidad de los modelos de lenguaje compactos cuantizados para asimilar y procesar con precisión contextos recuperados en Quechua Collao bajo arquitecturas RAG en entornos computacionales desconectados.
+
+La Figura~\ref{fig:arbol_problemas} sintetiza, mediante un árbol de problemas, las causas identificadas y los efectos derivados del problema central.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[every node/.style={text width=3.3cm, minimum height=1.7cm}]
+\node[tcentral, text width=6.6cm, minimum height=1.8cm] (centro) at (0,0) {\textbf{Problema Central}\\[2pt]Limitada asimilación y precisión factual de modelos compactos con RAG offline para consultas en Quechua Collao};
+
+\node[tnaranja] (c1) at (-5.5,-3.2) {\textbf{Causa 1 (PE1 - Datos)}\\[2pt]Escasez de corpus estructurado y alta fertilidad morfológica del Quechua Collao};
+\node[tnaranja] (c2) at (0,-3.2) {\textbf{Causa 2 (PE2 - Núcleo)}\\[2pt]Dispersión atencional y cuello de botella en asimilación de contexto en SLMs sin adaptar};
+\node[tnaranja] (c3) at (5.5,-3.2) {\textbf{Causa 3 (PE3 - Evaluación)}\\[2pt]Carencia de marcos empíricos automatizados para validar fidelidad factual y recursos locales};
+
+\node[trojo] (e1) at (-5.5,3.2) {\textbf{Efecto 1 (Derivado C1)}\\[2pt]Recuperación documental imprecisa y degradación semántica por variabilidad léxica};
+\node[trojo] (e2) at (0,3.2) {\textbf{Efecto 2 (Derivado C2)}\\[2pt]Generación con alucinaciones factuales, desvío al español y omisión del contexto RAG};
+\node[trojo] (e3) at (5.5,3.2) {\textbf{Efecto 3 (Derivado C3)}\\[2pt]Incertidumbre en viabilidad técnica ($\le$ 4~GB) y persistencia de la brecha digital};
+
+\node[tlbl] at (-8.6,-3.2) {Causas};
+\node[tlbl] at (-8.6,3.2) {Efectos};
+
+\foreach \n in {c1,c2,c3} \draw[techa] (\n) -- (centro);
+\foreach \n in {e1,e2,e3} \draw[techa] (centro) -- (\n);
+\end{tikzpicture}}
+\caption{Árbol de problemas: causas tecnológicas (naranja, tríada PE1--PE3) y efectos computacionales (rojo)}
+\label{fig:arbol_problemas}
+\end{figure}
+
+\subsubsection{Formulación del problema}
+\paragraph{Problema general.}
+¿De qué manera el diseño e implementación de una arquitectura SLM--RAG con QLoRA influye en la generación contextualizada en Quechua Collao dentro de un entorno computacional offline?
+
+\paragraph{Problemas específicos.}
 \begin{itemize}
-	\item ¿Cuáles son los requerimientos lingüísticos, pedagógicos y tecnológicos que debe satisfacer un asistente educativo bilingüe offline para contextos rurales de EIB?
-	\item ¿Cómo diseñar una arquitectura offline que integre detección automática del idioma, recuperación local de contenidos curriculares, recursos lingüísticos explícitos y generación de respuestas pedagógicas?
-	\item ¿Cómo implementar y configurar un modelo compacto cuantizado para operar de forma eficiente sin conexión a internet en dispositivos de bajo costo?
-	\item ¿Qué diferencia en rendimiento y pertinencia se registra al comparar tres configuraciones básicas del sistema: modelo base sin RAG, modelo con RAG local y modelo con el enfoque híbrido completo?
-	\item ¿Cómo evaluar la calidad del prototipo resultante mediante métricas técnicas, lingüísticas y rúbricas de pertinencia pedagógica?
-\end{itemize}
-\section{Justificación}
-La investigación se justifica porque las condiciones descritas en el problema —escasa conectividad rural, ausencia de herramientas tecnológicas en Quechua Collao y más de 1,2 millones de estudiantes EIB desatendidos tecnológicamente \citep{minedu2018}— no se resuelven suficientemente con las herramientas de inteligencia artificial generativa comerciales en la nube, las cuales dependen de conectividad permanente y operan mayoritariamente sobre lenguas de alta disponibilidad. El proyecto propone una alternativa a esa brecha desde tres perspectivas:
-
-\begin{itemize}
-	\item \textbf{Justificación Teórica:} El estudio aporta a la integración del procesamiento de lenguas de bajos recursos digitales con la tecnología educativa. Aunque existen investigaciones previas sobre traducción automática o evaluación de modelos para quechua de manera aislada, no se ha propuesto un diseño que acople el entendimiento bilingüe contextualizado, la recuperación local de contenidos y mecanismos de adaptación orientados al andamiaje pedagógico para el Quechua Collao.
-	\item \textbf{Justificación Práctica:} Propone un prototipo funcional offline de apoyo pedagógico complementario en áreas rurales de baja o nula conectividad, facilitando el acceso a materiales oficiales en la lengua originaria del estudiante.
-	\item \textbf{Justificación Metodológica:} Diseña un marco de evaluación comparativo que permite medir el aporte real de cada componente del sistema (el modelo base, la recuperación local de contenidos y la alineación de estilo del modelo), combinando métricas automatizadas de rendimiento y calidad de texto con valoraciones cualitativas aplicadas por especialistas bilingües.
-\end{itemize}
-
-% *************************
-% **     ALCANCES        **
-% *************************
-\section{Alcances y limitaciones}
-\subsection{Alcances}
-El presente estudio abarca el diseño, implementación y evaluación de un prototipo de asistente educativo bilingüe español--Quechua Collao basado en un modelo compacto de lenguaje. La investigación se centra en la asistencia textual para estudiantes y docentes de contextos de EIB, considerando los siguientes alcances específicos:
-
-\begin{itemize}
-	\item \textbf{Alcance lingüístico:} Se delimita de forma exclusiva al Quechua Collao, de acuerdo con la ubicación geográfica del estudio y la disponibilidad de corpus paralelos como los construidos por \citet{Orcotoma2025}. Esta variedad presenta rasgos fonológicos diferenciadores (consonantes oclusivas glotizadas y aspiradas) que deben reflejarse cuidadosamente en los recursos del sistema. Esta delimitación evita prometer cobertura de otras variedades dialectales, permitiendo construir un prototipo de alta pertinencia regional.
-
-	\item \textbf{Alcance pedagógico:} El primer ciclo de validación se centrará en consultas curriculares de 3.° a 6.° grado de primaria, priorizando las áreas de Comunicación y Ciencia y Tecnología según la disponibilidad de materiales EIB bilingües. Las respuestas del sistema seguirán el principio de andamiaje cognitivo, priorizando explicaciones graduales sobre respuestas directas.
-
-	\item \textbf{Alcance tecnológico:} Comprende una arquitectura offline compuesta por detección automática del idioma, enrutamiento lingüístico, generación aumentada por recuperación (RAG) local y un modelo compacto de lenguaje cuantizado, preferentemente a 4 bits según las pruebas de rendimiento realizadas. El aporte tecnológico radica en la integración, configuración y evaluación comparativa de esta arquitectura.
-
-	\item \textbf{Alcance disciplinar:} Se ubica en la convergencia de la ingeniería informática, el procesamiento de lenguaje natural y la tecnología educativa para contextos bilingües interculturales.
-\end{itemize}
-
-\subsection{Limitaciones}
-Se reconocen las siguientes limitaciones que condicionan la ejecución del proyecto:
-
-\begin{itemize}
-	\item \textbf{Disponibilidad de datos:} Al tratarse de una lengua de bajos recursos digitales, los datos bilingües se generarán con modelos de IA y se validarán contra corpus de referencia existentes \citep{Orcotoma2025, Duran2026}. La calidad de estos datos es crítica para el funcionamiento del sistema.
-	\item \textbf{Cuello de botella de la tokenización:} La morfología aglutinante del quechua genera una fertilidad de tokens estimada en $\approx$3,4$\times$ respecto al español, lo que penaliza la latencia en CPU e infla el consumo de la caché KV del modelo con contextos extensos.
-	\item \textbf{Restricción dialectal:} El prototipo está orientado exclusivamente al Quechua Collao, por lo que el sistema no está diseñado para generalizarse a otras variedades dialectales.
-	\item \textbf{Restricciones de hardware:} La ejecución offline de un modelo compacto depende de la memoria disponible (RAM) del dispositivo local, limitando el tamaño del modelo utilizable y la latencia aceptable de generación \citep{Xu2024}.
-	\item \textbf{Validación pedagógica y lingüística:} La evaluación de pertinencia y adecuación dependerá de la validación del docente especialista EIB y del especialista lingüístico en la variedad Quechua Collao.
-	\item \textbf{Alcance textual:} El prototipo no incorpora reconocimiento ni síntesis de voz, considerando la asistencia por audio fuera del alcance de este trabajo.
+	\item \textbf{PE1 (Datos y Recuperación):} ¿Cómo estructurar e indexar semánticamente una base de conocimiento documental bilingüe para optimizar la recuperación local en Quechua Collao?
+	\item \textbf{PE2 (Núcleo Técnico y Adaptación):} ¿De qué manera los adaptadores QLoRA en un SLM cuantizado optimizan la utilización del contexto recuperado bajo restricciones de hardware local?
+	\item \textbf{PE3 (Evaluación Computacional):} ¿Qué nivel de fidelidad léxica, consistencia factual y eficiencia computacional alcanza la arquitectura integrada frente al modelo base y a la recuperación estándar?
 \end{itemize}
 
-% *************************
-% **     OBJETIVOS       **
-% *************************
+\subsection{Objetivos de la Investigación}
 
-\section{Objetivos}
-\subsection{Objetivo General}
-Diseñar, implementar y evaluar un prototipo de asistente educativo offline español--Quechua Collao basado en un modelo de lenguaje compacto cuantizado, generación aumentada por recuperación local y recursos lingüísticos validados, orientado al apoyo de consultas curriculares en contextos rurales de Educación Intercultural Bilingüe.
+\subsubsection{Objetivo General}
+Diseñar e implementar una arquitectura SLM--RAG con QLoRA para la generación contextualizada en Quechua Collao dentro de un entorno computacional offline.
 
-\subsection{Objetivos Específicos}
+\subsubsection{Objetivos Específicos}
 \begin{itemize}
-	\item \textbf{Curar y estructurar} una base documental bilingüe español--Quechua Collao, integrando materiales curriculares oficiales, glosarios terminológicos, diccionarios locales y datos generados con IA validados contra corpus de referencia.
-	\item \textbf{Diseñar} una arquitectura offline que integre detección automática del idioma, recuperación local de información y generación de respuestas pedagógicas.
-	\item \textbf{Implementar} un prototipo funcional del asistente educativo seleccionando, cuantizando y configurando el modelo compacto base y el pipeline de recuperación.
-	\item \textbf{Comparar} configuraciones básicas del sistema para medir el aporte real de la recuperación local, las reglas de normalización y la adaptación de estilo del modelo.
-	\item \textbf{Evaluar} el prototipo mediante métricas técnicas de rendimiento offline, fidelidad lingüística mediante métricas automáticas y pertinencia pedagógica a través de rúbricas de juicio de expertos.
-	\item \textbf{Documentar} las limitaciones de la arquitectura propuesta, los riesgos de transferencia dialectal y las recomendaciones de mejora.
+	\item \textbf{OE1 (Datos y Recuperación):} Curar, estructurar e indexar semánticamente una base de conocimiento documental bilingüe para optimizar la recuperación local en Quechua Collao.
+	\item \textbf{OE2 (Núcleo Técnico y Adaptación):} Implementar y acoplar adaptadores QLoRA en el SLM cuantizado para maximizar la asimilación del contexto RAG en inferencia offline.
+	\item \textbf{OE3 (Evaluación Computacional):} Evaluar computacionalmente el rendimiento técnico, la fidelidad lingüística y el anclaje factual de la arquitectura frente al SLM base y al RAG estándar mediante métricas objetivas de PLN y RAG.
 \end{itemize}
 
-\subsection{Alineación con los Objetivos de Desarrollo Sostenible}
-La investigación se alinea con los siguientes Objetivos de Desarrollo Sostenible (ODS):
+La Figura~\ref{fig:arbol_objetivos} presenta el árbol de objetivos, organizado en correspondencia directa con el árbol de problemas: los objetivos específicos actúan como hitos cronológicos de ingeniería para lograr el objetivo central, alineado con los Objetivos de Desarrollo Sostenible (ODS).
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[every node/.style={text width=3.3cm, minimum height=1.7cm}]
+\node[tcentral, text width=6.6cm, minimum height=1.8cm] (centro) at (0,0) {\textbf{Objetivo Central}\\[2pt]Diseñar e implementar una arquitectura SLM--RAG con QLoRA para generación contextualizada en Quechua Collao};
+
+\node[tteal] (m1) at (-5.5,-3.2) {\textbf{OE1 (Datos)}\\[2pt]Curar, estructurar e indexar la base documental bilingüe};
+\node[tteal] (m2) at (0,-3.2) {\textbf{OE2 (Núcleo)}\\[2pt]Acoplar adaptadores QLoRA en el SLM cuantizado};
+\node[tteal] (m3) at (5.5,-3.2) {\textbf{OE3 (Evaluación)}\\[2pt]Evaluar métricas computacionales objetivas (PLN y Ragas)};
+
+\node[tverde, text width=4.0cm] (f1) at (-3.5,3.2) {\textbf{Fin ODS 9 (Innovación)}\\[2pt]Habilitar procesamiento local eficiente en hardware modesto ($\le$ 4~GB)};
+\node[tverde, text width=4.0cm] (f2) at (3.5,3.2) {\textbf{Fin ODS 10 (Inclusión)}\\[2pt]Reducir la brecha digital y tecnológica para comunidades quechuahablantes};
+
+\node[tlbl] at (-8.6,-3.2) {Medios};
+\node[tlbl] at (-8.6,3.2) {Fines};
+
+\foreach \n in {m1,m2,m3} \draw[techa] (\n) -- (centro);
+\foreach \n in {f1,f2} \draw[techa] (centro) -- (\n);
+\end{tikzpicture}}
+\caption{Árbol de objetivos: medios de ingeniería (teal, fases específicas) y fines de impacto (verde, alineación ODS)}
+\label{fig:arbol_objetivos}
+\end{figure}
+
+\subsection{Hipótesis de la Investigación}
+
+\subsubsection{Hipótesis General}
+La implementación de la arquitectura SLM--RAG con adaptadores QLoRA optimiza la asimilación del contexto e incrementa la fidelidad factual y calidad lingüística en Quechua Collao dentro de un entorno computacional offline.
+
+\subsubsection{Hipótesis Específicas}
+\begin{itemize}
+	\item \textbf{HE1 (Datos y Recuperación):} La segmentación morfo-léxica e indexación semántica local en \texttt{sqlite-vec}/FAISS maximizan la precisión de recuperación de fragmentos documentales pertinentes frente a la recuperación léxica directa.
+	\item \textbf{HE2 (Núcleo Técnico y Adaptación):} El acoplamiento de adaptadores QLoRA en las matrices de proyección de atención ($W_q, W_k, W_v, W_o$) del SLM cuantizado incrementa la utilización del contexto RAG sin superar la restricción de hardware local ($\le$ 4~GB de VRAM/RAM).
+	\item \textbf{HE3 (Evaluación Computacional):} La arquitectura integrada con adaptadores QLoRA supera significativamente al SLM base y al RAG estándar en concordancia morfológica (chrF++) y fidelidad factual (métrica \textit{faithfulness} de Ragas).
+\end{itemize}
+
+\subsection{Justificación de la Investigación}
+La investigación se justifica técnicamente porque los enfoques convencionales de inteligencia artificial generativa dependen de centros de datos en la nube y asumen disponibilidad masiva de textos, condiciones inexistentes para el Quechua Collao en escenarios desconectados. El proyecto aborda esta necesidad desde cuatro perspectivas de ingeniería:
 
 \begin{itemize}
-	\item \textbf{ODS 4 — Educación de calidad.} El estudio contribuye a una educación inclusiva y equitativa al proveer una herramienta de apoyo pedagógico en lengua materna para estudiantes de zonas rurales bajo el modelo EIB.
-	\item \textbf{ODS 9 — Industria, innovación e infraestructura.} Promueve la innovación tecnológica al diseñar una solución de inteligencia artificial offline, adaptada a condiciones de hardware de bajo costo e infraestructura digital limitada.
-	\item \textbf{ODS 10 — Reducción de las desigualdades.} Aborda la brecha digital y lingüística que afecta a comunidades quechuahablantes, facilitando el acceso a recursos educativos interactivos sin requerir conexión a internet.
+	\item \textbf{Justificación Teórica:} Contribuye al estudio del procesamiento de lenguaje natural en lenguas polisintéticas y de bajos recursos. Analiza teóricamente la interacción entre la fertilidad de tokens de la morfología quechua, los mecanismos de atención en transformadores compactos y el impacto de la descomposición de bajo rango (LoRA) para condicionar la asimilación de fragmentos recuperados sin sufrir degradación paramétrica.
+	\item \textbf{Justificación Práctica:} Desarrolla un sistema funcional 100\% offline, optimizado para ejecutarse en computadoras y dispositivos de consumo de bajo costo (compatibles con CPU y $\le$ 4~GB de VRAM), permitiendo consultar y obtener respuestas precisas en su propia lengua originaria sin requerir enlace a internet.
+	\item \textbf{Justificación Metodológica:} Establece un marco experimental riguroso, cuantitativo y reproducible de ingeniería de software e IA. Se diseñan pruebas comparativas controladas que miden el aporte independiente de cada componente (modelo base, RAG local y adaptadores QLoRA) mediante métricas computacionales directas de rendimiento y anclaje semántico.
+	\item \textbf{Justificación Tecnológica y Social:} Se alinea formalmente con los Objetivos de Desarrollo Sostenible (ODS):
+	\begin{itemize}
+		\item \textbf{ODS 9 — Industria, innovación e infraestructura:} Fomenta la innovación en ingeniería de software e inteligencia artificial eficiente, habilitando procesamiento de lenguaje de última generación en dispositivos locales de bajo costo sin dependencia de infraestructura de telecomunicaciones avanzada.
+		\item \textbf{ODS 10 — Reducción de las desigualdades:} Reduce la brecha tecnológica y de acceso computacional para comunidades hablantes de lenguas originarias como el Quechua Collao, democratizando herramientas inteligentes en su propio idioma.
+	\end{itemize}
 \end{itemize}
+
+\subsection{Alcances y Limitaciones}
+
+\subsubsection{Alcances}
+El presente estudio abarca el diseño, implementación y evaluación experimental de una arquitectura SLM--RAG con QLoRA para inferencia local offline en Quechua Collao:
+
+\begin{itemize}
+	\item \textbf{Alcance tecnológico:} Comprende la selección, cuantización a 4 bits (formato GGUF con \texttt{llama.cpp}) y ajuste fino de bajo rango (QLoRA) sobre un SLM abierto (modelo base target: serie Qwen2.5 de hasta 3B parámetros), integrado a un motor de base de datos vectorial local para recuperación densa semántica.
+	\item \textbf{Alcance lingüístico:} Se delimita de forma exclusiva a la variedad Quechua Collao (Cusco--Puno). Se adoptan los lineamientos ortográficos normalizados y su inventario fonológico distintivo (oclusivas glotizadas y aspiradas), evitando la generalización hacia otras familias dialectales como el Quechua Chanka o Ancash.
+	\item \textbf{Alcance experimental y métrico:} La evaluación se circunscribe a pruebas computacionales automatizadas y reproducibles: eficiencia en hardware (latencia, tokens/s, consumo de RAM/VRAM), correspondencia morfológica y léxica (chrF++, SacreBLEU) y fidelidad factual de recuperación (métricas del framework Ragas: \textit{faithfulness}, \textit{context recall} y \textit{answer relevancy}).
+	\item \textbf{Alcance disciplinar:} Se ubica estrictamente dentro de la Ciencia de la Computación, la Inteligencia Artificial y la Ingeniería de Sistemas, en las subáreas de Procesamiento de Lenguaje Natural y Sistemas Distribuidos/Edge Computing.
+\end{itemize}
+
+\subsubsection{Limitaciones}
+Se reconocen las siguientes limitaciones del estudio:
+\begin{itemize}
+	\item \textbf{Escasez de datos de entrenamiento:} El volumen de corpus paralelo nativo en Quechua Collao es reducido ($\approx$44\,263 palabras validadas). Se mitiga mediante la generación controlada de pares bilingües con LLMs de gran escala sometidos a filtros léxicos y dialectales estrictos.
+	\item \textbf{Fertilidad de subpalabras:} La tokenización aglutinante genera fragmentaciones excesivas en vocabulario quechua ($\approx$3,4$\times$ frente al español), limitando el tamaño admisible de la ventana de contexto en inferencia offline.
+	\item \textbf{Capacidad de hardware local:} La inferencia y ejecución del artefacto están acotadas a configuraciones modestas (entornos con hasta 8~GB de RAM de sistema y tarjetas gráficas de entrada con 4~GB de VRAM, como GTX 1050 Ti o CPU pura), restringiendo el tamaño de los pesos del modelo a un máximo de 3 mil millones de parámetros cuantizados.
+	\item \textbf{Modalidad textual:} El sistema procesa y genera exclusivamente texto digital; el procesamiento de habla (reconocimiento y síntesis de voz) queda fuera de la delimitación del presente proyecto.
+\end{itemize}
+
+\subsection{Matriz de Consistencia Metodológica}
+La Tabla~\ref{tab:matriz_consistencia} consolida la correspondencia matemática y metodológica entre los problemas de investigación, objetivos específicos, hipótesis de trabajo, variables asociadas e instrumentos de medición, evidenciando la consistencia estricta de las tres fases de ingeniería.
+
+\begin{table}[H]
+\centering
+\caption{Matriz de consistencia metodológica del proyecto de tesis}
+\label{tab:matriz_consistencia}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}p{2.8cm}p{3.0cm}p{3.0cm}p{2.4cm}X@{}}
+\toprule
+\rowcolor{tcAzul!12}
+\textbf{Problema} & \textbf{Objetivo} & \textbf{Hipótesis} & \textbf{Variable(s)} & \textbf{Instrumento / Métrica} \\
+\midrule
+\multicolumn{5}{l}{\textbf{Nivel General}} \\
+¿De qué manera el diseño e implementación de una arquitectura SLM--RAG con QLoRA influye en la generación contextualizada en Quechua Collao? & 
+Diseñar e implementar una arquitectura SLM--RAG con QLoRA para la generación contextualizada en Quechua Collao. & 
+La arquitectura SLM--RAG con QLoRA optimiza la asimilación del contexto e incrementa la fidelidad factual en Quechua Collao en inferencia offline. & 
+\textbf{VI:} Arquitectura SLM--RAG con QLoRA.\newline
+\textbf{VDs:} Rendimiento computacional, calidad PLN y fidelidad RAG. & 
+Entorno de inferencia local (\texttt{llama.cpp}), framework Ragas, métricas chrF++ y SacreBLEU. \\
+\midrule
+\multicolumn{5}{l}{\textbf{Nivel Específico (Fases Metodológicas de Ingeniería)}} \\
+\textbf{PE1 (Datos y Recuperación):} ¿Cómo estructurar e indexar semánticamente una base documental bilingüe para optimizar la recuperación local en Quechua Collao? & 
+\textbf{OE1:} Curar, estructurar e indexar semánticamente una base documental bilingüe para optimizar la recuperación local en Quechua Collao. & 
+\textbf{HE1:} La segmentación morfo-léxica e indexación semántica local maximizan la precisión de recuperación de fragmentos relevantes. & 
+Calidad de indexación y recuperación documental. & 
+Base vectorial local (\texttt{sqlite-vec} / FAISS), modelo \texttt{multilingual-e5-small}, precisión@k. \\
+\midrule
+\textbf{PE2 (Núcleo y Adaptación):} ¿De qué manera los adaptadores QLoRA del SLM cuantizado optimizan la utilización de contexto bajo restricciones offline? & 
+\textbf{OE2:} Implementar y acoplar adaptadores QLoRA en el SLM cuantizado para maximizar la utilización del contexto RAG en inferencia offline. & 
+\textbf{HE2:} La adaptación de bajo rango con QLoRA incrementa la fidelidad factual sin comprometer la ejecución en hardware modesto. & 
+Latencia (ms), throughput (tokens/s), uso de RAM/VRAM (GB). & 
+\texttt{llama.cpp}, \texttt{peft}, librería de monitoreo \texttt{psutil}. \\
+\midrule
+\textbf{PE3 (Evaluación Computacional):} ¿Qué nivel de fidelidad léxica, consistencia factual y eficiencia alcanza la arquitectura frente al modelo base y RAG estándar? & 
+\textbf{OE3:} Evaluar computacionalmente el rendimiento, fidelidad lingüística y anclaje factual frente al SLM base y RAG estándar. & 
+\textbf{HE3:} La arquitectura con QLoRA supera significativamente al SLM base y al RAG estándar en chrF++ y métricas Ragas. & 
+Fidelidad lingüística (chrF++, BLEU) y anclaje RAG (\textit{faithfulness}, \textit{context recall}). & 
+Scripts de evaluación en Python, SacreBLEU, framework Ragas, pruebas estadísticas Friedman/Wilcoxon. \\
+\bottomrule
+\end{tabularx}
+\end{table}

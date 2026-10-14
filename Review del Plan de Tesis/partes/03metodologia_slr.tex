@@ -1,0 +1,102 @@
+% =========================================================================
+% SECCIÓN 2: METODOLOGÍA DE REVISIÓN SISTEMÁTICA
+% =========================================================================
+
+\section{Metodología de la Revisión Sistemática}
+\label{sec:metodologia_slr}
+
+\subsection{Protocolo de Revisión}
+\noindent [Descripción del protocolo metodológico adoptado para la revisión sistemática de literatura, siguiendo las pautas de Kitchenham y Charters~\cite{kitchenham2007guidelines} y las recomendaciones de la declaración PRISMA 2020~\cite{page2021prisma}.]
+
+\subsection{Preguntas de Investigación}
+\noindent La Tabla~\ref{tab:preguntas_investigacion} detalla las preguntas de investigación formuladas para guiar la revisión sistemática.
+
+\begin{table}[t]
+\centering
+\caption{Preguntas de investigación de la revisión sistemática.}
+\label{tab:preguntas_investigacion}
+\begin{tabularx}{\textwidth}{l p{4.6cm} X}
+\toprule
+\textbf{Código} & \textbf{Pregunta de Investigación (RQ)} & \textbf{Motivación y Relevancia} \\
+\midrule
+\textbf{RQ1} & [¿Cuáles son los SLMs más efectivos para inferencia local offline?] & [Evaluar requerimientos de memoria y latencia en hardware modesto.] \\
+\addlinespace
+\textbf{RQ2} & [¿Cómo optimizar pipelines RAG para lenguas de bajos recursos?] & [Identificar técnicas de recuperación para lenguas aglutinantes.] \\
+\addlinespace
+\textbf{RQ3} & [¿Qué técnicas de adaptación (PEFT/QLoRA) son viables?] & [Analizar preservación de conocimientos y prevención de olvido catastrófico.] \\
+\addlinespace
+\textbf{RQ4} & [¿Qué métricas evalúan la pertinencia pedagógica y cultural?] & [Establecer protocolos de evaluación cualitativa y cuantitativa.] \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Fuentes de Información y Cadenas de Búsqueda}
+
+\subsubsection{Bases de datos bibliográficas}
+\noindent [Listado de motores y repositorios consultados: Scopus, IEEE Xplore, ACM Digital Library, ACL Anthology, Google Scholar.]
+
+\subsubsection{Cadenas de búsqueda (Search Strings)}
+\noindent [Ecuaciones booleanas de búsqueda formuladas con operadores AND y OR para cada base de datos.]
+
+La Tabla~\ref{tab:cadenas_busqueda} resume las cadenas de búsqueda representativas empleadas en el proceso de consulta.
+
+\begin{table}[t]
+\centering
+\caption{Cadenas de búsqueda formuladas por base de datos.}
+\label{tab:cadenas_busqueda}
+\begin{tabularx}{\textwidth}{p{3.2cm} X}
+\toprule
+\textbf{Base de Datos} & \textbf{Cadena de Búsqueda Booleana} \\
+\midrule
+Scopus & [("small language model*" OR "SLM" OR "quantiz*") AND ("retrieval-augmented generation" OR "RAG") AND ("low-resource" OR "indigenous")] \\
+\addlinespace
+IEEE Xplore & [("SLM" OR "edge AI") AND ("RAG" OR "knowledge retrieval") AND ("education*" OR "tutoring")] \\
+\addlinespace
+ACM Digital Library & [("language models" AND "low-resource languages") AND ("prompt engineering" OR "LoRA")] \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Criterios de Inclusión y Exclusión}
+
+\subsubsection{Criterios de inclusión (IC)}
+\begin{enumerate}[(a)]
+	\item [IC1:] [Artículos publicados en conferencias o revistas indizadas entre 2020 y 2026.]
+	\item [IC2:] [Estudios que implementen o evalúen SLMs ($<$ 7B parámetros) o arquitecturas RAG.]
+	\item [IC3:] [Investigaciones aplicadas a lenguas de bajos recursos, lenguas originarias o contextos bilingües.]
+	\item [IC4:] [Trabajos orientados a asistentes conversacionales o herramientas educativas offline.]
+\end{enumerate}
+
+\subsubsection{Criterios de exclusión (EC)}
+\begin{enumerate}[(a)]
+	\item [EC1:] [Artículos sin validación empírica, notas editoriales o resúmenes ampliados ($<$ 4 páginas).]
+	\item [EC2:] [Modelos privativos de gran escala que requieran obligatoriamente conexión a la nube.]
+	\item [EC3:] [Estudios duplicados o versiones preliminares superadas por publicaciones extendidas.]
+	\item [EC4:] [Publicaciones en idiomas distintos a español o inglés.]
+\end{enumerate}
+
+\subsection{Proceso de Selección de Estudios (Flujo PRISMA)}
+\noindent [Descripción del proceso de cribado por título/resumen y evaluación a texto completo siguiendo PRISMA 2020~\cite{page2021prisma}.]
+
+La Tabla~\ref{tab:flujo_prisma} resume el número de publicaciones procesadas en cada fase del cribado.
+
+\begin{table}[t]
+\centering
+\caption{Fases del proceso de selección de estudios (PRISMA 2020).}
+\label{tab:flujo_prisma}
+\begin{tabularx}{\textwidth}{p{5.5cm} c X}
+\toprule
+\textbf{Fase del Proceso} & \textbf{Estudios} & \textbf{Criterio / Descripción} \\
+\midrule
+Identificación inicial en bases de datos & [N] & [Total de resultados en Scopus, IEEE, ACM, ACL] \\
+Registros tras deduplicación automática & [N] & [Eliminación de redundancias vía gestor bibliográfico] \\
+Cribado por título y resumen (Screening) & [N] & [Aplicación de criterios preliminares IC/EC] \\
+Evaluación de elegibilidad a texto completo & [N] & [Lectura analítica del manuscrito completo] \\
+Estudios excluidos con justificación & [N] & [Falta de datos empíricos o inaccesibilidad de código] \\
+\textbf{Estudios incluidos en la síntesis} & \textbf{[N]} & \textbf{[Corpus final seleccionado para la revisión]} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Extracción y Síntesis de Datos}
+\noindent [Formulario de extracción sistemática: autor, año, arquitectura SLM, método de cuantización, modelo de embeddings, base vectorial, idioma evaluado, métricas (BLEU, chrF++, ROUGE, latencia, consumo de memoria) y limitaciones reportadas.]

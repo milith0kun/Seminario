@@ -1,0 +1,509 @@
+\documentclass[aspectratio=169,10pt,spanish]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[spanish,es-tabla,es-nodecimaldot]{babel}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,calc,fit,backgrounds}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{amsmath,amssymb}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamersize{text margin left=0.55cm,text margin right=0.55cm}
+
+% Paleta Blueprint utilizada en las presentaciones de Título y Objetivos.
+\definecolor{bpNavy}{RGB}{28,43,54}
+\definecolor{bpBlue}{RGB}{43,91,132}
+\definecolor{bpGold}{RGB}{200,157,66}
+\definecolor{bpRust}{RGB}{179,92,62}
+\definecolor{bpDark}{RGB}{33,37,41}
+\definecolor{bpLightGray}{RGB}{245,247,250}
+\definecolor{bpGridLine}{RGB}{225,230,238}
+\definecolor{bpGreen}{RGB}{46,125,50}
+\definecolor{bpRed}{RGB}{198,40,40}
+
+\setbeamertemplate{frametitle}{
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[bpNavy] (current page.north west) rectangle ([yshift=-1.05cm]current page.north east);
+        \node[anchor=west,text=white,font=\bfseries\sffamily\normalsize]
+            at ([xshift=0.6cm,yshift=-0.52cm]current page.north west) {\insertframetitle};
+        \node[anchor=east,text=white!75!white,font=\tiny\sffamily]
+            at ([xshift=-0.6cm,yshift=-0.52cm]current page.north east) {SEMINARIO DE INVESTIGACIÓN II};
+    \end{tikzpicture}
+    \vspace{0.25cm}
+}
+
+\setbeamertemplate{footline}{
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[bpGridLine,line width=0.8pt]
+            ([yshift=0.5cm]current page.south west) -- ([yshift=0.5cm]current page.south east);
+        \node[anchor=west,text=bpNavy!80!black,font=\tiny\sffamily]
+            at ([xshift=0.6cm,yshift=0.25cm]current page.south west)
+            {UNSAAC -- Ingeniería Informática y de Sistemas $\mid$ Br. Edmil Jampier Saire Bustamante};
+        \node[anchor=east,text=bpNavy!80!black,font=\tiny\sffamily]
+            at ([xshift=-0.6cm,yshift=0.25cm]current page.south east)
+            {\insertframenumber{} / \inserttotalframenumber};
+    \end{tikzpicture}
+}
+
+\newcommand{\fuente}[1]{\vspace{0.05cm}\hfill{\color{bpNavy!65}\tiny\textit{Seminario: diapositivas #1}}}
+\newcommand{\ok}{\textcolor{bpGreen}{\bfseries\checkmark}}
+\newcommand{\pendiente}{\textcolor{bpRust}{\bfseries\(\triangle\)}}
+
+\begin{document}
+
+% 1. Portada con el mismo tratamiento Blueprint de las presentaciones anteriores.
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[step=0.5cm,bpGridLine,line width=0.3pt]
+            (current page.south west) grid (current page.north east);
+        \draw[bpNavy,line width=1.4pt]
+            ([xshift=0.5cm,yshift=0.5cm]current page.south west)
+            rectangle ([xshift=-0.5cm,yshift=-0.5cm]current page.north east);
+        \fill[bpNavy]
+            ([xshift=0.5cm,yshift=-1.6cm]current page.north west)
+            rectangle ([xshift=-0.5cm,yshift=-0.5cm]current page.north east);
+    \end{tikzpicture}
+    \vspace{1.35cm}
+    \centering
+    {\color{bpNavy}\Large\bfseries Seis bloques aplicados al plan de tesis}\\[0.2cm]
+    {\color{bpDark}\normalsize Plan de tesis: arquitectura SLM--RAG con QLoRA para Quechua Collao}\\[0.45cm]
+    \begin{tcolorbox}[width=12.4cm,colback=bpLightGray,colframe=bpNavy!65!black,
+        arc=1.5mm,center]
+        \centering\small\sffamily
+        \textbf{Secuencia aplicada:}\\
+        contexto \(\rightarrow\) tecnología y método \(\rightarrow\) vacío
+        \(\rightarrow\) problema \(\rightarrow\) propuesta y justificación
+        \(\rightarrow\) organización
+    \end{tcolorbox}
+    \vfill
+    {\tiny\textbf{Tesista:} Br. Edmil Jampier Saire Bustamante
+    \quad$\mid$\quad\textbf{Cátedra:} Msc. Raúl Huillca Huallparimachi\\
+    UNSAAC -- Facultad de Ingeniería Eléctrica, Electrónica, Informática y Mecánica
+    \quad$\mid$\quad Cusco, 2026}
+\end{frame}
+
+% 2. Mapa del proceso con trazabilidad a las 37 diapositivas de la fuente.
+\begin{frame}{Ruta del seminario aplicada al plan de tesis}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.68cm,colback=bpRust!7,colframe=bpRust,arc=1.2mm,valign=center]
+                \scriptsize\textbf{\color{bpRust}01 \quad Contexto}\\[1mm]
+                \raggedright\tiny Campo, necesidad, dificultad y tema.\\[1mm]
+                \tiny Fuente: 05--07
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.68cm,colback=bpGold!9,colframe=bpGold!90!black,arc=1.2mm,valign=center]
+                \scriptsize\textbf{\color{bpGold!80!black}02 \quad Tecnología y método}\\[1mm]
+                \raggedright\tiny Métodos, fundamento, evidencia y límites.\\[1mm]
+                \tiny Fuente: 08--10
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.68cm,colback=bpBlue!7,colframe=bpBlue,arc=1.2mm,valign=center]
+                \scriptsize\textbf{\color{bpBlue}03 \quad Vacío}\\[1mm]
+                \raggedright\tiny Síntesis, contraste, limitación y delimitación.\\[1mm]
+                \tiny Fuente: 11--16
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.12cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.68cm,colback=bpRust!7,colframe=bpRust,arc=1.2mm,valign=center]
+                \scriptsize\textbf{\color{bpRust}04 \quad Problema específico}\\[1mm]
+                \raggedright\tiny Objeto, condiciones, comparación y criterios.\\[1mm]
+                \tiny Fuente: 17--21
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.68cm,colback=bpBlue!7,colframe=bpBlue,arc=1.2mm,valign=center]
+                \scriptsize\textbf{\color{bpBlue}05 \quad Propuesta y valor}\\[1mm]
+                \raggedright\tiny Objetivo, justificación y evaluación.\\[1mm]
+                \tiny Fuente: 21--32
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.68cm,colback=bpGreen!7,colframe=bpGreen,arc=1.2mm,valign=center]
+                \scriptsize\textbf{\color{bpGreen}06 \quad Organización}\\[1mm]
+                \raggedright\tiny Estructura real del documento de tesis.\\[1mm]
+                \tiny Fuente: 33--34
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.15cm}
+    \begin{tcolorbox}[colback=bpNavy,colframe=bpNavy,arc=1mm,top=1mm,bottom=1mm]
+        \centering\tiny\color{white}
+        \textbf{Cobertura de la fuente:} 01--02 portada e índice; 03--04 arquitectura de seis bloques;
+        05--34 desarrollo y ejemplos; 35--36 síntesis y lista de control; 37 encabezado de referencias
+        sin referencias legibles. Las 37 imágenes y su extracción permanecen en la carpeta del proyecto.
+    \end{tcolorbox}
+    \fuente{03--04, 35--37}
+\end{frame}
+
+% 3. Bloque 1 aplicado.
+\begin{frame}{Bloque 1: del campo general al tema específico}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=bpLightGray,colframe=bpRust,title=\textbf{A. Campo}]
+                \small El procesamiento del lenguaje natural permite analizar y generar textos mediante modelos computacionales.
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=white,colframe=bpGold!90!black,title=\textbf{B. Necesidad}]
+                \small La utilidad de estas herramientas depende también de corpus y recursos lingüísticos que representen la variedad estudiada.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=white,colframe=bpRed,title=\textbf{C. Dificultad general}]
+                \small Los recursos disponibles y las condiciones de ejecución pueden limitar la generación contextualizada en lenguas con menos recursos digitales.
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpBlue!6,colframe=bpBlue,title=\textbf{D. Delimitación}]
+                \small El plan se centra en generar respuestas contextualizadas en Quechua Collao dentro de un entorno offline.
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.05cm}
+    \begin{tcolorbox}[colback=bpNavy,colframe=bpNavy,arc=1mm]
+        \centering\scriptsize\color{white}
+        \textbf{Transición redactada:} de la función del PLN y los recursos lingüísticos se pasa a la necesidad
+        de evaluar generación contextualizada para Quechua Collao. Las afirmaciones sobre conectividad,
+        cobertura digital o escasez deben apoyarse con fuentes del plan.
+    \end{tcolorbox}
+\end{frame}
+
+% 4. Bloque 2: cuatro componentes para describir la tecnología y revisar evidencia.
+\begin{frame}{Bloque 2: tecnología, fundamento y evidencia}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=bpLightGray,colframe=bpBlue,title=\textbf{A--B. Métodos y función},fonttitle=\small\bfseries]
+                \scriptsize
+                \begin{itemize}
+                    \item \textbf{SLM compacto:} produce la respuesta; el plan propone la familia Qwen2.5.
+                    \item \textbf{RAG local:} recupera fragmentos de la base documental para aportar contexto.
+                    \item \textbf{QLoRA:} adapta parámetros de manera eficiente; su aporte se debe medir.
+                \end{itemize}
+                \textbf{Aplicación:} integrar generación, recuperación local y adaptación para el dominio Quechua Collao.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=white,colframe=bpGold!90!black,title=\textbf{C--D. Evidencia y límites},fonttitle=\small\bfseries]
+                \scriptsize
+                \begin{itemize}
+                    \item Orcotoma et al. (2025) y Duran y Silberztein (2026) aportan recursos lingüísticos.
+                    \item Court y Elsner (2024) analizan contexto en traducción de quechua sureño al español.
+                    \item Hevia et al. (2025) evalúan RAG offline en otro dominio y reportan dificultades con contexto irrelevante o extenso.
+                \end{itemize}
+                Esas tareas y condiciones no demuestran el comportamiento del sistema propuesto para Quechua Collao.
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \begin{tcolorbox}[colback=bpNavy,colframe=bpNavy,arc=1mm,top=1.2mm,bottom=1.2mm]
+        \centering\small\color{white}
+        \textbf{Arquitectura a evaluar:}\quad
+        SLM compacto \quad+\quad recuperación local (RAG) \quad+\quad adaptación (QLoRA)
+    \end{tcolorbox}
+    \fuente{08--10}
+\end{frame}
+
+% 5. Bloque 3: vacio delimitado a partir de antecedentes, no afirmado como hecho absoluto.
+\begin{frame}{Bloque 3: construcción del vacío con evidencia}
+    \vspace{-0.12cm}
+    \begin{center}
+    \scriptsize
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.55cm} X X}
+        \toprule
+        \textbf{\color{bpNavy}Antecedente revisado} &
+        \textbf{\color{bpNavy}Qué aporta} &
+        \textbf{\color{bpNavy}Qué deja abierto para este plan}\\
+        \midrule
+        Corpus y recursos para Quechua Collao &
+        Mejoran la disponibilidad de datos y recursos léxicos. &
+        No evalúan por sí solos generación contextualizada mediante SLM--RAG--QLoRA.\\
+        \addlinespace[1.5mm]
+        Recuperación contextual en traducción &
+        Examina el uso del contexto en una tarea de traducción de quechua sureño. &
+        No equivale a generación de respuestas en Quechua Collao bajo inferencia offline.\\
+        \addlinespace[1.5mm]
+        RAG offline con modelos pequeños &
+        Muestra retos de contexto en una aplicación de otro dominio. &
+        Sus resultados no se trasladan automáticamente a datos ni tareas de esta tesis.\\
+        \bottomrule
+    \end{tabularx}
+    \end{center}
+    \vspace{0.08cm}
+    \begin{tcolorbox}[colback=bpGold!12,colframe=bpGold!90!black,arc=1.2mm]
+        \scriptsize
+        \textbf{Vacío provisional:} falta determinar, con una revisión bibliográfica actualizada,
+        cómo se comporta la combinación de modelo compacto, recuperación local y QLoRA al generar
+        respuestas contextualizadas en Quechua Collao bajo restricciones offline.
+        La novedad no se presenta como una afirmación universal.
+    \end{tcolorbox}
+    \fuente{11--16}
+\end{frame}
+
+% 6. Bloque 4: pregunta y anatomía.
+\begin{frame}{Bloque 4: delimitación del problema específico}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.24\textwidth}
+            \begin{tcolorbox}[height=1.45cm,colback=bpBlue!7,colframe=bpBlue]
+                \centering\scriptsize\textbf{\color{bpBlue}Objeto}\\
+                Arquitectura SLM--RAG con QLoRA
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.24\textwidth}
+            \begin{tcolorbox}[height=1.45cm,colback=bpRust!7,colframe=bpRust]
+                \centering\scriptsize\textbf{\color{bpRust}Contexto}\\
+                Quechua Collao e inferencia offline
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.24\textwidth}
+            \begin{tcolorbox}[height=1.45cm,colback=bpGold!10,colframe=bpGold!90!black]
+                \centering\scriptsize\textbf{\color{bpGold!80!black}Comparadores}\\
+                SLM base y RAG estándar
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.24\textwidth}
+            \begin{tcolorbox}[height=1.45cm,colback=bpGreen!7,colframe=bpGreen]
+                \centering\scriptsize\textbf{\color{bpGreen}Criterios}\\
+                Fidelidad, anclaje y costo
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.15cm}
+    \begin{tcolorbox}[enhanced,colback=white,colframe=bpNavy,title=\textbf{Pregunta de trabajo propuesta},arc=1.5mm]
+        \small\centering
+        \textquestiondown De qué manera el diseño e implementación de una arquitectura SLM--RAG con QLoRA
+        influye en la generación contextualizada en Quechua Collao frente al SLM base y al
+        RAG estándar, bajo inferencia offline, considerando la fidelidad lingüística,
+        el anclaje factual y el costo computacional?
+    \end{tcolorbox}
+    \begin{tcolorbox}[colback=bpLightGray,colframe=bpGridLine,arc=1mm,top=1mm,bottom=1mm]
+        \centering\tiny
+        La pregunta completa debe aparecer una sola vez en \textit{Formulación del problema}.
+        En la introducción se anticipa el problema sin duplicarla.
+    \end{tcolorbox}
+    \fuente{17--21}
+\end{frame}
+
+% 7. Bloque 5: propuesta, objetivo y justificacion.
+\begin{frame}{Bloque 5: propuesta, objetivo y justificación}
+    \begin{tcolorbox}[colback=bpBlue!6,colframe=bpBlue,title=\textbf{Propuesta aplicada},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+        \scriptsize Diseñar e implementar una arquitectura compacta que combine SLM,
+        recuperación documental local y adaptación QLoRA; evaluar su comportamiento
+        frente al modelo base y al RAG estándar.
+    \end{tcolorbox}
+    \begin{tcolorbox}[colback=bpLightGray,colframe=bpGold!90!black,title=\textbf{Objetivo general del plan, conservado},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+        \scriptsize\centering
+        Diseñar e implementar una arquitectura SLM--RAG con QLoRA para la generación
+        contextualizada en Quechua Collao dentro de un entorno computacional offline.
+    \end{tcolorbox}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[colback=white,colframe=bpBlue,title=\textbf{Ciencia},fonttitle=\scriptsize\bfseries,top=0.8mm,bottom=0.8mm]
+                \tiny Evidencia sobre recuperación y adaptación para Quechua Collao.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[colback=white,colframe=bpGold!90!black,title=\textbf{Método},fonttitle=\scriptsize\bfseries,top=0.8mm,bottom=0.8mm]
+                \tiny Comparación reproducible entre configuraciones bajo condiciones definidas.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[colback=white,colframe=bpRust,title=\textbf{Tecnología},fonttitle=\scriptsize\bfseries,top=0.8mm,bottom=0.8mm]
+                \tiny Capacidades y límites de ejecución local en el entorno planteado.
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \begin{tcolorbox}[colback=bpNavy,colframe=bpNavy,arc=1mm,top=0.8mm,bottom=0.8mm]
+        \centering\tiny\color{white}
+        En la introducción se anticipan comparación y criterios; parámetros y procedimientos quedan en el capítulo metodológico.
+    \end{tcolorbox}
+\end{frame}
+
+% 8. Bloque 6: usar la estructura real del plan, no el ejemplo de cinco capitulos.
+\begin{frame}{Bloque 6: organización real de la tesis}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.65cm,colback=bpBlue!7,colframe=bpBlue]
+                \centering\small\textbf{\color{bpBlue}I. Introducción}\\[1mm]
+                \scriptsize Problema, objetivos, justificación y alcance.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.65cm,colback=bpGold!9,colframe=bpGold!90!black]
+                \centering\small\textbf{\color{bpGold!80!black}II. Marco teórico}\\[1mm]
+                \scriptsize Fundamentos y estado del arte.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.65cm,colback=bpRust!7,colframe=bpRust]
+                \centering\small\textbf{\color{bpRust}III. Metodología}\\[1mm]
+                \scriptsize Diseño de la arquitectura y evaluación.
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.16cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.65cm,colback=bpBlue!7,colframe=bpBlue]
+                \centering\small\textbf{\color{bpBlue}IV. Implementación}\\[1mm]
+                \scriptsize Desarrollo computacional del sistema.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.65cm,colback=bpGold!9,colframe=bpGold!90!black]
+                \centering\small\textbf{\color{bpGold!80!black}V. Resultados}\\[1mm]
+                \scriptsize Resultados y evaluación experimental.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \begin{tcolorbox}[height=1.65cm,colback=bpGreen!7,colframe=bpGreen]
+                \centering\small\textbf{\color{bpGreen}VI. Cierre}\\[1mm]
+                \scriptsize Conclusiones y trabajos futuros.
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.16cm}
+    \begin{tcolorbox}[colback=bpNavy,colframe=bpNavy,arc=1mm,top=1mm,bottom=1mm]
+        \centering\tiny\color{white}
+        La secuencia se tomó de \texttt{partes/06cierre.tex}. El seminario ilustra cinco capítulos;
+        para esta aplicación se conserva la estructura de seis capítulos del plan.
+    \end{tcolorbox}
+    \fuente{33--34}
+\end{frame}
+
+% 9. Síntesis narrativa: la cadena argumental aplicada en la introducción.
+\begin{frame}{La introducción integrada: la cadena argumental aplicada}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=bpRust!5,colframe=bpRust,title=\textbf{1. Contexto},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+                \scriptsize El PLN procesa y genera texto; su aplicación depende de recursos que representen Quechua Collao.
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpGold!7,colframe=bpGold!90!black,title=\textbf{2. Tecnología y evidencia},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+                \scriptsize El plan combina un modelo compacto, RAG local y QLoRA; los antecedentes estudian contextos diferentes.
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpBlue!5,colframe=bpBlue,title=\textbf{3. Vacío provisional},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+                \scriptsize Se evaluará la combinación para generación en Collao y en entorno offline; la revisión bibliográfica debe confirmar el vacío.
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=bpRust!5,colframe=bpRust,title=\textbf{4. Problema},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+                \scriptsize Se comparan SLM base, RAG estándar y configuración integrada según fidelidad, anclaje y costo.
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpBlue!5,colframe=bpBlue,title=\textbf{5. Propuesta y valor},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+                \scriptsize Se diseñará e implementará la arquitectura para generar texto contextualizado en Quechua Collao offline.
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpGreen!5,colframe=bpGreen,title=\textbf{6. Organización},fonttitle=\small\bfseries,top=0.8mm,bottom=0.8mm]
+                \scriptsize La tesis sigue seis capítulos: introducción, teoría, metodología, implementación, resultados y conclusiones.
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% 10. Panel de revisión para la integración posterior.
+\begin{frame}{Panel de revisión antes de integrar el borrador}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[enhanced,colback=bpGreen!5,colframe=bpGreen,
+                title=\textbf{Aplicación realizada},arc=1.5mm]
+                \scriptsize
+                \begin{tabular}{@{}p{0.35cm}p{5.55cm}@{}}
+                    \ok & Se recorren los seis bloques del seminario y se aplican al tema del plan.\\[1mm]
+                    \ok & Se asigna trazabilidad a las diapositivas fuente 01--37.\\[1mm]
+                    \ok & Se usa la estructura real de seis capítulos del plan.\\[1mm]
+                    \ok & Los ejemplos QFT/CKKS se mantienen como ejemplos de clase, no como tema de tesis.\\[1mm]
+                    \ok & El plan original permanece intacto; el fragmento se entrega aparte para revisión.
+                \end{tabular}
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[enhanced,colback=bpGold!8,colframe=bpRust,
+                title=\textbf{Pendiente de validar en el plan},arc=1.5mm]
+                \scriptsize
+                \begin{tabular}{@{}p{0.35cm}p{5.55cm}@{}}
+                    \pendiente & Confirmar el vacío con una búsqueda bibliográfica actualizada.\\[1mm]
+                    \pendiente & Corregir o retirar \texttt{Chen2024}: su URL y su título local no corresponden.\\[1mm]
+                    \pendiente & Sustentar con fuente la cifra de fertilidad de tokens cercana a \(3.4\times\), o quitarla.\\[1mm]
+                    \pendiente & Revisar coherencia entre pregunta, objetivo general, objetivos específicos y métricas.
+                \end{tabular}
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.12cm}
+    \begin{tcolorbox}[colback=bpNavy,colframe=bpNavy,arc=1mm,top=1mm,bottom=1mm]
+        \centering\tiny\color{white}
+        El borrador es una propuesta de redacción, no una afirmación de resultados ni una modificación automática del plan.
+    \end{tcolorbox}
+\end{frame}
+
+% 11. Referencias citadas en la aplicación.
+\begin{frame}{Fuentes citadas en la aplicación}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=bpLightGray,colframe=bpBlue,arc=1.2mm]
+                \scriptsize
+                \textbf{Orcotoma Mormontoy et al. (2025).}
+                \textit{Towards the Creation of a Collao Quechua--Spanish Parallel Corpus Using Optical Character Recognition.}
+                \href{https://aclanthology.org/2025.globalnlp-1.1/}{ACL Anthology}
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=white,colframe=bpGold!90!black,arc=1.2mm]
+                \scriptsize
+                \textbf{Duran y Silberztein (2026).}
+                \textit{Semi-Automatic Construction of a Quechua--Spanish Dictionary.}
+                \href{https://aclanthology.org/2026.loresmt-1.9/}{ACL Anthology}
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpLightGray,colframe=bpRust,arc=1.2mm]
+                \scriptsize
+                \textbf{Court y Elsner (2024).}
+                \textit{Shortcomings of LLMs for Low-Resource Translation: Retrieval and Understanding Are Both the Problem.}
+                \href{https://aclanthology.org/2024.wmt-1.125/}{ACL Anthology}
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=white,colframe=bpBlue,arc=1.2mm]
+                \scriptsize
+                \textbf{Hevia et al. (2025).}
+                \textit{Towards an Efficient, Customizable, and Accessible AI Tutor.}
+                \href{https://arxiv.org/abs/2510.06255}{arXiv:2510.06255}
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[colback=bpLightGray,colframe=bpGold!90!black,arc=1.2mm]
+                \scriptsize
+                \textbf{Yang et al. (2024).}
+                \textit{Qwen2.5 Technical Report.}
+                \href{https://arxiv.org/abs/2412.15115}{arXiv:2412.15115}
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=white,colframe=bpBlue,arc=1.2mm]
+                \scriptsize
+                \textbf{Dettmers et al. (2023).}
+                \textit{QLoRA: Efficient Finetuning of Quantized Language Models.}
+                \href{https://arxiv.org/abs/2305.14314}{arXiv:2305.14314}
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpLightGray,colframe=bpRust,arc=1.2mm]
+                \scriptsize
+                \textbf{Xu et al. (2024).}
+                \textit{On-Device Language Models: A Comprehensive Review.}
+                \href{https://arxiv.org/abs/2409.00088}{arXiv:2409.00088}
+            \end{tcolorbox}
+            \begin{tcolorbox}[colback=bpRed!5,colframe=bpRed,arc=1.2mm]
+                \tiny
+                La diapositiva 37 del seminario solo muestra el encabezado de referencias.
+                Estas fuentes proceden del borrador de aplicación y requieren revisión bibliográfica
+                antes de incorporarse al documento final.
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \fuente{37 y referencias del borrador}
+\end{frame}
+
+\end{document}

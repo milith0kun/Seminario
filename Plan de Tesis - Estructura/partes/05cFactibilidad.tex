@@ -1,0 +1,52 @@
+% =========================================================================
+% CAPÍTULO IV: ESTUDIO DE FACTIBILIDAD
+% =========================================================================
+\clearpage
+\chapter{Estudio de factibilidad}
+
+\section{Enfoque adoptado}
+Se propone una arquitectura local por fases: primero se comprobarán inferencia del modelo y recuperación documental; después se incorporará QLoRA únicamente si el ajuste resulta compatible con el entorno. Esta decisión permite medir el aporte de cada componente y reducir el riesgo de atribuir a la adaptación un efecto que provenga del modelo, los datos o la recuperación.
+
+La Tabla~\ref{tab:comparativa_enfoques} resume las opciones consideradas.
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Comparación de alternativas de arquitectura}
+\label{tab:comparativa_enfoques}
+\small
+\begin{tabularx}{\textwidth}{@{}p{2.5cm}X X p{1.8cm}p{2.0cm}@{}}
+\toprule
+\textbf{Alternativa} & \textbf{Ventaja prevista} & \textbf{Riesgo o límite} & \textbf{Ajuste al objetivo} & \textbf{Decisión} \\
+\midrule
+Modelo remoto en la nube & Puede usar modelos de mayor tamaño sin alojar los pesos en el equipo local. & Depende de Internet y transmite consultas a un servicio externo. & Bajo & No es condición principal. \\
+\addlinespace
+SLM local sin RAG & Permite medir una línea base completamente local. & El conocimiento depende de los parámetros del modelo. & Parcial & Línea base de comparación. \\
+\addlinespace
+SLM con RAG local y QLoRA condicionado & Permite comparar recuperación y adaptación en el mismo entorno local. & La recuperación puede aportar fragmentos irrelevantes y QLoRA puede exceder la memoria disponible. & Alto & Alternativa propuesta, sujeta a pruebas de viabilidad. \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Nota.} La decisión se basa en la delimitación offline del proyecto; no implica que la alternativa seleccionada ya haya sido validada.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Factibilidad técnica}
+\subsection{Hardware e inferencia local}
+El entorno disponible incluye una GPU NVIDIA GTX 1050 Ti con 4 GB de VRAM. Se priorizarán pruebas acotadas de inferencia local, recuperación y evaluación. El modelo candidato Qwen2.5-3B cuantizado podría superar la memoria disponible según la configuración; por ello se medirán RAM, VRAM y latencia antes de fijar el modelo definitivo. El ajuste QLoRA se tratará como experimental y de riesgo alto en este hardware; se iniciará con una prueba mínima y se detendrá o reducirá si no es reproducible. Para flujos que dependan de `bitsandbytes`, el entorno previsto es WSL2/Linux.
+
+\subsection{Estrategia de datos}
+Se identificarán documentos bilingües y recursos léxicos pertinentes, incluyendo las fuentes descritas por \textcite{Orcotoma2025} y \textcite{Duran2026}. Antes de incorporarlos al sistema se comprobarán acceso, licencia, formato, variedad lingüística y posibilidad de redistribución. Los fragmentos conservarán identificadores de fuente, idioma y variedad. El plan no presupone que el material publicado esté disponible en un formato directamente indexable.
+
+\subsection{Herramientas y software}
+Se evaluarán herramientas de código abierto para inferencia local, almacenamiento vectorial, adaptación de bajo rango y cálculo de métricas, entre ellas \texttt{llama.cpp}, FAISS o \texttt{sqlite-vec}, bibliotecas de adaptación y scripts propios. La selección final dependerá de compatibilidad con el sistema, versión, licencia y resultados de pruebas iniciales. Para evaluación RAG se usará una configuración local trazable cuando las métricas seleccionadas requieran un modelo evaluador.
+
+\section{Factibilidad económica}
+La propuesta prioriza software libre y el equipo de cómputo ya disponible. No se dispone todavía de cotizaciones verificadas para almacenamiento, impresión, conectividad o validación lingüística; esos rubros se consignarán como pendientes de estimación en el presupuesto administrativo. No se fija un costo total ni se declara costo cero mientras falten esas cotizaciones.
+
+\section{Factibilidad operativa}
+El prototipo se probará mediante ejecuciones controladas y registro reproducible, inicialmente por el tesista. Su operación sin conexión se considerará demostrada únicamente si el flujo completo puede ejecutarse sin solicitar servicios externos durante la consulta. Las pruebas no equivalen a un despliegue institucional ni a una validación con estudiantes.
+
+\section{Viabilidad y sostenibilidad}
+La viabilidad dependerá de que el modelo, el índice documental y las herramientas seleccionadas funcionen dentro de los recursos medidos. Si el ajuste QLoRA no puede realizarse en el entorno local, se conservarán la comparación SLM y SLM--RAG y se reportará esa limitación. La sostenibilidad del recurso requiere mantener procedencia, licencias y etiquetas dialectales, así como documentar las condiciones para actualizar el corpus sin mezclar variedades de quechua.

@@ -1,0 +1,55 @@
+% =========================================================================
+% SECCIÓN 3: ANÁLISIS DE EJES TEMÁTICOS Y TECNOLÓGICOS
+% =========================================================================
+
+\section{Análisis de Ejes Temáticos y Tecnológicos}
+\label{sec:ejes_tematicos}
+
+\subsection{Eje 1: Modelos Compactos de Lenguaje (SLMs) y Despliegue Local}
+
+\subsubsection{Familias de modelos compactos de última generación}
+\noindent [Análisis comparativo de modelos base ligeros: Qwen2.5 (0.5B, 1.5B, 3B), LLaMA-3.2 (1B, 3B), Phi-3.5-mini, Gemma-2-2B.]
+
+\subsubsection{Técnicas de compresión y cuantización}
+\noindent [Revisión de métodos de cuantización post-entrenamiento: GGUF/GGML (Q4\_K\_M, Q5\_K\_M), AWQ y GPTQ; impacto en perplejidad y uso de VRAM.]
+
+\subsubsection{Motores de inferencia offline en hardware restringido}
+\noindent [Desempeño de frameworks como llama.cpp, Ollama, ONNX Runtime y vLLM en CPUs estándar y GPUs con 4\,GB de VRAM.]
+
+\subsection{Eje 2: Generación Aumentada por Recuperación (RAG)}
+
+\subsubsection{Estrategias de fragmentación y chunking contextual}
+\noindent [Evaluación de segmentación semántica vs. por longitud de caracteres para preservar coherencia textual y morfológica.]
+
+\subsubsection{Modelos de incrustación multilingüe e índices vectoriales}
+\noindent [Análisis de modelos de embeddings locales (bge-m3, multilingual-e5, MiniLM) y gestores vectoriales embebidos (ChromaDB, FAISS, Qdrant).]
+
+\subsubsection{Técnicas de reordenamiento (Re-ranking) y filtrado}
+\noindent [Impacto de re-rankers compactos (bge-reranker) en la precisión del contexto recuperado para mitigar alucinaciones.]
+
+\subsection{Eje 3: Procesamiento de Lenguaje Natural en Quechua Collao}
+
+\subsubsection{Particularidades morfológicas y desafío de tokenización}
+\noindent [Análisis de la naturaleza aglutinante y polisintética del quechua; subtokenización excesiva (token fertility) en tokenizadores BPE estándar.]
+
+\subsubsection{Recursos lingüísticos y corpus bilingües disponibles}
+\noindent [Inventario crítico de corpus texto-texto (Tatoeba, JW300, AmericasNLP), vocabularios normalizados y diccionarios oficiales MINEDU.]
+
+\subsubsection{Translenguaje y alternancia de códigos (Code-switching)}
+\noindent [Manejo de préstamos léxicos del castellano en el habla coloquial quechua andina en sistemas conversacionales.]
+
+\subsection{Eje 4: Asistentes Educativos Basados en IA y Andamiaje Pedagógico}
+
+\subsubsection{Sistemas conversacionales para Educación Intercultural Bilingüe (EIB)}
+\noindent [Revisión de asistentes de tutoría inteligente orientados a la revitalización lingüística y mediación cultural en aulas rurales.]
+
+\subsubsection{Diseño de prompts pedagógicos y andamiaje cognitivo}
+\noindent [Estrategias de prompting (Socrático, Few-shot) para guiar al estudiante sin entregar respuestas directas.]
+
+\subsection{Eje 5: Adaptación Eficiente en Parámetros (PEFT) y Alineación}
+
+\subsubsection{Afinamiento con LoRA y QLoRA en hardware limitado}
+\noindent [Mecanismos de adaptación de bajo rango sobre modelos cuantizados a 4 bits; presupuestos de memoria VRAM ($<$ 4\,GB).]
+
+\subsubsection{Alineación de instrucciones y prevención de olvido catastrófico}
+\noindent [Metodologías de instruction-tuning con datos sintéticos y reales; estrategias de regularización multilingüe.]

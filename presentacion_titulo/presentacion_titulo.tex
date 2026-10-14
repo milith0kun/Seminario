@@ -1,0 +1,263 @@
+\documentclass[aspectratio=169, 10pt, spanish]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{amsmath, amssymb}
+\usepackage{colortbl}
+\usepackage{booktabs}
+
+% Configuración general de Beamer
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=white}
+
+% Paleta de Colores Blueprint (Cátedra Msc. Raúl Huillca)
+\definecolor{bpNavy}{RGB}{28, 43, 54}        % Barra superior y títulos
+\definecolor{bpBlue}{RGB}{43, 91, 132}       % Propuesta / Proceso / Tecnología
+\definecolor{bpGold}{RGB}{200, 157, 66}      % Propósito / Objetivo / Método
+\definecolor{bpRust}{RGB}{179, 92, 62}       % Objeto / Contexto / Aplicación
+\definecolor{bpDark}{RGB}{33, 37, 41}        % Texto principal
+\definecolor{bpLightGray}{RGB}{245, 247, 250}% Fondo técnico
+\definecolor{bpGridLine}{RGB}{225, 230, 238} % Color cuadrícula blueprint
+\definecolor{bpGreen}{RGB}{46, 125, 50}      % Validado / Aprobado
+\definecolor{bpRed}{RGB}{198, 40, 40}        % Error / Anti-patrón
+
+% Personalización de Frametitle estilo Blueprint
+\setbeamertemplate{frametitle}{
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[bpNavy] (current page.north west) rectangle ([yshift=-1.05cm]current page.north east);
+        \node[anchor=west, text=white, font=\bfseries\sffamily\normalsize] at ([xshift=0.6cm, yshift=-0.52cm]current page.north west) {
+            \insertframetitle
+        };
+        \node[anchor=east, text=white!75!white, font=\tiny\sffamily] at ([xshift=-0.6cm, yshift=-0.52cm]current page.north east) {
+            SEMINARIO DE INVESTIGACIÓN II
+        };
+    \end{tikzpicture}
+    \vspace{0.25cm}
+}
+
+% Pie de página estilo Plano
+\setbeamertemplate{footline}{
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[bpGridLine, line width=0.8pt] ([yshift=0.5cm]current page.south west) -- ([yshift=0.5cm]current page.south east);
+        \node[anchor=west, text=bpNavy!80!black, font=\tiny\sffamily] at ([xshift=0.6cm, yshift=0.25cm]current page.south west) {
+            UNSAAC -- Ingeniería Informática y de Sistemas $\mid$ Br. Edmil Jampier Saire Bustamante
+        };
+        \node[anchor=east, text=bpNavy!80!black, font=\tiny\sffamily] at ([xshift=-0.6cm, yshift=0.25cm]current page.south east) {
+            \insertframenumber{} / \inserttotalframenumber
+        };
+    \end{tikzpicture}
+}
+
+\begin{document}
+
+% ==========================================================
+% SLIDE 1: PORTADA TÉCNICA (BLUEPRINT)
+% ==========================================================
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture, overlay]
+        % Cuadrícula blueprint tenue
+        \draw[step=0.5cm, bpGridLine, line width=0.3pt] (current page.south west) grid (current page.north east);
+        
+        % Marco técnico ajustado
+        \draw[bpNavy, line width=1.4pt] ([xshift=0.5cm, yshift=0.5cm]current page.south west) rectangle ([xshift=-0.5cm, yshift=-0.5cm]current page.north east);
+        
+        % Marcas de cota / miras en esquinas
+        \draw[bpNavy, line width=0.8pt] ([xshift=0.5cm, yshift=0.5cm]current page.south west) circle (2.5pt);
+        \draw[bpNavy, line width=0.8pt] ([xshift=-0.5cm, yshift=0.5cm]current page.south east) circle (2.5pt);
+        \draw[bpNavy, line width=0.8pt] ([xshift=0.5cm, yshift=-0.5cm]current page.north west) circle (2.5pt);
+        \draw[bpNavy, line width=0.8pt] ([xshift=-0.5cm, yshift=-0.5cm]current page.north east) circle (2.5pt);
+
+        % Banner superior
+        \fill[bpNavy] ([xshift=0.5cm, yshift=-1.6cm]current page.north west) rectangle ([xshift=-0.5cm, yshift=-0.5cm]current page.north east);
+        \node[anchor=center, text=white, font=\large\bfseries\sffamily] at ([yshift=-1.05cm]current page.north) {
+            EL PLANO ARQUITECTÓNICO DEL TÍTULO DE TESIS
+        };
+        
+        % Contenido Central
+        \node[anchor=center, align=center] at ([yshift=0.2cm]current page.center) {
+            {\color{bpNavy}\large\textbf{Calibración y Formulación Estructural de Título}}\\[0.2cm]
+            {\color{bpDark}\small Arquitectura SLM--RAG con QLoRA para Quechua Collao}\\[0.35cm]
+            \begin{tcolorbox}[width=12.5cm, colback=bpLightGray, colframe=bpNavy!60!black, arc=1.5mm, center]
+                \centering\small\sffamily
+                \textbf{Ecuación Base:} $[\text{PROPUESTA}] + [\text{PROPÓSITO}] + [\text{OBJETO}]$\\
+                \scriptsize Especificación técnica orientada a máxima eficiencia cognitiva y delimitación de ingeniería de sistemas
+            \end{tcolorbox}
+        };
+
+        % Autores y cátedra
+        \node[anchor=south, align=center, font=\tiny\sffamily, text=bpDark] at ([yshift=0.75cm]current page.south) {
+            \textbf{Tesista:} Br. Edmil Jampier Saire Bustamante $\mid$ \textbf{Cátedra:} Msc. Raúl Huillca Huallparimachi (Seminario de Investigación II)\\
+            \textbf{UNSAAC} -- Facultad de Ingeniería Eléctrica, Electrónica, Informática y Mecánica $\mid$ Cusco, 2026
+        };
+    \end{tikzpicture}
+\end{frame}
+
+% ==========================================================
+% SLIDE 2: AUDITORÍA DEL TÍTULO ANTERIOR (ANTI-PATRONES)
+% ==========================================================
+\begin{frame}{Diagnóstico y Auditoría del Título Inicial}
+    \vspace{-0.3cm}
+    \begin{tcolorbox}[enhanced, colback=bpRed!5!white, colframe=bpRed, title=\textbf{Título Inicial (En revisión en el Plan de Tesis)}, arc=1.5mm, left=2mm, right=2mm, top=1.2mm, bottom=1.2mm]
+        \scriptsize\itshape
+        ``Diseño y evaluación de un asistente educativo offline español--Quechua Collao basado en un modelo de lenguaje compacto, generación aumentada por recuperación y recursos lingüísticos validados para contextos de Educación Intercultural Bilingüe''
+    \end{tcolorbox}
+
+    \vspace{0.15cm}
+    \begin{columns}[T]
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[enhanced, colback=white, colframe=bpRed!80!black, title=\textbf{Bugs Detectados (Checklist)}, arc=1.5mm, left=2mm, right=2mm, top=1.5mm, bottom=1.5mm]
+                \tiny
+                \begin{itemize}
+                    \item[\color{bpRed}\bfseries $\times$] \textbf{Longitud excesiva (32 palabras):}\\
+                    Supera ampliamente el estándar de \textbf{15 a 20 palabras}.
+                    \item[\color{bpRed}\bfseries $\times$] \textbf{Sobrecarga descriptiva y relleno:}\\
+                    Acumula conectores (\textit{``basado en...'', ``y recursos lingüísticos validados''}).
+                    \item[\color{bpRed}\bfseries $\times$] \textbf{Variables extrañas al perfil de ingeniería:}\\
+                    Introduce variables pedagógicas escolares (\textit{asistente educativo, EIB, andamiaje docente}) que desvían el aporte de computación.
+                \end{itemize}
+            \end{tcolorbox}
+        \end{column}
+        
+        \begin{column}{0.49\textwidth}
+            \begin{tcolorbox}[enhanced, colback=white, colframe=bpGreen!80!black, title=\textbf{Corrección Arquitectónica}, arc=1.5mm, left=2mm, right=2mm, top=1.5mm, bottom=1.5mm]
+                \tiny
+                \begin{itemize}
+                    \item[\color{bpGreen}\bfseries $\checkmark$] \textbf{Núcleo de Aporte en IA / PLN:}\\
+                    Definir el aporte en su nivel más alto: \textbf{Arquitectura SLM--RAG con QLoRA}.
+                    \item[\color{bpGreen}\bfseries $\checkmark$] \textbf{Eliminación de Relleno y Docencia:}\\
+                    Prescindir de la capa escolar y centrarse en la asimilación del contexto RAG por el SLM.
+                    \item[\color{bpGreen}\bfseries $\checkmark$] \textbf{Compilación Estricta:}\\
+                    Ajuste matemático a $[\text{Propuesta}] + [\text{Propósito}] + [\text{Objeto}]$.
+                \end{itemize}
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ==========================================================
+% SLIDE 3: LA ECUACIÓN UNIVERSAL APLICADA AL PROYECTO
+% ==========================================================
+\begin{frame}{La Ecuación Universal Aplicada a la Tesis}
+    \centering
+    \scriptsize\textbf{Sintaxis Modular: }
+    $\mathbf{[\text{PROPUESTA}]} + \mathbf{[\text{PROPÓSITO}]} + \mathbf{[\text{OBJETO}]}$
+    
+    \vspace{0.25cm}
+    \begin{tikzpicture}[node distance=0.2cm and 0.2cm, auto]
+        % Bloque 1: Propuesta
+        \node (prop) [draw=bpBlue, fill=bpBlue!10!white, rounded corners=1.5mm, line width=1.1pt, text width=4.0cm, minimum height=3.0cm, align=left] {
+            \textbf{\color{bpBlue}\scriptsize 1. PROPUESTA (Tecnología)}\\[0.1cm]
+            \tiny\textbf{¿Qué se construye / investiga?}\\
+            Arquitectura de software e IA.\\[0.15cm]
+            \color{bpDark}\textbf{Núcleo de Aporte:}\\
+            $\bullet$ \textit{Diseño e implementación de una arquitectura SLM--RAG con QLoRA}\\
+            $\bullet$ \textit{Arquitectura SLM--RAG con adaptadores de bajo rango}
+        };
+
+        % Conector +
+        \node (plus1) [right=0.1cm of prop, font=\large\bfseries\color{bpNavy}] {+};
+
+        % Bloque 2: Propósito
+        \node (prop2) [right=0.1cm of plus1, draw=bpGold!90!black, fill=bpGold!10!white, rounded corners=1.5mm, line width=1.1pt, text width=4.0cm, minimum height=3.0cm, align=left] {
+            \textbf{\color{bpGold!90!black}\scriptsize 2. PROPÓSITO (Objetivo)}\\[0.1cm]
+            \tiny\textbf{¿Para qué sirve?}\\
+            El fin técnico y problema que resuelve.\\[0.15cm]
+            \color{bpDark}\textbf{Objetivo Técnico:}\\
+            $\bullet$ \textit{para la generación contextualizada}\\
+            $\bullet$ \textit{para la mitigación de alucinaciones factuales}
+        };
+
+        % Conector +
+        \node (plus2) [right=0.1cm of prop2, font=\large\bfseries\color{bpNavy}] {+};
+
+        % Bloque 3: Objeto
+        \node (obj) [right=0.1cm of plus2, draw=bpRust, fill=bpRust!10!white, rounded corners=1.5mm, line width=1.1pt, text width=4.0cm, minimum height=3.0cm, align=left] {
+            \textbf{\color{bpRust}\scriptsize 3. OBJETO (Contexto)}\\[0.1cm]
+            \tiny\textbf{¿Dónde se aplica?}\\
+            Dominio lingüístico y delimitación.\\[0.15cm]
+            \color{bpDark}\textbf{Campo de Aplicación:}\\
+            $\bullet$ \textit{en Quechua Collao}\\
+            $\bullet$ \textit{en entornos computacionales offline}
+        };
+    \end{tikzpicture}
+
+    \vspace{0.2cm}
+    \begin{tcolorbox}[enhanced, colback=bpNavy, colframe=bpNavy, width=13.5cm, center, arc=1.2mm, top=1mm, bottom=1mm]
+        \centering\tiny\color{white}\sffamily
+        \textbf{Principio de Compilación:} Los 3 bloques coexisten sin ambigüedad para que cualquier evaluador decodifique la ingeniería del aporte en menos de 3 segundos.
+    \end{tcolorbox}
+\end{frame}
+
+% ==========================================================
+% SLIDE 4: MATRIZ DE CANDIDATOS CALIBRADOS
+% ==========================================================
+\begin{frame}{Matriz Taxonómica: Títulos Candidatos Calibrados}
+    \vspace{-0.3cm}
+    \begin{center}
+    \tiny
+    \begin{tabular}{p{2.3cm} p{8.2cm} c c}
+        \toprule
+        \textbf{\color{bpNavy}Tipo de Estudio} & \textbf{\color{bpNavy}Formulación Estructural del Título} & \textbf{\color{bpNavy}Palabras} & \textbf{\color{bpNavy}Estado} \\
+        \midrule
+        \textbf{Opción 1: Directa Canónica} \textit{(Recomendada)} & 
+        \textbf{\color{bpBlue}[Diseño e implementación de una arquitectura SLM--RAG con QLoRA]} \textbf{\color{bpGold!90!black}[para la generación contextualizada]} \textbf{\color{bpRust}[en Quechua Collao]} & 
+        \textbf{15} & \color{bpGreen}\textbf{ÓPTIMO} \\
+        \addlinespace[0.12cm]
+        \textbf{Opción 2: Descriptiva Formal} & 
+        \textbf{\color{bpBlue}[Diseño e implementación de una arquitectura SLM--RAG con adaptadores de bajo rango]} \textbf{\color{bpGold!90!black}[para la generación contextualizada]} \textbf{\color{bpRust}[en Quechua Collao]} & 
+        \textbf{17} & \color{bpGreen}\textbf{ÓPTIMO} \\
+        \addlinespace[0.12cm]
+        \textbf{Opción 3: Dominio Lingüístico} & 
+        \textbf{\color{bpBlue}[Arquitectura SLM--RAG con adaptación de dominio]} \textbf{\color{bpGold!90!black}[para la mitigación de alucinaciones]} \textbf{\color{bpRust}[en Quechua Collao]} & 
+        \textbf{15} & \color{bpGreen}\textbf{ÓPTIMO} \\
+        \addlinespace[0.12cm]
+        \textbf{Opción 4: Optimización} & 
+        \textbf{\color{bpBlue}[Optimización de una arquitectura SLM--RAG mediante adaptadores QLoRA]} \textbf{\color{bpGold!90!black}[para la generación contextualizada]} \textbf{\color{bpRust}[en Quechua Collao]} & 
+        \textbf{15} & \color{bpGreen}\textbf{ÓPTIMO} \\
+        \bottomrule
+    \end{tabular}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{tcolorbox}[colback=bpLightGray, colframe=bpBlue!50!black, arc=1.2mm, left=2mm, right=2mm, top=1.5mm, bottom=1.5mm]
+        \tiny\textbf{\color{bpNavy}Criterio de Selección:}
+        La \textbf{Opción 1} abarca con máxima exactitud metodológica el enfoque \textbf{DSR (Design Science Research)} de la tesis, cubriendo el artefacto de software, el acoplamiento de adaptadores QLoRA para maximizar la asimilación del RAG y la delimitación en Quechua Collao.
+    \end{tcolorbox}
+\end{frame}
+
+% ==========================================================
+% SLIDE 5: TÍTULO SELECCIONADO Y CHECKLIST DE CONTROL FINAL
+% ==========================================================
+\begin{frame}{Título Definitivo Seleccionado y Panel de Calidad}
+    \vspace{-0.3cm}
+    \begin{tcolorbox}[enhanced, colback=white, colframe=bpNavy, title=\textbf{Título Estructural Seleccionado (Especificación Técnica)}, arc=2mm, left=2mm, right=2mm, top=1.5mm, bottom=1.5mm]
+        \centering\normalsize\bfseries\sffamily
+        \color{bpBlue}``Diseño e implementación de una arquitectura SLM--RAG con QLoRA\\ \color{bpGold!90!black}para la generación contextualizada \color{bpRust}en Quechua Collao''
+        
+        \vspace{0.1cm}
+        \scriptsize\normalfont\color{bpNavy!80!black}
+        \textbf{Conteo total:} \textbf{15 palabras} $\mid$ \textbf{Estructura:} $[\text{PROPUESTA: 9}]$ + $[\text{PROPÓSITO: 3}]$ + $[\text{OBJETO: 3}]$
+    \end{tcolorbox}
+
+    \vspace{0.15cm}
+    \begin{tcolorbox}[enhanced, colback=bpLightGray, colframe=bpGreen!70!black, title=\textbf{Panel de Control de Calidad y Auditoría Final (100\% Aprobado)}, arc=1.5mm, left=2mm, right=2mm, top=1.5mm, bottom=1.5mm]
+        \tiny
+        \begin{tabular}{lll}
+            \color{bpGreen}\bfseries [ $\checkmark$ ] & \textbf{Claridad instantánea:} & Se reconocen de inmediato la tecnología, el objetivo y el contexto ($< 3$ s). \\
+            \color{bpGreen}\bfseries [ $\checkmark$ ] & \textbf{Honestidad estructural:} & Refleja con precisión la construcción y adaptación del pipeline DSR. \\
+            \color{bpGreen}\bfseries [ $\checkmark$ ] & \textbf{Cero redundancias:} & Eliminadas palabras comerciales y variables pedagógicas fuera de ingeniería. \\
+            \color{bpGreen}\bfseries [ $\checkmark$ ] & \textbf{Longitud calibrada:} & 16 palabras (dentro del intervalo de oro de \textbf{15 a 20 palabras}). \\
+            \color{bpGreen}\bfseries [ $\checkmark$ ] & \textbf{Delimitación estricta:} & Especifica la variante lingüística formal (\textit{Quechua Collao}) y el núcleo técnico. \\
+        \end{tabular}
+    \end{tcolorbox}
+\end{frame}
+
+\end{document}

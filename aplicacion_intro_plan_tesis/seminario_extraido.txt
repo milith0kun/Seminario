@@ -1,0 +1,518 @@
+                    SEMINARIO DE INVESTIGACION II
+                                         (Tesis introducción)
+
+
+                                   Msc. Raul Huillca Huallparimachi
+
+        FACULTAD DE INGENIERÍA ELÉCTRICA, ELECTRÓNICA, INFORMÁTICA Y
+                                  MECÁNICA
+                 DEPARTAMENTO ACADEMICO DE INFORMATICA
+
+
+                                     Cusco 9 de octubre de 2026
+
+
+
+
+                                                                    .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                                .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .        1/37
+Msc. Raul Huillca Huallparimachi        SEMINARIO DE INVESTIGACION II                     Cusco 9 de octubre de 2026                            1 / 37
+Tabla de contenidos
+
+
+
+
+1     Tesis introducción
+
+
+
+
+                                                                   .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                               .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .        2/37
+    Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                     Cusco 9 de octubre de 2026                            2 / 37
+Tesis introducción
+
+
+
+
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       3/37    3/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                           Cusco 9 de octubre de 2026                       3 / 37
+Tesis introducción
+
+
+
+
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       4/37    4/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                           Cusco 9 de octubre de 2026                       4 / 37
+Contexto y problema general
+
+
+
+
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       5/37    5/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                           Cusco 9 de octubre de 2026                       5 / 37
+Contexto y problema general
+
+A. Presentar el campo general. Identifica el área científica y explica su
+función o importancia.
+B. Explicar el avance o la necesidad. Describe las capacidades,
+aplicaciones o necesidades que hacen relevante el campo.
+C. Introducir la dificultad general. Señala los desafíos o problemas que
+aparecen al utilizar la tecnología o abordar el fenómeno estudiado.
+D. Conducir al tema específico. Introduce la necesidad de investigar
+una solución, un método o una alternativa.
+
+
+
+
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       6/37    6/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                           Cusco 9 de octubre de 2026                       6 / 37
+Contexto y problema general
+
+El aprendizaje automático constituye un área de la inteligencia artificial
+que permite construir modelos capaces de identificar patrones y establecer
+relaciones a partir de conjuntos de datos. Su utilización en diferentes
+sistemas informáticos ha incrementado la importancia de estudiar no solo
+la capacidad predictiva de los modelos, sino también las condiciones bajo
+las cuales se procesan los datos utilizados durante su entrenamiento.
+En aplicaciones que involucran información sensible, el procesamiento de
+datos plantea desafíos relacionados con la confidencialidad y el control de
+acceso a la información. La necesidad de obtener resultados analíticos sin
+exponer innecesariamente los datos originales motiva el estudio de técnicas
+que permitan incorporar mecanismos de protección durante las operaciones
+computacionales.
+En este contexto, resulta pertinente investigar arquitecturas que integren
+métodos de aprendizaje automático con tecnologías de protección de
+datos, evaluando sus posibilidades, restricciones y costos computacionales.
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       7/37    7/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                           Cusco 9 de octubre de 2026                       7 / 37
+Tecnología o método
+
+
+
+
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       8/37    8/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                           Cusco 9 de octubre de 2026                       8 / 37
+Tecnología o método
+
+A. Métodos existentes: Presenta las principales tecnologías o familias de
+            métodos utilizados para abordar el problema.
+B. Fundamento de la tecnología elegida: Explica qué hace la tecnología
+           seleccionada y qué función cumple en la propuesta.
+C. Evidencia previa: Resume los estudios de otros autores, sus resultados y
+             las condiciones en las que fueron obtenidos.
+D. Limitaciones relevantes: Identifica las dificultades que persisten y
+             explica por qué son importantes para el problema específico.
+
+
+
+
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       9/37    9/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                           Cusco 9 de octubre de 2026                       9 / 37
+Tecnología o método
+Entre las técnicas estudiadas para proteger información durante el procesamiento
+computacional se encuentra el cifrado homomórfico, que permite efectuar
+determinadas operaciones sobre datos cifrados y obtener resultados que, al
+descifrarse, corresponden a los resultados de operaciones relacionadas sobre los
+datos originales. Su utilización en aprendizaje automático permite estudiar
+procedimientos en los que ciertas operaciones se realizan sin descifrar
+previamente todos los datos involucrados.
+Por otra parte, la Transformada Cuántica de Fourier (QFT) es una
+transformación cuántica relacionada con la transformada discreta de Fourier y
+permite modificar la representación de un estado cuántico mediante operaciones
+sobre sus amplitudes. Su posible utilización en una arquitectura de procesamiento
+de datos debe analizarse considerando cómo se codifican los datos, qué circuito
+se ejecuta y qué información puede recuperarse mediante la medición.
+La integración de estos componentes plantea cuestiones técnicas que no pueden
+resolverse únicamente a partir de sus propiedades individuales. Es necesario
+estudiar cómo se relacionan las representaciones de los datos, las operaciones
+criptográficas y los procedimientos de entrenamiento, así como determinar el
+costo computacional y las condiciones bajo las cuales la arquitectura puede
+                                                 . . . . . . . . . . . . . . .  . .   . . .
+ejecutarse de manera reproducible.             . . .  . . . . . . . . . . . . . .   . . .   10/37 10/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II       Cusco 9 de octubre de 2026   10 / 37
+Vacío de investigación
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       11/37    11/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     11 / 37
+Vacío de investigación
+
+No significa necesariamente que una tecnología no exista. Puede ocurrir
+que:
+       Exista un algoritmo, pero no haya sido evaluado en determinadas
+       condiciones.
+       Existan dos tecnologías por separado, pero falte estudiar su
+       integración.
+       Se hayan publicado resultados, pero no sean comparables.
+       Exista una solución, pero no se conozca bien su costo, precisión o
+       escalabilidad.
+       Se haya propuesto una arquitectura, pero falte validarla
+       experimentalmente.
+La clave es esta: no tienes que inventar un problema nuevo; debes
+identificar con evidencia una pregunta que siga abierta.
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       12/37    12/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     12 / 37
+Vacío de investigación
+
+    Etapa                                     Qué debes escribir
+    A. Síntesis de antecedentes               Qué han conseguido los trabajos anterio-
+                                              res.
+    B. Comparación crítica                    Qué aspectos han estudiado y cuáles no.
+    C. Identificación de la limita-           Qué evidencia falta o qué condición no se
+    ción                                      ha evaluado suficientemente.
+    D. Delimitación del vacío                 Qué aspecto específico abordarás tú.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       13/37    13/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     13 / 37
+Vacío de investigación
+
+A. Conocimientos establecidos: Identifica los fundamentos y resultados
+            generales que la literatura ya aporta sobre el tema.
+B. Líneas de investigación relacionadas: Distingue las áreas, tecnologías o
+              enfoques de investigación que se relacionan con la propuesta.
+C. Brecha por verificar: Destaca la integración o cuestión específica que
+             debe contrastarse con los artículos, sus experimentos,
+             limitaciones y trabajos futuros.
+D. Delimitación de la investigación: Señala los aspectos que se
+             examinarán para determinar la existencia de una brecha y
+             delimitar la evaluación propuesta.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       14/37    14/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     14 / 37
+Vacío de investigación
+
+La literatura sobre aprendizaje automático con protección criptográfica
+proporciona fundamentos para estudiar operaciones analíticas sobre datos
+cifrados. Asimismo, los trabajos relacionados con la computación cuántica
+ofrecen diferentes procedimientos para transformar y procesar estados
+cuánticos. Sin embargo, la existencia de resultados en estas líneas de
+investigación no demuestra por sí misma la viabilidad de integrarlas en una
+arquitectura de entrenamiento.
+Por ello, resulta necesario examinar qué evidencia experimental existe
+sobre la integración específica de la QFT y CKKS, considerando la
+representación de los datos, la ejecución de las operaciones, el desempeño
+predictivo y el costo computacional. La revisión de los estudios previos
+permitirá establecer si existe una brecha concreta en estos aspectos y
+delimitar las condiciones bajo las cuales será evaluada la arquitectura
+propuesta.
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       15/37    15/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     15 / 37
+Vacío de investigación
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       16/37    16/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     16 / 37
+Contexto y problema específico
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       17/37    17/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     17 / 37
+Contexto y problema específico
+
+A. Objeto de estudio: Identifica la arquitectura, tecnología o sistema
+             específico que se investigará.
+B. Desempeño y comparación: Señala el comportamiento predictivo y los
+           métodos de referencia utilizados para evaluar la propuesta.
+C. Costo computacional: Identifica los recursos y costos asociados a la
+            implementación y ejecución de la arquitectura.
+D. Privacidad y condiciones de evaluación: Destaca las operaciones sobre
+             datos cifrados, los supuestos de seguridad y las condiciones
+             necesarias para delimitar la evaluación.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       18/37    18/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     18 / 37
+Contexto y problema específico
+
+El problema específico de esta investigación se relaciona con la necesidad
+de establecer el comportamiento de una arquitectura cuántico-clásica que
+integra la Transformada Cuántica de Fourier (QFT) y el esquema de
+cifrado homomórfico CKKS durante el entrenamiento de modelos de
+aprendizaje automático. En particular, es necesario determinar si su
+implementación permite obtener un desempeño predictivo aceptable y
+cómo se compara con los métodos de referencia, así como identificar los
+costos computacionales que introduce su ejecución.
+La evaluación también requiere delimitar qué operaciones se realizan sobre
+datos cifrados, cuáles se ejecutan fuera del dominio cifrado y qué garantías
+de protección pueden sostenerse bajo los supuestos establecidos. Estas
+condiciones permitirán formular una evaluación experimental que
+diferencie el desempeño del modelo, la eficiencia de la implementación y
+las propiedades de privacidad de la arquitectura.
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       19/37    19/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     19 / 37
+Posible pregunta de investigación sería
+
+¿Cómo se comporta experimentalmente una arquitectura cuántico-clásica
+que integra la QFT y CKKS para el entrenamiento de modelos de
+aprendizaje automático, en términos de desempeño predictivo, costo
+computacional y protección de la privacidad, frente a métodos de
+referencia definidos bajo condiciones comparables?
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       20/37    20/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     20 / 37
+Propuesta, objetivo y justificación
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       21/37    21/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     21 / 37
+Propuesta, objetivo y justificación : Qué significa
+
+Debes explicar brevemente qué planteas hacer para estudiar el problema
+identificado. En una tesis de ingeniería, la propuesta puede ser:
+       Diseñar una arquitectura.
+       Desarrollar un algoritmo.
+       Construir un prototipo.
+       Optimizar un procedimiento.
+       Comparar métodos existentes.
+       Demostrar experimentalmente una propiedad.
+La acción debe corresponder al aporte real de tu investigación.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       22/37    22/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     22 / 37
+Propuesta, objetivo y justificación : presentar la
+propuesta
+
+  A. Acción: Indica qué se desarrollará, diseñará, optimizará o evaluará en
+             la investigación.
+B. Tecnología: Identifica los métodos, técnicas y herramientas que se
+             utilizarán en la propuesta.
+C. Aplicación: Señala el contexto, propósito o problema en el que se
+              aplicará la propuesta.
+D. Evaluación: Especifica cómo se comprobará el comportamiento de la
+             propuesta mediante experimentos, comparaciones y métricas.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       23/37    23/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     23 / 37
+Propuesta, objetivo y justificación : presentar la
+propuesta
+
+En esta investigación se propone estudiar experimentalmente una
+arquitectura cuántico-clásica que integra la Transformada Cuántica de
+Fourier (QFT) y el cifrado homomórfico CKKS para el entrenamiento de
+modelos de aprendizaje automático. La arquitectura será implementada
+bajo condiciones experimentales definidas, con el propósito de analizar su
+desempeño predictivo, su costo computacional y las propiedades de
+protección de datos que pueden sostenerse de acuerdo con su diseño. La
+evaluación se realizará mediante comparaciones con métodos de referencia
+y métricas seleccionadas según las características de los modelos y las
+operaciones ejecutadas.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       24/37    24/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     24 / 37
+Propuesta, objetivo y justificación : formular el
+objetivo general
+
+                       PLANTILLA DEL OBJETIVO GENERAL
+      Verbo en infinitivo + objeto de estudio + tecnología o método +
+                      finalidad + criterios de evaluación.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       25/37    25/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     25 / 37
+Propuesta, objetivo y justificación : formular el
+objetivo general
+
+Ejemplo
+Evaluar experimentalmente una arquitectura cuántico-clásica que integre QFT y
+CKKS para el entrenamiento de modelos de aprendizaje automático, considerando
+el desempeño predictivo, el costo computacional y las propiedades de privacidad
+frente a métodos de referencia.
+
+Observa que el verbo principal es evaluar. Por tanto, la investigación debe
+incluir experimentos que permitan emitir una evaluación fundamentada.
+Si tu aporte principal fuera construir una arquitectura nueva, podrías
+utilizar diseñar y desarrollar, pero también tendrías que especificar cómo
+validarás el sistema construido.
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       26/37    26/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     26 / 37
+Propuesta, objetivo y justificación : explicar la
+justificación
+
+A. Justificación científica: Explica qué conocimiento nuevo o evidencia se
+               espera aportar al campo de investigación.
+B. Justificación metodológica: Explica qué procedimiento, protocolo o
+               estrategia de evaluación aporta el estudio.
+C. Justificación tecnológica: Explica qué capacidades, limitaciones o
+               problemas de ingeniería permitirá comprender o abordar la
+               investigación.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       27/37    27/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     27 / 37
+Propuesta, objetivo y justificación : explicar la
+justificación
+
+La investigación se justifica científicamente por la necesidad de obtener
+evidencia sobre el comportamiento de arquitecturas que integran técnicas
+de computación cuántica y criptografía homomórfica en tareas de
+aprendizaje automático. Su contribución metodológica consiste en
+establecer un procedimiento experimental que permita analizar el
+desempeño predictivo y el costo computacional bajo condiciones
+documentadas y comparables. Desde la perspectiva tecnológica, los
+resultados permitirán determinar las capacidades y limitaciones de la
+implementación estudiada, así como identificar las condiciones en las que
+su utilización podría resultar pertinente.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       28/37    28/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     28 / 37
+Propuesta, objetivo y justificación : la metodología
+en la introducción
+
+Puedes anticipar el enfoque metodológico, pero sin desarrollar todos los
+detalles del capítulo de metodología.
+       Por ejemplo: puedes indicar que realizarás una evaluación cuantitativa
+       y experimental, utilizarás determinados conjuntos de datos y compararás
+       modelos mediante métricas definidas.
+Los detalles de los experimentos, parámetros, equipos, procedimientos y
+análisis estadísticos deben desarrollarse en el apartado metodológico
+correspondiente.
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       29/37    29/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     29 / 37
+Tesis introducción
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       30/37    30/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     30 / 37
+Tesis introducción
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       31/37    31/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     31 / 37
+Tesis introducción
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       32/37    32/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     32 / 37
+Tesis introducción
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       33/37    33/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     33 / 37
+  Tesis introducción
+
+  La tesis se organiza en cinco capítulos:
+ulo 1. Presenta el planteamiento del problema, las preguntas de
+       investigación, los objetivos y la justificación del estudio.
+ulo 2. Desarrolla los antecedentes científicos y los fundamentos teóricos
+       relacionados con la computación cuántica, el cifrado homomórfico y el
+       aprendizaje automático.
+ulo 3. Describe la metodología, la arquitectura propuesta, el entorno
+       experimental y los procedimientos de evaluación.
+ulo 4. Presenta los resultados obtenidos y su análisis comparativo.
+ulo 5. Expone las conclusiones, las limitaciones de la investigación y las
+       recomendaciones para futuros trabajos.
+
+
+
+                                                          .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                      .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       34/37    34/37
+   Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     34 / 37
+Tesis introducción
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       35/37    35/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     35 / 37
+Tesis introducción
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       36/37    36/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     36 / 37
+Referencias Bibliográficas I
+
+
+
+
+                                                        .   .   .     . . . .     . . . .     . . . .       .   .       .   .   .
+                                                    .   .   .       . . . .     . . . .     . . . .     .   .       .   .   .       37/37    37/37
+ Msc. Raul Huillca Huallparimachi   SEMINARIO DE INVESTIGACION II                            Cusco 9 de octubre de 2026                     37 / 37
+

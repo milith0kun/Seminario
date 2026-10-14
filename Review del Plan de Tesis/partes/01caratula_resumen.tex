@@ -1,0 +1,22 @@
+% =========================================================================
+% ENCABEZADO Y RESUMEN DEL ARTÍCULO CIENTÍFICO (SPRINGER LNCS / SIMBIG)
+% =========================================================================
+
+\title{Arquitecturas SLM--RAG con Adaptación Eficiente para Lenguas Originarias de Bajos Recursos: Una Revisión Sistemática}
+\titlerunning{SLM--RAG para Lenguas Originarias: Revisión Sistemática}
+
+\author{Edmil Jampier Saire Bustamante\inst{1}\orcidID{[0000-0000-0000-0000]}}
+
+\authorrunning{E. J. Saire Bustamante}
+
+\institute{Escuela Profesional de Ingeniería Informática y de Sistemas,\\
+Universidad Nacional de San Antonio Abad del Cusco, Cusco, Perú\\
+\email{edmil.saire@unsaac.edu.pe}}
+
+\maketitle
+
+\begin{abstract}
+El procesamiento de lenguaje natural (PLN) para lenguas originarias aglutinantes y de bajos recursos computacionales, como el Quechua Collao, enfrenta severas barreras de despliegue en entornos sin conectividad digital. Esta revisión sistemática de literatura (SLR), desarrollada bajo las directrices PRISMA 2020 y Kitchenham, analiza el estado del arte de las arquitecturas que articulan Modelos de Lenguaje Pequeños (SLMs, $\le$ 3B parámetros), Generación Aumentada por Recuperación (RAG) local y técnicas de adaptación eficiente de parámetros (PEFT/QLoRA). Se evalúan 45 estudios primarios indexados en IEEE Xplore, ACM Digital Library, Scopus y ACL Anthology entre 2020 y 2026. Los hallazgos revelan que el RAG estándar sobre SLMs compactos sufre de dispersión de atención en presencia de morfologías polisintéticas, y que la integración de adaptadores ligeros de bajo rango optimiza drásticamente la asimilación del contexto inyectado sin vulnerar las restricciones de memoria ($\le$ 4 GB VRAM) en hardware de consumo. Finalmente, se identifican las brechas metodológicas abiertas y se delinean directrices de diseño para sistemas generativos locales reproducibles.
+
+\keywords{Modelos de lenguaje compactos \and Generación aumentada por recuperación \and QLoRA \and Quechua Collao \and Procesamiento de lenguaje natural offline}
+\end{abstract}

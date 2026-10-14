@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:js_interop';
-import 'dart:js_interop_unsafe';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:web/web.dart' as web;

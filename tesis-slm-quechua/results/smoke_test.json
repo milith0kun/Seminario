@@ -1,0 +1,514 @@
+{
+  "metadatos": {
+    "fecha": "2026-08-30T05:51:02.185768+00:00",
+    "modelo_generacion": "qwen2.5-3b-instruct-q4_k_m.gguf",
+    "modelo_embeddings": "multilingual-e5-small",
+    "adaptador_qlora_disponible": false,
+    "n_consultas": 3,
+    "top_k": 3,
+    "umbral_coseno": 0.65,
+    "max_tokens": 96,
+    "temperatura": 0.2,
+    "plataforma": "Windows 10 / AMD64",
+    "backend": "llama.cpp (CPU)"
+  },
+  "escenarios": {
+    "E1": {
+      "nombre": "Control zero-shot (sin RAG)",
+      "usa_rag": false,
+      "usa_adaptador_qlora": false,
+      "notas": [],
+      "resumen": {
+        "n_items": 3,
+        "n_errores": 0,
+        "linguisticas": {
+          "chrf_pp": 23.237239868428215,
+          "bleu4": 2.6142322482144587,
+          "rouge_l": 17.63791763791764,
+          "similitud_coseno": 0.8837081988652548
+        },
+        "fundamentacion": {
+          "faithfulness": 0.0,
+          "answer_relevance": 0.9280536969502767,
+          "cobertura_contexto": 0.0,
+          "items_con_contexto": 0
+        },
+        "eficiencia": {
+          "ttft_ms_medio": 527.3835000019366,
+          "throughput_tok_s_medio": 18.943637424706456,
+          "latencia_total_ms_media": 3010.2910333371256,
+          "ram_pico_mb": 3951.703125
+        },
+        "alucinacion": {
+          "n_sondas": 0,
+          "abstenciones_correctas": 0,
+          "tasa_abstencion_correcta": 0.0,
+          "entidades_inventadas_en_sondas": 0,
+          "tasa_invencion_global": 0.0
+        }
+      },
+      "items": [
+        {
+          "id": "q001",
+          "consulta": "Que es la fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "La fotosintesis es un proceso que las plantas, las algas y algunas bacterias hacen para vivir. Usan luz solar, agua y dióxido de carbono para hacer su comida y generar oxígeno.",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 28.54908482961736,
+            "bleu4": 3.30537010509803,
+            "rouge_l": 27.272727272727277,
+            "similitud_coseno": 0.903437614440918
+          },
+          "fundamentacion": {
+            "faithfulness": 0.0,
+            "answer_relevance": 0.9333143830299377,
+            "cobertura_contexto": 0.0
+          },
+          "eficiencia": {
+            "ttft_ms": 1216.4514000032796,
+            "latencia_total_ms": 3917.520000002696,
+            "throughput_tok_s": 18.140968356009388,
+            "tokens_generados": 49,
+            "ram_pico_mb": 3951.703125
+          },
+          "recuperacion": {
+            "n_fragmentos": 0,
+            "similitud_maxima": 0.0,
+            "cobertura_lexica": 0.0,
+            "sin_respaldo": false,
+            "chunks": []
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        },
+        {
+          "id": "q002",
+          "consulta": "Que necesitan las plantas para hacer fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "Las plantas necesitan luz solar, agua, dióxido de carbono y un lugar donde puedan absorber estos elementos. Además, necesitan un tipo de molécula especial llamada clorofila que las ayuda a hacer fotosíntesis.",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 30.01232130459595,
+            "bleu4": 2.6227235705350953,
+            "rouge_l": 25.641025641025642,
+            "similitud_coseno": 0.8789106607437134
+          },
+          "fundamentacion": {
+            "faithfulness": 0.0,
+            "answer_relevance": 0.9287092685699463,
+            "cobertura_contexto": 0.0
+          },
+          "eficiencia": {
+            "ttft_ms": 130.97169999673497,
+            "latencia_total_ms": 3229.479400004493,
+            "throughput_tok_s": 18.07321634213134,
+            "tokens_generados": 56,
+            "ram_pico_mb": 3935.140625
+          },
+          "recuperacion": {
+            "n_fragmentos": 0,
+            "similitud_maxima": 0.0,
+            "cobertura_lexica": 0.0,
+            "sin_respaldo": false,
+            "chunks": []
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        },
+        {
+          "id": "q003",
+          "consulta": "Que gas liberan las plantas en la fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "Las plantas liberan dióxido de carbono (CO₂) en la fotosíntesis. También liberan oxígeno (O₂).",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 11.150313471071332,
+            "bleu4": 1.9146030690102511,
+            "rouge_l": 0.0,
+            "similitud_coseno": 0.8687763214111328
+          },
+          "fundamentacion": {
+            "faithfulness": 0.0,
+            "answer_relevance": 0.922137439250946,
+            "cobertura_contexto": 0.0
+          },
+          "eficiencia": {
+            "ttft_ms": 234.72740000579506,
+            "latencia_total_ms": 1883.8737000041874,
+            "throughput_tok_s": 20.61672757597864,
+            "tokens_generados": 34,
+            "ram_pico_mb": 3936.19921875
+          },
+          "recuperacion": {
+            "n_fragmentos": 0,
+            "similitud_maxima": 0.0,
+            "cobertura_lexica": 0.0,
+            "sin_respaldo": false,
+            "chunks": []
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        }
+      ]
+    },
+    "E2": {
+      "nombre": "SLM base + RAG curricular",
+      "usa_rag": true,
+      "usa_adaptador_qlora": false,
+      "notas": [],
+      "resumen": {
+        "n_items": 3,
+        "n_errores": 0,
+        "linguisticas": {
+          "chrf_pp": 40.39222271261083,
+          "bleu4": 8.278232245569681,
+          "rouge_l": 42.46031746031746,
+          "similitud_coseno": 0.9087929526964823
+        },
+        "fundamentacion": {
+          "faithfulness": 1.0,
+          "answer_relevance": 0.9169763525327047,
+          "cobertura_contexto": 0.4444444444444444,
+          "items_con_contexto": 3
+        },
+        "eficiencia": {
+          "ttft_ms_medio": 9230.916433337066,
+          "throughput_tok_s_medio": 19.305947358851853,
+          "latencia_total_ms_media": 10833.22830000543,
+          "ram_pico_mb": 4038.1796875
+        },
+        "alucinacion": {
+          "n_sondas": 0,
+          "abstenciones_correctas": 0,
+          "tasa_abstencion_correcta": 0.0,
+          "entidades_inventadas_en_sondas": 0,
+          "tasa_invencion_global": 0.0
+        }
+      },
+      "items": [
+        {
+          "id": "q001",
+          "consulta": "Que es la fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "La fotosintesis es el proceso por el cual las plantas verdes elaboran su propio alimento. Usan luz solar, agua y dioxido de carbono para producir azúcares y liberar oxígeno.",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 52.15647360807937,
+            "bleu4": 13.983656710391779,
+            "rouge_l": 52.38095238095238,
+            "similitud_coseno": 0.9149246215820312
+          },
+          "fundamentacion": {
+            "faithfulness": 1.0,
+            "answer_relevance": 0.9144551753997803,
+            "cobertura_contexto": 0.6666666666666666
+          },
+          "eficiencia": {
+            "ttft_ms": 7520.432000004803,
+            "latencia_total_ms": 10085.80850000726,
+            "throughput_tok_s": 19.490316528568847,
+            "tokens_generados": 50,
+            "ram_pico_mb": 4025.41796875
+          },
+          "recuperacion": {
+            "n_fragmentos": 3,
+            "similitud_maxima": 0.9012277126312256,
+            "cobertura_lexica": 1.0,
+            "sin_respaldo": false,
+            "chunks": [
+              "sample_ciencia_foto_0001",
+              "cneb_ciencia_01",
+              "collao_doc_039"
+            ]
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        },
+        {
+          "id": "q002",
+          "consulta": "Que necesitan las plantas para hacer fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "Las plantas necesitan luz solar, agua absorbida por las raíces y dióxido de carbono para hacer fotosintesis.",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 43.15789052302016,
+            "bleu4": 5.32864224277779,
+            "rouge_l": 50.0,
+            "similitud_coseno": 0.9117943048477173
+          },
+          "fundamentacion": {
+            "faithfulness": 1.0,
+            "answer_relevance": 0.9287292957305908,
+            "cobertura_contexto": 0.6666666666666666
+          },
+          "eficiencia": {
+            "ttft_ms": 7473.952900007134,
+            "latencia_total_ms": 8930.120100005297,
+            "throughput_tok_s": 20.602029766937378,
+            "tokens_generados": 30,
+            "ram_pico_mb": 4027.0078125
+          },
+          "recuperacion": {
+            "n_fragmentos": 3,
+            "similitud_maxima": 0.9035985469818115,
+            "cobertura_lexica": 0.5,
+            "sin_respaldo": false,
+            "chunks": [
+              "sample_ciencia_foto_0001",
+              "cneb_ciencia_01",
+              "collao_doc_039"
+            ]
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        },
+        {
+          "id": "q003",
+          "consulta": "Que gas liberan las plantas en la fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "Las plantas liberan oxigeno en la fotosintesis.",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 25.862304006732966,
+            "bleu4": 5.522397783539471,
+            "rouge_l": 25.0,
+            "similitud_coseno": 0.8996599316596985
+          },
+          "fundamentacion": {
+            "faithfulness": 1.0,
+            "answer_relevance": 0.9077445864677429,
+            "cobertura_contexto": 0.0
+          },
+          "eficiencia": {
+            "ttft_ms": 12698.364399999264,
+            "latencia_total_ms": 13483.756300003733,
+            "throughput_tok_s": 17.825495781049337,
+            "tokens_generados": 14,
+            "ram_pico_mb": 4038.1796875
+          },
+          "recuperacion": {
+            "n_fragmentos": 3,
+            "similitud_maxima": 0.8668312430381775,
+            "cobertura_lexica": 0.6666666666666666,
+            "sin_respaldo": false,
+            "chunks": [
+              "sample_ciencia_foto_0001",
+              "cneb_ciencia_01",
+              "collao_doc_001"
+            ]
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        }
+      ]
+    },
+    "E3": {
+      "nombre": "SLM adaptado + RAG + andamiaje EIB",
+      "usa_rag": true,
+      "usa_adaptador_qlora": false,
+      "notas": [
+        "Adaptador QLoRA no encontrado en modelos/adaptadores/qlora_quechua_collao. E3 se ejecuto sobre el modelo BASE: la diferencia frente a E2 mide el efecto del prompt de andamiaje, NO el del entrenamiento."
+      ],
+      "resumen": {
+        "n_items": 3,
+        "n_errores": 0,
+        "linguisticas": {
+          "chrf_pp": 11.206440798124794,
+          "bleu4": 0.8588330032280509,
+          "rouge_l": 6.29776021080369,
+          "similitud_coseno": 0.8620348374048868
+        },
+        "fundamentacion": {
+          "faithfulness": 0.6666666666666666,
+          "answer_relevance": 0.8556405305862427,
+          "cobertura_contexto": 0.6666666666666666,
+          "items_con_contexto": 3
+        },
+        "eficiencia": {
+          "ttft_ms_medio": 9303.25099999997,
+          "throughput_tok_s_medio": 20.015628829657274,
+          "latencia_total_ms_media": 14102.719299999686,
+          "ram_pico_mb": 4056.578125
+        },
+        "alucinacion": {
+          "n_sondas": 0,
+          "abstenciones_correctas": 0,
+          "tasa_abstencion_correcta": 0.0,
+          "entidades_inventadas_en_sondas": 0,
+          "tasa_invencion_global": 0.0
+        }
+      },
+      "items": [
+        {
+          "id": "q001",
+          "consulta": "Que es la fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "1) Pregunta orientadora: ¿Qué procesos necesitan las plantas para crecer y producir su propio alimento? ¿Qué elementos son fundamentales para este proceso?\n\n2) Pistas en quechua y castellano:\nQuechua Collao: Yurakunaqa inti k'anchaywan, allpa ukhumanta yakuwan, samay wayrawan ima mikhunankuta ruwanku. Kay ru",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 23.546172975173597,
+            "bleu4": 1.7268919138039225,
+            "rouge_l": 14.545454545454547,
+            "similitud_coseno": 0.8903312087059021
+          },
+          "fundamentacion": {
+            "faithfulness": 1.0,
+            "answer_relevance": 0.8283026218414307,
+            "cobertura_contexto": 0.6666666666666666
+          },
+          "eficiencia": {
+            "ttft_ms": 8229.781899994123,
+            "latencia_total_ms": 13206.380699994043,
+            "throughput_tok_s": 19.290283154832885,
+            "tokens_generados": 96,
+            "ram_pico_mb": 4048.5546875
+          },
+          "recuperacion": {
+            "n_fragmentos": 3,
+            "similitud_maxima": 0.9012277126312256,
+            "cobertura_lexica": 1.0,
+            "sin_respaldo": false,
+            "chunks": [
+              "sample_ciencia_foto_0001",
+              "cneb_ciencia_01",
+              "collao_doc_039"
+            ]
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        },
+        {
+          "id": "q002",
+          "consulta": "Que necesitan las plantas para hacer fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "1) Pregunta orientadora: ¿Qué elementos necesitan las plantas para crecer y producir su propio alimento? (Pregunta orientadora para activar saberes previos)\n\n2) Pistas en quechua y castellano:\nQuechua Collao: Yurakunaqa inti k'anchaywan, allpa ukhumanta yakuwan, samay wayrawan ima mikhunankuta ruwanku.",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 8.592400566761524,
+            "bleu4": 0.8496070958802302,
+            "rouge_l": 4.3478260869565215,
+            "similitud_coseno": 0.8397510051727295
+          },
+          "fundamentacion": {
+            "faithfulness": 0.6666666666666666,
+            "answer_relevance": 0.8582724928855896,
+            "cobertura_contexto": 0.6666666666666666
+          },
+          "eficiencia": {
+            "ttft_ms": 7946.335800006636,
+            "latencia_total_ms": 12664.09730000305,
+            "throughput_tok_s": 20.348633562776115,
+            "tokens_generados": 96,
+            "ram_pico_mb": 4053.14453125
+          },
+          "recuperacion": {
+            "n_fragmentos": 3,
+            "similitud_maxima": 0.9035985469818115,
+            "cobertura_lexica": 0.5,
+            "sin_respaldo": false,
+            "chunks": [
+              "sample_ciencia_foto_0001",
+              "cneb_ciencia_01",
+              "collao_doc_039"
+            ]
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        },
+        {
+          "id": "q003",
+          "consulta": "Que gas liberan las plantas en la fotosintesis?",
+          "idioma": "es",
+          "tipo": "factual",
+          "procedencia": "semilla_verificada",
+          "es_sonda_alucinacion": false,
+          "respuesta": "1) Pregunta orientadora: ¿Qué gases necesitan las plantas para crecer y qué gases liberan en el proceso de fotosintesis? (Pregunta orientadora para activar saberes previos)\n\n2) Pistas en quechua y castellano:\n- Quechua Collao: Yurakunaqa inti k'anchaywan, allpa ukhumanta yakuwan, samay wayrawan ima mikhunank",
+          "error": null,
+          "linguisticas": {
+            "chrf_pp": 1.480748852439257,
+            "bleu4": 0.0,
+            "rouge_l": 0.0,
+            "similitud_coseno": 0.856022298336029
+          },
+          "fundamentacion": {
+            "faithfulness": 0.3333333333333333,
+            "answer_relevance": 0.8803464770317078,
+            "cobertura_contexto": 0.6666666666666666
+          },
+          "eficiencia": {
+            "ttft_ms": 11733.63529999915,
+            "latencia_total_ms": 16437.679900001967,
+            "throughput_tok_s": 20.407969771362822,
+            "tokens_generados": 96,
+            "ram_pico_mb": 4056.578125
+          },
+          "recuperacion": {
+            "n_fragmentos": 3,
+            "similitud_maxima": 0.8668312430381775,
+            "cobertura_lexica": 0.6666666666666666,
+            "sin_respaldo": false,
+            "chunks": [
+              "sample_ciencia_foto_0001",
+              "cneb_ciencia_01",
+              "collao_doc_001"
+            ]
+          },
+          "alucinacion": {
+            "se_abstuvo": false,
+            "invento_entidad": false,
+            "correcto": true
+          }
+        }
+      ]
+    }
+  }
+}

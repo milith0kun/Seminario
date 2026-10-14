@@ -1,0 +1,147 @@
+% =========================================================================
+% ANEXOS DEL PLAN DE TESIS
+% =========================================================================
+\clearpage
+\phantomsection
+\chapter*{Anexos}
+\addcontentsline{toc}{chapter}{Anexos}
+
+\section*{Anexo 1: Matriz de consistencia lógica}
+\phantomsection
+\label{anexo:matriz_consistencia}
+\addcontentsline{toc}{section}{Anexo 1: Matriz de consistencia lógica}
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Matriz de consistencia lógica de la investigación}
+\label{tab:anexo_matriz_consistencia}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}p{2.6cm}p{2.6cm}p{2.6cm}p{2.8cm}X@{}}
+\toprule
+\rowcolor{tcAzul!12}
+\textbf{Problemas} & \textbf{Objetivos} & \textbf{Hipótesis} & \textbf{Variables e indicadores} & \textbf{Método} \\
+\midrule
+\textbf{Problema general:} ¿De qué manera el diseño e implementación de una arquitectura SLM--RAG con QLoRA influye en la generación contextualizada en Quechua Collao en un entorno offline? &
+\textbf{Objetivo general:} Diseñar e implementar una arquitectura SLM--RAG con QLoRA para generación contextualizada en Quechua Collao en un entorno offline. &
+\textbf{Hipótesis general:} En las condiciones de prueba definidas, SLM--RAG con QLoRA obtendrá mejores valores de fidelidad y calidad lingüística que las configuraciones de referencia, sin exceder los recursos disponibles. &
+\textbf{VI:} configuración del sistema. \textbf{VD:} calidad lingüística, fidelidad y eficiencia. &
+Enfoque cuantitativo; investigación aplicada y tecnológica; experimento computacional comparativo con consultas repetidas. \\
+\addlinespace
+\textbf{Problema específico 1:} ¿Cómo estructurar e indexar una base documental bilingüe para recuperar información pertinente en Quechua Collao? &
+\textbf{Objetivo específico 1:} Curar, estructurar e indexar documentos bilingües para recuperación local. &
+\textbf{Hipótesis específica 1:} La indexación semántica recuperará una mayor proporción de fragmentos pertinentes que la búsqueda léxica de referencia, según las consultas y etiquetas definidas. &
+Precisión de recuperación (P@k), cobertura de fuentes y trazabilidad documental. &
+Corpus con etiquetas de idioma y variedad; índice local y consultas con evidencia relevante identificada. \\
+\addlinespace
+\textbf{Problema específico 2:} ¿De qué manera los adaptadores QLoRA afectan el uso del contexto bajo restricciones locales? &
+\textbf{Objetivo específico 2:} Implementar y acoplar QLoRA si el ajuste es viable en el entorno definido. &
+\textbf{Hipótesis específica 2:} Si el ajuste QLoRA resulta ejecutable, la configuración adaptada mostrará mayor uso de la evidencia que el SLM base, manteniendo constantes las demás condiciones. &
+Utilización de contexto; latencia; tokens por segundo; RAM y VRAM. &
+Registro de configuración y telemetría; prueba de viabilidad previa al experimento completo. \\
+\addlinespace
+\textbf{Problema específico 3:} ¿Qué calidad lingüística, fidelidad y eficiencia alcanza el sistema frente a sus líneas base? &
+\textbf{Objetivo específico 3:} Comparar las configuraciones mediante métricas lingüísticas, de RAG y de eficiencia. &
+\textbf{Hipótesis específica 3:} La configuración integrada obtendrá mejores puntuaciones que SLM y SLM--RAG en las métricas seleccionadas, si la condición QLoRA puede evaluarse. &
+chrF++; SacreBLEU; fidelidad y relevancia RAG; latencia y memoria. &
+Banco previsto de 100 consultas; Friedman y comparaciones pareadas si se cumplen los supuestos y hay tres condiciones evaluables. \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Nota.} El tamaño de 100 consultas y la evaluación de QLoRA son provisionales. Se confirmarán después de validar el corpus y la viabilidad del hardware.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\clearpage
+\section*{Anexo 2: Ficha técnica de registro experimental}
+\phantomsection
+\label{anexo:ficha_tecnica}
+\addcontentsline{toc}{section}{Anexo 2: Ficha técnica de registro experimental}
+
+\begin{table}[H]
+\centering
+\caption{Ficha para registrar una corrida experimental}
+\label{tab:ficha_tecnica}
+\begin{tabularx}{\textwidth}{@{}p{5.0cm}X@{}}
+\toprule
+\textbf{Campo} & \textbf{Registro durante la ejecución} \\
+\midrule
+Identificador & Completar al ejecutar \\
+Configuración & SLM base / SLM--RAG / SLM--RAG--QLoRA, según viabilidad \\
+Dispositivo y entorno & Modelo del equipo, sistema operativo y versiones \\
+Modelo y cuantización & Nombre, versión y formato realmente utilizados \\
+Consulta y variedad & Consulta evaluada, idioma y variedad identificados \\
+Fragmentos recuperados & Identificadores de fuente y fragmentos entregados al modelo \\
+Latencia y rendimiento & Medición en milisegundos y tokens por segundo \\
+Consumo de memoria & Pico de RAM y VRAM medidos \\
+Salida y métricas & Respuesta generada y puntuaciones calculadas \\
+Observaciones & Errores, interrupciones y notas del evaluador \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+\section*{Anexo 3: Rúbrica complementaria de pertinencia pedagógica}
+\phantomsection
+\label{anexo:rubrica_pedagogica}
+\addcontentsline{toc}{section}{Anexo 3: Rúbrica complementaria de pertinencia pedagógica}
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Rúbrica complementaria para valorar respuestas del prototipo}
+\label{tab:rubrica_pedagogica}
+\small
+\begin{tabularx}{\textwidth}{@{}p{2.7cm}X X X@{}}
+\toprule
+\textbf{Criterio} & \textbf{Insuficiente (1)} & \textbf{Parcial (2--3)} & \textbf{Adecuado (4--5)} \\
+\midrule
+Pertinencia curricular & No responde al propósito de la consulta. & Responde parcialmente o incluye contenido accesorio. & Responde al propósito y se apoya en la fuente indicada. \\
+\addlinespace
+Corrección lingüística & Errores que alteran el sentido o la variedad. & El sentido general se entiende, con errores que requieren corrección. & Redacción comprensible y variedad identificada por la persona evaluadora. \\
+\addlinespace
+Andamiaje pedagógico & No explica ni organiza la respuesta. & Presenta alguna explicación, pero deja pasos o conceptos sin aclarar. & Explica de forma ordenada y adecuada al tipo de consulta. \\
+\addlinespace
+Adecuación cultural & Contiene expresiones estereotipadas o inadecuadas. & Es neutral, aunque requiere contextualización. & Es respetuosa y coherente con el contexto documentado. \\
+\addlinespace
+Claridad & Respuesta incoherente o difícil de seguir. & Comprensible con ambigüedades o repetición. & Clara, organizada y concisa. \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Nota.} Instrumento complementario; solo se aplicará si se aprueba un protocolo con evaluadores competentes. No sustituye las métricas computacionales principales.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\clearpage
+\section*{Anexo 4: Plantilla del banco de consultas de evaluación}
+\phantomsection
+\label{anexo:banco_consultas}
+\addcontentsline{toc}{section}{Anexo 4: Plantilla del banco de consultas de evaluación}
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Estructura prevista para documentar consultas de evaluación}
+\label{tab:banco_consultas}
+\small
+\begin{tabularx}{\textwidth}{@{}c p{2.2cm} p{1.7cm} X X@{}}
+\toprule
+\textbf{ID} & \textbf{Tema} & \textbf{Idioma / variedad} & \textbf{Consulta validada} & \textbf{Fuente y respuesta de referencia} \\
+\midrule
+Q01 & Pendiente de selección & Por identificar & Completar tras curar las fuentes & Registrar documento y respuesta verificable \\
+\addlinespace
+Q02 & Pendiente de selección & Por identificar & Completar tras curar las fuentes & Registrar documento y respuesta verificable \\
+\addlinespace
+Q03 & Pendiente de selección & Por identificar & Completar tras curar las fuentes & Registrar documento y respuesta verificable \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Nota.} Plantilla del instrumento; no representa consultas ni resultados ya validados. El banco previsto se completará después de verificar las fuentes y la cobertura lingüística.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

@@ -1,0 +1,31 @@
+% =========================================================================
+% PREÁMBULO PARA ARTÍCULO CIENTÍFICO (FORMATO SPRINGER LNCS / SIMBIG)
+% =========================================================================
+
+\usepackage[T1]{fontenc}        % Codificación de fuentes de salida
+\usepackage{lmodern}            % Fuentes escalables Latin Modern (requerido por microtype)
+\usepackage[utf8]{inputenc}     % Codificación de caracteres UTF-8
+\usepackage[spanish,es-tabla]{babel} % Idioma español con denominación "Tabla"
+\AtBeginDocument{\shorthandoff{<>}}  % Evita interferencias con caracteres especiales
+
+\usepackage{graphicx}           % Inclusión y manipulación de figuras
+\usepackage{booktabs}           % Reglas tipográficas para tablas (toprule, midrule, bottomrule)
+\usepackage{tabularx}           % Tablas con ajuste proporcional automático
+\usepackage{array}              % Modificadores avanzados de columnas
+\usepackage{enumerate}          % Listas con etiquetas personalizadas [(a)], [1.]
+\usepackage{amsmath, amssymb}   % Símbolos y entornos matemáticos
+\usepackage{microtype}          % Ajustes microtipográficos
+\usepackage{url}                % Manejo de hipervínculos URL
+\usepackage{xurl}               % División inteligente de URLs largas
+\usepackage[table]{xcolor}      % Soporte de color en celdas de tablas
+
+% Configuración de hipervínculos para artículo científico
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    filecolor=blue,
+    urlcolor=blue,
+    pdfstartview=FitH
+}

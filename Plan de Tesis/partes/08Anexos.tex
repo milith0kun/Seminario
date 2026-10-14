@@ -4,7 +4,7 @@
 \section*{Anexo: Fichas de Análisis}
 \label{sec:anexos}
 
-A continuación, se presentan las fichas de análisis de las nueve fuentes más relevantes para la investigación, las cuales sustentan críticamente el estado del arte y el marco conceptual del asistente propuesto. Cada ficha ha sido elaborada siguiendo la estructura metodológica exigida por la guía de trabajo del seminario.
+A continuación, se presentan las fichas de análisis de las nueve fuentes más relevantes para la investigación, las cuales sustentan críticamente el estado del arte y el marco conceptual de la arquitectura SLM--RAG propuesta. Cada ficha ha sido elaborada siguiendo la estructura metodológica exigida por la guía de trabajo del seminario.
 
 % Ficha 1
 \subsection*{Ficha 1: Orcotoma Mormontoy et al. (2025)}
@@ -50,11 +50,11 @@ A continuación, se presentan las fichas de análisis de las nueve fuentes más 
 	\item[1. REFERENCIA COMPLETA (APA 7):] Walusimbi, J., Oguti, A. M., Ssentongo, J. B., \& Ainebyona, K. (2026). Arapai: An Offline-First AI Chatbot Architecture for Low-Connectivity Educational Environments. \textit{arXiv preprint arXiv:2603.03339}.
 	\item[2. TIPO DE DOCUMENTO:] Artículo científico (Preprint)
 	\item[3. OBJETIVO O PREGUNTA DEL ESTUDIO:] Diseñar y evaluar una arquitectura de LLM orientada a operar sin conexión a internet (offline-first) para asistencia educativa en entornos con baja conectividad.
-	\item[4. METODOLOGÍA:] Investigación aplicada. Se implementaron modelos cuantizados (TinyLlama, Qwen2.5-3B, Mistral-7B) ejecutados localmente en CPU. El sistema adaptativo fue evaluado cualitativa y cuantitativamente con 120 estudiantes y 9 docentes en condiciones reales.
+	\item[4. METODOLOGÍA:] Investigación aplicada. Se implementaron modelos cuantizados (TinyLlama, Qwen2.5-3B, Mistral-7B) ejecutados localmente en CPU. El sistema adaptativo fue evaluado cualitativa y cuantitativamente con más de 120 usuarios en condiciones reales.
 	\item[5. RESULTADOS PRINCIPALES:] El sistema operó de forma estable en hardware heredado (CPU). Las consultas instructivas típicas mostraron latencias de respuesta de 1 a 3 segundos. Los usuarios reportaron una alta utilidad para el aprendizaje autodirigido a diferentes niveles de complejidad.
 	\item[6. CONCLUSIONES DEL AUTOR:] Es viable desplegar asistentes educativos basados en IA en contextos con limitaciones de infraestructura utilizando LLMs cuantizados que se ejecutan localmente, ofreciendo una alternativa confiable a los sistemas que dependen de la nube.
 	\item[7. LIMITACIONES DEL ESTUDIO:] El prototipo fue evaluado exclusivamente con contenido bilingüe en inglés, por lo que el estudio no aborda las particularidades de tokenización, morfología aglutinante ni la variabilidad dialectal de lenguas indígenas.
-	\item[8. RELEVANCIA PARA MI TESIS:] Es el principal antecedente arquitectónico. Valida la hipótesis de que los modelos cuantizados ejecutados en CPU son suficientemente rápidos y útiles para aplicaciones educativas offline en zonas rurales.
+	\item[8. RELEVANCIA PARA MI TESIS:] Es el principal antecedente arquitectónico. Valida la hipótesis de que los modelos cuantizados ejecutados en CPU son suficientemente rápidos y útiles para aplicaciones de inferencia offline en zonas sin conectividad.
 	\item[9. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``The system performs all inference locally using quantized language models and incorporates hardware-aware model selection to enable deployment on low-specification, CPU-only devices''} (p. 1).
 	\item[10. PALABRAS CLAVE ASIGNADAS:] Aquitectura offline-first, IA educativa, modelos cuantizados, edge AI.
 \end{description}
@@ -73,7 +73,7 @@ A continuación, se presentan las fichas de análisis de las nueve fuentes más 
 	\item[5. RESULTADOS PRINCIPALES:] Se identifican tres estrategias clave para habilitar modelos en dispositivos: compartición de parámetros, cuantización (PTQ y QAT) para reducir bits de peso/activación, y destilación de conocimiento. La cuantización int4/int8 resulta esencial para procesadores móviles.
 	\item[6. CONCLUSIONES DEL AUTOR:] La transición de la nube al borde (edge) reduce latencia y aumenta privacidad, pero requiere un equilibrio delicado entre el rendimiento del modelo (precisión) y la utilización de recursos (memoria y energía) que solo se logra combinando múltiples técnicas de compresión.
 	\item[7. LIMITACIONES DEL ESTUDIO:] Al ser un artículo de revisión general (survey), carece de una propuesta arquitectónica propia o experimentación de campo aplicada al procesamiento de lenguas minoritarias y aglutinantes.
-	\item[8. RELEVANCIA PARA MI TESIS:] Proporciona el marco teórico tecnológico sobre Small Language Models y cuantización que fundamenta el diseño del asistente educativo para hardware de bajo costo.
+	\item[8. RELEVANCIA PARA MI TESIS:] Proporciona el marco teórico tecnológico sobre Small Language Models y cuantización que fundamenta el diseño de la arquitectura SLM--RAG offline para hardware de bajo costo.
 	\item[9. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``deploying computationally expensive LLMs on resource-constrained devices poses significant challenges. The primary obstacles include limited computational power, reduced memory capacity, and energy constraints''} (p. 2).
 	\item[10. PALABRAS CLAVE ASIGNADAS:] \foreignlanguage{english}{On-Device} AI, cuantización, compresión de modelos, Small Language Models.
 \end{description}
@@ -92,7 +92,7 @@ A continuación, se presentan las fichas de análisis de las nueve fuentes más 
 	\item[5. RESULTADOS PRINCIPALES:] Contrario a lo esperado, la inclusión de recuperación RAG en SLMs disminuyó drásticamente la precisión en el MMLU para el modelo SmolLM2-1,7B (de 41,00\% a 33,04\% con RAG), mientras que los modelos de 135M solo mostraron una variación mínima marginal (de 21,59\% a 21,81\% con RAG en SmolLM2-135M), lo que evidencia la incapacidad de estos modelos pequeños para manejar ventanas de contexto extendidas y ruidosas.
 	\item[6. CONCLUSIONES DEL AUTOR:] Los Small Language Models luchan por aprovechar efectivamente el contexto extendido provisto por RAG, especialmente si los fragmentos contienen información irrelevante. Es crítico usar técnicas avanzadas de \foreignlanguage{english}{\textit{``chunking''}} (fragmentación semántica) y métricas de evaluación holísticas más allá de opciones múltiples.
 	\item[7. LIMITACIONES DEL ESTUDIO:] La fragmentación (chunking) documental fue simplista (corte de tokens estático), introduciendo ruido, y la evaluación de precisión se restringió al benchmark de opciones múltiples MMLU, sin examinar respuestas de texto libre.
-	\item[8. RELEVANCIA PARA MI TESIS:] Alerta sobre los riesgos de usar arquitectura RAG simple con SLMs en el diseño del asistente EIB. Justifica la necesidad de un preprocesamiento cuidadoso de los contenidos curriculares y glosarios locales para evitar introducir ruido en la consulta.
+	\item[8. RELEVANCIA PARA MI TESIS:] Alerta sobre los riesgos de usar arquitectura RAG simple con SLMs sin adaptar. Justifica la necesidad de adaptadores QLoRA orientados a la asimilación del contexto y una segmentación cuidadosa de los fragmentos documentales para evitar introducir ruido en la consulta.
 	\item[9. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``smaller models, such as SmolLM, struggle to effectively leverage extended contexts provided by the RAG pipeline, particularly when noisy or irrelevant chunks are included''} (p. 1).
 	\item[10. PALABRAS CLAVE ASIGNADAS:] RAG, AI Tutor, Small Language Model, educación fuera de línea.
 \end{description}
@@ -110,8 +110,8 @@ A continuación, se presentan las fichas de análisis de las nueve fuentes más 
 	\item[4. METODOLOGÍA:] Experimental cuantitativa. Implementación de un pipeline multi-agente que integra recuperación de diccionarios y reglas gramaticales con ajuste LoRA sobre un modelo base. Evaluación con BLEU y chrF++ sobre conjuntos de prueba estándar de WMT.
 	\item[5. RESULTADOS PRINCIPALES:] La hibridación de RAG con LoRA elevó el puntaje BLEU de 1,5 (línea base sin contexto) a 17,6, demostrando que la combinación de RAG con adaptación paramétrica ligera produce mejoras significativas para lenguas de bajos recursos.
 	\item[6. CONCLUSIONES DEL AUTOR:] La combinación de agentes RAG especializados con ajuste paramétrico ligero supera significativamente tanto al prompting directo como al RAG puro para traducción de lenguas de bajos recursos como el quechua.
-	\item[7. LIMITACIONES DEL ESTUDIO:] Se enfoca en un sistema puramente orientado a la traducción de oraciones quechua-inglés en un canal online, sin abordar el andamiaje pedagógico bilingüe interactivo ni la optimización para hardware offline local.
-	\item[8. RELEVANCIA PARA MI TESIS:] Es el antecedente más directo del enfoque híbrido propuesto. Valida empíricamente que la arquitectura RAG + LoRA es la vía más prometedora para el quechua, fundamentando la decisión de combinar RAG disciplinado con QLoRA en el asistente EIB.
+	\item[7. LIMITACIONES DEL ESTUDIO:] Se enfoca en un sistema puramente orientado a la traducción de oraciones quechua-inglés en un canal online, sin abordar la optimización para hardware offline local ni la integración de modelos compactos de inferencia CPU.
+	\item[8. RELEVANCIA PARA MI TESIS:] Es el antecedente más directo del enfoque híbrido propuesto. Valida empíricamente que la arquitectura RAG + LoRA es la vía más prometedora para el quechua, fundamentando la decisión de combinar RAG disciplinado con adaptadores QLoRA para Quechua Collao.
 	\item[9. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``Our system integrates dictionary-based retrieval, grammar rule application, and fine-tuned translation models to handle the morphological complexity of Quechua''} (p. 1).
 	\item[10. PALABRAS CLAVE ASIGNADAS:] RAG, LoRA, quechua, traducción automática, sistema multi-agente.
 \end{description}
@@ -130,7 +130,7 @@ A continuación, se presentan las fichas de análisis de las nueve fuentes más 
 	\item[5. RESULTADOS PRINCIPALES:] RAFT mejoró consistentemente el rendimiento en benchmarks de dominio específico frente a tanto RAG puro como fine-tuning sin contexto, demostrando que entrenar al modelo a ``ignorar distractores'' es tan importante como entrenarle a ``usar contexto''.
 	\item[6. CONCLUSIONES DEL AUTOR:] La combinación de fine-tuning con entrenamiento en presencia de distractores produce modelos más robustos para aplicaciones RAG de dominio específico.
 	\item[7. LIMITACIONES DEL ESTUDIO:] El método exige realizar un ajuste fino supervisado completo (SFT) sobre los pesos del modelo, lo que implica requerimientos de cómputo elevados (múltiples GPUs comerciales de alta gama) inviables para despliegues locales sencillos.
-	\item[8. RELEVANCIA PARA MI TESIS:] Fundamenta teóricamente la capa de adaptación ligera del enfoque híbrido: el QLoRA del asistente EIB debe enseñar al modelo no solo a responder pedagógicamente, sino a distinguir fragmentos dialectalmente correctos (Collao) de distractores (Cusqueño, Chanka).
+	\item[8. RELEVANCIA PARA MI TESIS:] Fundamenta teóricamente la capa de adaptación ligera del enfoque híbrido: los adaptadores QLoRA deben acondicionar al modelo a extraer evidencia fidedigna del contexto y distinguir fragmentos dialectalmente correctos (Collao) de distractores.
 	\item[9. CITAS TEXTUALES ÚTILES:] \foreignlanguage{english}{``RAFT learns to ignore distractor documents and cite the relevant sequence from the oracle document to generate the answer''} (p. 3).
 	\item[10. PALABRAS CLAVE ASIGNADAS:] RAFT, RAG, fine-tuning, distractores, adaptación de dominio.
 \end{description}
@@ -168,7 +168,7 @@ A continuación, se presentan las fichas de análisis de las nueve fuentes más 
 	\item[5. RESULTADOS PRINCIPALES:] Se construyó un diccionario léxico estructurado de alta precisión que normaliza variaciones ortográficas y dialectales de las raíces quechua sureñas.
 	\item[6. CONCLUSIONES DEL AUTOR:] El uso de formalismos y diccionarios estructurados por reglas es fundamental para el procesamiento de lenguas morfológicamente complejas, mitigando la variabilidad de escritura y la escasez de corpus paralelos.
 	\item[7. LIMITACIONES DEL ESTUDIO:] Depende del trabajo manual especializado de expertos lingüistas para estructurar y validar las reglas morfológicas, dificultando su expansión y actualización rápida.
-	\item[8. RELEVANCIA PARA MI TESIS:] Proporciona el sustento metodológico para incorporar diccionarios locales y reglas de normalización ortográfica en el preprocesamiento del asistente, mitigando errores derivados de variaciones ortográficas de los estudiantes en la consulta.
+	\item[8. RELEVANCIA PARA MI TESIS:] Proporciona el sustento metodológico para incorporar diccionarios locales y reglas de normalización ortográfica en el preprocesamiento del pipeline RAG, mitigando errores derivados de variaciones ortográficas en las consultas de entrada.
 	\item[9. CITAS TEXTUALES ÚTILES:] ``Semi-automatic construction of lexicons allows the structuring of rules that handle the morphosyntactic complexity of Quechua, mitigating spelling variations'' (p. 2).
 	\item[10. PALABRAS CLAVE ASIGNADAS:] Diccionario bilingüe, formalismo lingüístico, NooJ, normalización morfológica.
 \end{description}

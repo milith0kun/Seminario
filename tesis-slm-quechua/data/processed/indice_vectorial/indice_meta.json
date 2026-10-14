@@ -1,0 +1,8 @@
+{
+  "modelo_embeddings": "D:\\Proyectos\\Seminario\\tesis-slm-quechua\\modelos\\embeddings\\multilingual-e5-small",
+  "n_fragmentos": 56,
+  "dimension": 384,
+  "metrica": "coseno (producto punto sobre vectores normalizados)",
+  "prefijo_consulta": "query: ",
+  "prefijo_pasaje": "passage: "
+}

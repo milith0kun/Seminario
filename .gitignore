@@ -63,3 +63,11 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 .dart_tool/
+
+# External cloned repos
+repos-externos/
+
+# Modelos en la raíz
+modelos/
+
+

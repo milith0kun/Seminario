@@ -1,0 +1,46 @@
+{
+  "fecha": "2026-08-30",
+  "proposito": "Verificacion funcional del despliegue Android (Fase 5) y medicion de huella de recursos.",
+  "dispositivo": {
+    "tipo": "emulador",
+    "avd": "Medium_Phone_API_36.1",
+    "abi": "x86_64",
+    "android": "16 (API 36.1)",
+    "ram_total_mb": 5924,
+    "ram_configurada": "hw.ramSize=6144 / -memory 6144",
+    "particion_datos": "20G",
+    "disco_libre_tras_aprovisionar_gb": 12
+  },
+  "modelo": {
+    "archivo": "Qwen2.5_Coder_3B_It.litertlm",
+    "bytes": 3433083824,
+    "bytes_esperados": 3433083824,
+    "integridad": "verificada",
+    "acelerador": "CPU",
+    "runtime": "LiteRT-LM 1.5.0"
+  },
+  "verificaciones": {
+    "apk_compilado": true,
+    "apk_instalado_emulador": true,
+    "apk_instalado_dispositivo_fisico": true,
+    "catalogo_lista_ambos_modelos_tesis": true,
+    "navegacion_a_chat_sin_cierre": true,
+    "deep_link_con_espacios_y_parentesis": true,
+    "selector_escenario_E1_E2_E3_visible": true,
+    "switch_rag_visible_y_apagado_por_defecto": true,
+    "inferencia_completada_sin_cierre": true
+  },
+  "huella_recursos": {
+    "pss_tras_cargar_modelo_mb": 692,
+    "pss_durante_inferencia_mb": 1076,
+    "native_heap_inferencia_mb": 384,
+    "cache_xnnpack_generada_mb": 2900,
+    "binario_en_disco_mb": 3274
+  },
+  "observaciones": [
+    "La app sobrevivio a la carga del modelo de 3.4 GB y a la inferencia completa con 6 GB de RAM. Con la configuracion previa de 2 GB el Low Memory Killer cerraba el proceso.",
+    "La caches XNNPack consume ~2.9 GB por modelo, lo que confirma el requisito de 8 GB libres del plan de tesis.",
+    "El binario desplegado es Qwen2.5-Coder-3B-Instruct, no Qwen2.5-3B-Instruct. El banco de evaluacion en escritorio usa el Instruct correcto; la comparacion entre ambos entornos debe tener en cuenta esa diferencia de checkpoint.",
+    "La respuesta observada en E1 (sin RAG) contenia errores factuales -atribuir fotosintesis a animales y microorganismos, y mencionar acidos grasos como producto-, coherente con la tasa de alucinacion medida en el benchmark."
+  ]
+}

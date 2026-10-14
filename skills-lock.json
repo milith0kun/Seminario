@@ -43,6 +43,60 @@
       "skillPath": "skills/analyze-project/SKILL.md",
       "computedHash": "65fac6f4a0f3d458ee3a920451a4fe6f8052a051a47c44126624320ba201c7a8"
     },
+    "antv-g2-chart": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/antv-g2-chart/SKILL.md",
+      "computedHash": "814ce2f5c6fa00628400d9adae846c506da4ce4a864a8d1271393b0ea3c3050e"
+    },
+    "antv-g6-graph": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/antv-g6-graph/SKILL.md",
+      "computedHash": "b716eb4e7efad3d43633b0c5d32fd965f32970f78f17cc12393080c9a52bf3c0"
+    },
+    "antv-s2-expert": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/antv-s2-expert/SKILL.md",
+      "computedHash": "987abfafbc863d38d5e21a95a229ca75caf7b578d4cd62b6e4f840aacf2d9810"
+    },
+    "antv-skills-maintainer": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": ".github/skills/antv-skills-maintainer/SKILL.md",
+      "computedHash": "00c9c6f069287759f6789fd30eff614b229f5a863a455a9927d967d76d91afea"
+    },
+    "antv-x6-editor": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/antv-x6-editor/SKILL.md",
+      "computedHash": "3023f041a3964ed5006f810ae0e4d969c540c15ad1a647b61484e925eb2f89fc"
+    },
+    "bib-search-citation": {
+      "source": "bahayonghang/academic-writing-skills",
+      "sourceType": "github",
+      "skillPath": "academic-writing-skills/bib-search-citation/SKILL.md",
+      "computedHash": "b6e8add5150a8a69800507643433862983cc8c1f6b34a7683addacdead68cc92"
+    },
+    "chart-designer": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "chart-designer/SKILL.md",
+      "computedHash": "df44ae89c73df1456aab7e61cf46f2d6d34c9ed016e6747fb9a4c9d596af0f0f"
+    },
+    "chart-visualization": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/chart-visualization/SKILL.md",
+      "computedHash": "23f0cd837bcef40b5d84e9f9e24de1f010fa2aa9bcc01ad3b5fd71d082f576c6"
+    },
+    "cover-letter": {
+      "source": "bahayonghang/academic-writing-skills",
+      "sourceType": "github",
+      "skillPath": "academic-writing-skills/cover-letter/SKILL.md",
+      "computedHash": "c14a5d4a354dbf2cd7340cbd832073e322e24b523d89ea96ea64f318dff334a8"
+    },
     "deep-research": {
       "source": "claude-office-skills/skills",
       "sourceType": "github",
@@ -97,6 +151,30 @@
       "skillPath": "skills/find-skills/SKILL.md",
       "computedHash": "781bd6d3f9b19f8c9af6b53d8d0e4876d0183841b565db34ca7092ffa412d111"
     },
+    "icon-retrieval": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/icon-retrieval/SKILL.md",
+      "computedHash": "b26dbc91111156c7f345b7e09342c33e8731e92ae1da2519078ad9975a98eb0b"
+    },
+    "infographic-creator": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/infographic-creator/SKILL.md",
+      "computedHash": "7ba6710d1e2eab14018d676a32ad569afca03d52396d75cb772b97de72e88efc"
+    },
+    "latex-paper-en": {
+      "source": "bahayonghang/academic-writing-skills",
+      "sourceType": "github",
+      "skillPath": "academic-writing-skills/latex-paper-en/SKILL.md",
+      "computedHash": "f1c3d9a59d0e3ce05ce8287bbfca3a53d01e72cde5bbabe51a3e793d97a06761"
+    },
+    "latex-thesis-zh": {
+      "source": "bahayonghang/academic-writing-skills",
+      "sourceType": "github",
+      "skillPath": "academic-writing-skills/latex-thesis-zh/SKILL.md",
+      "computedHash": "cf39333d3004f7ee49be14310d353edc919a7a348b15cd1600326531cb640943"
+    },
     "md-to-office": {
       "source": "claude-office-skills/skills",
       "sourceType": "github",
@@ -109,11 +187,23 @@
       "skillPath": "skills/minimal-run-and-audit/SKILL.md",
       "computedHash": "e4a909a8252796ebf54204f66c41e957b2449c7faca1e80a8da251ae0c374737"
     },
+    "narrative-text-visualization": {
+      "source": "antvis/chart-visualization-skills",
+      "sourceType": "github",
+      "skillPath": "skills/narrative-text-visualization/SKILL.md",
+      "computedHash": "1aaec6dd2ec2cf6557876ad74577a6e3ae76bd809f6f08c892f2cd6416eb0fb4"
+    },
     "office-to-md": {
       "source": "claude-office-skills/skills",
       "sourceType": "github",
       "skillPath": "office-to-md/SKILL.md",
       "computedHash": "6b2c3d53bc07a7d1017b1c6917f5b971eefa36a55957ab555a8217e6d7ce2a5f"
+    },
+    "paper-audit": {
+      "source": "bahayonghang/academic-writing-skills",
+      "sourceType": "github",
+      "skillPath": "academic-writing-skills/paper-audit/SKILL.md",
+      "computedHash": "76a0b2ea4e87cf3ccc0d4504315c7e1e39aea9cc894c121f71a6f82a974671b4"
     },
     "paper-context-resolver": {
       "source": "lllllllama/ai-paper-reproduction-skill",
@@ -150,6 +240,12 @@
       "sourceType": "github",
       "skillPath": "skills/safe-debug/SKILL.md",
       "computedHash": "34e2604d4f8671d646aca7ec1fc9a3a947c08736e7fbeffb7d9c8670684ea821"
+    },
+    "typst-paper": {
+      "source": "bahayonghang/academic-writing-skills",
+      "sourceType": "github",
+      "skillPath": "academic-writing-skills/typst-paper/SKILL.md",
+      "computedHash": "90613b52d0ec7959a975a9c14c08231e8d260e9623902e329a92b4a78931549a"
     }
   }
 }

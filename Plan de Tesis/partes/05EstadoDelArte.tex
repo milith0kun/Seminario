@@ -1,62 +1,106 @@
 \newpage
 \section[Estado del arte]{Estado del Arte}
 
-El desarrollo de un asistente educativo bilingüe español--Quechua Collao requiere la integración de avances en múltiples dominios disciplinares. A continuación, se presenta una síntesis analítica y crítica de las investigaciones previas más relevantes, organizadas temáticamente. Las fichas de análisis detalladas de cada uno de estos trabajos se presentan en el \hyperref[sec:anexos]{Anexo: Fichas de Análisis}.
+El desarrollo de una arquitectura SLM--RAG con QLoRA para Quechua Collao en entornos desconectados requiere articular investigaciones multidisciplinares en el campo de la Inteligencia Artificial y la Ciencia de la Computación. A continuación, se presenta una síntesis analítica y crítica de los antecedentes científicos más relevantes organizados por dominios tecnológicos. Las fichas de análisis detalladas de cada uno de estos trabajos se presentan en el \hyperref[sec:anexos]{Anexo: Fichas de Análisis}.
 
-\subsection{Procesamiento de Lenguaje Natural y Traducción Automática para Quechua Collao}
-El procesamiento de lenguaje natural (PLN) para lenguas aglutinantes de bajos recursos como el quechua ha presentado desafíos históricos debido a su complejidad morfológica. Investigaciones recientes han abordado estas brechas mediante la construcción de corpus y el ajuste de modelos neuronales. \citet{Orcotoma2025} aportaron significativamente al construir un corpus paralelo Quechua Collao--español de 44\,263 palabras mediante el uso de reconocimiento óptico de caracteres (OCR) sobre textos académicos de la Academia Mayor de la Lengua Quechua, logrando tasas de error de palabra (WER) de 6,59\%. Por su parte, Duran y Silberztein (\citeyear{Duran2026}) propusieron métodos semi-automáticos para la construcción de diccionarios quechua--español utilizando formalismos lingüísticos, lo que amplía la disponibilidad de recursos léxicos estructurados.
+La Figura~\ref{fig:taxonomia_estado_arte} organiza taxonómicamente estos antecedentes según el dominio técnico al que contribuyen dentro de la arquitectura propuesta.
 
-En cuanto a la traducción, \citet{SullaTorres2024} demostraron que los modelos de traducción automática neuronal (NMT) optimizados con BERT pueden alcanzar puntajes aceptables (BLEU de 20,13) en la dirección quechua--español, aunque subrayaron las limitaciones impuestas por la escasez de datos. No obstante, el paradigma de traducción y PLN ha cambiado con la llegada de los Grandes Modelos de Lenguaje (LLM). En este contexto, Court y Elsner (\citeyear{Court2024}) evaluaron las habilidades de aprendizaje en contexto de LLMs comerciales (GPT-4, Gemini) para traducir del quechua al español. Sus hallazgos indican que, si bien la inclusión de traducciones a nivel de morfema mejora el rendimiento, la inyección de largas reglas gramaticales o ejemplos de corpus mediante técnicas de recuperación puede, paradójicamente, degradar el rendimiento de los modelos más avanzados, generando traducciones fluidas pero infieles o estereotipadas. Esto evidencia que depender exclusivamente de LLMs en la nube mediante \textit{prompting} no resuelve el problema de comprensión estructural en lenguas de bajos recursos.
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[cat/.style={text width=3.3cm, minimum height=2.1cm}]
+\node[tcentral, text width=6.0cm, minimum height=1.1cm] (raiz) at (0,0) {Investigaciones del Estado del Arte sobre Arquitecturas SLM--RAG y PLN};
 
-\subsection{Small Language Models y Despliegue Offline}
-Frente a la dependencia de conectividad y alto consumo computacional de los LLMs, el desarrollo de Small Language Models (SLM) y técnicas de optimización para hardware restringido (on-device AI) ha cobrado relevancia. La exhaustiva revisión de \citet{Xu2024} sistematiza cómo técnicas como la compartición de parámetros, la destilación de conocimiento y, fundamentalmente, la cuantización (PTQ y QAT), permiten que modelos con menos de 10 mil millones de parámetros se ejecuten eficientemente en dispositivos móviles y procesadores de bajo consumo.
+\node[tazul, cat] (b1) at (-7.5,-3.2) {\textbf{PLN y recursos para Quechua}\\[2pt] \citet{Orcotoma2025}; \citet{SullaTorres2024}; \citet{Duran2026}; Court y Elsner (\citeyear{Court2024})};
+\node[tnaranja, cat] (b2) at (-2.5,-3.2) {\textbf{SLMs e inferencia \textit{on-device}}\\[2pt] \citet{Xu2024}; \citet{Walusimbi2026}};
+\node[tteal, cat] (b3) at (2.5,-3.2) {\textbf{RAG local y utilización de contexto}\\[2pt] \citet{Li2025}; \citet{Hevia2025}};
+\node[tmorado, cat] (b4) at (7.5,-3.2) {\textbf{Adaptación con QLoRA/PEFT}\\[2pt] \citet{Ovadia2024}; \citet{Zhang2024RAFT}; \citet{Chen2024}};
 
-La aplicación de estas tecnologías en contextos de baja conectividad fue validada empíricamente por \citet{Walusimbi2026}, quienes diseñaron \textit{Arapai}, una arquitectura de chatbot educativo orientado al funcionamiento offline. Al desplegar modelos cuantizados (como TinyLlama o Qwen) en hardware heredado (solo CPU), lograron latencias de respuesta de 1 a 3 segundos, demostrando que la inferencia local es técnicamente factible y pedagógicamente útil para el aprendizaje autodirigido en entornos con infraestructura precaria. Sin embargo, su estudio se centró en inglés y no abordó los retos de lenguas aglutinantes.
+\foreach \n in {b1,b2,b3,b4} \draw[techa] (raiz) -- (\n);
+\end{tikzpicture}}
+\caption{Taxonomía de las investigaciones previas por dominio tecnológico}
+\label{fig:taxonomia_estado_arte}
+\end{figure}
 
-\subsection{Generación Aumentada por Recuperación (RAG) y Tecnología Educativa con IA}
-La Generación Aumentada por Recuperación (RAG) se ha convertido en el estándar para mitigar las alucinaciones en modelos generativos, vinculando sus respuestas a corpus documentales específicos. La revisión sistemática de \citet{Li2025} confirma que los sistemas RAG mejoran significativamente la precisión factual y la personalización en aplicaciones educativas, permitiendo que la IA asuma roles de tutoría basados en el currículo local. 
+\subsection{Procesamiento de Lenguaje Natural y Recursos para Quechua Collao}
+El procesamiento de lenguaje natural (PLN) para lenguas aglutinantes de bajos recursos como el quechua ha presentado desafíos históricos debido a su complejidad morfológica. Investigaciones recientes han abordado estas brechas mediante la construcción de corpus y el ajuste de modelos neuronales. \citet{Orcotoma2025} aportaron significativamente al construir un corpus paralelo Quechua Collao--español de 44\,263 palabras mediante el uso de reconocimiento óptico de caracteres (OCR) sobre textos académicos de la Academia Mayor de la Lengua Quechua, logrando tasas de error de palabra (WER) de 6,59\%. Por su parte, Duran y Silberztein (\citeyear{Duran2026}) propusieron métodos semi-automáticos para la construcción de diccionarios quechua--español utilizando formalismos lingüísticos, lo que amplía la disponibilidad de recursos léxicos estructurados para la indexación y validación dialectal.
 
-Sin embargo, el despliegue de RAG con modelos pequeños presenta desafíos particulares. \citet{Hevia2025} evaluaron un tutor de IA offline combinando RAG con SLMs (SmolLM), encontrando que los modelos pequeños tienen dificultades para procesar contextos recuperados extensos o ruidosos, lo que irónicamente redujo su precisión en evaluaciones de respuestas múltiples. Esto sugiere la necesidad de estrategias de recuperación y segmentación documental altamente optimizadas. Adicionalmente, el despliegue de estas herramientas con estudiantes requiere garantías pedagógicas. \citet{Levonian2025} establecen que los sistemas de tutoría inteligente deben ser diseñados para generar interacciones seguras y relevantes, priorizando el andamiaje cognitivo sobre la simple provisión de respuestas directas.
+En cuanto a la traducción y generación, \citet{SullaTorres2024} demostraron que los modelos de traducción automática neuronal (NMT) optimizados con BERT pueden alcanzar puntajes aceptables (BLEU de 20,13) en la dirección quechua--español, aunque subrayaron las limitaciones impuestas por la escasez de datos paralelos masivos. Por otro lado, Court y Elsner (\citeyear{Court2024}) evaluaron las capacidades de aprendizaje en contexto (\textit{in-context learning}) de modelos de lenguaje comerciales (GPT-4, Gemini) para la traducción del quechua al español. Sus hallazgos indican que, si bien la inclusión de traducciones a nivel de morfema mejora el rendimiento, la inyección directa de extensas reglas gramaticales o fragmentos de corpus mediante \textit{prompting} ingenuo degrada el rendimiento de los modelos, generando salidas fluidas pero semánticamente infieles o alucinadas. Esto demuestra que el \textit{prompting} aislado en la nube resulta insuficiente para gobernar la morfología de lenguas de bajos recursos y justifica la necesidad de una arquitectura con adaptación paramétrica explícita.
 
-\subsection{RAG vs.\ Fine-Tuning y Enfoque Híbrido para Lenguas de Bajos Recursos}
-La decisión entre RAG y \textit{fine-tuning} como estrategia de inyección de conocimiento es central para esta tesis. \citet{Ovadia2024} encontraron que, para incorporar conocimiento factual nuevo, RAG superó consistentemente al \textit{fine-tuning} no supervisado, tanto para conocimiento existente como nuevo. Sin embargo, la evidencia no avala un RAG no optimizado: el cuello de botella de la tokenización en lenguas aglutinantes como el quechua infla el contexto requerido y penaliza la latencia, lo que exige un RAG disciplinado con fragmentos cortos y \textit{top-k} pequeño.
+\subsection{Small Language Models y Despliegue Offline On-Device}
+Frente a la dependencia de conectividad y alto consumo computacional de los LLMs masivos, el desarrollo de Small Language Models (SLM) y técnicas de optimización para hardware restringido (\textit{on-device AI}) representa una línea de investigación prioritaria en sistemas computacionales. La exhaustiva revisión de \citet{Xu2024} sistematiza cómo técnicas como la cuantización post-entrenamiento (PTQ) y la compresión de pesos permiten que modelos con menos de 3 mil millones de parámetros operen eficientemente en procesadores de bajo consumo y sin GPU dedicada.
 
-El enfoque RAFT (\textit{Retrieval-Augmented Fine-Tuning}) propuesto por \citet{Zhang2024RAFT} ofrece una síntesis prometedora: en lugar de entrenar al modelo a memorizar conocimiento, le enseña a usar el contexto RAG de forma resiliente, distinguiendo fragmentos relevantes de distractores. El antecedente más directo para esta tesis es el modelo QueEn \citep{Chen2024}, que demostró empíricamente que la hibridación de RAG sobre recursos lingüísticos combinada con adaptación LoRA elevó el puntaje BLEU de 1,5 a 17,6 en traducciones quechua--inglés, validando que la combinación de RAG con adaptación paramétrica ligera produce mejoras significativas para lenguas de bajos recursos.
+La aplicación de estas tecnologías en contextos desconectados fue validada empíricamente por \citet{Walusimbi2026}, quienes diseñaron la arquitectura \textit{Arapai} para inferencia offline. Al desplegar modelos compactos cuantizados (como TinyLlama o Qwen) en hardware de consumo básico (solo CPU), lograron latencias interactivas de 1 a 3 segundos, demostrando que la inferencia local es técnicamente factible en entornos sin infraestructura de red. Sin embargo, su estudio se restringió a la lengua inglesa y no consideró los cuellos de botella morfológicos de lenguas polisintéticas.
 
-\subsection{Política Educativa y Educación Intercultural Bilingüe en el Perú}
-El desarrollo tecnológico debe alinearse con los marcos normativos y pedagógicos vigentes. El Modelo de Servicio Educativo Intercultural Bilingüe (MSEIB) del Ministerio de Educación del Perú \citep{minedu2018} establece lineamientos para garantizar una educación pertinente a estudiantes de pueblos originarios, en concordancia con el Currículo Nacional de la Educación Básica \citep{minedu2016}. El MSEIB distingue escenarios de fortalecimiento lingüístico (donde el quechua es lengua materna y el español segunda lengua) y revitalización (donde el español es lengua materna). Esto exige que cualquier herramienta de asistencia educativa no sea un simple traductor bidireccional, sino un sistema capaz de alternar códigos, detectar el idioma predominante del estudiante y recuperar contenidos con pertinencia cultural e intercultural, apoyando directamente la labor del docente bilingüe.
+\subsection{Generación Aumentada por Recuperación (RAG) y Cuello de Botella de Contexto}
+La Generación Aumentada por Recuperación (RAG) es la arquitectura canónica para mitigar las alucinaciones factuales, desacoplando la memoria paramétrica del modelo del almacenamiento documental externo \citep{Li2025}. 
 
-\subsection{Matriz resumida de antecedentes}
-Para consolidar la revisión precedente, la Tabla~\ref{tab:antecedentes} sintetiza los antecedentes empíricos y tecnológicos más directamente relacionados con el diseño del asistente, contrastando los objetivos, métodos, resultados clave y el aporte específico de cada trabajo a la presente investigación.
+No obstante, el despliegue de RAG sobre modelos pequeños presenta desafíos computacionales particulares. \citet{Hevia2025} evaluaron el rendimiento de SLMs (SmolLM) combinados con RAG offline, descubriendo un fenómeno contraproducente: la inyección de fragmentos extensos o con ruido contextual redujo drásticamente la precisión del modelo en tareas de razonamiento frente a la línea base sin RAG. Este hallazgo evidencia la incapacidad intrínseca de los SLMs pequeños para atender y filtrar eficazmente el contexto recuperado (\textit{context utilization bottleneck}), lo que fundamenta la necesidad de acoplar adaptadores QLoRA específicos en las capas de atención del modelo para condicionarlo a extraer la información pertinente.
+
+\subsection{RAG vs.\ Fine-Tuning y Adaptación Eficiente (PEFT/QLoRA)}
+La decisión entre RAG puro, ajuste fino tradicional y enfoques híbridos es un eje central en la literatura. \citet{Ovadia2024} demostraron que, para la inyección de conocimiento factual, RAG supera de forma consistente al \textit{fine-tuning} supervisado tradicional, evitando el olvido catastrófico. Sin embargo, en lenguas aglutinantes como el quechua, la alta fertilidad de tokens satura la memoria del RAG, exigiendo tanto fragmentaciones cortas como mecanismos para que el modelo interprete adecuadamente la evidencia inyectada.
+
+El método RAFT (\textit{Retrieval-Augmented Fine-Tuning}) propuesto por \citet{Zhang2024RAFT} abordó esta brecha: en lugar de forzar al modelo a memorizar datos, se entrenan sus pesos para procesar el contexto RAG de forma resiliente, distinguiendo fragmentos relevantes de distractores. El antecedente más directo para esta propuesta es el modelo QueEn \citep{Chen2024}, que demostró empíricamente que acoplar RAG léxico con ajuste de bajo rango (LoRA) elevó el puntaje BLEU de 1,5 a 17,6 en quechua, validando que la adaptación de matrices de pesos combinada con recuperación local es la estrategia superior para lenguas de bajos recursos digitales.
+
+La Tabla~\ref{tab:comparativa_ft_rag_prompt} sintetiza las diferencias teóricas entre las estrategias de inyección de conocimiento analizadas.
 
 \begin{table}[H]
 \centering
-\caption{Matriz resumida de antecedentes y aportes a la investigación}
-\label{tab:antecedentes}
+\caption{Comparación de estrategias computacionales de inyección de conocimiento}
+\label{tab:comparativa_ft_rag_prompt}
 \small
-\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{2.3cm}p{2.3cm}p{2.8cm}p{2.8cm}@{}}
+\begin{tabularx}{\textwidth}{@{}p{3.2cm}XXX@{}}
 \toprule
-\textbf{Autor(es)} & \textbf{Objetivo} & \textbf{Método} & \textbf{Resultados clave} & \textbf{Aporte a la tesis} \\
+\rowcolor{tcAzul!12}
+\textbf{Dimensión} & \textbf{\textit{Fine-tuning} Completo} & \textbf{RAG Estándar} & \textbf{Híbrido: RAG + QLoRA} \\
 \midrule
-\citet{Orcotoma2025} & Crear corpus paralelo español--Quechua Collao. & OCR en textos académicos e indexación. & Corpus de 44\,263 palabras con WER de 6,59\%. & Provee el corpus de texto base para poblar el RAG local. \\
+Requerimiento de datos & Masivo: riesgo de sobreajuste y olvido catastrófico & Bajo: explota corpus documental sin etiquetar & Moderado: pares de adaptación para alineación de atención \\
 \midrule
-\citet{SullaTorres2024} & Optimizar traducción quechua--español. & NMT basado en codificador BERT y fine-tuning. & Alcanzó un puntaje BLEU de 20,13. & Evidencia las limitaciones de modelos de traducción pura. \\
+Costo computacional & Muy alto: inviable en hardware modesto & Muy bajo: solo vectorización e inferencia & Eficiente: entrenamiento con QLoRA ($\le$ 4 GB VRAM) \\
 \midrule
-Duran y Silberztein (\citeyear{Duran2026}) & Construir diccionarios quechua--español. & Métodos semi-automáticos con formalismos léxicos. & Diccionario bilingüe estructurado de alta precisión. & Fuente léxica para las reglas de normalización del RAG. \\
+Factualidad y alucinaciones & Baja: tiende a alucinar hechos no memorizados & Media: alucinación si el SLM no asimila el contexto & Máxima: atención condicionada a la evidencia documental \\
 \midrule
-Court y Elsner (\citeyear{Court2024}) & Evaluar LLMs comerciales en quechua. & In-context learning con reglas gramaticales inyectadas. & Reglas extensas degradan fidelidad; prompt simple es insuficiente. & Justifica no usar LLMs comerciales en la nube y diseñar sistema local. \\
-\midrule
-\citet{Chen2024} & Optimizar traducción quechua--inglés. & Enfoque híbrido: RAG léxico + LoRA. & Aumento de BLEU de 1,5 a 17,6. & Precedente directo de la viabilidad de acoplar RAG y adaptadores. \\
-\midrule
-\citet{Walusimbi2026} & Desarrollar asistente educativo offline. & Inferencia de SLM cuantizado en CPU. & Latencia de 1--3s en hardware de baja gama en aulas sin internet. & Valida la viabilidad técnica del despliegue offline. \\
+Desempeño en Quechua Collao & Frágil por escasez de datos masivos \citep{SullaTorres2024} & Regular: penalizado por fertilidad de tokens \citep{Court2024} & Favorable: demostrado empíricamente por \citet{Chen2024} \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
+\subsection{Matriz resumida de antecedentes}
+La Tabla~\ref{tab:antecedentes} consolida los antecedentes empíricos y computacionales más directamente vinculados a la propuesta, contrastando objetivos, metodologías, métricas y su contribución concreta al diseño de la arquitectura.
+
+\begin{table}[H]
+\centering
+\caption{Matriz resumida de antecedentes tecnológicos del estado del arte}
+\label{tab:antecedentes}
+\small
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}p{2.4cm}p{2.3cm}p{2.6cm}X@{}}
+\toprule
+\textbf{Autor(es)} & \textbf{Objetivo} & \textbf{Método} & \textbf{Resultados clave} & \textbf{Aporte al Proyecto} \\
+\midrule
+\citet{Orcotoma2025} & Construir corpus paralelo Quechua Collao--español. & OCR en libros académicos AMLQ e indexación. & 44\,263 palabras con WER de 6,59\%. & Provee el corpus documental para la base de conocimiento local. \\
+\midrule
+\citet{SullaTorres2024} & Evaluar traducción neuronal quechua--español. & NMT con codificador BERT y fine-tuning. & BLEU de 20,13. & Evidencia las limitaciones del entrenamiento puro sin RAG. \\
+\midrule
+Duran y Silberztein (\citeyear{Duran2026}) & Desarrollar diccionarios formales Quechua--Español. & Gramáticas léxicas NooJ semi-automáticas. & Diccionario estructurado de alta precisión. & Fuente léxica para la normalización dialectal y tokenización. \\
+\midrule
+Court y Elsner (\citeyear{Court2024}) & Evaluar LLMs comerciales en quechua. & In-context learning con inyección de reglas. & Reglas extensas degradan fidelidad; alucinación frecuente. & Justifica descartar modelos en la nube y diseñar arquitectura local adaptada. \\
+\midrule
+\citet{Chen2024} & Optimizar traducción quechua--inglés. & Enfoque híbrido: RAG léxico + LoRA. & Incremento de BLEU de 1,5 a 17,6. & Precedente directo de la sinergia entre RAG y adaptación paramétrica. \\
+\midrule
+\citet{Walusimbi2026} & Inferencia de SLMs en hardware desconectado. & Cuantización a 4 bits sobre CPU local. & Latencia de 1--3s en hardware modesto sin internet. & Valida la viabilidad técnica del despliegue offline con \texttt{llama.cpp}. \\
+\midrule
+\citet{Hevia2025} & Evaluar SLMs con RAG offline. & SmolLM + vectorización documental en CPU. & Degradación de precisión por sobrecarga de contexto. & Demuestra la necesidad de adaptar matrices de atención para asimilar RAG. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Síntesis crítica y vacíos de investigación}
-La revisión de literatura demuestra que existen avances maduros, pero aislados, en los componentes necesarios para el sistema propuesto. Por un lado, se han construido corpus y evaluado LLMs para quechua (Orcotoma Mormontoy et al., \citeyear{Orcotoma2025}; Court y Elsner, \citeyear{Court2024}), y se ha demostrado que la hibridación de RAG con adaptación ligera produce mejoras significativas \citep{Chen2024}. Por otro lado, la viabilidad de SLMs \textit{offline} y sistemas RAG ha sido probada (\citealt{Walusimbi2026, Hevia2025, Xu2024}), pero principalmente para inglés y lenguas mayoritarias. La evidencia comparada confirma que RAG supera al \textit{fine-tuning} para inyección de conocimiento \citep{Ovadia2024}, pero que un RAG no optimizado con modelos pequeños puede degradar el rendimiento. La técnica RAFT \citep{Zhang2024RAFT} ofrece una vía para resolver este problema, pero no ha sido aplicada al Quechua Collao. Finalmente, la política EIB (\citealt{minedu2018}) exige recursos pertinentes que la actual oferta de LLMs comerciales en la nube no puede satisfacer, ya sea por barreras de conectividad o por la degradación del rendimiento al inyectarles reglas complejas (Court y Elsner, \citeyear{Court2024}).
+La revisión del estado del arte demuestra avances significativos pero fragmentados en las disciplinas que convergen en este estudio:
+\begin{enumerate}
+    \item Existen recursos léxicos y corpus recientes para Quechua Collao \citep{Orcotoma2025, Duran2026}, pero no han sido articulados en bases de conocimiento vectoriales locales para inferencia desconectada.
+    \item Los modelos comerciales en la nube no resuelven la brecha en zonas sin conectividad y alucinan ante morfologías aglutinantes complejas \citep{Court2024}.
+    \item La viabilidad de SLMs cuantizados en CPU ha sido comprobada \citep{Walusimbi2026}, pero su combinación ingenua con RAG genera degradación atencional cuando el modelo no ha sido adaptado \citep{Hevia2025}.
+    \item Aunque la hibridación de RAG con adaptadores de bajo rango ha mostrado resultados sobresalientes en tareas bilingües \citep{Chen2024, Zhang2024RAFT}, esta técnica no ha sido investigada ni optimizada para inferencia offline en Quechua Collao.
+\end{enumerate}
 
-En consecuencia, el vacío de investigación se ubica en la ausencia de un prototipo integrado de asistente educativo offline español--Quechua Collao que combine un modelo compacto cuantizado, RAG local disciplinado, recursos lingüísticos validados y criterios pedagógicos EIB para apoyar consultas curriculares en contextos rurales del sur andino peruano.
-
-
+En consecuencia, el vacío de investigación radica en la ausencia de una arquitectura computacional integrada SLM--RAG offline para Quechua Collao que adapte específicamente las matrices de atención del modelo compacto cuantizado (QLoRA) para maximizar la asimilación del contexto documental recuperado y garantizar la fidelidad factual bajo restricciones de hardware local.

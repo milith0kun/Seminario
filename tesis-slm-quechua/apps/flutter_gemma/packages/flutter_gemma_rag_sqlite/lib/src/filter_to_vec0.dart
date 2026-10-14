@@ -125,6 +125,7 @@ class FilterToVec0 {
         }
         return '$column IN ($placeholders)';
     }
+    return null;
   }
 
   /// Coerces a [value] to the bind type its vec0 column expects:

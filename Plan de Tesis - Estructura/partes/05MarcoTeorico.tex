@@ -1,0 +1,88 @@
+\section{Fundamentos teóricos}
+
+\subsection{Modelos compactos e inferencia local}
+Los modelos de lenguaje estiman distribuciones de probabilidad sobre secuencias de tokens y generan texto de manera autorregresiva. Los modelos compactos reducen el número de parámetros respecto de modelos de mayor tamaño, lo que puede facilitar su ejecución local; esa reducción no garantiza por sí sola calidad suficiente para una tarea o lengua determinada. La revisión de modelos en dispositivos describe cuantización y otras técnicas de compresión como herramientas para ajustarse a límites de memoria, con compromisos que deben observarse durante la evaluación \parencite{Xu2024}.
+
+Como candidato inicial, el proyecto considera un modelo de la familia Qwen2.5 de hasta tres mil millones de parámetros, sujeto a la disponibilidad del modelo, su licencia y pruebas de compatibilidad con el entorno de inferencia local \parencite{qwen2024}. La selección definitiva se registrará antes del experimento; no se tratará la familia o el tamaño como garantía de desempeño en Quechua Collao.
+
+\subsection{Generación aumentada por recuperación}
+La generación aumentada por recuperación combina un modelo generativo con una memoria documental externa. En una configuración densa, una consulta y cada fragmento se representan como vectores; la recuperación ordena los fragmentos según una función de similitud y entrega los más pertinentes al modelo generativo \parencite{Lewis2020}. La similitud del coseno se expresa como:
+\begin{equation}
+\label{eq:similitud_coseno}
+\operatorname{sim}(q,d)=\frac{\mathbf{e}_q\cdot\mathbf{e}_d}{\|\mathbf{e}_q\|\,\|\mathbf{e}_d\|}.
+\end{equation}
+
+La fórmula describe un criterio de ordenamiento, no una garantía de que el fragmento recuperado sea pertinente ni de que el modelo lo utilice correctamente. Por ello, la propuesta medirá por separado la recuperación documental y la calidad de las respuestas. El tamaño de los fragmentos, el modelo de embeddings, el índice y el número de resultados recuperados se mantendrán documentados como parámetros del experimento.
+
+La precisión en los primeros $k$ resultados se calculará como la proporción de fragmentos recuperados que fueron etiquetados como pertinentes para la consulta:
+\begin{equation}
+\label{eq:precision_at_k}
+P@k=\frac{|\{d\in\mathcal{C}_k:d\text{ es pertinente}\}|}{k}.
+\end{equation}
+Esta métrica requiere etiquetar la pertinencia de los fragmentos para cada consulta antes de la evaluación.
+
+\subsection{Adaptación de bajo rango y QLoRA}
+La adaptación de bajo rango representa una actualización de pesos mediante dos matrices de rango reducido. En la formulación utilizada en este plan:
+\begin{equation}
+\label{eq:descomposicion_lora}
+W=W_0+\Delta W=W_0+\frac{\alpha}{r}(B A),
+\end{equation}
+donde $W_0$ son los pesos preentrenados, $A$ y $B$ son matrices entrenables, $r$ es el rango y $\alpha$ es un factor de escala. QLoRA conserva el modelo base cuantizado y adapta matrices de bajo rango; los beneficios de memoria comunicados en el artículo original deben interpretarse en las condiciones de hardware y entrenamiento evaluadas por sus autores \parencite{Dettmers2023}.
+
+En las capas de autoatención, las representaciones de entrada se proyectan en consultas, claves y valores:
+\begin{equation}
+\label{eq:proyecciones_atencion}
+Q=XW_q,\qquad K=XW_k,\qquad V=XW_v.
+\end{equation}
+La operación de atención escalada se define como:
+\begin{equation}
+\label{eq:autoatencion}
+\operatorname{Attention}(Q,K,V)=\operatorname{softmax}\!\left(\frac{QK^{\mathsf T}}{\sqrt{d_k}}\right)V.
+\end{equation}
+La salida de la proyección del bloque se representa como:
+\begin{equation}
+\label{eq:salida_atencion}
+\operatorname{Output}=\operatorname{Attention}(Q,K,V)W_o.
+\end{equation}
+Estas expresiones formalizan componentes de la arquitectura Transformer; no implican que adaptar todas las matrices sea la única estrategia. La ubicación de los adaptadores será un parámetro que deberá fijarse en la implementación.
+
+\subsection{Recursos digitales y variación del Quechua Collao}
+El Quechua Collao requiere que la preparación de datos conserve la identidad de la variedad y la procedencia de cada texto. Los antecedentes disponibles describen corpus obtenidos de materiales bilingües y recursos léxicos con reglas morfológicas, pero no sustituyen la validación de las fuentes que se incorporen al índice documental \parencite{Orcotoma2025,Duran2026}. En tareas de traducción, además, se han observado diferencias según el tipo de contexto proporcionado, lo que respalda la necesidad de medir el comportamiento lingüístico para la tarea concreta y no inferirlo a partir de otra dirección de traducción \parencite{Court2024}.
+
+\subsection{Evaluación de generación y recuperación}
+La evaluación considerará dimensiones distintas: calidad de texto, recuperación de evidencia, correspondencia de las respuestas con el contexto y costo de ejecución. SacreBLEU facilita la comparación reproducible de puntajes BLEU cuando se registran sus parámetros \parencite{Post2018}. Para recuperación aumentada, RAGAS propone métricas automatizadas como fidelidad y relevancia, que en este proyecto se usarán como indicadores complementarios y no como sustituto de la revisión de errores específicos \parencite{Ragas2024}. La latencia, el uso de RAM/VRAM y los tokens generados por segundo se obtendrán mediante medición instrumentada en el entorno descrito en el capítulo metodológico.
+
+\begin{algoritmo}[H]
+\centering
+\caption{Flujo de inferencia propuesto para SLM--RAG con adaptación QLoRA}
+\label{alg:pipeline_rag}
+\begin{minipage}{0.96\textwidth}
+\vspace{2pt}\hrule height 0.8pt\vspace{4pt}
+\small
+\textbf{Entrada:} Consulta $q$, colección documental indexada $\mathcal{D}$, modelo base $W_0$, adaptadores QLoRA opcionales $\{A_l,B_l\}$ y cantidad de fragmentos $k$.\\
+\textbf{Salida:} Respuesta $y$ en el idioma solicitado, acompañada de los fragmentos recuperados para su trazabilidad.
+\vspace{3pt}\hrule height 0.4pt\vspace{4pt}
+\begin{enumerate}[1.]
+    \item Codificar la consulta y obtener su representación vectorial $\mathbf{e}_q$.
+    \item Calcular similitudes con los fragmentos documentales y recuperar los $k$ candidatos mejor posicionados.
+    \item Construir el contexto con instrucciones, fragmentos recuperados y consulta.
+    \item Generar una respuesta con el modelo base; activar la configuración adaptada solo si el ajuste fue viable.
+    \item Registrar la respuesta, los fragmentos, la latencia y el consumo de memoria para la evaluación.
+\end{enumerate}
+\vspace{3pt}\hrule height 0.8pt\vspace{2pt}
+\end{minipage}
+\end{algoritmo}
+
+\section{Definición de términos básicos}
+\begin{description}
+    \item[Adaptador de bajo rango:] Parámetros entrenables que representan una actualización de pesos mediante matrices de rango reducido.
+    \item[Corpus paralelo:] Colección de textos alineados entre dos lenguas o variedades, con correspondencia documentada entre sus segmentos.
+    \item[Embedding:] Representación vectorial de una consulta o fragmento, utilizada para calcular similitud y ordenar candidatos de recuperación.
+    \item[Fidelidad al contexto:] Grado en que las afirmaciones de una respuesta se sostienen en la evidencia recuperada; se tratará como indicador y se interpretará junto con sus limitaciones.
+    \item[Inferencia local:] Generación ejecutada en el dispositivo o equipo del usuario sin enviar la consulta a un servicio remoto durante la ejecución.
+    \item[Quechua Collao:] Variedad quechua delimitada por el estudio. Los datos y resultados del proyecto no se generalizarán automáticamente a otras variedades.
+    \item[QLoRA:] Método de ajuste eficiente que combina pesos base cuantizados con adaptadores de bajo rango entrenables \parencite{Dettmers2023}.
+    \item[Cuantización:] Representación de pesos del modelo con menor precisión numérica para reducir su tamaño en memoria, con posibles cambios en el rendimiento.
+    \item[RAG:] Arquitectura que recupera documentos externos y los incorpora como contexto de entrada para la generación \parencite{Lewis2020}.
+    \item[SLM:] Modelo de lenguaje compacto seleccionado considerando el tamaño, la licencia, la calidad esperada y los recursos del dispositivo.
+\end{description}

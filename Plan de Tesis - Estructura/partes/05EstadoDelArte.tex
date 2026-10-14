@@ -1,0 +1,57 @@
+% =========================================================================
+% CAPÍTULO II: MARCO TEÓRICO Y ESTADO DEL ARTE
+% =========================================================================
+\clearpage
+\chapter{Marco teórico y estado del arte}
+
+\section{Estado del arte}
+La revisión reúne antecedentes directamente relacionados con los recursos lingüísticos para quechua, el uso de contexto en tareas de lenguaje, la inferencia local y la adaptación eficiente de modelos. Los estudios no son equivalentes en lengua, tarea ni entorno; por ello, sus resultados se usan para delimitar decisiones de diseño y preguntas de evaluación, no como prueba anticipada del desempeño del sistema propuesto.
+
+\subsection{Recursos lingüísticos para quechua}
+\textcite{Orcotoma2025} describen un procedimiento para construir un corpus paralelo de Quechua Collao y español mediante la digitalización y el reconocimiento óptico de textos bilingües producidos en el ámbito de la Academia Mayor de la Lengua Quechua. El trabajo aporta una ruta para obtener recursos a partir de materiales impresos y documenta etapas de captura, etiquetado, preprocesamiento y reconocimiento. Su objetivo es formar un recurso para investigación lingüística y PLN; no evalúa un sistema de generación con recuperación documental.
+
+\textcite{Duran2026} presentan un diccionario quechua--español de verbos con gramáticas morfosintácticas para representar flexión y derivación. El recurso descrito parte de 1\,444 verbos quechuas y permite generar más de 2\,777\,000 formas verbales, además de establecer correspondencias con un diccionario verbal en español. Este antecedente puede orientar la normalización y consulta léxica, aunque un recurso verbal no sustituye un corpus educativo ni cubre por sí mismo todas las variantes de uso.
+
+\subsection{Uso de contexto en tareas de quechua}
+\textcite{Court2024} estudian la traducción de quechua sureño al español con modelos de lenguaje y comparan distintos tipos de contexto recuperado. Sus experimentos indican que las traducciones de morfemas pueden ayudar en ciertas condiciones, mientras que la información gramatical o ejemplos de corpus no mejoran de forma uniforme los resultados. La investigación es relevante porque muestra que añadir contexto no garantiza una respuesta mejor; sin embargo, su tarea es traducción hacia el español y sus conclusiones no se trasladan automáticamente a la generación en Quechua Collao.
+
+\subsection{Modelos compactos, RAG y operación local}
+En un sistema de tutoría educativa, \textcite{Hevia2025} proponen combinar un modelo pequeño con recuperación de documentos y ejecución offline. Su estudio señala dificultades cuando el modelo recibe fragmentos extensos o irrelevantes. El dominio evaluado es material de biología en inglés, de modo que el antecedente identifica un riesgo para el diseño de RAG, pero no establece el comportamiento de un modelo en una lengua originaria.
+
+La revisión de \textcite{Xu2024} organiza técnicas para ejecutar modelos de lenguaje en dispositivos con recursos limitados, entre ellas cuantización, poda y destilación. Al tratarse de una revisión en arXiv, sirve como panorama técnico y no como una medición de latencia o memoria del equipo de este proyecto. La propuesta utilizará esas restricciones como variables de evaluación y reportará los valores medidos en el entorno real.
+
+\subsection{Adaptación eficiente de modelos}
+\textcite{Dettmers2023} presentan QLoRA, que propaga gradientes a través de un modelo preentrenado cuantizado de 4 bits hacia adaptadores de bajo rango. El artículo muestra que este enfoque reduce el uso de memoria en sus experimentos, realizados con hardware de mayor capacidad que la GPU local de 4 GB considerada aquí. Por ello, QLoRA se incluye como condición que se intentará evaluar, sujeta a una prueba de viabilidad y sin dar por garantizado su entrenamiento en el equipo disponible.
+
+\subsection{Síntesis y brecha de investigación}
+Los antecedentes muestran avances complementarios: se han documentado recursos digitales y léxicos para quechua, se han estudiado los efectos de distintos tipos de contexto en traducción y se han propuesto sistemas offline con modelos pequeños en otros dominios. La revisión realizada para este plan todavía es preliminar y no permite sostener una afirmación definitiva de novedad. La pregunta que queda por evaluar es cómo se comporta, en Quechua Collao y bajo restricciones locales, la combinación de modelo compacto, recuperación documental y adaptación QLoRA, comparada con configuraciones de referencia.
+
+\begin{table}[H]
+\centering
+\caption{Síntesis comparativa de antecedentes relevantes}
+\label{tab:antecedentes}
+\small
+\begin{threeparttable}
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}p{2.8cm}p{3.5cm}X@{}}
+\toprule
+\textbf{Estudio} & \textbf{Objeto} & \textbf{Hallazgo o aporte descrito} & \textbf{Límite para esta propuesta} \\
+\midrule
+\textcite{Orcotoma2025} & Corpus Quechua Collao--español & Procedimiento de digitalización y OCR de textos bilingües & No evalúa generación ni RAG. \\
+\addlinespace
+\textcite{Duran2026} & Diccionario verbal quechua--español & Recurso léxico con reglas de flexión y derivación & Se concentra en verbos; no es una base educativa general. \\
+\addlinespace
+\textcite{Court2024} & Traducción de quechua sureño al español & El efecto del contexto varía según su tipo y pertinencia & La tarea y la dirección lingüística difieren de la generación propuesta. \\
+\addlinespace
+\textcite{Hevia2025} & Tutoría con SLM y RAG offline & Identifica dificultades ante contexto extenso o irrelevante & Se estudia biología en inglés, no Quechua Collao. \\
+\addlinespace
+\textcite{Xu2024} & Modelos en dispositivos & Revisa técnicas de eficiencia y despliegue local & Es una revisión; no mide el hardware de este proyecto. \\
+\addlinespace
+\textcite{Dettmers2023} & Ajuste QLoRA & Describe ajuste eficiente sobre modelos cuantizados & Sus experimentos no demuestran viabilidad en una GPU de 4 GB. \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Nota.} Síntesis parafraseada de las fuentes citadas; las diferencias de tarea, lengua y hardware limitan la comparación directa.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

@@ -1,0 +1,90 @@
+% =========================================================================
+% CAPÍTULO III: METODOLOGÍA DE LA INVESTIGACIÓN
+% =========================================================================
+\clearpage
+\chapter{Metodología de la investigación}
+\label{sec:metodologia}
+
+\section{Enfoque, tipo y diseño de investigación}
+\subsection{Enfoque de investigación}
+El estudio tendrá un enfoque cuantitativo porque comparará configuraciones computacionales mediante indicadores numéricos de calidad y eficiencia. Las unidades de evaluación serán consultas y respuestas registradas por el sistema; no se medirán efectos educativos sobre estudiantes en esta etapa.
+
+\subsection{Tipo de investigación}
+La investigación será aplicada y tecnológica: diseñará un artefacto de software para atender una necesidad definida y documentará su evaluación. El trabajo seguirá un proceso de diseño, construcción y evaluación de artefactos propio de la investigación en ciencias del diseño \parencite{hevner2004design}.
+
+\subsection{Diseño de investigación}
+Se propone un experimento computacional comparativo con medidas repetidas: cada consulta del banco de evaluación se procesará, en lo posible, bajo las mismas condiciones en tres configuraciones: (a) SLM base; (b) SLM con RAG local; y (c) SLM con RAG y QLoRA, si el ajuste y la inferencia adaptada son viables. Para contrastar la recuperación semántica de la HE1, se comparará además con una búsqueda léxica de referencia sobre los mismos documentos y consultas, con el mismo valor de $k$ y etiquetas de pertinencia. Se mantendrán constantes el hardware, el conjunto de consultas, los documentos, la plantilla de instrucciones y los parámetros de generación. Las diferencias observadas se interpretarán como resultados del experimento y no se anticipan en este plan.
+
+\section{Variables y operacionalización}
+\subsection{Identificación de variables}
+\begin{itemize}
+    \item \textbf{Variable independiente:} configuración del sistema (SLM base, SLM--RAG o SLM--RAG--QLoRA).
+    \item \textbf{Variables dependientes:} calidad lingüística de la respuesta, fidelidad a la evidencia recuperada y eficiencia computacional.
+    \item \textbf{Condiciones de control:} versión y cuantización del modelo, consultas, documentos, índice, instrucciones, parámetros de decodificación, hardware y procedimiento de medición.
+\end{itemize}
+
+\subsection{Matriz de operacionalización de variables}
+La Tabla~\ref{tab:operacionalizacion_variables} define los indicadores que se registrarán y las herramientas previstas para calcularlos.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Matriz de operacionalización de variables}
+\label{tab:operacionalizacion_variables}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{3.2cm}p{4.3cm}X@{}}
+\toprule
+\textbf{Variable} & \textbf{Operacionalización} & \textbf{Indicadores} & \textbf{Escala e instrumento} \\
+\midrule
+Configuración (independiente) & Condición del sistema usada para cada consulta: SLM, SLM--RAG o SLM--RAG--QLoRA si es viable. & Tipo de configuración; documentos y fragmentos recuperados. & Categórica; configuración, índice y bitácora de ejecución. \\
+\addlinespace
+Calidad y fidelidad (dependientes) & Comparación entre la salida y referencias lingüísticas y documentales definidas para cada consulta. & chrF++; SacreBLEU; P@k; fidelidad y relevancia del contexto según métricas RAG seleccionadas. & Numérica; scripts reproducibles y, si se habilita, implementación local de RAGAS \parencite{Post2018,Ragas2024}. \\
+\addlinespace
+Eficiencia (dependiente) & Medición del costo de ejecutar cada condición en el mismo equipo. & Latencia por respuesta; tokens por segundo; RAM y VRAM máximas. & Numérica; temporizador, registro del proceso y telemetría del sistema. \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Nota.} Los nombres y versiones de las herramientas, parámetros de evaluación y reglas de preprocesamiento se registrarán antes de ejecutar la comparación.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Unidades de análisis y selección de consultas}
+\subsection{Unidad de análisis}
+La unidad de análisis será la respuesta generada para una consulta en una configuración determinada, junto con los fragmentos recuperados y sus registros de ejecución. La unidad de observación para las métricas de rendimiento será cada corrida individual.
+
+\subsection{Población y muestra}
+La población conceptual comprende consultas textuales que puedan responderse con el corpus bilingüe seleccionado para Quechua Collao y español. Como no existe en este plan un marco muestral exhaustivo, se propone construir una muestra intencional de 100 consultas patrón, distribuida por temas y por idioma según la cobertura real de las fuentes. Este tamaño es provisional: se revisará después de verificar la disponibilidad, licencia y calidad de documentos y referencias. Las mismas consultas se reutilizarán en las configuraciones comparadas.
+
+\section{Técnicas e instrumentos de recolección}
+La técnica principal será la ejecución controlada del prototipo con captura automatizada de entradas, salidas, fragmentos recuperados, tiempo de respuesta y consumo de memoria. Los instrumentos serán el banco de consultas, la ficha de registro experimental del Anexo 2, los scripts de cálculo de métricas y los registros del entorno de ejecución. La matriz de consistencia y la ficha técnica se conservarán como anexos del plan.
+
+La validez de contenido del banco dependerá de que cada consulta tenga fuente rastreable, respuesta de referencia y variedad lingüística identificada. Se verificará esa trazabilidad antes de puntuar resultados. Las traducciones o respuestas generadas sintéticamente se identificarán como tales y no se presentarán como producción nativa validada. Si se requiere valoración humana de lengua o pertinencia pedagógica, deberá definirse un protocolo específico y obtenerse la autorización correspondiente antes de recoger esas evaluaciones.
+
+\section{Procedimiento metodológico}
+El trabajo se organizará en seis fases relacionadas con el ciclo de diseño, construcción y evaluación de artefactos \parencite{hevner2004design}:
+\begin{enumerate}
+    \item \textbf{Diagnóstico y requisitos:} delimitar consultas, usuarios previstos, restricciones offline, criterios de éxito y fuentes autorizadas.
+    \item \textbf{Curaduría de datos:} inventariar documentos, registrar idioma y variedad, normalizar los archivos y conservar la procedencia y licencia.
+    \item \textbf{Diseño y prototipo:} especificar el flujo de recuperación, la representación de documentos, las interfaces y el protocolo de registro.
+    \item \textbf{Implementación:} integrar modelo, índice local y generación; evaluar primero la inferencia y recuperación base. Intentar QLoRA solo si el entorno permite hacerlo de forma reproducible.
+    \item \textbf{Evaluación:} ejecutar las consultas bajo cada condición viable, registrar errores, métricas y consumo de recursos, y conservar las configuraciones.
+    \item \textbf{Análisis y documentación:} contrastar las condiciones, reportar limitaciones y documentar el artefacto y el procedimiento sin anticipar conclusiones.
+\end{enumerate}
+
+\section{Protocolo de evaluación}
+\subsection{Métricas de calidad lingüística}
+Se calcularán chrF++ y BLEU mediante SacreBLEU sobre salidas y referencias normalizadas con el mismo procedimiento. Se registrarán versión, firma de configuración, tokenización, idioma de referencia y número de consultas; BLEU no se interpretará como medida única de calidad \parencite{Post2018}.
+
+\subsection{Métricas de recuperación y fidelidad}
+Se calculará P@k a partir de las etiquetas de pertinencia asignadas a los fragmentos recuperados para cada consulta. Además, se evaluará si las afirmaciones de la respuesta se sostienen en el contexto mediante métricas de RAGAS compatibles con una configuración reproducible; cuando una métrica requiera un modelo evaluador, se documentará su identidad y ejecución local. Las puntuaciones automatizadas se tratarán como indicadores y se complementarán con inspección de errores, pues no sustituyen una validación lingüística especializada \parencite{Ragas2024}.
+
+\subsection{Métricas de eficiencia}
+Por consulta y condición se registrarán latencia, tokens generados por segundo y memoria máxima de RAM y VRAM. Se informarán mediana, rango intercuartílico y valores faltantes o fallos. Las mediciones se repetirán con el mismo protocolo y se separarán los tiempos de recuperación, preprocesamiento e inferencia cuando la instrumentación lo permita.
+
+\section{Métodos de análisis de datos}
+Primero se calcularán estadísticos descriptivos por configuración e indicador, junto con intervalos de incertidumbre cuando la distribución y el diseño permitan interpretarlos. Para comparar las tres configuraciones sobre las mismas consultas se propone la prueba de Friedman; las comparaciones pareadas posteriores podrán usar Wilcoxon con corrección por comparaciones múltiples. Si QLoRA no fuera viable, esa condición se reportará como no evaluada y no se afirmará su superioridad. El nivel de significación se fijará en $\alpha=0{,}05$ antes del análisis, y se reportarán tamaño de efecto y datos faltantes además del valor $p$.
+
+\section{Aspectos éticos y de gestión de datos}
+Se utilizarán documentos con procedencia y condiciones de uso verificables; las fuentes se citarán y no se redistribuirán contenidos protegidos sin autorización. Se evitará almacenar datos personales en consultas y registros. Los datos generados artificialmente se marcarán y separarán de los materiales originales. El diseño respetará la identificación de Quechua Collao y no mezclará variedades sin etiquetas explícitas. Cualquier prueba con personas, datos sensibles o evaluación por especialistas requerirá autorización y un procedimiento informado antes de realizarse.
