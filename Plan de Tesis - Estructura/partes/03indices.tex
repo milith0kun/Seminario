@@ -61,9 +61,9 @@
 \textbf{PE} & Problema Específico (PE1, PE2, PE3). \\
 \textbf{PG} & Problema General de la investigación. \\
 \textbf{PLN} & Procesamiento de Lenguaje Natural (equivalente a NLP en inglés). \\
-\textbf{QLoRA} & \textit{Quantized Low-Rank Adaptation} (adaptadores de bajo rango sobre pesos base en 4 bits). \\
+\textbf{QLoRA} & \textit{Quantized Low-Rank Adaptation} (adaptación de bajo rango sobre un modelo base cuantizado; su viabilidad se comprobará en el entorno). \\
 \textbf{RAG} & \textit{Retrieval-Augmented Generation} (generación aumentada por recuperación). \\
-\textbf{RAGAS} & \textit{Retrieval Augmented Generation Assessment}, marco de métricas para evaluación de sistemas RAG. \\
+\textbf{RAGAS} & \textit{Retrieval Augmented Generation Assessment}; marco de métricas para evaluación de sistemas RAG, cuya aplicabilidad al Quechua Collao deberá comprobarse. \\
 \textbf{RAM} & \textit{Random Access Memory} (memoria principal del sistema). \\
 \textbf{SLM} & \textit{Small Language Model} (modelo de lenguaje compacto; en este estudio, candidato de hasta 3B parámetros). \\
 \textbf{TPS} & \textit{Tokens Per Second} (rendimiento de generación de tokens por segundo). \\
@@ -86,11 +86,11 @@
 \rowcolor{tcAzul!12}
 \textbf{Símbolo / Notación} & \textbf{Definición y Rol Computacional} \\
 \midrule
-$W_0$ & Matriz de pesos preentrenada original del SLM congelada en 4 bits ($W_0 \in \mathbb{R}^{d \times k}$). \\
-$\Delta W$ & Matriz de actualización adaptativa acumulada sobre los pesos del modelo ($\Delta W \in \mathbb{R}^{d \times k}$). \\
-$A$ & Matriz de proyección de bajo rango inicializada de forma gaussiana ($A \in \mathbb{R}^{r \times k}$). \\
-$B$ & Matriz de proyección de bajo rango inicializada en ceros ($B \in \mathbb{R}^{d \times r}$). \\
-$r$ & Rango de las matrices de bajo rango, que se fijará durante el diseño experimental ($r \ll \min(d,k)$). \\
+$W_0$ & Matriz de pesos preentrenada del SLM; se congelará durante el ajuste ($W_0 \in \mathbb{R}^{d_{\mathrm{out}} \times d_{\mathrm{in}}}$). \\
+$\Delta W$ & Matriz de actualización adaptativa acumulada sobre los pesos del modelo ($\Delta W \in \mathbb{R}^{d_{\mathrm{out}} \times d_{\mathrm{in}}}$). \\
+$A$ & Matriz de proyección de bajo rango inicializada de forma aleatoria ($A \in \mathbb{R}^{r \times d_{\mathrm{in}}}$). \\
+$B$ & Matriz de proyección de bajo rango inicializada en ceros ($B \in \mathbb{R}^{d_{\mathrm{out}} \times r}$). \\
+$r$ & Rango de las matrices de bajo rango, que se fijará durante el diseño experimental ($r \ll \min(d_{\mathrm{out}},d_{\mathrm{in}})$). \\
 $\alpha$ & Factor de escala de la actualización LoRA, cuyo valor se especificará en la configuración experimental. \\
 $x$ & Vector de activación de entrada a la capa Transformer (tokens de consulta + contexto RAG). \\
 $h$ & Vector de activación adaptado de salida: $h = W_0 x + \frac{\alpha}{r} (B \cdot A) x$. \\
@@ -149,7 +149,7 @@ Ecuación (6) & Proyección lineal de salida multicabezal del bloque de atenció
 \midrule
 Anexo 1 & Matriz de consistencia lógica de la investigación & \pageref{anexo:matriz_consistencia} \\
 Anexo 2 & Ficha técnica para registro de corridas experimentales & \pageref{anexo:ficha_tecnica} \\
-Anexo 3 & Rúbrica de evaluación de pertinencia pedagógica & \pageref{anexo:rubrica_pedagogica} \\
+Anexo 3 & Rúbrica de revisión lingüística y factual & \pageref{anexo:revision_linguistica} \\
 Anexo 4 & Banco de consultas patrón de evaluación & \pageref{anexo:banco_consultas} \\
 \bottomrule
 \end{tabularx}

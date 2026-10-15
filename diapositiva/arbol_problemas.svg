@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 500" role="img" aria-labelledby="title desc">
+  <title id="title">De los recursos disponibles a la brecha y su evaluación</title>
+  <desc id="desc">Secuencia argumental, no causal: existen recursos documentales para Quechua Collao; falta evidencia experimental comparable para SLM–RAG local; esta tesis evaluará recuperación, similitud de respuestas, fidelidad contextual y eficiencia. QLoRA depende de la viabilidad técnica.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto">
+      <path d="M0 0L16 8L0 16z" fill="#5560E5"/>
+    </marker>
+  </defs>
+  <rect x="12" y="12" width="1776" height="476" rx="28" fill="#f7f4eb" stroke="#c9c6b8" stroke-width="3"/>
+  <g font-family="Arial,sans-serif" text-anchor="middle">
+    <rect x="40" y="58" width="520" height="350" rx="24" fill="#e7e9ff" stroke="#1f2be0" stroke-width="5"/>
+    <text x="300" y="126" fill="#1f2be0" font-size="39" font-weight="700">Evidencia disponible</text>
+    <text x="300" y="208" fill="#17171d" font-size="34"><tspan x="300">Corpus bilingüe</tspan><tspan x="300" dy="52">digitalizado</tspan><tspan x="300" dy="70">Recurso léxico verbal</tspan></text>
+
+    <line x1="574" y1="234" x2="620" y2="234" stroke="#5560E5" stroke-width="7" marker-end="url(#arrow)"/>
+    <rect x="640" y="58" width="520" height="350" rx="24" fill="#f8e8e8" stroke="#b33a3a" stroke-width="5"/>
+    <text x="900" y="126" fill="#7b2424" font-size="39" font-weight="700">Brecha</text>
+    <text x="900" y="208" fill="#17171d" font-size="34"><tspan x="900">Falta evidencia comparable</tspan><tspan x="900" dy="52">para generación local</tspan><tspan x="900" dy="52">con SLM–RAG en</tspan><tspan x="900" dy="52">Quechua Collao</tspan></text>
+
+    <line x1="1174" y1="234" x2="1220" y2="234" stroke="#5560E5" stroke-width="7" marker-end="url(#arrow)"/>
+    <rect x="1240" y="58" width="520" height="350" rx="24" fill="#e5f2e8" stroke="#1a7a3c" stroke-width="5"/>
+    <text x="1500" y="126" fill="#1a7a3c" font-size="39" font-weight="700">Qué se evaluará</text>
+    <text x="1500" y="196" fill="#17171d" font-size="31"><tspan x="1500">P@k · recuperación</tspan><tspan x="1500" dy="45">chrF++ / BLEU · similitud</tspan><tspan x="1500" dy="45">Fidelidad · eficiencia</tspan><tspan x="1500" dy="45">QLoRA: solo si es viable</tspan></text>
+  </g>
+  <text x="900" y="460" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" fill="#5560E5">La secuencia explica la justificación del estudio; las flechas no expresan causalidad.</text>
+</svg>

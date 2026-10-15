@@ -1,0 +1,14 @@
+# Mantener el repositorio de entrega enfocado en la presentación index.
+/*
+!/README.md
+!/.gitignore
+!/LICENSE
+!/index.html
+!/index.pdf
+!/arbol_problemas.svg
+!/arbol_objetivos.svg
+!/pipeline_evaluacion.svg
+!/logo.png
+!/scripts/
+/scripts/*
+!/scripts/export-pdf.sh

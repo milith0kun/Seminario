@@ -7,84 +7,90 @@
 
 \section{Enfoque, tipo y diseño de investigación}
 \subsection{Enfoque de investigación}
-El estudio tendrá un enfoque cuantitativo porque comparará configuraciones computacionales mediante indicadores numéricos de calidad y eficiencia. Las unidades de evaluación serán consultas y respuestas registradas por el sistema; no se medirán efectos educativos sobre estudiantes en esta etapa.
+El estudio tendrá un enfoque cuantitativo: comparará configuraciones de software mediante indicadores numéricos de recuperación, calidad de respuesta y eficiencia computacional. La unidad de evaluación será la respuesta producida para una consulta bajo una configuración determinada. No se medirán efectos educativos en estudiantes ni impactos sociales.
 
 \subsection{Tipo de investigación}
-La investigación será aplicada y tecnológica: diseñará un artefacto de software para atender una necesidad definida y documentará su evaluación. El trabajo seguirá un proceso de diseño, construcción y evaluación de artefactos propio de la investigación en ciencias del diseño \parencite{hevner2004design}.
+La investigación será aplicada y tecnológica porque diseñará, implementará y evaluará un artefacto de software para una necesidad delimitada. El proceso seguirá las actividades de diseño, construcción y evaluación de artefactos de la investigación en ciencias del diseño (DSR, de \textit{Design Science Research}) \parencite{hevner2004design}.
 
 \subsection{Diseño de investigación}
-Se propone un experimento computacional comparativo con medidas repetidas: cada consulta del banco de evaluación se procesará, en lo posible, bajo las mismas condiciones en tres configuraciones: (a) SLM base; (b) SLM con RAG local; y (c) SLM con RAG y QLoRA, si el ajuste y la inferencia adaptada son viables. Para contrastar la recuperación semántica de la HE1, se comparará además con una búsqueda léxica de referencia sobre los mismos documentos y consultas, con el mismo valor de $k$ y etiquetas de pertinencia. Se mantendrán constantes el hardware, el conjunto de consultas, los documentos, la plantilla de instrucciones y los parámetros de generación. Las diferencias observadas se interpretarán como resultados del experimento y no se anticipan en este plan.
+Se realizará un experimento computacional comparativo con medidas repetidas por consulta. Las condiciones de generación serán: (a) SLM base; (b) el mismo SLM con recuperación documental local (SLM--RAG); y (c) SLM--RAG con adaptadores QLoRA, únicamente si el entrenamiento y la inferencia adaptada son viables. Para la hipótesis de recuperación se contrastará, por separado, el índice semántico con una búsqueda léxica de referencia. En cada comparación se mantendrán constantes las consultas, los documentos disponibles, el hardware y los parámetros pertinentes. La comparación directa para estimar el aporte de QLoRA será SLM--RAG frente a SLM--RAG--QLoRA; la comparación con SLM base describirá el efecto conjunto de recuperación y adaptación.
 
 \section{Variables y operacionalización}
 \subsection{Identificación de variables}
 \begin{itemize}
-    \item \textbf{Variable independiente:} configuración del sistema (SLM base, SLM--RAG o SLM--RAG--QLoRA).
-    \item \textbf{Variables dependientes:} calidad lingüística de la respuesta, fidelidad a la evidencia recuperada y eficiencia computacional.
-    \item \textbf{Condiciones de control:} versión y cuantización del modelo, consultas, documentos, índice, instrucciones, parámetros de decodificación, hardware y procedimiento de medición.
+    \item \textbf{Variable independiente:} configuración del sistema: SLM base, SLM--RAG o SLM--RAG--QLoRA, cuando esta última pueda ejecutarse.
+    \item \textbf{Variables dependientes:} recuperación de fragmentos pertinentes, similitud de las respuestas con referencias validadas, fidelidad al contexto y eficiencia computacional.
+    \item \textbf{Condiciones de control:} versión del modelo y del tokenizador, cuantización, colección documental, consultas, índice, plantilla de instrucciones, parámetros de generación, equipo y protocolo de medición. Los valores concretos se registrarán antes de la comparación.
 \end{itemize}
 
 \subsection{Matriz de operacionalización de variables}
-La Tabla~\ref{tab:operacionalizacion_variables} define los indicadores que se registrarán y las herramientas previstas para calcularlos.
+La Tabla~\ref{tab:operacionalizacion_variables} describe los indicadores y el procedimiento previsto para obtenerlos. Las métricas automáticas de similitud se interpretarán como aproximaciones respecto de una referencia, no como una medida completa de corrección o fluidez.
 
 \begin{table}[H]
 \centering
 \begin{threeparttable}
 \caption{Matriz de operacionalización de variables}
 \label{tab:operacionalizacion_variables}
-\scriptsize
-\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{3.2cm}p{4.3cm}X@{}}
+\small
+\begin{tabularx}{\textwidth}{@{}p{2.25cm}p{3.25cm}p{3.65cm}X@{}}
 \toprule
 \textbf{Variable} & \textbf{Operacionalización} & \textbf{Indicadores} & \textbf{Escala e instrumento} \\
 \midrule
-Configuración (independiente) & Condición del sistema usada para cada consulta: SLM, SLM--RAG o SLM--RAG--QLoRA si es viable. & Tipo de configuración; documentos y fragmentos recuperados. & Categórica; configuración, índice y bitácora de ejecución. \\
+Configuración (independiente) & Condición aplicada a cada consulta: SLM, SLM--RAG o SLM--RAG--QLoRA, si es viable. & Identificador de configuración; modelo, índice y fragmentos usados. & Categórica; configuración versionada y ficha del Anexo 2. \\
 \addlinespace
-Calidad y fidelidad (dependientes) & Comparación entre la salida y referencias lingüísticas y documentales definidas para cada consulta. & chrF++; SacreBLEU; P@k; fidelidad y relevancia del contexto según métricas RAG seleccionadas. & Numérica; scripts reproducibles y, si se habilita, implementación local de RAGAS \parencite{Post2018,Ragas2024}. \\
+Recuperación & Pertinencia de los primeros $k$ fragmentos para cada consulta. & Precisión en los primeros $k$ resultados (P@k), índice semántico frente a búsqueda léxica. & Numérica; banco de consultas, etiquetas de relevancia y registro del recuperador. \\
 \addlinespace
-Eficiencia (dependiente) & Medición del costo de ejecutar cada condición en el mismo equipo. & Latencia por respuesta; tokens por segundo; RAM y VRAM máximas. & Numérica; temporizador, registro del proceso y telemetría del sistema. \\
+Respuesta y fidelidad & Comparación de cada salida con una respuesta de referencia y con la evidencia entregada al modelo. & chrF++; BLEU; fidelidad y recuperación de contexto, si se valida el evaluador automático. & Numérica; SacreBLEU, implementación documentada de las métricas RAG y revisión con la rúbrica del Anexo 3. \\
+\addlinespace
+Eficiencia & Costo de ejecución por consulta y configuración en el mismo equipo. & Latencia; tokens generados por segundo; máximos de RAM y VRAM; errores de ejecución. & Numérica; temporizador, telemetría del sistema y ficha del Anexo 2. \\
 \bottomrule
 \end{tabularx}
 \begin{tablenotes}
-\scriptsize
-\item \textit{Nota.} Los nombres y versiones de las herramientas, parámetros de evaluación y reglas de preprocesamiento se registrarán antes de ejecutar la comparación.
+\small
+\item \textit{Nota.} Se registrarán las versiones de herramientas, los parámetros, las reglas de normalización y los valores de $k$. Las métricas RAG que dependan de un modelo evaluador solo se usarán de forma confirmatoria si se verifica su capacidad para evaluar respuestas en Quechua Collao.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
 \section{Unidades de análisis y selección de consultas}
 \subsection{Unidad de análisis}
-La unidad de análisis será la respuesta generada para una consulta en una configuración determinada, junto con los fragmentos recuperados y sus registros de ejecución. La unidad de observación para las métricas de rendimiento será cada corrida individual.
+Para la evaluación de respuestas, la unidad de análisis será el par formado por una consulta y la respuesta generada bajo una configuración, junto con los fragmentos recuperados y el registro de ejecución. Para la comparación de recuperadores, la unidad será la consulta con sus etiquetas de pertinencia. Cada consulta se mantendrá emparejada entre las condiciones que se comparen.
 
 \subsection{Población y muestra}
-La población conceptual comprende consultas textuales que puedan responderse con el corpus bilingüe seleccionado para Quechua Collao y español. Como no existe en este plan un marco muestral exhaustivo, se propone construir una muestra intencional de 100 consultas patrón, distribuida por temas y por idioma según la cobertura real de las fuentes. Este tamaño es provisional: se revisará después de verificar la disponibilidad, licencia y calidad de documentos y referencias. Las mismas consultas se reutilizarán en las configuraciones comparadas.
+La población conceptual comprende consultas textuales que puedan responderse con fuentes autorizadas identificadas como Quechua Collao o español. La factibilidad propone un banco intencional de 100 consultas patrón; se conserva como meta de planificación, sujeta al inventario de fuentes y a un piloto. No proviene aún de un cálculo de potencia estadística. Se incluirán consultas con respuesta sustentable en una fuente rastreable y se excluirán las que requieran información ausente o ambigua en el corpus. Si se ejecuta QLoRA, las consultas de evaluación y sus respuestas de referencia se reservarán fuera de los ejemplos de ajuste; el tratamiento de documentos indexados y coincidencias con ejemplos de entrenamiento seguirá el procedimiento de la subsección siguiente.
+
+\subsection{Preparación del corpus y prevención de contaminación}
+Se inventariarán las fuentes propuestas en el estudio de factibilidad —corpus bilingües, recursos léxicos y textos abiertos— y se registrarán su procedencia, licencia, idioma y variedad. Los materiales obtenidos mediante reconocimiento óptico de caracteres (OCR) se revisarán antes de indexarlos; se conservarán los datos de procedencia y las correcciones aplicadas. Los documentos se limpiarán y segmentarán. La fuente del proyecto propone fragmentos de 250--400 tokens y recuperar tres fragmentos por consulta; ambos valores se tratarán como puntos de partida para el piloto, no como parámetros ya validados, y se fijarán antes de la evaluación comparativa.
+
+La propuesta fuente también contempla pares de pregunta y respuesta generados con asistencia de modelos de lenguaje. Si se emplean, se identificarán como datos sintéticos y no se considerarán referencias correctas por el hecho de haber sido generados. Se contrastarán con fuentes trazables y se someterán a revisión lingüística competente antes de servir como ejemplos de ajuste o referencias de evaluación. Las consultas de evaluación y sus respuestas de referencia se mantendrán fuera del ajuste QLoRA. En cambio, los documentos con la evidencia necesaria para responderlas permanecerán disponibles en la base de conocimiento de las condiciones RAG, con el mismo contenido para SLM--RAG y SLM--RAG--QLoRA; se registrarán coincidencias textuales relevantes entre datos de ajuste y documentos indexados. Así se evita excluir del índice la evidencia que el sistema debe recuperar.
 
 \section{Técnicas e instrumentos de recolección}
-La técnica principal será la ejecución controlada del prototipo con captura automatizada de entradas, salidas, fragmentos recuperados, tiempo de respuesta y consumo de memoria. Los instrumentos serán el banco de consultas, la ficha de registro experimental del Anexo 2, los scripts de cálculo de métricas y los registros del entorno de ejecución. La matriz de consistencia y la ficha técnica se conservarán como anexos del plan.
+La técnica principal será la ejecución controlada del prototipo con captura automatizada de consultas, respuestas, fragmentos recuperados, latencia, consumo de memoria y errores. Los instrumentos serán el inventario de fuentes, el banco de consultas del Anexo 4, la ficha de ejecución del Anexo 2, los scripts versionados de métricas y la rúbrica de revisión lingüística y factual del Anexo 3.
 
-La validez de contenido del banco dependerá de que cada consulta tenga fuente rastreable, respuesta de referencia y variedad lingüística identificada. Se verificará esa trazabilidad antes de puntuar resultados. Las traducciones o respuestas generadas sintéticamente se identificarán como tales y no se presentarán como producción nativa validada. Si se requiere valoración humana de lengua o pertinencia pedagógica, deberá definirse un protocolo específico y obtenerse la autorización correspondiente antes de recoger esas evaluaciones.
+Antes de calcular métricas con referencias, se documentará para cada consulta su idioma y variedad, fuente, respuesta de referencia y evidencia pertinente. Una persona competente en Quechua Collao deberá revisar las referencias destinadas a medir similitud lingüística. Si esa revisión no se consigue, chrF++ y BLEU se informarán como similitud automática con referencias no validadas, y no como prueba suficiente de calidad lingüística. Una métrica automática de fidelidad que requiera un modelo juez se considerará exploratoria hasta comprobar, en un piloto documentado, que el juez puede evaluar el idioma y la variedad del estudio.
 
 \section{Procedimiento metodológico}
-El trabajo se organizará en seis fases relacionadas con el ciclo de diseño, construcción y evaluación de artefactos \parencite{hevner2004design}:
+El procedimiento conserva las tres fases y la correspondencia con los objetivos específicos de la presentación de objetivos:
 \begin{enumerate}
-    \item \textbf{Diagnóstico y requisitos:} delimitar consultas, usuarios previstos, restricciones offline, criterios de éxito y fuentes autorizadas.
-    \item \textbf{Curaduría de datos:} inventariar documentos, registrar idioma y variedad, normalizar los archivos y conservar la procedencia y licencia.
-    \item \textbf{Diseño y prototipo:} especificar el flujo de recuperación, la representación de documentos, las interfaces y el protocolo de registro.
-    \item \textbf{Implementación:} integrar modelo, índice local y generación; evaluar primero la inferencia y recuperación base. Intentar QLoRA solo si el entorno permite hacerlo de forma reproducible.
-    \item \textbf{Evaluación:} ejecutar las consultas bajo cada condición viable, registrar errores, métricas y consumo de recursos, y conservar las configuraciones.
-    \item \textbf{Análisis y documentación:} contrastar las condiciones, reportar limitaciones y documentar el artefacto y el procedimiento sin anticipar conclusiones.
+    \item \textbf{Fase 1 — Datos y recuperación (OE1):} inventariar las fuentes y sus licencias; etiquetar idioma, variedad y procedencia; revisar y depurar los documentos; pilotear la segmentación y el número de fragmentos recuperados; crear el índice semántico y una búsqueda léxica de referencia; y preparar consultas con sus fuentes y fragmentos pertinentes identificados.
+    \item \textbf{Fase 2 — Núcleo técnico y adaptación (OE2):} comprobar la inferencia local de Qwen2.5-3B-Instruct y del recuperador; fijar y registrar las versiones, el formato de cuantización, las instrucciones y los parámetros de generación; integrar SLM y RAG; y realizar una prueba técnica preliminar de ajuste, exportación, carga e inferencia con QLoRA para determinar si puede ejecutarse la condición E3. Esta comprobación forma parte del procedimiento metodológico; el análisis global de factibilidad técnica, económica y operativa, así como de viabilidad y sostenibilidad, se desarrollará por separado en el capítulo IV. La fuente propone Q4\_K\_M/GGUF con \texttt{llama.cpp} para inferencia y contempla \texttt{bitsandbytes}/PEFT para el ajuste; son etapas y formatos distintos, y se verificará que la exportación y carga del adaptador sean compatibles. En este equipo se prevé evaluar WSL2 con Ubuntu para \texttt{bitsandbytes}. Si el ajuste o la inferencia adaptada fallan o no son reproducibles, se registrará el motivo y no se ejecutará la condición integrada.
+    \item \textbf{Fase 3 — Evaluación y análisis (OE3):} ejecutar el mismo banco bajo cada condición viable; registrar entradas, salidas, fragmentos y telemetría; calcular las métricas definidas; inspeccionar errores con criterios comunes; y conservar los scripts, parámetros y registros suficientes para repetir el procedimiento.
 \end{enumerate}
 
 \section{Protocolo de evaluación}
+Antes de la corrida comparativa se cerrará un protocolo que identifique el modelo y su revisión, cuantización de inferencia y de ajuste, tokenizador, motor de inferencia, modelo de embeddings, segmentación documental, valor de $k$, plantilla de instrucciones y parámetros de decodificación. Se ejecutará la evaluación sin conexión y con los mismos recursos de hardware. Se registrarán el sistema operativo y las versiones de software. Las consultas de evaluación no se usarán para seleccionar parámetros ni ajustar QLoRA. El número de repeticiones para mediciones de rendimiento se fijará tras el piloto y se aplicará igual a todas las condiciones; las respuestas utilizadas para métricas de texto se generarán con parámetros de decodificación constantes.
+
 \subsection{Métricas de calidad lingüística}
-Se calcularán chrF++ y BLEU mediante SacreBLEU sobre salidas y referencias normalizadas con el mismo procedimiento. Se registrarán versión, firma de configuración, tokenización, idioma de referencia y número de consultas; BLEU no se interpretará como medida única de calidad \parencite{Post2018}.
+Se calcularán chrF++ y BLEU mediante SacreBLEU, comparando las salidas con referencias documentadas y, cuando sea posible, revisadas por una persona competente en la variedad. Se conservarán la versión de SacreBLEU, su firma de configuración, la tokenización, la normalización, el idioma de salida y la cantidad de consultas \parencite{popovic-2017-chrf,Post2018}. Estas métricas cuantifican similitud con referencias y no se interpretarán por sí solas como comprensión, corrección semántica o fluidez.
 
 \subsection{Métricas de recuperación y fidelidad}
-Se calculará P@k a partir de las etiquetas de pertinencia asignadas a los fragmentos recuperados para cada consulta. Además, se evaluará si las afirmaciones de la respuesta se sostienen en el contexto mediante métricas de RAGAS compatibles con una configuración reproducible; cuando una métrica requiera un modelo evaluador, se documentará su identidad y ejecución local. Las puntuaciones automatizadas se tratarán como indicadores y se complementarán con inspección de errores, pues no sustituyen una validación lingüística especializada \parencite{Ragas2024}.
+Se calculará la precisión en los primeros $k$ resultados (P@k) usando etiquetas de pertinencia definidas antes de evaluar y el mismo $k$ para la búsqueda léxica y semántica. Para las respuestas se registrará si sus afirmaciones están respaldadas por los fragmentos proporcionados. Las métricas de RAGAS seleccionadas podrán complementar esa revisión solo si la versión y el modelo evaluador se identifican y el piloto confirma su uso pertinente con Quechua Collao; de lo contrario, sus puntuaciones no se presentarán como evidencia confirmatoria \parencite{Ragas2024}.
 
 \subsection{Métricas de eficiencia}
-Por consulta y condición se registrarán latencia, tokens generados por segundo y memoria máxima de RAM y VRAM. Se informarán mediana, rango intercuartílico y valores faltantes o fallos. Las mediciones se repetirán con el mismo protocolo y se separarán los tiempos de recuperación, preprocesamiento e inferencia cuando la instrumentación lo permita.
+Por consulta y condición se medirán latencia, tokens generados por segundo y máximos de memoria principal (RAM) y memoria gráfica (VRAM). Se informarán medidas descriptivas, dispersión, fallos y datos faltantes. Cuando la instrumentación lo permita, se separarán los tiempos de recuperación, preparación del contexto e inferencia. Las mediciones de rendimiento seguirán el mismo procedimiento de calentamiento y repetición en cada condición, definido y registrado antes de la comparación.
 
 \section{Métodos de análisis de datos}
-Primero se calcularán estadísticos descriptivos por configuración e indicador, junto con intervalos de incertidumbre cuando la distribución y el diseño permitan interpretarlos. Para comparar las tres configuraciones sobre las mismas consultas se propone la prueba de Friedman; las comparaciones pareadas posteriores podrán usar Wilcoxon con corrección por comparaciones múltiples. Si QLoRA no fuera viable, esa condición se reportará como no evaluada y no se afirmará su superioridad. El nivel de significación se fijará en $\alpha=0{,}05$ antes del análisis, y se reportarán tamaño de efecto y datos faltantes además del valor $p$.
+Se calcularán estadísticos descriptivos por configuración y métrica. Para HE1 se comparará P@k del recuperador semántico con la búsqueda léxica sobre las mismas consultas. Para HE2, si QLoRA es viable, la comparación principal será SLM--RAG frente a SLM--RAG--QLoRA, manteniendo los demás parámetros. Para HE3 se describirán y, si los datos emparejados y los supuestos lo permiten, se contrastarán las tres configuraciones. Friedman se usará para tres condiciones relacionadas y Wilcoxon de rangos con signo para comparaciones pareadas; las comparaciones múltiples se ajustarán mediante Holm. Se comprobará que la escala y los datos disponibles permitan aplicar estas pruebas; si no, el análisis será descriptivo y se informará la limitación. Se fijará $\alpha=0{,}05$ antes del análisis y se informarán tamaños de efecto, intervalos de confianza cuando sean estimables, datos faltantes y ajustes por comparaciones múltiples. Si QLoRA no es viable, HE2 y las comparaciones de HE3 que la involucren se declararán no evaluadas; no se inferirá superioridad de una condición que no se ejecutó.
 
 \section{Aspectos éticos y de gestión de datos}
-Se utilizarán documentos con procedencia y condiciones de uso verificables; las fuentes se citarán y no se redistribuirán contenidos protegidos sin autorización. Se evitará almacenar datos personales en consultas y registros. Los datos generados artificialmente se marcarán y separarán de los materiales originales. El diseño respetará la identificación de Quechua Collao y no mezclará variedades sin etiquetas explícitas. Cualquier prueba con personas, datos sensibles o evaluación por especialistas requerirá autorización y un procedimiento informado antes de realizarse.
+Se incorporarán documentos con procedencia y condiciones de uso verificables, se citarán las fuentes y no se redistribuirán contenidos protegidos sin autorización. Las consultas y bitácoras no incluirán datos personales. Los datos generados artificialmente se identificarán y separarán de los textos fuente. Se conservarán las etiquetas de Quechua Collao y no se mezclarán variedades sin identificación explícita. Si la validación lingüística requiere participación de personas, se obtendrán las autorizaciones y el consentimiento informado que correspondan antes de recoger sus evaluaciones.

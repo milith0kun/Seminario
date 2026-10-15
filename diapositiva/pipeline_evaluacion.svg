@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 500" role="img" aria-labelledby="title desc">
+  <title id="title">Protocolo de evaluación en cuatro pasos</title>
+  <desc id="desc">Preparar consultas, fuentes y referencias; ejecutar las configuraciones técnicamente viables bajo el mismo registro; medir recuperación, similitud, fidelidad y eficiencia; y aplicar análisis estadístico solo cuando corresponda.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto">
+      <path d="M0 0L16 8L0 16z" fill="#1f2be0"/>
+    </marker>
+  </defs>
+  <rect x="12" y="12" width="1776" height="476" rx="28" fill="#f7f4eb" stroke="#c9c6b8" stroke-width="3"/>
+  <g font-family="Arial,sans-serif" text-anchor="middle">
+    <rect x="30" y="62" width="380" height="376" rx="24" fill="#f7f4eb" stroke="#1f2be0" stroke-width="5"/>
+    <text x="220" y="139" fill="#1f2be0" font-size="40" font-weight="700">1 · Preparar</text>
+    <text x="220" y="230" fill="#17171d" font-size="34"><tspan x="220">Consultas</tspan><tspan x="220" dy="52">Fuentes</tspan><tspan x="220" dy="52">Referencias</tspan></text>
+
+    <line x1="420" y1="250" x2="465" y2="250" stroke="#1f2be0" stroke-width="7" marker-end="url(#arrow)"/>
+    <rect x="490" y="62" width="380" height="376" rx="24" fill="#e7e9ff" stroke="#1f2be0" stroke-width="5"/>
+    <text x="680" y="139" fill="#1f2be0" font-size="40" font-weight="700">2 · Ejecutar</text>
+    <text x="680" y="230" fill="#17171d" font-size="32"><tspan x="680">Condiciones</tspan><tspan x="680" dy="50">técnicamente viables</tspan><tspan x="680" dy="58">Registro común</tspan></text>
+
+    <line x1="880" y1="250" x2="925" y2="250" stroke="#1f2be0" stroke-width="7" marker-end="url(#arrow)"/>
+    <rect x="950" y="62" width="380" height="376" rx="24" fill="#f8efd8" stroke="#b8860b" stroke-width="5"/>
+    <text x="1140" y="139" fill="#7d5a00" font-size="40" font-weight="700">3 · Medir</text>
+    <text x="1140" y="222" fill="#17171d" font-size="30"><tspan x="1140">P@k · recuperación</tspan><tspan x="1140" dy="48">chrF++ / BLEU</tspan><tspan x="1140" dy="48">Fidelidad · latencia</tspan><tspan x="1140" dy="48">Memoria · tokens/s</tspan></text>
+
+    <line x1="1340" y1="250" x2="1385" y2="250" stroke="#1f2be0" stroke-width="7" marker-end="url(#arrow)"/>
+    <rect x="1410" y="62" width="360" height="376" rx="24" fill="#e5f2e8" stroke="#1a7a3c" stroke-width="5"/>
+    <text x="1590" y="139" fill="#1a7a3c" font-size="40" font-weight="700">4 · Analizar</text>
+    <text x="1590" y="220" fill="#17171d" font-size="30"><tspan x="1590">Pruebas si</tspan><tspan x="1590" dy="48">los supuestos</tspan><tspan x="1590" dy="48">se cumplen;</tspan><tspan x="1590" dy="48">si no, descriptivos</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 500" role="img" aria-labelledby="title desc">
+  <title id="title">Secuencia de los objetivos específicos</title>
+  <desc id="desc">OE1 prepara los datos y evalúa recuperación; OE2 integra SLM–RAG y prueba QLoRA solo si ajuste e inferencia adaptada son viables; OE3 compara las condiciones ejecutables mediante similitud, fidelidad y eficiencia.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto">
+      <path d="M0 0L16 8L0 16z" fill="#1f2be0"/>
+    </marker>
+  </defs>
+  <rect x="12" y="12" width="1776" height="476" rx="28" fill="#f7f4eb" stroke="#c9c6b8" stroke-width="3"/>
+  <g font-family="Arial,sans-serif" text-anchor="middle">
+    <rect x="35" y="64" width="520" height="365" rx="24" fill="#e7e9ff" stroke="#1f2be0" stroke-width="5"/>
+    <text x="295" y="132" fill="#1f2be0" font-size="39" font-weight="700">OE1 · Datos y recuperación</text>
+    <text x="295" y="214" fill="#17171d" font-size="32"><tspan x="295">Preparar fuentes bilingües</tspan><tspan x="295" dy="52">e índices semánticos</tspan><tspan x="295" dy="52">y medir recuperación con P@k</tspan></text>
+
+    <line x1="570" y1="246" x2="615" y2="246" stroke="#1f2be0" stroke-width="7" marker-end="url(#arrow)"/>
+    <rect x="640" y="64" width="520" height="365" rx="24" fill="#f8efd8" stroke="#b8860b" stroke-width="5"/>
+    <text x="900" y="132" fill="#7d5a00" font-size="39" font-weight="700">OE2 · Núcleo técnico</text>
+    <text x="900" y="202" fill="#17171d" font-size="31"><tspan x="900">Integrar SLM–RAG</tspan><tspan x="900" dy="48">Comparar con y sin QLoRA</tspan><tspan x="900" dy="48">solo si ajuste e inferencia</tspan><tspan x="900" dy="48">adaptada son viables</tspan></text>
+
+    <line x1="1175" y1="246" x2="1220" y2="246" stroke="#1f2be0" stroke-width="7" marker-end="url(#arrow)"/>
+    <rect x="1245" y="64" width="520" height="365" rx="24" fill="#e5f2e8" stroke="#1a7a3c" stroke-width="5"/>
+    <text x="1505" y="132" fill="#1a7a3c" font-size="39" font-weight="700">OE3 · Evaluación</text>
+    <text x="1505" y="224" fill="#17171d" font-size="35"><tspan x="1505">Comparar condiciones viables</tspan><tspan x="1505" dy="58">por similitud, fidelidad</tspan><tspan x="1505" dy="58">y eficiencia</tspan></text>
+  </g>
+</svg>

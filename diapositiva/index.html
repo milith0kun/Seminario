@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de Tesis — Asistente Educativo SLM + RAG Quechua Collao (UNSAAC)</title>
+
+  <!-- Google Fonts: Newsreader (Serif), Hanken Grotesk (Sans) y DM Mono (Monospace) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===========================================
+       BOLD TEMPLATE PACK: COBALT GRID THEME
+       =========================================== */
+    :root {
+      /* Two-Color Risograph Palette */
+      --paper: #F0EBDE;
+      --paper-2: #E6E0CE;
+      --ink: #1F2BE0;
+      --ink-soft: #5560E5;
+      --grid: rgba(31, 43, 224, 0.10);
+      --ink-faint: rgba(31, 43, 224, 0.18);
+      --green: #1a7a3c;
+      --amber: #b8860b;
+      --red: #b33a3a;
+      --body-text: #17171d; /* near-black body copy; --ink stays for titles/accents */
+
+      /* Typography Tokens */
+      --font-display: 'Newsreader', Georgia, serif;
+      --font-body: 'Hanken Grotesk', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+
+      /* Spacing Insets for 1920x1080 stage */
+      --edge: 90px;
+      --pad-top: 68px;
+      --pad-bottom: 80px;
+
+      /* Animation Easing */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-normal: 0.5s;
+    }
+
+    /* ===========================================
+       BASE STYLES & FIXED STAGE (1920x1080)
+       =========================================== */
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: var(--paper);
+      font-family: var(--font-body);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .deck-viewport {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(to right, var(--grid) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, var(--grid) 1.5px, transparent 1.5px);
+      background-size: 36px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Stage Canvas: Cream Paper + Graph Paper Grid */
+    .deck-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      transform-origin: 0 0;
+      background-color: var(--paper);
+      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Permanent 36px Cobalt Graph-Paper Grid */
+    .deck-stage::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, var(--grid) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, var(--grid) 1.5px, transparent 1.5px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: var(--pad-top) var(--edge) var(--pad-bottom) var(--edge);
+      box-sizing: border-box;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease-out-expo), transform 0.3s var(--ease-out-expo);
+      transform: translateY(10px);
+      z-index: 1;
+    }
+
+    .slide.active,
+    .slide.visible {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      z-index: 2;
+    }
+
+    /* Centered Content Wrapper */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      min-height: 0;
+    }
+
+    /* Universal Chrome Hairline - removed (clean design) */
+
+    /* Bottom hairline - removed (clean design) */
+    .bottom-hairline { display: none; }
+
+    /* ===========================================
+       TYPOGRAPHY & REVEAL ANIMATIONS
+       =========================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity var(--duration-normal) var(--ease-out-expo),
+                  transform var(--duration-normal) var(--ease-out-expo);
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal:nth-child(1) { transition-delay: 0.03s; }
+    .reveal:nth-child(2) { transition-delay: 0.06s; }
+    .reveal:nth-child(3) { transition-delay: 0.09s; }
+    .reveal:nth-child(4) { transition-delay: 0.12s; }
+    .reveal:nth-child(5) { transition-delay: 0.15s; }
+    .reveal:nth-child(6) { transition-delay: 0.18s; }
+
+    /* Topbar Header Rule */
+    .topbar {
+      border-bottom: 1.5px solid var(--ink);
+      padding-bottom: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .topbar-tag {
+      font-family: var(--font-mono);
+      font-size: 16.5px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .ponente-tag {
+      font-size: 15px;
+      opacity: 0.55;
+      margin-bottom: 2px;
+      font-family: var(--font-mono);
+      text-align: right;
+      letter-spacing: 0.06em;
+    }
+
+    .topbar-title {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 400;
+      letter-spacing: -0.005em;
+      line-height: 1.05;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* Typography Classes */
+    .display-hero {
+      font-family: var(--font-display);
+      font-size: 54px;
+      font-weight: 400;
+      letter-spacing: -0.008em;
+      line-height: 0.98;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+
+    .ed-subtitle {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+
+    .micro-label {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .mono-tag {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+    }
+
+    /* Grids & Proportional Card Layouts */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+    .cobalt-card {
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .cobalt-card-header {
+      font-family: var(--font-display);
+      font-size: 29px;
+      font-weight: 400;
+      border-bottom: 1.5px solid var(--ink-faint);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cobalt-card-body {
+      font-family: var(--font-body);
+      font-size: 21px;
+      line-height: 1.58;
+      color: var(--body-text);
+    }
+    .cobalt-card-body b { color: var(--ink); }
+
+    /* Table of Contents rows (no card box, just a rule + big type) */
+    .toc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 22px;
+      border-bottom: 1.5px solid var(--ink-faint);
+      padding-bottom: 16px;
+    }
+    .toc-num {
+      font-family: var(--font-display);
+      font-size: 34px;
+      font-weight: 500;
+      color: var(--ink);
+      min-width: 58px;
+    }
+    .toc-text {
+      font-family: var(--font-display);
+      font-size: 30px;
+      color: var(--body-text);
+    }
+
+    /* Ledger Rows */
+    .ledger-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ledger-row {
+      display: grid;
+      grid-template-columns: 90px 1.4fr 2fr 1.1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 17px 24px;
+      border-bottom: 1px solid var(--ink-faint);
+      font-size: 16.5px;
+      color: var(--body-text);
+    }
+    .ledger-row b { color: var(--ink); }
+
+    .ledger-row:last-child { border-bottom: none; }
+
+    /* Data table (dense) */
+    .data-table { width:100%; border-collapse:collapse; }
+    .data-table th, .data-table td { padding:17px 20px; text-align:left; vertical-align:top; font-size:19px; line-height:1.42; border-bottom:1px solid var(--ink-faint); }
+    .data-table th { font-size: 17px; letter-spacing:0.05em; text-transform:uppercase; font-weight:700; font-family:var(--font-body); color: var(--ink); border-bottom:1.5px solid var(--ink); }
+    .data-table td { font-family: var(--font-body); color: var(--body-text); }
+    .data-table td b { color: var(--ink); }
+    .metric-table th { font-size: 22px; }
+    .metric-table td { font-size: 24px; line-height: 1.34; }
+
+    .v-yes { color:var(--green); font-weight:700; }
+    .v-no { color:var(--red); font-weight:700; }
+    .v-hybrid { color:var(--ink); font-weight:700; }
+
+    /* Stat Box */
+    .stat-card {
+      padding: 16px 14px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 40px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    /* Logo & Feature Image Styling */
+    .unsaac-logo { height: 85px; width: auto; object-fit: contain; }
+
+    .feature-img-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; }
+
+    .feature-img {
+      max-width: 100%;
+      max-height: 480px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      box-sizing: border-box;
+      background: transparent;
+    }
+
+    /* Diagram box (custom CSS figures) */
+    .diagram-box {
+      box-sizing: border-box;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .diagram-node {
+      padding: 7px 10px;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 16.5px;
+    }
+    .diagram-arrow { text-align:center; font-size:16px; line-height:1; }
+
+    /* Chrome Footer Page Number & Nav Hint */
+    .pagenum {
+      position: fixed;
+      right: var(--edge);
+      bottom: 44px;
+      font-family: var(--font-mono);
+      font-size: 15.5px;
+      color: var(--ink);
+      letter-spacing: 0.06em;
+      z-index: 100;
+    }
+
+    .nav-hint {
+      position: fixed;
+      left: var(--edge);
+      bottom: 44px;
+      font-family: var(--font-mono);
+      font-size: 14.5px;
+      color: var(--ink);
+      opacity: 0.5;
+      letter-spacing: 0.06em;
+      z-index: 100;
+    }
+
+    .deck-controls {
+      position: fixed;
+      bottom: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: var(--paper);
+      padding: 5px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .ctrl-btn {
+      background: none;
+      border: none;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 14.5px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 4px 10px;
+      transition: background 0.2s;
+    }
+
+    .ctrl-btn:hover { background: var(--ink); color: var(--paper); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .slide { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+  <main class="deck-stage" id="deckStage">
+
+    <!-- SLIDE 1: PORTADA -->
+    <section class="slide active visible" id="slide-1">
+      <div class="reveal" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; margin-bottom: 18px;">
+        <div style="display: flex; align-items: center; gap: 18px;">
+          <img src="logo.png" alt="Logo UNSAAC" class="unsaac-logo">
+          <div>
+            <div style="font-family: var(--font-display); font-size: 19px; font-weight: 500;">UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO</div>
+            <div class="micro-label" style="margin-top: 2px;">FACULTAD DE INGENIERÍA ELÉCTRICA, ELECTRÓNICA, INFORMÁTICA Y MECÁNICA</div>
+            <div class="mono-tag" style="font-size: 14.5px; font-weight: 500; margin-top: 2px;">ESCUELA PROFESIONAL DE INGENIERÍA INFORMÁTICA Y DE SISTEMAS</div>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div class="mono-tag">[ SUSTENTACIÓN DE PLAN DE TESIS ]</div>
+          <div class="micro-label" style="margin-top: 2px;">CURSO: SEMINARIO DE INVESTIGACIÓN I</div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <h1 class="reveal display-hero" style="max-width: 1700px;">
+          Diseño e implementación de una arquitectura SLM–RAG con QLoRA para la generación contextualizada en Quechua Collao
+        </h1>
+
+        <div class="reveal" style="padding-top: 22px; display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 32px;">
+          <div>
+            <div class="micro-label">PRESENTADO POR</div>
+            <div style="font-family: var(--font-display); font-size: 21px; margin-top: 4px; font-weight: 500;">
+              • Br. Edmil Jampier Saire Bustamante
+            </div>
+          </div>
+          <div>
+            <div class="micro-label">DOCENTE</div>
+            <div style="font-family: var(--font-display); font-size: 21px; margin-top: 4px; font-weight: 500;">Msc. Raúl Huillca Huallparimachi</div>
+          </div>
+          <div>
+            <div class="micro-label">LUGAR Y AÑO</div>
+            <div style="font-family: var(--font-display); font-size: 21px; margin-top: 4px; font-weight: 500;">Cusco – Perú, 2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: CONTENIDO -->
+    <section class="slide" id="slide-2"><div class="topbar reveal"><h2 class="topbar-title">Contenido</h2><span class="topbar-tag">PRESENTACIÓN DEL PLAN — HASTA METODOLOGÍA</span></div>
+<div class="slide-body"><div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;column-gap:70px;row-gap:30px;align-content:center;height:100%;">
+<div class="toc-row"><span class="toc-num">01</span><span class="toc-text">Problema de investigación</span></div><div class="toc-row"><span class="toc-num">05</span><span class="toc-text">Hipótesis</span></div>
+<div class="toc-row"><span class="toc-num">02</span><span class="toc-text">Justificación</span></div><div class="toc-row"><span class="toc-num">06</span><span class="toc-text">Estado del arte</span></div>
+<div class="toc-row"><span class="toc-num">03</span><span class="toc-text">Alcances y limitaciones</span></div><div class="toc-row"><span class="toc-num">07</span><span class="toc-text">Marco teórico</span></div>
+<div class="toc-row"><span class="toc-num">04</span><span class="toc-text">Objetivos</span></div><div class="toc-row"><span class="toc-num">08</span><span class="toc-text">Metodología</span></div></div></div>
+    </section>
+
+    <!-- SLIDE 3: 1.1/1.2 DESCRIPCIÓN E IDENTIFICACIÓN DEL PROBLEMA -->
+    <section class="slide" id="slide-3"><div class="topbar reveal"><h2 class="topbar-title">1. Problema de investigación — Contexto y evidencia</h2><span class="topbar-tag">RECURSOS EXISTENTES · CONTEXTO · BRECHA DE EVIDENCIA</span></div>
+<div class="slide-body" style="justify-content:center;"><div class="grid-3" style="gap:24px;">
+<div class="cobalt-card reveal"><div class="cobalt-card-header"><span>Recursos para Quechua Collao</span></div><div class="cobalt-card-body">Orcotoma et al. (2025) describen la creación de un corpus bilingüe a partir de materiales digitalizados. Duran y Silberztein (2026) presentan un recurso léxico verbal.<br><br>Estos recursos apoyan la investigación lingüística, pero no constituyen por sí solos un generador contextualizado.</div></div>
+<div class="cobalt-card reveal"><div class="cobalt-card-header"><span>El contexto debe evaluarse</span></div><div class="cobalt-card-body">Court y Elsner (2024) muestran que el efecto del contexto varía según el tipo de información en una tarea de traducción de quechua sureño al español.<br><br>Ese resultado no anticipa el desempeño de generación en Quechua Collao.</div></div>
+<div class="cobalt-card reveal"><div class="cobalt-card-header"><span>Brecha por investigar</span></div><div class="cobalt-card-body">Falta evidencia experimental comparable sobre calidad de respuestas, fidelidad a fragmentos recuperados y eficiencia de SLM–RAG local para Quechua Collao.<br><br>QLoRA se evaluará si el ajuste y la inferencia con adaptador son viables.</div></div>
+</div></div>
+    </section>
+
+    <!-- SLIDE 4: BRECHA Y RESPUESTA DE INVESTIGACIÓN -->
+    <section class="slide" id="slide-4"><div class="topbar reveal"><h2 class="topbar-title">1.2 Brecha de investigación</h2><span class="topbar-tag">EVIDENCIA DISPONIBLE · QUÉ FALTA · QUÉ SE EVALUARÁ</span></div>
+<div class="slide-body" style="justify-content:center;gap:18px;">
+<div class="reveal" style="width:100%;"><div class="feature-img-wrapper"><img src="arbol_problemas.svg" alt="Secuencia argumental desde los recursos disponibles hasta la brecha y las dimensiones de evaluación" class="feature-img" style="max-height:620px;"></div></div>
+</div>
+    </section>
+
+    <!-- SLIDE 5: 1.3 FORMULACIÓN DEL PROBLEMA -->
+    <section class="slide" id="slide-5"><div class="topbar reveal"><h2 class="topbar-title">1.3 Formulación del problema</h2><span class="topbar-tag">PROBLEMA GENERAL Y TRES PROBLEMAS ESPECÍFICOS</span></div>
+<div class="slide-body" style="justify-content:center;gap:34px;">
+<div class="cobalt-card reveal" style="padding:30px 42px;"><div class="micro-label" style="margin-bottom:10px;">PROBLEMA GENERAL</div><div style="font-family:var(--font-display);font-size:29px;line-height:1.35;color:var(--ink);">¿Cómo se comporta una arquitectura SLM–RAG para la generación contextualizada en Quechua Collao dentro de un entorno computacional offline, y qué aporte adicional presenta QLoRA si el ajuste y la inferencia con adaptador son viables?</div></div>
+<div class="cobalt-card reveal" style="padding:24px 36px;"><div class="cobalt-card-header" style="font-size:25px;"><span>Problemas específicos</span></div><div style="font-size:21px;line-height:1.55;color:var(--body-text);">
+<b>PE1 · Datos y recuperación.</b> ¿Cómo estructurar e indexar semánticamente una base documental bilingüe para optimizar la recuperación local?<br>
+<b>PE2 · Núcleo técnico y adaptación.</b> Si el ajuste y la inferencia con adaptador son viables, ¿qué diferencia produce QLoRA en la fidelidad al contexto de SLM–RAG bajo las mismas condiciones?<br>
+<b>PE3 · Evaluación.</b> ¿Qué diferencias de similitud, fidelidad contextual y eficiencia se observan entre SLM base, SLM–RAG y SLM–RAG–QLoRA, cuando esta última condición sea viable?</div></div></div>
+    </section>
+
+    <!-- SLIDE 6: 2. JUSTIFICACIÓN -->
+    <section class="slide" id="slide-6"><div class="topbar reveal"><h2 class="topbar-title">2. Justificación</h2><span class="topbar-tag">PERTINENCIA TEÓRICA · PRÁCTICA · METODOLÓGICA</span></div>
+<div class="slide-body" style="justify-content:center;gap:18px;"><div class="grid-3 reveal" style="gap:24px;">
+<div class="cobalt-card" style="padding:30px 32px;justify-content:flex-start;"><div class="cobalt-card-header" style="font-size:30px;"><span>Teórica</span></div><div class="cobalt-card-body" style="font-size:21px;line-height:1.6;">Los antecedentes cubren recursos para quechua, uso de contexto en traducción y sistemas offline en otros dominios.<br><br>Sus tareas y entornos difieren de la generación contextualizada en Quechua Collao. Hace falta evaluar esa combinación directamente.</div></div>
+<div class="cobalt-card" style="padding:30px 32px;justify-content:flex-start;"><div class="cobalt-card-header" style="font-size:30px;"><span>Práctica</span></div><div class="cobalt-card-body" style="font-size:21px;line-height:1.6;">Se estudiará una arquitectura que pueda ejecutar inferencia sin conexión y consultar documentos trazables en Quechua Collao.<br><br>La utilidad, la calidad de las respuestas y su uso educativo son aspectos por evaluar; no se presuponen resultados ni efectos en estudiantes.</div></div>
+<div class="cobalt-card" style="padding:30px 32px;justify-content:flex-start;"><div class="cobalt-card-header" style="font-size:30px;"><span>Metodológica</span></div><div class="cobalt-card-body" style="font-size:21px;line-height:1.6;">Se compararán el modelo base, SLM–RAG y SLM–RAG–QLoRA si esta última configuración es viable.<br><br>Se medirán recuperación, similitud de respuesta, fidelidad al contexto y eficiencia. Los ODS 9 y 10 son motivacionales; no se medirán impactos sociales.</div></div>
+</div></div>
+    </section>
+
+    <!-- SLIDE 7: 3. ALCANCES Y LIMITACIONES -->
+    <section class="slide" id="slide-7"><div class="topbar reveal"><h2 class="topbar-title">3. Alcances y limitaciones</h2><span class="topbar-tag">DELIMITACIÓN DEL ESTUDIO</span></div>
+<div class="slide-body" style="justify-content:center;"><div class="grid-2" style="min-height:680px;">
+<div class="cobalt-card reveal" style="min-height:680px;justify-content:center;"><div class="cobalt-card-header"><span>Alcances</span></div><table class="data-table" style="font-size:21px;">
+<tr><th style="width:32%;">Dimensión</th><th>Delimitación</th></tr>
+<tr><td style="padding:22px 20px;"><b>Lingüística</b></td><td style="padding:22px 20px;">Fuentes y consultas identificadas como Quechua Collao o español; no se generalizarán resultados a otras variedades.</td></tr>
+<tr><td style="padding:22px 20px;"><b>Tecnológica</b></td><td style="padding:22px 20px;">SLM candidato, recuperación documental local e inferencia offline; QLoRA sujeto a viabilidad.</td></tr>
+<tr><td style="padding:22px 20px;"><b>Evaluación</b></td><td style="padding:22px 20px;">P@k, similitud con referencias, sustento contextual y recursos de cómputo.</td></tr></table></div>
+<div class="cobalt-card reveal" style="min-height:680px;justify-content:center;"><div class="cobalt-card-header"><span>Limitaciones previstas</span></div><div class="cobalt-card-body" style="font-size:23px;line-height:1.8;">• GPU disponible con 4 GB de VRAM; ajuste e inferencia con adaptador requieren pruebas.<br>• Cobertura, licencia y calidad OCR de las fuentes por inventariar.<br>• Las métricas de similitud no prueban por sí solas corrección semántica ni fluidez.<br>• El estudio no medirá aprendizaje ni impacto social.</div></div>
+</div></div>
+    </section>
+
+    <!-- SLIDE 8: 4.1/4.2 OBJETIVOS -->
+    <section class="slide" id="slide-8"><div class="topbar reveal"><h2 class="topbar-title">4. Objetivos de la investigación</h2><span class="topbar-tag">UN OBJETIVO GENERAL · TRES OBJETIVOS ESPECÍFICOS</span></div>
+<div class="slide-body" style="gap:18px;justify-content:flex-start;">
+<div class="cobalt-card reveal" style="padding:24px 36px;justify-content:center;background:rgba(31,43,224,0.04);"><div class="micro-label" style="margin-bottom:10px;font-size:19px;font-weight:700;color:var(--ink);">OBJETIVO GENERAL</div><div style="font-family:var(--font-display);font-size:31px;line-height:1.38;color:var(--ink);">Diseñar e implementar una arquitectura SLM–RAG para generar respuestas contextualizadas en Quechua Collao sin conexión y evaluar el aporte de QLoRA si el ajuste y la inferencia con adaptador son viables.</div></div>
+<div class="cobalt-card reveal" style="padding:12px 22px;width:100%;flex:1;text-align:center;background:rgba(31,43,224,0.02);display:flex;justify-content:center;align-items:center;min-height:500px;"><div class="feature-img-wrapper" style="width:100%;height:100%;display:flex;justify-content:center;align-items:center;"><img src="arbol_objetivos.svg" alt="Secuencia de los objetivos específicos: datos y recuperación, núcleo SLM–RAG con QLoRA condicionado, evaluación" class="feature-img" style="width:100%;max-height:600px;height:auto;object-fit:contain;"></div></div>
+</div>
+    </section>
+
+    <!-- SLIDE 9: HIPÓTESIS DE INVESTIGACIÓN -->
+    <section class="slide" id="slide-9"><div class="topbar reveal"><h2 class="topbar-title">5. Hipótesis de investigación</h2><span class="topbar-tag">PROPUESTAS A CONTRASTAR · NO SON RESULTADOS</span></div>
+<div class="slide-body" style="gap:20px;justify-content:center;">
+<div class="cobalt-card reveal" style="padding:28px 36px;background:rgba(31,43,224,0.05);"><div class="micro-label" style="margin-bottom:10px;">HIPÓTESIS GENERAL</div><div style="font-family:var(--font-display);font-size:26px;line-height:1.45;color:var(--ink);">Si QLoRA resulta viable, SLM–RAG–QLoRA obtendrá mayor fidelidad al contexto y similitud con las respuestas de referencia que SLM–RAG. También se describirán sus diferencias frente al SLM base y su costo computacional.</div></div>
+<div class="grid-3 reveal" style="gap:18px;">
+<div class="cobalt-card" style="padding:24px 26px;justify-content:flex-start;"><div class="cobalt-card-header" style="font-size:24px;"><span>HE1 · Recuperación</span></div><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;">Con las consultas y etiquetas definidas, el índice semántico recuperará una mayor proporción de fragmentos pertinentes que la búsqueda léxica de referencia.</div></div>
+<div class="cobalt-card" style="padding:24px 26px;justify-content:flex-start;"><div class="cobalt-card-header" style="font-size:24px;"><span>HE2 · QLoRA</span></div><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;">Si el ajuste y la inferencia con el adaptador son viables, E3 tendrá mayor fidelidad al contexto que E2, manteniendo constantes modelo, fuentes, consultas y parámetros.</div></div>
+<div class="cobalt-card" style="padding:24px 26px;justify-content:flex-start;"><div class="cobalt-card-header" style="font-size:24px;"><span>HE3 · Comparación</span></div><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;">Si se ejecutan las tres condiciones, E3 tendrá mayor similitud con las referencias y mayor fidelidad al contexto que E1 y E2, según las métricas preestablecidas.</div></div>
+</div></div>
+    </section>
+
+    <!-- SLIDE 10: 5. ESTADO DEL ARTE — HALLAZGOS CLAVE -->
+    <section class="slide" id="slide-10"><div class="topbar reveal"><h2 class="topbar-title">6. Estado del arte — Antecedentes relevantes</h2><span class="topbar-tag">APORTES Y LÍMITES PARA ESTA PROPUESTA</span></div>
+<div class="slide-body" style="gap:16px;justify-content:center;"><div class="cobalt-card reveal" style="padding:0;"><table class="data-table" style="font-size:19px;line-height:1.4;">
+<tr><th style="width:58%;padding:14px 22px;">Antecedente</th><th style="width:42%;padding:14px 22px;">Aporte y límite</th></tr>
+<tr><td style="padding:15px 22px;"><b>Orcotoma et al. (2025) y Duran y Silberztein (2026): recursos para quechua.</b></td><td style="padding:15px 22px;">Corpus bilingüe y recurso léxico; no evalúan por sí mismos generación con RAG.</td></tr>
+<tr><td style="padding:15px 22px;"><b>Court y Elsner (2024): contexto en traducción de quechua sureño.</b></td><td style="padding:15px 22px;">El efecto depende del tipo de contexto; la tarea no es generación en Collao.</td></tr>
+<tr><td style="padding:15px 22px;"><b>Hevia et al. (2025): tutoría offline con SLM y RAG.</b></td><td style="padding:15px 22px;">Identifica riesgos ante fragmentos extensos o irrelevantes; evalúa biología en inglés.</td></tr>
+<tr><td style="padding:15px 22px;"><b>Xu et al. (2024): modelos en dispositivos con recursos limitados.</b></td><td style="padding:15px 22px;">Revisión de técnicas; no mide el hardware de este proyecto.</td></tr>
+<tr><td style="padding:15px 22px;"><b>Dettmers et al. (2023): método QLoRA.</b></td><td style="padding:15px 22px;">Describe ajuste eficiente en su entorno experimental; no prueba viabilidad en la GPU disponible aquí.</td></tr>
+</table></div><div class="cobalt-card reveal" style="padding:20px 30px;background:rgba(31,43,224,0.05);text-align:center;"><span style="font-size:21px;color:var(--body-text);">Estos antecedentes orientan el diseño y sus riesgos; sus resultados no se trasladan automáticamente a la tarea propuesta.</span></div></div>
+    </section>
+
+    <!-- SLIDE 11: 5. LAS DECISIONES EN DETALLE -->
+    <section class="slide" id="slide-11"><div class="topbar reveal"><h2 class="topbar-title">6.1 Decisiones de diseño sustentadas</h2><span class="topbar-tag">CADA DECISIÓN SE SOMETERÁ A VERIFICACIÓN</span></div>
+<div class="slide-body" style="gap:18px;justify-content:space-between;"><div class="grid-3 reveal">
+<div class="cobalt-card" style="padding:24px 26px;justify-content:flex-start;min-height:300px;"><div class="cobalt-card-header" style="font-size:20px;"><span><b>① Condición offline</b></span><span class="mono-tag">DELIMITACIÓN</span></div><div class="cobalt-card-body" style="font-size:19px;line-height:1.5;">La inferencia local sin conexión forma parte del alcance. La tesis no concluye que todos los servicios comerciales fallen en quechua.</div></div>
+<div class="cobalt-card" style="padding:24px 26px;justify-content:flex-start;min-height:300px;"><div class="cobalt-card-header" style="font-size:20px;"><span><b>② SLM base</b></span><span class="mono-tag">REFERENCIA</span></div><div class="cobalt-card-body" style="font-size:19px;line-height:1.5;">Qwen2.5-3B-Instruct es el candidato inicial. Se comprobarán licencia, compatibilidad y consumo antes de fijar la configuración.</div></div>
+<div class="cobalt-card" style="padding:24px 26px;justify-content:flex-start;min-height:300px;"><div class="cobalt-card-header" style="font-size:20px;"><span><b>③ RAG local</b></span><span class="mono-tag">A EVALUAR</span></div><div class="cobalt-card-body" style="font-size:19px;line-height:1.5;">El sistema recuperará documentos con procedencia y variedad identificadas. Se medirá la pertinencia; no se da por supuesta.</div></div>
+</div><div class="grid-2 reveal">
+<div class="cobalt-card" style="padding:24px 28px;justify-content:flex-start;min-height:280px;"><div class="cobalt-card-header" style="font-size:21px;"><span><b>④ QLoRA condicionado</b></span><span class="mono-tag">SUJETO A PRUEBA</span></div><div class="cobalt-card-body" style="font-size:19px;line-height:1.5;">Se intentará si son viables el ajuste y la inferencia con adaptador. Si no, se documentará el motivo y E3 no se reportará como evaluada.</div></div>
+<div class="cobalt-card" style="padding:24px 28px;justify-content:flex-start;min-height:280px;background:rgba(31,43,224,0.04);"><div class="cobalt-card-header" style="font-size:21px;"><span><b>⑤ Parámetros y métricas</b></span><span class="mono-tag">A FIJAR EN PILOTO</span></div><div class="cobalt-card-body" style="font-size:19px;line-height:1.5;">Fragmentos de 250–400 tokens y recuperación de tres fragmentos son valores iniciales para el piloto. Se compararán P@k, similitud con referencias, fidelidad y eficiencia.</div></div>
+</div></div>
+    </section>
+
+    <!-- SLIDE 12: 5.7 SÍNTESIS CRÍTICA Y VACÍO -->
+    <section class="slide" id="slide-12"><div class="topbar reveal"><h2 class="topbar-title">6.2 Brecha de investigación provisional</h2><span class="topbar-tag">LA REVISIÓN ES PRELIMINAR; LA NOVEDAD DEBE VERIFICARSE</span></div>
+<div class="slide-body" style="justify-content:center;gap:26px;"><div class="cobalt-card reveal" style="padding:0;"><table class="data-table" style="font-size:20px;">
+<tr><th style="width:28%;padding:16px 22px;">Línea estudiada</th><th style="padding:16px 22px;">Alcance observado en los antecedentes revisados</th></tr>
+<tr><td style="padding:17px 22px;">Recursos lingüísticos para quechua</td><td style="padding:17px 22px;">Corpus y recursos léxicos disponibles; no evalúan esta arquitectura generativa.</td></tr>
+<tr><td style="padding:17px 22px;">Contexto en tareas de quechua</td><td style="padding:17px 22px;">Estudios de traducción; el efecto del contexto no es uniforme.</td></tr>
+<tr><td style="padding:17px 22px;">Tutoría offline con recuperación</td><td style="padding:17px 22px;">Antecedente en otro dominio e idioma; limita la transferencia directa.</td></tr>
+<tr><td style="padding:17px 22px;">Inferencia local y eficiencia</td><td style="padding:17px 22px;">Revisiones técnicas orientan opciones, pero no miden el equipo de esta tesis.</td></tr>
+<tr><td style="padding:17px 22px;">Adaptación QLoRA</td><td style="padding:17px 22px;">El trabajo original no demuestra que ajuste e inferencia adaptada quepan en la GPU local de 4 GB.</td></tr></table></div>
+<div class="cobalt-card reveal" style="background:rgba(31,43,224,0.06);padding:28px 40px;"><div style="font-family:var(--font-display);font-size:26px;line-height:1.45;text-align:center;color:var(--body-text);"><b style="color:var(--ink);">Brecha por contrastar:</b> la revisión preliminar no localizó evidencia comparable para SLM–RAG y QLoRA en generación contextualizada en Quechua Collao bajo operación offline. Esto no constituye todavía una afirmación definitiva de novedad.</div></div></div>
+    </section>
+
+    <!-- SLIDE 13: 6. MARCO TEÓRICO: FUNDAMENTOS -->
+    <section class="slide" id="slide-13"><div class="topbar reveal"><h2 class="topbar-title">7. Marco teórico — Conceptos de trabajo</h2><span class="topbar-tag">DATOS · MODELO · RECUPERACIÓN · ADAPTACIÓN · EVALUACIÓN</span></div>
+<div class="slide-body" style="justify-content:center;gap:16px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+<div class="cobalt-card reveal" style="padding:22px 28px;"><div class="cobalt-card-header" style="font-size:26px;"><span>1. Fuentes lingüísticas</span></div><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;">Cada documento conservará procedencia, licencia, idioma y variedad. El material obtenido con OCR se revisará antes de indexarlo.</div></div>
+<div class="cobalt-card reveal" style="padding:22px 28px;"><div class="cobalt-card-header" style="font-size:26px;"><span>2. Modelo compacto local</span></div><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;">Qwen2.5-3B-Instruct es el modelo candidato. Formato, cuantización y motor se fijarán tras comprobar compatibilidad y recursos.</div></div>
+<div class="cobalt-card reveal" style="padding:22px 28px;"><div class="cobalt-card-header" style="font-size:26px;"><span>3. Recuperación aumentada</span></div><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;">RAG busca fragmentos en una base documental local y los aporta al contexto. La pertinencia se comparará con una búsqueda léxica.</div></div>
+<div class="cobalt-card reveal" style="padding:22px 28px;"><div class="cobalt-card-header" style="font-size:26px;"><span>4. Adaptación QLoRA</span></div><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;">Ajuste de adaptadores sobre un modelo cuantizado. Se validarán entrenamiento, exportación y carga en inferencia.</div></div></div>
+<div class="cobalt-card reveal" style="padding:18px 28px;text-align:center;"><div class="cobalt-card-body" style="font-size:20px;line-height:1.55;"><b>5. Evaluación:</b> recuperación, similitud con referencias, fidelidad a la evidencia y eficiencia. La similitud no equivale por sí sola a corrección semántica o fluidez.</div></div></div>
+    </section>
+
+    <!-- SLIDE 14: 6.13 SÍNTESIS: ROL DE CADA COMPONENTE -->
+    <section class="slide" id="slide-14"><div class="topbar reveal"><h2 class="topbar-title">7.1 Síntesis — Función de cada componente</h2><span class="topbar-tag">CONFIGURACIONES COMPARABLES Y MEDIDAS SEPARADAS</span></div>
+<div class="slide-body" style="justify-content:center;gap:24px;"><div class="cobalt-card reveal" style="padding:0;"><table class="data-table" style="font-size:20px;">
+<tr><th style="width:20%;padding:16px 24px;">Componente</th><th style="width:28%;padding:16px 24px;">Condición</th><th style="padding:16px 24px;">Papel en el estudio</th></tr>
+<tr><td style="padding:20px 24px;"><b>SLM base</b></td><td style="padding:20px 24px;">E1</td><td style="padding:20px 24px;">Referencia local sin recuperación documental ni adaptador.</td></tr>
+<tr><td style="padding:20px 24px;"><b>RAG local</b></td><td style="padding:20px 24px;">E2; mismos documentos en E3</td><td style="padding:20px 24px;">Aporta fragmentos al contexto; pertinencia y uso se medirán.</td></tr>
+<tr><td style="padding:20px 24px;"><b>Adaptador QLoRA</b></td><td style="padding:20px 24px;">E3, solo si es viable</td><td style="padding:20px 24px;">Permite comparar E3 con E2 para estimar el aporte adicional de la adaptación.</td></tr>
+<tr><td style="padding:20px 24px;"><b>Evaluación</b></td><td style="padding:20px 24px;">Protocolo común</td><td style="padding:20px 24px;">Mide P@k, similitud con referencias, sustento contextual y costo computacional.</td></tr></table></div>
+<div class="cobalt-card reveal" style="background:rgba(31,43,224,0.06);padding:28px 44px;text-align:center;"><div style="font-family:var(--font-display);font-size:26px;line-height:1.45;color:var(--body-text);"><b>E1 vs. E2</b> describe el cambio al añadir recuperación. <b>E2 vs. E3</b> compara la adaptación si el ajuste y la inferencia con adaptador son viables. <b>E1 vs. E3</b> refleja el efecto conjunto de los componentes.</div></div></div>
+    </section>
+
+    <!-- SLIDE 15: METODOLOGÍA — ENFOQUE, DISEÑO Y VARIABLES -->
+    <section class="slide" id="slide-15"><div class="topbar reveal"><h2 class="topbar-title">8. Metodología — Enfoque, diseño y variables</h2><span class="topbar-tag">EXPERIMENTO COMPUTACIONAL CON MEDIDAS REPETIDAS</span></div>
+<div class="slide-body" style="gap:14px;justify-content:center;">
+<div class="grid-3 reveal" style="gap:18px;">
+<div class="cobalt-card" style="padding:16px 20px;justify-content:center;"><div class="micro-label">TIPO</div><div style="font-family:var(--font-display);font-size:21px;margin-top:4px;color:var(--ink);"><b>Aplicada y tecnológica</b></div></div>
+<div class="cobalt-card" style="padding:16px 20px;justify-content:center;"><div class="micro-label">ENFOQUE</div><div style="font-family:var(--font-display);font-size:21px;margin-top:4px;color:var(--ink);"><b>Cuantitativo</b></div></div>
+<div class="cobalt-card" style="padding:16px 20px;justify-content:center;"><div class="micro-label">DISEÑO</div><div style="font-family:var(--font-display);font-size:21px;margin-top:4px;color:var(--ink);"><b>Comparativo computacional</b><br>Medidas repetidas por consulta</div></div></div>
+<div class="cobalt-card reveal" style="padding:18px 28px;"><div class="cobalt-card-header" style="font-size:21px;"><span>Variable independiente — configuración del sistema</span></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;font-size:18px;line-height:1.45;color:var(--body-text);">
+<div><b style="color:var(--ink);">E1 · SLM base</b><br>Modelo local sin RAG ni adaptador.</div><div><b style="color:var(--ink);">E2 · SLM–RAG</b><br>El mismo modelo con recuperación documental local.</div><div><b style="color:var(--ink);">E3 · SLM–RAG–QLoRA</b><br>Misma configuración con adaptador, solo si entrenamiento e inferencia son viables.</div></div></div>
+<div class="cobalt-card reveal" style="padding:0;"><table class="data-table" style="font-size:18px;">
+<tr><th style="width:22%;padding:12px 18px;">Variable dependiente</th><th style="width:35%;padding:12px 18px;">Indicadores</th><th style="padding:12px 18px;">Instrumento / interpretación</th></tr>
+<tr><td style="padding:12px 18px;"><b>Recuperación</b></td><td style="padding:12px 18px;">P@k con etiquetas de pertinencia</td><td style="padding:12px 18px;">Comparar índice semántico y búsqueda léxica al mismo k.</td></tr>
+<tr><td style="padding:12px 18px;"><b>Respuesta</b></td><td style="padding:12px 18px;">chrF++ y BLEU</td><td style="padding:12px 18px;">SacreBLEU frente a referencias; similitud, no medida completa de calidad lingüística.</td></tr>
+<tr><td style="padding:12px 18px;"><b>Fidelidad</b></td><td style="padding:12px 18px;">Afirmaciones respaldadas por fragmentos entregados</td><td style="padding:12px 18px;">Revisión con rúbrica; evaluador automático exploratorio hasta validarlo para la variedad.</td></tr>
+<tr><td style="padding:12px 18px;"><b>Eficiencia</b></td><td style="padding:12px 18px;">Latencia, tokens/s, máximos de RAM/VRAM, errores</td><td style="padding:12px 18px;">Telemetría y registros bajo un protocolo y equipo comunes.</td></tr></table></div>
+<div class="cobalt-card reveal" style="padding:12px 24px;text-align:center;"><span style="font-size:17px;color:var(--body-text);">Se controlarán modelo y tokenizador, documentos, consultas, índice, instrucciones, parámetros de generación, hardware y protocolo.</span></div></div>
+    </section>
+
+    <!-- SLIDE 16: 7.2-7.4 DSR, POBLACIÓN Y ÉTICA -->
+    <section class="slide" id="slide-16"><div class="topbar reveal"><h2 class="topbar-title">8.1 Procedimiento — DSR, muestra y gestión de datos</h2><span class="topbar-tag">TRES FASES ALINEADAS CON LOS OBJETIVOS ESPECÍFICOS</span></div>
+<div class="slide-body" style="gap:18px;justify-content:center;">
+<div class="cobalt-card reveal" style="padding:18px 30px;text-align:center;background:rgba(31,43,224,0.04);border:2px solid rgba(31,43,224,0.22);border-radius:18px;"><div class="cobalt-card-body" style="font-size:34px;line-height:1.35;">Investigación basada en diseño (DSR): diseñar, construir y evaluar el artefacto en tres fases.</div></div>
+<div class="grid-3 reveal" style="gap:18px;">
+<div class="cobalt-card" style="padding:24px 28px;justify-content:flex-start;background:rgba(31,43,224,0.045);border:2px solid rgba(31,43,224,0.35);border-radius:18px;"><div class="cobalt-card-header" style="font-size:33px;"><span>Fase 1 · Datos</span></div><div class="cobalt-card-body" style="font-size:32px;line-height:1.4;">Inventariar fuentes.<br>Preparar corpus e índices.<br>Revisar OCR y P@k.</div></div>
+<div class="cobalt-card" style="padding:24px 28px;justify-content:flex-start;background:rgba(184,134,11,0.06);border:2px solid rgba(184,134,11,0.4);border-radius:18px;"><div class="cobalt-card-header" style="font-size:33px;"><span>Fase 2 · Sistema</span></div><div class="cobalt-card-body" style="font-size:32px;line-height:1.4;">Integrar SLM–RAG offline.<br>Fijar versiones.<br>QLoRA si ajuste e inferencia adaptada son viables.</div></div>
+<div class="cobalt-card" style="padding:24px 28px;justify-content:flex-start;background:rgba(26,122,60,0.05);border:2px solid rgba(26,122,60,0.35);border-radius:18px;"><div class="cobalt-card-header" style="font-size:33px;"><span>Fase 3 · Evaluación</span></div><div class="cobalt-card-body" style="font-size:32px;line-height:1.4;">Ejecutar condiciones viables.<br>Registrar respuestas y pasajes.<br>Medir y revisar errores.</div></div></div>
+<div class="grid-2 reveal" style="gap:18px;">
+<div class="cobalt-card" style="padding:22px 28px;justify-content:flex-start;background:rgba(31,43,224,0.035);border:2px solid rgba(31,43,224,0.22);border-radius:18px;"><div class="cobalt-card-header" style="font-size:30px;"><span>Población, unidad y muestra</span></div><div class="cobalt-card-body" style="font-size:29px;line-height:1.4;"><b>Población:</b> consultas respondibles con fuentes autorizadas en español o Quechua Collao. <b>Unidad:</b> respuesta por consulta y condición. <b>Meta:</b> 100 consultas intencionales, sujeta al inventario y al piloto.</div></div>
+<div class="cobalt-card" style="padding:22px 28px;justify-content:flex-start;background:rgba(31,43,224,0.035);border:2px solid rgba(31,43,224,0.22);border-radius:18px;"><div class="cobalt-card-header" style="font-size:30px;"><span>Datos y ética</span></div><div class="cobalt-card-body" style="font-size:29px;line-height:1.4;">Registrar licencia, idioma y variedad; contrastar texto sintético. Consultas fuera de QLoRA; mismas fuentes en E2/E3. Sin datos personales; consentimiento si hay revisores.</div></div></div></div>
+    </section>
+
+    <!-- SLIDE 17: 8.2 MÉTRICAS -->
+    <section class="slide" id="slide-17"><div class="topbar reveal"><h2 class="topbar-title">8.2 Métricas — Qué mide cada indicador</h2><span class="topbar-tag">SIMILITUD · RECUPERACIÓN · FIDELIDAD · EFICIENCIA</span></div>
+<div class="slide-body" style="gap:22px;justify-content:center;">
+<div class="grid-2 reveal" style="gap:20px;">
+<div class="cobalt-card" style="padding:24px 30px;justify-content:flex-start;background:rgba(31,43,224,0.045);border:2px solid rgba(31,43,224,0.3);border-radius:18px;"><div class="cobalt-card-header" style="font-size:32px;"><span>Recuperación</span></div><div class="cobalt-card-body" style="font-size:31px;line-height:1.4;"><b>P@k</b> con etiquetas de pertinencia. Comparar búsqueda semántica y léxica con el mismo k.</div></div>
+<div class="cobalt-card" style="padding:24px 30px;justify-content:flex-start;background:rgba(184,134,11,0.055);border:2px solid rgba(184,134,11,0.38);border-radius:18px;"><div class="cobalt-card-header" style="font-size:32px;"><span>Similitud de respuesta</span></div><div class="cobalt-card-body" style="font-size:31px;line-height:1.4;"><b>chrF++ y BLEU</b> con referencias documentadas. No prueban por sí solos comprensión, corrección ni fluidez.</div></div>
+<div class="cobalt-card" style="padding:24px 30px;justify-content:flex-start;background:rgba(26,122,60,0.045);border:2px solid rgba(26,122,60,0.3);border-radius:18px;"><div class="cobalt-card-header" style="font-size:32px;"><span>Fidelidad contextual</span></div><div class="cobalt-card-body" style="font-size:31px;line-height:1.4;">Afirmaciones respaldadas por fragmentos; revisión con rúbrica. RAGAS solo tras validar juez, idioma y variedad.</div></div>
+<div class="cobalt-card" style="padding:24px 30px;justify-content:flex-start;background:rgba(31,43,224,0.045);border:2px solid rgba(31,43,224,0.3);border-radius:18px;"><div class="cobalt-card-header" style="font-size:32px;"><span>Eficiencia</span></div><div class="cobalt-card-body" style="font-size:31px;line-height:1.4;">Latencia, tokens/s, RAM/VRAM y errores bajo el mismo equipo y protocolo.</div></div>
+</div>
+<div class="cobalt-card reveal" style="padding:20px 30px;text-align:center;background:rgba(31,43,224,0.05);border:2px solid rgba(31,43,224,0.2);border-radius:18px;"><span style="font-family:var(--font-display);font-size:30px;color:var(--body-text);">Una persona competente en Quechua Collao revisará las referencias; si no es posible, se reportará que las métricas comparan referencias no validadas.</span></div></div>
+    </section>
+
+    <!-- SLIDE 18: 8.3 PROTOCOLO Y ANÁLISIS -->
+    <section class="slide" id="slide-18"><div class="topbar reveal"><h2 class="topbar-title">8.3 Evaluación — Protocolo y análisis</h2><span class="topbar-tag">PROCEDIMIENTO COMÚN PARA TODAS LAS CONDICIONES VIABLES</span></div>
+<div class="slide-body" style="gap:18px;justify-content:center;">
+<div class="cobalt-card reveal" style="padding:12px 20px;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;"><div class="feature-img-wrapper" style="height:100%;"><img src="pipeline_evaluacion.svg" alt="Protocolo en cuatro pasos: preparar, ejecutar, medir y analizar" class="feature-img" style="max-height:560px;"></div></div>
+<div class="grid-2 reveal" style="gap:18px;">
+<div class="cobalt-card" style="padding:20px 28px;"><div class="cobalt-card-header" style="font-size:26px;"><span>Muestra</span></div><div class="cobalt-card-body" style="font-size:25px;line-height:1.4;">Meta de 100 consultas, sujeta al inventario y al piloto. Se mantienen consultas y documentos de evidencia comunes entre condiciones.</div></div>
+<div class="cobalt-card" style="padding:20px 28px;"><div class="cobalt-card-header" style="font-size:26px;"><span>Análisis</span></div><div class="cobalt-card-body" style="font-size:25px;line-height:1.4;">Friedman y Wilcoxon con ajuste Holm, si los datos y supuestos lo permiten; si no, análisis descriptivo.</div></div>
+</div></div>
+    </section>
+
+    <!-- SLIDE 19: CIERRE DE LA PROPUESTA -->
+    <section class="slide" id="slide-19" style="text-align:center;"><div class="topbar reveal"><h2 class="topbar-title" style="width:100%;text-align:center;">Cierre de la propuesta</h2></div>
+<div class="slide-body" style="align-items:center;justify-content:center;gap:28px;">
+<div class="cobalt-card reveal" style="padding:42px 58px;max-width:1560px;text-align:left;background:rgba(31,43,224,0.05);"><div style="font-family:var(--font-display);font-size:39px;line-height:1.42;color:var(--body-text);"><b style="color:var(--ink);">Qué propone:</b> evaluar una arquitectura SLM–RAG local para generar respuestas contextualizadas en Quechua Collao.<br><br><b style="color:var(--ink);">Cómo se evaluará:</b> comparar recuperación, similitud con referencias, fidelidad al contexto y eficiencia; QLoRA se incluye solo si el ajuste y la inferencia con adaptador son viables.<br><br><b style="color:var(--ink);">Estado:</b> el plan llega hasta Metodología. Los resultados aún requieren inventario, piloto, revisión lingüística y ejecución experimental.</div></div>
+<div class="reveal" style="padding:24px 64px;background:var(--paper-2);display:inline-block;"><span style="font-family:var(--font-display);font-size:40px;">Gracias · Preguntas</span></div>
+</div>
+    </section>
+
+  </main>
+</div>
+
+<!-- CHROME INVARIANTS: PAGE NUMBER & NAV HINT -->
+<div class="bottom-hairline"></div>
+<div class="nav-hint" id="navHint">UNSAAC · PLAN DE TESIS</div>
+<div class="pagenum" id="pageNum">01 / 19</div>
+
+<!-- CONTROLES FLOTANTES -->
+<div class="deck-controls">
+  <button class="ctrl-btn" id="btnPrev">◄ ANTERIOR</button>
+  <span class="mono-tag" id="slideCounter" style="font-size: 15.5px;">01 / 19</span>
+  <button class="ctrl-btn" id="btnNext">SIGUIENTE ►</button>
+</div>
+
+<script>
+  /* ===========================================
+     SLIDE PRESENTATION CONTROLLER (Cobalt Grid)
+     =========================================== */
+  class SlidePresentation {
+    constructor() {
+      this.slides = document.querySelectorAll('.slide');
+      this.currentSlide = 0;
+      this.stage = document.getElementById('deckStage');
+      this.counter = document.getElementById('slideCounter');
+      this.pageNum = document.getElementById('pageNum');
+
+      this.setupStageScale();
+      this.setupKeyboardNav();
+      this.setupTouchNav();
+      this.setupButtonNav();
+      this.showSlide(0);
+    }
+
+    setupStageScale() {
+      const scale = () => {
+        const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+        const x = (window.innerWidth - 1920 * factor) / 2;
+        const y = (window.innerHeight - 1080 * factor) / 2;
+        this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+      };
+      scale();
+      window.addEventListener('resize', scale);
+    }
+
+    setupKeyboardNav() {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+          this.showSlide(this.currentSlide + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          this.showSlide(this.currentSlide - 1);
+        }
+      });
+    }
+
+    setupButtonNav() {
+      document.getElementById('btnNext').addEventListener('click', () => this.showSlide(this.currentSlide + 1));
+      document.getElementById('btnPrev').addEventListener('click', () => this.showSlide(this.currentSlide - 1));
+    }
+
+    setupTouchNav() {
+      let startX = 0;
+      document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, false);
+      document.addEventListener('touchend', (e) => {
+        const diffX = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diffX) > 50) {
+          if (diffX > 0) this.showSlide(this.currentSlide + 1);
+          else this.showSlide(this.currentSlide - 1);
+        }
+      }, false);
+    }
+
+    showSlide(index) {
+      this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+      this.slides.forEach((slide, i) => {
+        const isActive = i === this.currentSlide;
+        slide.classList.toggle('active', isActive);
+        slide.classList.toggle('visible', isActive);
+      });
+
+      const numFormatted = String(this.currentSlide + 1).padStart(2, '0');
+      const totalFormatted = String(this.slides.length).padStart(2, '0');
+      const displayString = `${numFormatted} / ${totalFormatted}`;
+
+      if (this.counter) this.counter.textContent = displayString;
+      if (this.pageNum) this.pageNum.textContent = displayString;
+    }
+  }
+
+  window.addEventListener('load', () => {
+    new SlidePresentation();
+  });
+</script>
+
+</body>
+</html>
