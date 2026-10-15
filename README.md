@@ -2,6 +2,7 @@
 
 ## Entregables principales
 
+- **Guía para estudiar y exponer:** `output/pdf/Guia_Estudio_Sustentacion_Plan_Tesis.pdf`, organizada por diapositiva con conceptos clave y preguntas probables.
 - **Plan de tesis en PDF:** `Plan de Tesis - Estructura/PlanTesis_Plantilla.pdf`.
 - **Fuente editable del plan:** `Plan de Tesis - Estructura/PlanTesis_Plantilla.tex`, con sus capítulos en `Plan de Tesis - Estructura/partes/`.
 - **Proceso aplicado a la introducción:** `Plan de Tesis - Estructura/Aplicacion_Introduccion_Plan_Tesis/`.
@@ -27,7 +28,7 @@ El documento desarrolla la portada, resumen, índices, introducción, planteamie
 
 `diapositiva/index.html` es la fuente de la diapositiva seleccionada. El PDF se exporta desde ese archivo y conserva el mismo orden y contenido; no se utiliza la presentación Beamer separada.
 
-El repositorio se limita a estos entregables y a los archivos `README.md`, `AGENTS.md` y `.gitignore` que los describen y mantienen ordenados. Las demás carpetas de trabajo quedan en el equipo local y no se publican.
+El repositorio se limita a estos entregables y a los archivos `README.md`, `AGENTS.md`, `.gitignore` y `.gitattributes` que los describen y mantienen ordenados. Las demás carpetas de trabajo quedan en el equipo local y no se publican.
 
 ## Criterios académicos
 

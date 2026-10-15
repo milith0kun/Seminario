@@ -4,6 +4,7 @@
 
 Este repositorio comparte los entregables acordados:
 
+- `output/pdf/Guia_Estudio_Sustentacion_Plan_Tesis.pdf`: guía de estudio y exposición basada en el deck y el plan.
 - `Plan de Tesis - Estructura/`: fuentes LaTeX, PDF del plan y extracción que documenta la aplicación del proceso de introducción.
 - `diapositiva/index.html` y `diapositiva/index.pdf`: presentación seleccionada y su PDF.
 - `PlanTesis_Codigo_LaTeX.zip`: código fuente LaTeX comprimido.
