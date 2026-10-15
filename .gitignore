@@ -5,6 +5,7 @@
 *.lof
 *.log
 *.lot
+*.loa
 *.out
 *.toc
 *.fls
@@ -69,5 +70,35 @@ repos-externos/
 
 # Modelos en la raíz
 modelos/
+
+# Material de trabajo conservado localmente; el repositorio publica los entregables indicados en README.md
+/.agent/
+/.agents/
+/.antigravity/
+/.claude/
+/.clinerules
+/.cursorrules
+/.windsurfrules
+/Plan de Tesis/
+/aplicacion_intro_plan_tesis/
+/CLAUDE.md
+/crear_acceso_directo.ps1
+/GUIA_ESTRUCTURACION_TITULO_TESIS.md
+/imagenes/
+/iniciar_emulador.bat
+/INSTRUCCIONES_PRODUCCION_EVALUACION_TESIS.md
+/Objetivos.pptx
+/Plan de Tesis - Estructura.rar
+/presentacion_objetivos/
+/presentacion_titulo/
+/PROMPT_COMPLETO_DATOS_RAG_ENTRENAMIENTO.md
+/Review del Plan de Tesis/
+/scratch/
+/skills-lock.json
+/tesis-slm-quechua/
+/Titulo de tesis.pdf
+/Plan de Tesis - Estructura/tmp/
+/Plan de Tesis - Estructura/tmp_review/
+/Plan de Tesis - Estructura/Aplicacion_Introduccion_Plan_Tesis/tmp/
 
 

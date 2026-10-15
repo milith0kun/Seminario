@@ -1,5 +1,0 @@
-pyyaml
-huggingface_hub
-llama-cpp-python
-rank-bm25
-pytest

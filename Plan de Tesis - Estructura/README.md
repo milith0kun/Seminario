@@ -17,7 +17,7 @@ Este directorio contiene el plan de tesis en LaTeX para la investigación sobre 
 - `partes/06AspectosAdministrativos.tex`: cronograma, presupuesto y equipo; se conserva como fuente para una revisión posterior y no se integra en este avance.
 - `partes/Bibliografia.bib`: referencias administradas con `biblatex` y estilo APA 7.
 - `partes/08Anexos.tex`: matriz lógica y fichas de evaluación propuestas.
-- `../aplicacion_intro_plan_tesis/`: extracción del seminario, imágenes de sus 37 diapositivas y presentación que explica la aplicación. Esta es la carpeta de referencia para el proceso.
+- `Aplicacion_Introduccion_Plan_Tesis/`: extracción del seminario, imágenes de sus 37 diapositivas y presentación que explica la aplicación. Esta es la carpeta de referencia para el proceso.
 
 ## Compilación
 
