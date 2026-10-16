@@ -15,11 +15,16 @@
 \usepackage{xurl}             % corte inteligente de URLs largas
 \usepackage{microtype}        % optimización tipográfica del espaciado
 \usepackage{ragged2e}         % alineacion de texto
+\usepackage{caption}          % formato APA 7 de títulos de tablas y figuras
 \usepackage{subcaption}	      % para imagenes multiples
+\usepackage{indentfirst}      % sangría también en el primer párrafo tras un título
+\usepackage{fancyhdr}         % folio en la esquina superior derecha
 \usepackage{booktabs}         % Líneas elegantes en tablas
 \usepackage{threeparttable}   % Notas al pie en tablas
 \usepackage{tabularx}         % Tablas con ancho controlado (\textwidth)
 \usepackage{array}            % Modificadores de columna (>{...})
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}} % texto alineado a la izquierda
+\newcolumntype{L}{>{\RaggedRight\arraybackslash}X}       % columna flexible alineada a la izquierda
 \usepackage{icomma}           % Manejo de coma decimal en modo matemático
 \usepackage[table]{xcolor}    % paleta de color y color en tablas (\rowcolor)
 \usepackage{tikz}             % diagramas vectoriales
@@ -36,8 +41,14 @@
 \setlength{\bibitemsep}{0pt}
 \usepackage{hyperref} 		  % para generar marcadores en el PDF ponerlo antes del \begin{document}
 \usepackage{etoolbox}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 % ---- Paleta de color unificada para los diagramas del plan de tesis ----
+% Paleta del título de tesis, compartida con la presentación de formulación.
+\definecolor{bpBlue}{RGB}{43,91,132}
+\definecolor{bpGold}{RGB}{200,157,66}
+\definecolor{bpRust}{RGB}{179,92,62}
+
 \definecolor{tcAzul}{HTML}{2E5C8A}    % elementos centrales / cliente / orquestación
 \definecolor{tcTeal}{HTML}{15807A}    % procesos / recuperación / consulta
 \definecolor{tcNaranja}{HTML}{C9702B} % modelo / inferencia / configuraciones E1-E3
@@ -60,7 +71,8 @@
   tlbl/.style={font=\scriptsize\itshape, text=tcGris}
 }
 
-%para imagenes y tablas estilo APA7
+% Tablas y figuras estilo APA 7: etiqueta en negrita y título en cursiva,
+% cada uno en una línea propia y alineados a la izquierda.
 \captionsetup[figure]{labelfont={bf}, textfont={it} ,labelformat={default}, labelsep=newline, name={Figura }, justification=raggedright,singlelinecheck=false} %-----formato del caption figure
 \captionsetup[table]{labelfont={bf}, textfont={it} ,labelformat={default}, labelsep=newline, name={Tabla },justification=raggedright,singlelinecheck=false} %-----formato del caption table
 
@@ -77,15 +89,47 @@
 \floatname{algoritmo}{Algoritmo}
 \captionsetup[algoritmo]{labelfont={bf}, textfont={it}, labelformat={default}, labelsep=newline, name={Algoritmo }, justification=raggedright, singlelinecheck=false}
 
+% Folio APA 7 en el encabezado derecho, también en páginas de capítulo.
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyhead[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
 % Capítulos romanos y apartados numerados según el esquema institucional.
 \renewcommand{\thechapter}{\Roman{chapter}}
 \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
-\titleformat{\chapter}[hang]{\normalfont\bfseries\Large}{CAPÍTULO~\thechapter}{0.8em}{\MakeUppercase}
-\titlespacing*{\chapter}{0pt}{-12pt}{16pt}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+% Jerarquía APA 7 a 12 pt. Se mantiene la identificación institucional
+% “Capítulo I” y la numeración del plan; los cinco niveles siguen el formato APA.
+\titleformat{\chapter}[block]
+  {\normalfont\normalsize\bfseries\centering}
+  {\MakeUppercase{\chaptername}~\thechapter}{0.5em}{\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{0pt}{\baselineskip}
+\titleformat{\section}[block]
+  {\normalfont\normalsize\bfseries\centering}{\thesection}{0.5em}{}
+\titlespacing*{\section}{0pt}{\baselineskip}{0pt}
+\titleformat{\subsection}[block]
+  {\normalfont\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{\baselineskip}{0pt}
+\titleformat{\subsubsection}[block]
+  {\normalfont\normalsize\bfseries\itshape}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{\baselineskip}{0pt}
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\bfseries}{\theparagraph}{0.5em}{}[.]
+\titlespacing*{\paragraph}{1.27cm}{\baselineskip}{0.5em}
+\titleformat{\subparagraph}[runin]
+  {\normalfont\normalsize\bfseries\itshape}{\thesubparagraph}{0.5em}{}[.]
+\titlespacing*{\subparagraph}{1.27cm}{\baselineskip}{0.5em}
 
 % Numeración consecutiva de tablas, figuras y ecuaciones, como en APA 7.
 \counterwithout{figure}{chapter}
@@ -95,10 +139,13 @@
 \renewcommand{\thetable}{\arabic{table}}
 \renewcommand{\theequation}{\arabic{equation}}
 
-% Texto a doble espacio; tablas, figuras y algoritmos compactos para legibilidad.
-\AtBeginDocument{\doublespacing\RaggedRight}
-\setlength{\parindent}{1.27cm}
-\AtBeginEnvironment{table}{\singlespacing}
-\AtBeginEnvironment{figure}{\singlespacing}
-\AtBeginEnvironment{algoritmo}{\singlespacing}
+% Texto a doble espacio, alineado a la izquierda y con sangría APA 7.
+% Para justificarlo por exigencia institucional, sustituir \raggedright por \justifying.
+\AtBeginDocument{\doublespacing\raggedright\setlength{\parindent}{1.27cm}}
+% El interlineado simple se limita al cuerpo de las tablas y los diagramas;
+% los títulos y notas conservan el interlineado general del documento.
+\AtBeginEnvironment{tabular}{\singlespacing}
+\AtBeginEnvironment{tabularx}{\singlespacing}
+\AtBeginEnvironment{tikzpicture}{\singlespacing}
+\AtBeginEnvironment{tablenotes}{\fontsize{10}{12}\selectfont\singlespacing}
 \AtBeginBibliography{\doublespacing}

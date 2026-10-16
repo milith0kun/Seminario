@@ -1,57 +1,83 @@
-% =========================================================================
-% CAPÍTULO II: MARCO TEÓRICO Y ESTADO DEL ARTE
-% =========================================================================
-\clearpage
-\chapter{Marco teórico y estado del arte}
+\chapter{Marco teórico y estado del arte}\label{marco-teuxf3rico-y-estado-del-arte}
 
-\section{Estado del arte}
-La revisión reúne antecedentes directamente relacionados con los recursos lingüísticos para quechua, el uso de contexto en tareas de lenguaje, la inferencia local y la adaptación eficiente de modelos. Los estudios no son equivalentes en lengua, tarea ni entorno; por ello, sus resultados se usan para delimitar decisiones de diseño y preguntas de evaluación, no como prueba anticipada del desempeño del sistema propuesto.
+\section{Antecedentes relacionados con el quechua}\label{antecedentes-relacionados-con-el-quechua}
 
-\subsection{Recursos lingüísticos para quechua}
-\textcite{Orcotoma2025} describen un procedimiento para construir un corpus paralelo de Quechua Collao y español mediante la digitalización y el reconocimiento óptico de textos bilingües producidos en el ámbito de la Academia Mayor de la Lengua Quechua. El trabajo aporta una ruta para obtener recursos a partir de materiales impresos y documenta etapas de captura, etiquetado, preprocesamiento y reconocimiento. Su objetivo es formar un recurso para investigación lingüística y PLN; no evalúa un sistema de generación con recuperación documental.
+\subsection{Adaptación eficiente para traducción de lenguas indígenas}\label{adaptaciuxf3n-eficiente-para-traducciuxf3n-de-lenguas-induxedgenas}
 
-\textcite{Duran2026} presentan un diccionario quechua--español de verbos con gramáticas morfosintácticas para representar flexión y derivación. El recurso descrito parte de 1\,444 verbos quechuas y permite generar más de 2\,777\,000 formas verbales, además de establecer correspondencias con un diccionario verbal en español. Este antecedente puede orientar la normalización y consulta léxica, aunque un recurso verbal no sustituye un corpus educativo ni cubre por sí mismo todas las variantes de uso.
+\textcite{GarciaGilabert2024}, en \emph{BSC Submission to the AmericasNLP 2024 Shared Task}, presentaron sistemas de traducción del español al quechua y al guaraní mediante adaptadores LoRA. Sus resultados mostraron que era posible obtener un rendimiento competitivo sin ajustar todos los parámetros.
 
-\subsection{Uso de contexto en tareas de quechua}
-\textcite{Court2024} estudian la traducción de quechua sureño al español con modelos de lenguaje y comparan distintos tipos de contexto recuperado. Sus experimentos indican que las traducciones de morfemas pueden ayudar en ciertas condiciones, mientras que la información gramatical o ejemplos de corpus no mejoran de forma uniforme los resultados. La investigación es relevante porque muestra que añadir contexto no garantiza una respuesta mejor; sin embargo, su tarea es traducción hacia el español y sus conclusiones no se trasladan automáticamente a la generación en Quechua Collao.
+Este antecedente demuestra la aplicabilidad de la adaptación eficiente en tareas relacionadas con lenguas indígenas. Sin embargo, no evalúa respuestas monolingües a preguntas cotidianas.
 
-\subsection{Modelos compactos, RAG y operación local}
-En un sistema de tutoría educativa, \textcite{Hevia2025} proponen combinar un modelo pequeño con recuperación de documentos y ejecución offline. Su estudio señala dificultades cuando el modelo recibe fragmentos extensos o irrelevantes. El dominio evaluado es material de biología en inglés, de modo que el antecedente identifica un riesgo para el diseño de RAG, pero no establece el comportamiento de un modelo en una lengua originaria.
+\subsection{Datos sintéticos y traducción quechua--español}\label{datos-sintuxe9ticos-y-traducciuxf3n-quechuaespauxf1ol}
 
-La revisión de \textcite{Xu2024} organiza técnicas para ejecutar modelos de lenguaje en dispositivos con recursos limitados, entre ellas cuantización, poda y destilación. Al tratarse de una revisión en arXiv, sirve como panorama técnico y no como una medición de latencia o memoria del equipo de este proyecto. La propuesta utilizará esas restricciones como variables de evaluación y reportará los valores medidos en el entorno real.
+\textcite{AsilloCongora2025}, en \emph{UCSP Submission to the AmericasNLP 2025 Shared Task}, estudiaron la ampliación de datos paralelos mediante ejemplos sintéticos y el ajuste de mT5 para traducción entre quechua y español.
 
-\subsection{Adaptación eficiente de modelos}
-\textcite{Dettmers2023} presentan QLoRA, que propaga gradientes a través de un modelo preentrenado cuantizado de 4 bits hacia adaptadores de bajo rango. El artículo muestra que este enfoque reduce el uso de memoria en sus experimentos, realizados con hardware de mayor capacidad que la GPU local de 4 GB considerada aquí. Por ello, QLoRA se incluye como condición que se intentará evaluar, sujeta a una prueba de viabilidad y sin dar por garantizado su entrenamiento en el equipo disponible.
+Su trabajo evidencia la importancia de la cantidad y preparación de datos. No obstante, las oraciones paralelas utilizadas para traducción no deben tratarse directamente como pares de preguntas y respuestas.
 
-\subsection{Síntesis y brecha de investigación}
-Los antecedentes muestran avances complementarios: se han documentado recursos digitales y léxicos para quechua, se han estudiado los efectos de distintos tipos de contexto en traducción y se han propuesto sistemas offline con modelos pequeños en otros dominios. La revisión realizada para este plan todavía es preliminar y no permite sostener una afirmación definitiva de novedad. La pregunta que queda por evaluar es cómo se comporta, en Quechua Collao y bajo restricciones locales, la combinación de modelo compacto, recuperación documental y adaptación QLoRA, comparada con configuraciones de referencia.
+\subsection{Construcción de recursos para quechua collao}\label{construcciuxf3n-de-recursos-para-quechua-collao}
 
-\begin{table}[H]
-\centering
-\caption{Síntesis comparativa de antecedentes relevantes}
-\label{tab:antecedentes}
-\small
-\begin{threeparttable}
-\begin{tabularx}{\textwidth}{@{}p{2.3cm}p{2.8cm}p{3.5cm}X@{}}
-\toprule
-\textbf{Estudio} & \textbf{Objeto} & \textbf{Hallazgo o aporte descrito} & \textbf{Límite para esta propuesta} \\
-\midrule
-\textcite{Orcotoma2025} & Corpus Quechua Collao--español & Procedimiento de digitalización y OCR de textos bilingües & No evalúa generación ni RAG. \\
-\addlinespace
-\textcite{Duran2026} & Diccionario verbal quechua--español & Recurso léxico con reglas de flexión y derivación & Se concentra en verbos; no es una base educativa general. \\
-\addlinespace
-\textcite{Court2024} & Traducción de quechua sureño al español & El efecto del contexto varía según su tipo y pertinencia & La tarea y la dirección lingüística difieren de la generación propuesta. \\
-\addlinespace
-\textcite{Hevia2025} & Tutoría con SLM y RAG offline & Identifica dificultades ante contexto extenso o irrelevante & Se estudia biología en inglés, no Quechua Collao. \\
-\addlinespace
-\textcite{Xu2024} & Modelos en dispositivos & Revisa técnicas de eficiencia y despliegue local & Es una revisión; no mide el hardware de este proyecto. \\
-\addlinespace
-\textcite{Dettmers2023} & Ajuste QLoRA & Describe ajuste eficiente sobre modelos cuantizados & Sus experimentos no demuestran viabilidad en una GPU de 4 GB. \\
-\bottomrule
-\end{tabularx}
-\begin{tablenotes}
-\scriptsize
-\item \textit{Nota.} Síntesis parafraseada de las fuentes citadas; las diferencias de tarea, lengua y hardware limitan la comparación directa.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
+\textcite{Orcotoma2025}, en \emph{Towards the Creation of a Collao Quechua--Spanish Parallel Corpus Using Optical Character Recognition}, presentaron una metodología para digitalizar y preparar recursos paralelos.
+
+El trabajo muestra la relevancia de construir recursos lingüísticos y verificar su integridad. Su posible utilización en esta investigación dependerá de la disponibilidad y autorización de los datos.
+
+\subsection{Traducción para las variedades chanka y collao}\label{traducciuxf3n-para-las-variedades-chanka-y-collao}
+
+\textcite{QuispeCallanaupa2026}, en \emph{Optimization of Voice Translation Systems for Indigenous Languages: Retraining the NLLB-200 Model for the Quechua--Spanish Pair}, estudiaron el reajuste de NLLB-200 utilizando 22 891 pares paralelos depurados.
+
+Este antecedente resulta importante por su tratamiento de chanka y collao y por considerar hardware de consumo. Sin embargo, su tarea fue la traducción, no la generación de respuestas monolingües.
+
+\subsection{Normalización y aumento de datos}\label{normalizaciuxf3n-y-aumento-de-datos}
+
+\textcite{Dhawan2026}, en \emph{Improving Indigenous Language Machine Translation with Synthetic Data and Language-Specific Preprocessing}, estudiaron la ampliación sintética de corpus y el preprocesamiento específico para lenguas indígenas, incluido el quechua.
+
+Este trabajo impide considerar la normalización ortográfica convencional como una contribución novedosa por sí misma. En la presente investigación, el control ortográfico será una medida de calidad de datos, no el aporte central.
+
+\subsection{Transformación morfosintáctica en quechua collao}\label{transformaciuxf3n-morfosintuxe1ctica-en-quechua-collao}
+
+\textcite{PoccoOncevay2026}, en \emph{On the Robustness of Morphosyntactic Transformation with Large Language Models: The Case of Quechua Collao}, evaluaron modelos de lenguaje en una tarea de transformación morfosintáctica controlada.
+
+Los resultados muestran que el comportamiento de los modelos depende de la complejidad lingüística y de las condiciones de entrada.
+
+El trabajo demuestra que ya existen estudios de generación o transformación textual relacionados con quechua. Por ello, la presente tesis no reclamará como novedad el simple hecho de generar texto en esa lengua.
+
+\section{Instrucciones y generación multilingüe}\label{instrucciones-y-generaciuxf3n-multilinguxfce}
+
+\subsection{Datos nativos frente a datos traducidos}\label{datos-nativos-frente-a-datos-traducidos}
+
+\textcite{Chen2024}, en \emph{Is It Good Data for Multilingual Instruction Tuning or Just Bad Multilingual Evaluation for Large Language Models?}, analizaron diferencias entre datos de instrucciones nativos y traducidos.
+
+Sus resultados indican que la procedencia de los datos puede influir en la evaluación de generación multilingüe.
+
+En esta investigación, los ejemplos deberán validarse en quechua y no se considerará suficiente traducir automáticamente preguntas y respuestas desde el español.
+
+\subsection{Limitaciones de utilizar traducción como intermediaria}\label{limitaciones-de-utilizar-traducciuxf3n-como-intermediaria}
+
+\textcite{Liu2025}, en \emph{Is Translation All You Need? A Study on Solving Multilingual Tasks with Large Language Models}, estudiaron estrategias para resolver tareas multilingües.
+
+Sus resultados muestran que traducir hacia una lengua dominante no siempre es la mejor estrategia para todas las tareas.
+
+Este antecedente respalda el interés de evaluar preguntas y respuestas directamente en quechua.
+
+\subsection{Datos de instrucciones de bajos recursos}\label{datos-de-instrucciones-de-bajos-recursos}
+
+\textcite{Koksal2025}, en \emph{MURI: High-Quality Instruction Tuning Datasets for Low-Resource Languages via Reverse Instructions}, propusieron un procedimiento para obtener pares de instrucción y respuesta a partir de textos disponibles en lenguas de pocos recursos.
+
+El trabajo aporta antecedentes para la construcción de datos de instrucciones, aunque no sustituye la necesidad de validar un corpus específico de quechua sureño.
+
+\section{Antecedentes metodológicos}\label{antecedentes-metodoluxf3gicos}
+
+\subsection{Adaptación eficiente}\label{adaptaciuxf3n-eficiente}
+
+\textcite{Hu2021LoRA} propusieron LoRA, que permite entrenar matrices de bajo rango manteniendo congelados los parámetros principales de un modelo.
+
+\textcite{Dettmers2023} presentaron QLoRA, que combina cuantización y adaptación de bajo rango para disminuir los requerimientos de memoria durante el ajuste fino.
+
+Estas técnicas constituyen herramientas metodológicas ya establecidas. La investigación no intentará demostrar que QLoRA es mejor que otros métodos, puesto que no comparará técnicas de adaptación.
+
+\subsection{Evaluación humana de generación textual}\label{evaluaciuxf3n-humana-de-generaciuxf3n-textual}
+
+\textcite{VanDerLee2019} revisaron las prácticas de evaluación humana de textos generados y recomendaron definir criterios claros, documentar a los evaluadores y reportar adecuadamente los procedimientos.
+
+\textcite{Amidei2019} analizaron el uso de escalas de valoración en tareas de generación de lenguaje.
+
+Estos trabajos sustentan la necesidad de una rúbrica previamente validada, evaluación ciega y análisis del acuerdo entre evaluadores.

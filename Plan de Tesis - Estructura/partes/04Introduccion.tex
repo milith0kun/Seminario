@@ -1,16 +1,30 @@
 \clearpage
-\phantomsection
-\chapter*{Introducción}
-\addcontentsline{toc}{chapter}{Introducción}
+\chapter{Introducción}\label{introduccion}
 
-El procesamiento del lenguaje natural (PLN) permite analizar y generar textos mediante modelos computacionales, pero su aplicación depende también de contar con recursos que representen la variedad estudiada. Para Quechua Collao se han desarrollado corpus paralelos y recursos léxicos que aportan una base para la investigación, aunque no constituyen por sí mismos un sistema de generación contextualizada \parencite{Orcotoma2025,Duran2026}. A partir de estos recursos, el plan propone estudiar un modelo de lenguaje compacto (SLM) con generación aumentada por recuperación (RAG), que incorpora documentos locales como contexto para producir respuestas sin conexión.
+\section{Contexto y problema general}\label{contexto-problema-general}
 
-La utilidad de esta arquitectura depende de la pertinencia de los documentos recuperados y del uso que el modelo haga de ellos. También se examinará el aporte de QLoRA, únicamente si el ajuste y la inferencia con el adaptador resultan viables \parencite{Dettmers2023}. Los antecedentes disponibles abordan partes distintas de este problema: los estudios sobre contexto en quechua se centran en traducción al español \parencite{Court2024}, mientras que las evaluaciones de RAG offline corresponden a otros dominios \parencite{Hevia2025}. Por tanto, sus resultados orientan el estudio, pero no permiten anticipar el desempeño de la generación contextualizada en Quechua Collao.
+El procesamiento del lenguaje natural ha avanzado mediante modelos de lenguaje basados en la arquitectura Transformer. Sin embargo, las lenguas con menor presencia en los recursos digitales afrontan limitaciones en la cantidad, diversidad, procedencia y calidad de los datos disponibles. El quechua constituye un caso relevante: aunque existen investigaciones sobre su procesamiento computacional, una parte importante de los trabajos recientes se ha concentrado en la traducción automática entre quechua y español.
 
-En esta revisión preliminar, el vacío se plantea como la falta de evidencia experimental comparable sobre SLM--RAG local para generar respuestas en Quechua Collao y sobre el aporte adicional de QLoRA cuando pueda ejecutarse. Esta delimitación es provisional y deberá contrastarse con una búsqueda bibliográfica actualizada. El problema y la pregunta general se desarrollan en el apartado de formulación del problema.
+\textcite{GarciaGilabert2024} estudiaron el uso de adaptadores LoRA en sistemas de traducción para lenguas indígenas. \textcite{AsilloCongora2025} investigaron la ampliación de datos paralelos mediante ejemplos sintéticos para traducción quechua--español, y \textcite{QuispeCallanaupa2026} abordaron el ajuste de NLLB-200 para traducir entre español y las variedades quechua chanka y collao. Estos trabajos aportan evidencia sobre el procesamiento del quechua, pero la traducción transforma un texto entre lenguas, mientras que la generación de respuestas debe interpretar una pregunta y producir una contestación pertinente. Por ello, los resultados de traducción no demuestran por sí mismos la calidad de respuestas generadas directamente en quechua.
 
-Para abordar ese problema, el objetivo es diseñar e implementar una arquitectura SLM--RAG para la generación contextualizada en Quechua Collao dentro de un entorno computacional offline, y evaluar el aporte adicional de QLoRA si el ajuste y la inferencia con adaptador son viables. Se busca aportar evidencia sobre la interacción entre recuperación documental y adaptación, sin presuponer la viabilidad de QLoRA ni la superioridad de una configuración.
+También se han estudiado otras tareas. \textcite{PoccoOncevay2026} analizaron transformaciones morfosintácticas controladas en quechua collao. En el ámbito multilingüe, \textcite{Chen2024} y \textcite{Liu2025} examinaron diferencias entre datos de instrucciones originados en una lengua y datos obtenidos mediante traducción. Estos antecedentes muestran que el procesamiento computacional del quechua abarca tareas diversas, cuyos resultados no son intercambiables.
 
-La evaluación comparará el modelo base, SLM--RAG y, si resulta viable, SLM--RAG--QLoRA, utilizando consultas y fuentes trazables. Se examinarán la recuperación de información pertinente, la similitud y el sustento de las respuestas, y la eficiencia computacional. Este resumen anticipa el enfoque comparativo; los indicadores, las condiciones y los procedimientos se especifican en la metodología.
+El estudio se delimita al quechua sureño y distingue las variedades chanka o ayacuchana y collao o cusqueña. La escritura se contrastará con el \emph{Manual de escritura quechua sureño} del \textcite{MINEDU2021}; la aceptabilidad de las respuestas también requerirá la valoración de hablantes competentes. Recursos como AmericasNLP y materiales de quechua de Puno pueden apoyar la revisión lingüística, pero no se asumirán como un corpus validado y equilibrado de preguntas y respuestas para las dos variedades estudiadas.
 
-El plan comprende cinco capítulos: generalidades; marco teórico y estado del arte; metodología; estructura del estudio de factibilidad; y aspectos administrativos. Este avance desarrolla el contenido hasta metodología, conserva el capítulo de factibilidad como esquema y deja los aspectos administrativos para una revisión posterior. Después se presentan las referencias y los anexos.
+\section{Tecnología o método}\label{tecnologia-metodo}
+
+La investigación propone estudiar un único modelo de lenguaje compacto. Qwen2.5-0.5B-Instruct es el candidato inicial \parencite{QwenCard2024}. Para adaptar el modelo se plantea utilizar QLoRA, técnica que combina la cuantización del modelo base con adaptadores de bajo rango \parencite{Dettmers2023}. Su uso dependerá de una prueba de factibilidad computacional; la técnica no garantiza por sí sola respuestas adecuadas en las variedades examinadas.
+
+La comparación considerará el mismo modelo en dos condiciones: original y adaptado mediante QLoRA. Ambas condiciones recibirán las mismas preguntas de prueba y parámetros de generación. La calidad se valorará principalmente mediante la aceptabilidad global, junto con pertinencia, corrección lingüística y adecuación a la variedad, usando una rúbrica aplicada por evaluadores competentes.
+
+\section{Vacío de investigación}\label{vacio-investigacion}
+
+Los antecedentes revisados tratan traducción automática, preparación de corpus y transformaciones textuales, pero no responden directamente a la pregunta delimitada en este plan. La brecha que orienta el estudio es establecer qué efecto produce adaptar mediante QLoRA un único modelo compacto sobre la aceptabilidad de respuestas breves a preguntas cotidianas en quechua sureño, a partir de un corpus validado y con evaluación diferenciada para chanka y collao.
+
+Esta brecha es provisional y se apoya en los antecedentes identificados hasta ahora. No se afirma que no existan estudios similares, ni se presenta como novedosa la generación de texto en quechua o la técnica QLoRA. La investigación se concentrará en preguntas cotidianas de un solo turno, de complejidad limitada y evaluables sin consultar información externa.
+
+\input{partes/04AspectosGenerales}
+
+\section{Organización de la tesis}\label{organizacion-de-la-tesis}
+
+El capítulo I presenta la introducción, el problema, la propuesta, los objetivos, la hipótesis y la justificación. El capítulo II desarrolla los antecedentes, el marco teórico y la brecha de investigación. El capítulo III describe la metodología propuesta, incluidas las variables, la operacionalización y los procedimientos de evaluación. El capítulo IV conserva únicamente el esquema del estudio de factibilidad para una etapa posterior. El plan incluye además las referencias y los apéndices; no presenta resultados experimentales.

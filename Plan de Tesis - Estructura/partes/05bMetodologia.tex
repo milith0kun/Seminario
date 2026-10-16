@@ -1,96 +1,461 @@
-% =========================================================================
-% CAPÍTULO III: METODOLOGÍA DE LA INVESTIGACIÓN
-% =========================================================================
-\clearpage
-\chapter{Metodología de la investigación}
-\label{sec:metodologia}
+\chapter{Metodología de la investigación}\label{metodologuxeda}
 
-\section{Enfoque, tipo y diseño de investigación}
-\subsection{Enfoque de investigación}
-El estudio tendrá un enfoque cuantitativo: comparará configuraciones de software mediante indicadores numéricos de recuperación, calidad de respuesta y eficiencia computacional. La unidad de evaluación será la respuesta producida para una consulta bajo una configuración determinada. No se medirán efectos educativos en estudiantes ni impactos sociales.
+\section{Enfoque, tipo y diseño de investigación}\label{enfoque-tipo-diseno-investigacion}
 
-\subsection{Tipo de investigación}
-La investigación será aplicada y tecnológica porque diseñará, implementará y evaluará un artefacto de software para una necesidad delimitada. El proceso seguirá las actividades de diseño, construcción y evaluación de artefactos de la investigación en ciencias del diseño (DSR, de \textit{Design Science Research}) \parencite{hevner2004design}.
+\subsection{Enfoque de investigación}\label{enfoque-de-investigaciuxf3n}
 
-\subsection{Diseño de investigación}
-Se realizará un experimento computacional comparativo con medidas repetidas por consulta. Las condiciones de generación serán: (a) SLM base; (b) el mismo SLM con recuperación documental local (SLM--RAG); y (c) SLM--RAG con adaptadores QLoRA, únicamente si el entrenamiento y la inferencia adaptada son viables. Para la hipótesis de recuperación se contrastará, por separado, el índice semántico con una búsqueda léxica de referencia. En cada comparación se mantendrán constantes las consultas, los documentos disponibles, el hardware y los parámetros pertinentes. La comparación directa para estimar el aporte de QLoRA será SLM--RAG frente a SLM--RAG--QLoRA; la comparación con SLM base describirá el efecto conjunto de recuperación y adaptación.
+La investigación tendrá un enfoque cuantitativo.
 
-\section{Variables y operacionalización}
-\subsection{Identificación de variables}
+Se compararán resultados medibles de un sistema computacional y se utilizarán valoraciones humanas estructuradas para establecer indicadores de calidad.
+
+La revisión lingüística será necesaria para obtener mediciones válidas, pero no convertirá automáticamente la investigación en un estudio de enfoque mixto.
+
+\subsection{Tipo de investigación}\label{tipo-de-investigaciuxf3n}
+
+La investigación será aplicada, porque utilizará métodos existentes de aprendizaje automático para estudiar una tarea concreta de procesamiento del quechua sureño.
+
+\subsection{Alcance de investigación}\label{alcance-de-investigaciuxf3n}
+
+El alcance será comparativo y evaluativo, con una interpretación causal limitada a la intervención realizada sobre el modelo estudiado.
+
+No se pretende generalizar el resultado a todos los modelos compactos ni demostrar que QLoRA supera a otras técnicas de ajuste fino.
+
+\subsection{Diseño de investigación}\label{diseuxf1o-de-investigaciuxf3n}
+
+Se utilizará un \textbf{diseño experimental computacional de comparación pareada}, con un único modelo base y dos condiciones.
+
+La condición A corresponderá al modelo original.
+
+La condición B corresponderá al mismo modelo después del ajuste supervisado mediante QLoRA.
+
+Las mismas preguntas de prueba serán utilizadas en ambas condiciones.
+
+No se aplicará aleatorización de participantes a grupos de tratamiento, puesto que las unidades experimentales son entradas lingüísticas procesadas por un sistema computacional.
+
+La aleatorización se utilizará para ocultar el origen de las respuestas durante su evaluación humana.
+
+El estudio estimará el efecto de la adaptación sobre este modelo y corpus específicos. Una sola ejecución de entrenamiento no permitirá estimar completamente la variabilidad asociada a diferentes semillas de entrenamiento.
+
+\input{partes/05VariablesOperacionalizacion}
+
+\section{Unidades de análisis y selección de consultas}\label{unidades-analisis-seleccion-consultas}
+
+\subsection{Unidad de análisis}\label{unidad-de-anuxe1lisis}
+
+La unidad principal de análisis será una pregunta de prueba y el par de respuestas producido para ella:
+
 \begin{itemize}
-    \item \textbf{Variable independiente:} configuración del sistema: SLM base, SLM--RAG o SLM--RAG--QLoRA, cuando esta última pueda ejecutarse.
-    \item \textbf{Variables dependientes:} recuperación de fragmentos pertinentes, similitud de las respuestas con referencias validadas, fidelidad al contexto y eficiencia computacional.
-    \item \textbf{Condiciones de control:} versión del modelo y del tokenizador, cuantización, colección documental, consultas, índice, plantilla de instrucciones, parámetros de generación, equipo y protocolo de medición. Los valores concretos se registrarán antes de la comparación.
+\tightlist
+\item
+  Respuesta del modelo original.
+\item
+  Respuesta del modelo adaptado.
 \end{itemize}
 
-\subsection{Matriz de operacionalización de variables}
-La Tabla~\ref{tab:operacionalizacion_variables} describe los indicadores y el procedimiento previsto para obtenerlos. Las métricas automáticas de similitud se interpretarán como aproximaciones respecto de una referencia, no como una medida completa de corrección o fluidez.
+Las puntuaciones emitidas por distintos evaluadores para una misma respuesta no serán tratadas como unidades independientes.
+
+\subsection{Población y muestra}\label{poblaciuxf3n-y-muestra}
+
+\subsubsection{Población de referencia}\label{poblaciuxf3n-de-referencia}
+
+La población conceptual estará formada por preguntas cotidianas de un solo turno, formuladas en quechua chanka o collao, cuya respuesta pueda expresarse brevemente y evaluarse sin recurrir a información externa.
+
+No existe un listado exhaustivo de esta población.
+
+\subsubsection{Muestreo}\label{muestreo}
+
+Se empleará un muestreo intencional, estratificado por variedad y dominio temático.
+
+Las conclusiones tendrán alcance limitado a la muestra y a las condiciones lingüísticas estudiadas.
+
+\subsubsection{Tamaño propuesto del corpus}\label{tamauxf1o-propuesto-del-corpus}
+
+Se plantea una meta inicial de \textbf{680 pares de pregunta y respuesta validados}. La Tabla~\ref{tab:tamano-corpus} presenta su distribución propuesta por partición y variedad.
 
 \begin{table}[H]
 \centering
 \begin{threeparttable}
-\caption{Matriz de operacionalización de variables}
-\label{tab:operacionalizacion_variables}
+\caption{Distribución propuesta de pares de pregunta y respuesta}
+\label{tab:tamano-corpus}
 \small
-\begin{tabularx}{\textwidth}{@{}p{2.25cm}p{3.25cm}p{3.65cm}X@{}}
+\begin{tabularx}{0.78\textwidth}{@{}Lrrr@{}}
 \toprule
-\textbf{Variable} & \textbf{Operacionalización} & \textbf{Indicadores} & \textbf{Escala e instrumento} \\
+\textbf{Partición} & \textbf{Chanka} & \textbf{Collao} & \textbf{Total} \\
 \midrule
-Configuración (independiente) & Condición aplicada a cada consulta: SLM, SLM--RAG o SLM--RAG--QLoRA, si es viable. & Identificador de configuración; modelo, índice y fragmentos usados. & Categórica; configuración versionada y ficha del Anexo 2. \\
-\addlinespace
-Recuperación & Pertinencia de los primeros $k$ fragmentos para cada consulta. & Precisión en los primeros $k$ resultados (P@k), índice semántico frente a búsqueda léxica. & Numérica; banco de consultas, etiquetas de relevancia y registro del recuperador. \\
-\addlinespace
-Respuesta y fidelidad & Comparación de cada salida con una respuesta de referencia y con la evidencia entregada al modelo. & chrF++; BLEU; fidelidad y recuperación de contexto, si se valida el evaluador automático. & Numérica; SacreBLEU, implementación documentada de las métricas RAG y revisión con la rúbrica del Anexo 3. \\
-\addlinespace
-Eficiencia & Costo de ejecución por consulta y configuración en el mismo equipo. & Latencia; tokens generados por segundo; máximos de RAM y VRAM; errores de ejecución. & Numérica; temporizador, telemetría del sistema y ficha del Anexo 2. \\
+Piloto & 20 & 20 & 40 \\
+Entrenamiento & 200 & 200 & 400 \\
+Validación & 40 & 40 & 80 \\
+Prueba final & 80 & 80 & 160 \\
+\textbf{Total} & \textbf{340} & \textbf{340} & \textbf{680} \\
 \bottomrule
 \end{tabularx}
 \begin{tablenotes}
-\small
-\item \textit{Nota.} Se registrarán las versiones de herramientas, los parámetros, las reglas de normalización y los valores de $k$. Las métricas RAG que dependan de un modelo evaluador solo se usarán de forma confirmatoria si se verifica su capacidad para evaluar respuestas en Quechua Collao.
+\item \textit{Nota.} Son metas de diseño; el piloto y la estimación de precisión o potencia determinarán el tamaño final. Las preguntas piloto se mantendrán separadas de las particiones de entrenamiento, validación y prueba.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
-\section{Unidades de análisis y selección de consultas}
-\subsection{Unidad de análisis}
-Para la evaluación de respuestas, la unidad de análisis será el par formado por una consulta y la respuesta generada bajo una configuración, junto con los fragmentos recuperados y el registro de ejecución. Para la comparación de recuperadores, la unidad será la consulta con sus etiquetas de pertinencia. Cada consulta se mantendrá emparejada entre las condiciones que se comparen.
+\textbf{Estas cantidades son metas de diseño y no representan datos que ya se hayan obtenido.}
 
-\subsection{Población y muestra}
-La población conceptual comprende consultas textuales que puedan responderse con fuentes autorizadas identificadas como Quechua Collao o español. La factibilidad propone un banco intencional de 100 consultas patrón; se conserva como meta de planificación, sujeta al inventario de fuentes y a un piloto. No proviene aún de un cálculo de potencia estadística. Se incluirán consultas con respuesta sustentable en una fuente rastreable y se excluirán las que requieran información ausente o ambigua en el corpus. Si se ejecuta QLoRA, las consultas de evaluación y sus respuestas de referencia se reservarán fuera de los ejemplos de ajuste; el tratamiento de documentos indexados y coincidencias con ejemplos de entrenamiento seguirá el procedimiento de la subsección siguiente.
+La cantidad definitiva de preguntas de prueba deberá justificarse mediante una estimación de precisión o potencia estadística, utilizando información del piloto y una diferencia mínima de interés definida antes de la evaluación final.
 
-\subsection{Preparación del corpus y prevención de contaminación}
-Se inventariarán las fuentes propuestas en el estudio de factibilidad —corpus bilingües, recursos léxicos y textos abiertos— y se registrarán su procedencia, licencia, idioma y variedad. Los materiales obtenidos mediante reconocimiento óptico de caracteres (OCR) se revisarán antes de indexarlos; se conservarán los datos de procedencia y las correcciones aplicadas. Los documentos se limpiarán y segmentarán. La fuente del proyecto propone fragmentos de 250--400 tokens y recuperar tres fragmentos por consulta; ambos valores se tratarán como puntos de partida para el piloto, no como parámetros ya validados, y se fijarán antes de la evaluación comparativa.
+Las 160 preguntas propuestas no garantizan por sí solas potencia suficiente para detectar efectos pequeños.
 
-La propuesta fuente también contempla pares de pregunta y respuesta generados con asistencia de modelos de lenguaje. Si se emplean, se identificarán como datos sintéticos y no se considerarán referencias correctas por el hecho de haber sido generados. Se contrastarán con fuentes trazables y se someterán a revisión lingüística competente antes de servir como ejemplos de ajuste o referencias de evaluación. Las consultas de evaluación y sus respuestas de referencia se mantendrán fuera del ajuste QLoRA. En cambio, los documentos con la evidencia necesaria para responderlas permanecerán disponibles en la base de conocimiento de las condiciones RAG, con el mismo contenido para SLM--RAG y SLM--RAG--QLoRA; se registrarán coincidencias textuales relevantes entre datos de ajuste y documentos indexados. Así se evita excluir del índice la evidencia que el sistema debe recuperar.
+Si el cálculo indica que se requiere una muestra mayor, deberá ampliarse la evaluación o declararse el carácter exploratorio del contraste.
 
-\section{Técnicas e instrumentos de recolección}
-La técnica principal será la ejecución controlada del prototipo con captura automatizada de consultas, respuestas, fragmentos recuperados, latencia, consumo de memoria y errores. Los instrumentos serán el inventario de fuentes, el banco de consultas del Anexo 4, la ficha de ejecución del Anexo 2, los scripts versionados de métricas y la rúbrica de revisión lingüística y factual del Anexo 3.
+\section{Recursos lingüísticos y procedencia de datos}\label{recursos-linguxfcuxedsticos-y-procedencia-de-datos}
 
-Antes de calcular métricas con referencias, se documentará para cada consulta su idioma y variedad, fuente, respuesta de referencia y evidencia pertinente. Una persona competente en Quechua Collao deberá revisar las referencias destinadas a medir similitud lingüística. Si esa revisión no se consigue, chrF++ y BLEU se informarán como similitud automática con referencias no validadas, y no como prueba suficiente de calidad lingüística. Una métrica automática de fidelidad que requiera un modelo juez se considerará exploratoria hasta comprobar, en un piloto documentado, que el juez puede evaluar el idioma y la variedad del estudio.
+La Tabla~\ref{tab:recursos-linguisticos} resume las fuentes que se auditarán, su posible función y las restricciones que deben comprobarse antes de utilizarlas.
 
-\section{Procedimiento metodológico}
-El procedimiento conserva las tres fases y la correspondencia con los objetivos específicos de la presentación de objetivos:
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Recursos lingüísticos que se auditarán antes de su uso}
+\label{tab:recursos-linguisticos}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}P{2.6cm}P{2.4cm}L P{2.8cm}@{}}
+\toprule
+\textbf{Recurso} & \textbf{Tipo de datos} & \textbf{Utilización prevista} & \textbf{Limitación} \\
+\midrule
+AmericasNLP 2025 \parencite{AsilloCongora2025} & Textos paralelos quechua--español & Apoyo lingüístico y revisión de vocabulario & No es un corpus de preguntas y respuestas. \\
+Manual de escritura quechua sureño \parencite{MINEDU2021} & Material normativo & Criterios de escritura & No constituye un conjunto de entrenamiento. \\
+Corpus Collao--español \parencite{Orcotoma2025} & Corpus paralelo preparado mediante OCR & Posible apoyo lingüístico & Disponibilidad, licencia e idoneidad por comprobar. \\
+Ejemplos elaborados y revisados para el estudio & Preguntas y respuestas monolingües & Entrenamiento, validación y evaluación & Deben crearse y validarse; todavía no son datos obtenidos. \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \textit{Nota.} No se tratarán automáticamente pares de traducción como ejemplos de generación de respuestas. Las fuentes se incorporarán solo después de verificar procedencia, variedad, licencia y compatibilidad con los objetivos.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+El corpus definitivo estará compuesto por ejemplos con procedencia documentada y validación lingüística.
+
+No se incorporarán automáticamente pares de traducción ni transcripciones de voz como si fueran ejemplos listos de entrenamiento para generación de respuestas.
+
+\section{Construcción del corpus}\label{construcciuxf3n-del-corpus}
+
+\subsection{Definición de dominios}\label{definiciuxf3n-de-dominios}
+
+Se establecerán inicialmente cinco dominios:
+
 \begin{enumerate}
-    \item \textbf{Fase 1 — Datos y recuperación (OE1):} inventariar las fuentes y sus licencias; etiquetar idioma, variedad y procedencia; revisar y depurar los documentos; pilotear la segmentación y el número de fragmentos recuperados; crear el índice semántico y una búsqueda léxica de referencia; y preparar consultas con sus fuentes y fragmentos pertinentes identificados.
-    \item \textbf{Fase 2 — Núcleo técnico y adaptación (OE2):} comprobar la inferencia local de Qwen2.5-3B-Instruct y del recuperador; fijar y registrar las versiones, el formato de cuantización, las instrucciones y los parámetros de generación; integrar SLM y RAG; y realizar una prueba técnica preliminar de ajuste, exportación, carga e inferencia con QLoRA para determinar si puede ejecutarse la condición E3. Esta comprobación forma parte del procedimiento metodológico; el análisis global de factibilidad técnica, económica y operativa, así como de viabilidad y sostenibilidad, se desarrollará por separado en el capítulo IV. La fuente propone Q4\_K\_M/GGUF con \texttt{llama.cpp} para inferencia y contempla \texttt{bitsandbytes}/PEFT para el ajuste; son etapas y formatos distintos, y se verificará que la exportación y carga del adaptador sean compatibles. En este equipo se prevé evaluar WSL2 con Ubuntu para \texttt{bitsandbytes}. Si el ajuste o la inferencia adaptada fallan o no son reproducibles, se registrará el motivo y no se ejecutará la condición integrada.
-    \item \textbf{Fase 3 — Evaluación y análisis (OE3):} ejecutar el mismo banco bajo cada condición viable; registrar entradas, salidas, fragmentos y telemetría; calcular las métricas definidas; inspeccionar errores con criterios comunes; y conservar los scripts, parámetros y registros suficientes para repetir el procedimiento.
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Saludos y relaciones sociales.
+\item
+  Actividades cotidianas.
+\item
+  Familia y convivencia.
+\item
+  Alimentos y actividades domésticas.
+\item
+  Situaciones comunes de la comunidad.
 \end{enumerate}
 
-\section{Protocolo de evaluación}
-Antes de la corrida comparativa se cerrará un protocolo que identifique el modelo y su revisión, cuantización de inferencia y de ajuste, tokenizador, motor de inferencia, modelo de embeddings, segmentación documental, valor de $k$, plantilla de instrucciones y parámetros de decodificación. Se ejecutará la evaluación sin conexión y con los mismos recursos de hardware. Se registrarán el sistema operativo y las versiones de software. Las consultas de evaluación no se usarán para seleccionar parámetros ni ajustar QLoRA. El número de repeticiones para mediciones de rendimiento se fijará tras el piloto y se aplicará igual a todas las condiciones; las respuestas utilizadas para métricas de texto se generarán con parámetros de decodificación constantes.
+Se excluirán preguntas cuya respuesta dependa de información privada, de hechos actuales o de conocimientos especializados.
 
-\subsection{Métricas de calidad lingüística}
-Se calcularán chrF++ y BLEU mediante SacreBLEU, comparando las salidas con referencias documentadas y, cuando sea posible, revisadas por una persona competente en la variedad. Se conservarán la versión de SacreBLEU, su firma de configuración, la tokenización, la normalización, el idioma de salida y la cantidad de consultas \parencite{popovic-2017-chrf,Post2018}. Estas métricas cuantifican similitud con referencias y no se interpretarán por sí solas como comprensión, corrección semántica o fluidez.
+\subsection{Elaboración de ejemplos}\label{elaboraciuxf3n-de-ejemplos}
 
-\subsection{Métricas de recuperación y fidelidad}
-Se calculará la precisión en los primeros $k$ resultados (P@k) usando etiquetas de pertinencia definidas antes de evaluar y el mismo $k$ para la búsqueda léxica y semántica. Para las respuestas se registrará si sus afirmaciones están respaldadas por los fragmentos proporcionados. Las métricas de RAGAS seleccionadas podrán complementar esa revisión solo si la versión y el modelo evaluador se identifican y el piloto confirma su uso pertinente con Quechua Collao; de lo contrario, sus puntuaciones no se presentarán como evidencia confirmatoria \parencite{Ragas2024}.
+Cada ejemplo contendrá:
 
-\subsection{Métricas de eficiencia}
-Por consulta y condición se medirán latencia, tokens generados por segundo y máximos de memoria principal (RAM) y memoria gráfica (VRAM). Se informarán medidas descriptivas, dispersión, fallos y datos faltantes. Cuando la instrumentación lo permita, se separarán los tiempos de recuperación, preparación del contexto e inferencia. Las mediciones de rendimiento seguirán el mismo procedimiento de calentamiento y repetición en cada condición, definido y registrado antes de la comparación.
+\begin{itemize}
+\tightlist
+\item
+  Identificador.
+\item
+  Pregunta.
+\item
+  Respuesta validada.
+\item
+  Variedad lingüística.
+\item
+  Dominio.
+\item
+  Intención comunicativa.
+\item
+  Fuente.
+\item
+  Autor o responsable de revisión.
+\item
+  Estado de validación.
+\item
+  Grupo semántico.
+\item
+  Partición del corpus.
+\end{itemize}
 
-\section{Métodos de análisis de datos}
-Se calcularán estadísticos descriptivos por configuración y métrica. Para HE1 se comparará P@k del recuperador semántico con la búsqueda léxica sobre las mismas consultas. Para HE2, si QLoRA es viable, la comparación principal será SLM--RAG frente a SLM--RAG--QLoRA, manteniendo los demás parámetros. Para HE3 se describirán y, si los datos emparejados y los supuestos lo permiten, se contrastarán las tres configuraciones. Friedman se usará para tres condiciones relacionadas y Wilcoxon de rangos con signo para comparaciones pareadas; las comparaciones múltiples se ajustarán mediante Holm. Se comprobará que la escala y los datos disponibles permitan aplicar estas pruebas; si no, el análisis será descriptivo y se informará la limitación. Se fijará $\alpha=0{,}05$ antes del análisis y se informarán tamaños de efecto, intervalos de confianza cuando sean estimables, datos faltantes y ajustes por comparaciones múltiples. Si QLoRA no es viable, HE2 y las comparaciones de HE3 que la involucren se declararán no evaluadas; no se inferirá superioridad de una condición que no se ejecutó.
+Las preguntas deberán presentar diversidad de estructuras y situaciones, evitando que el corpus se reduzca a repeticiones de una misma plantilla.
 
-\section{Aspectos éticos y de gestión de datos}
-Se incorporarán documentos con procedencia y condiciones de uso verificables, se citarán las fuentes y no se redistribuirán contenidos protegidos sin autorización. Las consultas y bitácoras no incluirán datos personales. Los datos generados artificialmente se identificarán y separarán de los textos fuente. Se conservarán las etiquetas de Quechua Collao y no se mezclarán variedades sin identificación explícita. Si la validación lingüística requiere participación de personas, se obtendrán las autorizaciones y el consentimiento informado que correspondan antes de recoger sus evaluaciones.
+\subsection{Validación lingüística}\label{validaciuxf3n-linguxfcuxedstica}
+
+Los ejemplos serán revisados por hablantes competentes en la variedad correspondiente.
+
+La revisión verificará:
+
+\begin{itemize}
+\tightlist
+\item
+  Comprensibilidad.
+\item
+  Pertinencia de la respuesta.
+\item
+  Corrección lingüística.
+\item
+  Adecuación a la variedad.
+\item
+  Ausencia de ambigüedad no controlada.
+\end{itemize}
+
+Se documentarán las correcciones y exclusiones.
+
+\subsection{Prevención de contaminación}\label{prevenciuxf3n-de-contaminaciuxf3n}
+
+La separación entre entrenamiento, validación y prueba se realizará por grupos semánticos.
+
+Preguntas equivalentes, paráfrasis cercanas o versiones de una misma pregunta en distintas variedades no podrán distribuirse entre entrenamiento y prueba.
+
+Se utilizarán procedimientos de detección de duplicados y revisión manual.
+
+Las preguntas de prueba no se emplearán para seleccionar hiperparámetros ni modificar la rúbrica.
+
+\subsection{Gestión de licencias}\label{gestiuxf3n-de-licencias}
+
+Antes de utilizar cada recurso se documentará su licencia, procedencia, restricciones de redistribución y posibles datos personales.
+
+Los ejemplos elaborados por participantes se utilizarán con autorización expresa.
+
+Los materiales que no permitan redistribución no se publicarán como parte del corpus abierto.
+
+\section{Modelo y entorno tecnológico}\label{modelo-y-entorno-tecnoluxf3gico}
+
+\subsection{Modelo candidato}\label{modelo-candidato}
+
+Se utilizará inicialmente Qwen2.5-0.5B-Instruct, con aproximadamente 490 millones de parámetros \parencite{QwenCard2024}.
+
+Se registrará la revisión exacta del modelo descargado para garantizar reproducibilidad.
+
+\subsection{Evaluación preliminar de tokenización}\label{evaluaciuxf3n-preliminar-de-tokenizaciuxf3n}
+
+Antes del ajuste fino se estudiará el comportamiento del tokenizador sobre ejemplos de ambas variedades.
+
+Se registrarán:
+
+\begin{itemize}
+\tightlist
+\item
+  Número de tokens por pregunta.
+\item
+  Número de tokens por respuesta.
+\item
+  Relación entre longitud textual y longitud tokenizada.
+\item
+  Presencia de fragmentaciones excesivas.
+\item
+  Errores de codificación o representación.
+\end{itemize}
+
+Esta evaluación no demostrará comprensión lingüística, pero permitirá identificar dificultades técnicas relevantes.
+
+\subsection{Técnica de adaptación}\label{tuxe9cnica-de-adaptaciuxf3n}
+
+Se empleará QLoRA como única técnica de ajuste fino \parencite{Dettmers2023}.
+
+El entrenamiento será supervisado, utilizando preguntas como entradas y respuestas validadas como salidas.
+
+Se aplicará la plantilla de conversación correspondiente al modelo seleccionado.
+
+La función de pérdida se calculará sobre los tokens de la respuesta, según las capacidades de la implementación utilizada.
+
+\section{Parámetros iniciales de entrenamiento}\label{paruxe1metros-iniciales-de-entrenamiento}
+
+La Tabla~\ref{tab:parametros-qlora} reúne los valores de configuración inicial propuestos para el piloto; no constituyen resultados experimentales.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Configuración inicial propuesta para el piloto de QLoRA}
+\label{tab:parametros-qlora}
+\small
+\begin{tabularx}{0.9\textwidth}{@{}P{5.1cm}L@{}}
+\toprule
+\textbf{Parámetro} & \textbf{Valor inicial propuesto} \\
+\midrule
+Modelo & Qwen2.5-0.5B-Instruct \\
+Cuantización y tipo & 4 bits; NF4 \\
+Rango LoRA ($r$) y escala ($\alpha$) & 8 y 16 \\
+Dropout & 0,05 \\
+Módulos iniciales & Proyecciones de atención \texttt{q\_proj} y \texttt{v\_proj} \\
+Micro-lote y acumulación de gradientes & 1 y 8 \\
+Longitud máxima de secuencia & 256 tokens \\
+Épocas máximas & 3 \\
+Tasa de aprendizaje inicial & $2 \times 10^{-4}$ \\
+Semilla & Fijada y registrada \\
+Selección del modelo final & Pérdida y evaluación en validación \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \textit{Nota.} Los valores son puntos de partida, no resultados confirmados. Se ajustarán durante el piloto y se documentarán antes de evaluar el conjunto de prueba.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Se utilizarán técnicas de ahorro de memoria compatibles con el hardware, como \emph{gradient checkpointing} y optimizadores de menor consumo, cuando estén disponibles.
+
+Los valores definitivos deberán quedar registrados después del piloto.
+
+No se utilizará el conjunto de prueba para modificar esta configuración.
+
+\section{Condiciones de generación}\label{condiciones-de-generaciuxf3n}
+
+Para evitar que las diferencias se deban a configuraciones distintas, la Tabla~\ref{tab:condiciones-generacion} recoge los parámetros que se mantendrán iguales en ambas condiciones.
+
+\begin{table}[H]
+\centering
+\caption{Condiciones controladas de generación}
+\label{tab:condiciones-generacion}
+\small
+\begin{tabularx}{0.9\textwidth}{@{}P{5.0cm}L@{}}
+\toprule
+\textbf{Parámetro} & \textbf{Configuración propuesta} \\
+\midrule
+Plantilla de instrucciones & Idéntica en ambas condiciones \\
+Preguntas de prueba & Las mismas para el modelo original y el adaptado \\
+Decodificación y muestreo & Decodificación determinista; muestreo desactivado \\
+Máximo de tokens nuevos & 64 \\
+Historial conversacional & Ninguno \\
+Recuperación documental & No se utilizará \\
+Ejemplos dentro del prompt de prueba & Ninguno \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+La instrucción indicará la variedad solicitada y pedirá una respuesta breve en quechua.
+
+Se utilizará la misma estructura de instrucción en ambas condiciones.
+
+Se conservarán las respuestas originales, incluidas aquellas que contengan errores, texto en español o ausencia de respuesta.
+
+\section{Prueba piloto de factibilidad}\label{prueba-piloto-de-factibilidad}
+
+Antes del experimento definitivo se realizará un piloto con 40 preguntas, 20 por variedad.
+
+Se comprobarán tres aspectos.
+
+\subsection{Factibilidad lingüística}\label{factibilidad-linguxfcuxedstica}
+
+Se verificará que las preguntas puedan ser interpretadas y evaluadas de manera consistente por hablantes competentes.
+
+\subsection{Factibilidad computacional}\label{factibilidad-computacional}
+
+Se comprobará que el modelo pueda cargarse, generar respuestas y ejecutar un ciclo breve de entrenamiento.
+
+Se registrará el consumo máximo de memoria.
+
+No se asumirá que una GPU de 4 GB es suficiente sin medición.
+
+\subsection{Factibilidad de evaluación}\label{factibilidad-de-evaluaciuxf3n}
+
+Se aplicará la rúbrica preliminar y se analizarán desacuerdos entre evaluadores.
+
+La rúbrica podrá modificarse después del piloto, pero deberá quedar congelada antes de la evaluación definitiva.
+
+\subsection{Criterios de continuidad}\label{criterios-de-continuidad}
+
+La ejecución definitiva requerirá:
+
+\begin{itemize}
+\tightlist
+\item
+  Corpus suficiente y validado para las dos variedades.
+\item
+  Disponibilidad de evaluadores competentes.
+\item
+  Ausencia de contaminación entre particiones.
+\item
+  Entrenamiento técnicamente ejecutable.
+\item
+  Rúbrica comprensible y aplicable.
+\item
+  Procedimiento de evaluación aprobado antes de generar los resultados finales.
+\end{itemize}
+
+Si alguna condición no se cumple, se revisará la factibilidad y se ajustará el protocolo antes de usar la prueba final. Sin una adaptación ejecutable y una evaluación válida, no se afirmará ni se contrastará inferencialmente un efecto de QLoRA.
+
+\section{Instrumento y evaluación humana}\label{instrumento-y-evaluaciuxf3n-humana}
+
+Se utilizará una rúbrica analítica con tres dimensiones: pertinencia, corrección lingüística y adecuación a la variedad. Cada dimensión se puntuará en una escala ordinal de 0 a 2, con descriptores conductuales para distinguir una respuesta insuficiente, parcialmente adecuada y adecuada. La regla para clasificar la aceptabilidad global se presenta en la Sección~\ref{criterio-de-aceptabilidad-global}.
+
+Se propone que dos evaluadores competentes en cada variedad califiquen las respuestas de manera independiente. Antes de la evaluación final, revisarán la rúbrica con ejemplos del piloto y recibirán instrucciones comunes. La procedencia de cada salida (modelo original o adaptado) se ocultará; las respuestas se presentarán en orden aleatorio y separadas, conservando un identificador que permita reconstruir cada par durante el análisis. La pertinencia de criterios, la formación de evaluadores y la presentación ciega se documentarán \parencite{VanDerLee2019,Amidei2019}.
+
+Se conservarán las puntuaciones independientes. Los desacuerdos se resolverán mediante adjudicación documentada por una tercera persona competente; la puntuación adjudicada se usará para el resultado principal y las puntuaciones iniciales se usarán para estimar concordancia. La disponibilidad de evaluadores y la claridad de la rúbrica deberán confirmarse en el piloto.
+
+\section{Procedimiento de investigación}\label{procedimiento-de-investigaciuxf3n}
+
+El procedimiento se ejecutará en este orden:
+
+\begin{enumerate}
+\item Auditar las fuentes lingüísticas y registrar procedencia, licencia, restricciones de uso y variedad antes de incorporar cualquier material.
+\item Elaborar y revisar los pares de pregunta y respuesta; etiquetar variedad, dominio y grupo semántico, y separar los conjuntos evitando que paráfrasis o preguntas equivalentes queden en particiones diferentes.
+\item Mantener el piloto separado. Aplicarlo para comprobar factibilidad lingüística, técnica y de evaluación; ajustar y congelar la rúbrica y los parámetros antes de usar el conjunto de prueba.
+\item Entrenar el modelo candidato mediante QLoRA solo con la partición de entrenamiento. Utilizar validación para seleccionar la configuración final y registrar versiones, semilla, parámetros, duración y memoria.
+\item Congelar el modelo, las instrucciones, la decodificación y los criterios. Para cada pregunta de prueba, generar una respuesta del modelo original y otra del modelo adaptado bajo las mismas condiciones.
+\item Asignar identificadores neutrales, ocultar la condición, aleatorizar el orden de evaluación y recopilar las puntuaciones independientes de los evaluadores.
+\item Resolver desacuerdos según el procedimiento definido, estimar concordancia y analizar los resultados pareados en conjunto y por variedad.
+\end{enumerate}
+
+La secuencia prevista se resume en la Figura~\ref{fig:flujo-metodologico} y se formaliza en el Algoritmo~\ref{alg:comparacion-pareada}.
+
+\begin{figure}[H]
+\caption{Flujo metodológico propuesto para comparar las respuestas del modelo original y del adaptado.}
+\label{fig:flujo-metodologico}
+\centering
+\begin{tikzpicture}[node distance=7mm]
+\node (fuentes) [tazul,text width=0.82\textwidth,font=\small] {Auditoría de fuentes y elaboración de preguntas y respuestas en chanka y collao};
+\node (particiones) [tverde,text width=0.82\textwidth,font=\small,below=of fuentes] {Validación lingüística y separación por grupos semánticos: entrenamiento, validación, prueba y piloto independiente};
+\node (ajuste) [tnaranja,text width=0.82\textwidth,font=\small,below=of particiones] {Ajuste QLoRA con entrenamiento; selección de configuración con validación; modelo original como condición de comparación};
+\node (salidas) [tazul,text width=0.82\textwidth,font=\small,below=of ajuste] {Generación pareada en las mismas preguntas de prueba, con instrucciones y parámetros controlados};
+\node (evaluacion) [tmorado,text width=0.82\textwidth,font=\small,below=of salidas] {Respuestas anonimizadas y aleatorizadas; calificación independiente con rúbrica por evaluadores de la variedad};
+\node (analisis) [tcentral,text width=0.82\textwidth,font=\small,below=of evaluacion] {Adjudicación de discrepancias, análisis de concordancia y comparación estadística pareada por variedad};
+\draw[techa] (fuentes) -- (particiones);
+\draw[techa] (particiones) -- (ajuste);
+\draw[techa] (ajuste) -- (salidas);
+\draw[techa] (salidas) -- (evaluacion);
+\draw[techa] (evaluacion) -- (analisis);
+\end{tikzpicture}
+{\fontsize{10}{12}\selectfont\singlespacing\raggedright\emph{Nota.} Elaboración propia.\par}
+\end{figure}
+
+\begin{algoritmo}[H]
+\caption{Comparación pareada de respuestas en el conjunto de prueba}
+\label{alg:comparacion-pareada}
+\small
+\singlespacing
+\begin{enumerate}
+\item Congelar las versiones del modelo, las instrucciones, la decodificación y la rúbrica utilizando únicamente el piloto y la validación.
+\item Para cada pregunta de prueba $q_i$, generar $y_{i,A}$ con el modelo original y $y_{i,B}$ con el modelo QLoRA.
+\item Guardar ambos resultados con identificadores neutrales y presentar cada respuesta en orden aleatorio a los evaluadores de su variedad.
+\item Registrar las puntuaciones independientes de pertinencia, corrección lingüística y adecuación a la variedad.
+\item Adjudicar los desacuerdos y asignar la etiqueta de aceptabilidad con la regla definida antes de la evaluación final.
+\item Comparar los resultados A y B por pregunta; estimar el efecto global y los resultados separados para chanka y collao.
+\end{enumerate}
+\end{algoritmo}
+
+\section{Plan de análisis de datos}\label{plan-de-anuxe1lisis-de-datos}
+
+El análisis principal utilizará la etiqueta adjudicada de aceptabilidad para cada respuesta. Se calcularán las proporciones de respuestas aceptables en la condición original y en la condición QLoRA, globalmente y por variedad, junto con la diferencia absoluta entre condiciones y su intervalo de confianza del 95\%.
+
+Como las dos respuestas corresponden a la misma pregunta, el contraste principal será pareado. Para el resultado dicotómico se propone la prueba bilateral de McNemar; si el número de pares discordantes es bajo, se utilizará su versión exacta \parencite{McNemar1947}. Para las puntuaciones ordinales adjudicadas de cada dimensión se presentarán distribuciones y se aplicará, como análisis secundario exploratorio, la prueba de rangos con signo de Wilcoxon por pares \parencite{Wilcoxon1945}; se interpretará con cautela por el carácter ordinal de la escala y sus posibles empates. Los análisis por variedad se informarán por separado; si se realizan varios contrastes secundarios, se controlará el error por comparaciones múltiples con el procedimiento de Holm \parencite{Holm1979}.
+
+Se utilizará un nivel de significación bilateral de $\alpha=0{,}05$ para el contraste principal. Las medidas técnicas —duración del entrenamiento, número de parámetros entrenables, latencia y memoria máxima— se resumirán de forma descriptiva y no se usarán para afirmar una mejora de calidad.
+
+La concordancia entre evaluadores se estimará con kappa ponderado para las dimensiones ordinales y kappa de Cohen para la clasificación dicotómica, antes de adjudicar discrepancias \parencite{Cohen1960,Cohen1968}. Se reportarán los desacuerdos y el procedimiento de resolución; las puntuaciones de varios evaluadores no se tratarán como observaciones independientes.
+
+La meta de 160 preguntas de prueba es provisional. El tamaño definitivo se justificará mediante precisión o potencia con información del piloto y una diferencia mínima de interés establecida antes del análisis final. Si no se alcanza precisión suficiente, los resultados se presentarán como exploratorios y se evitarán conclusiones de ausencia de efecto basadas únicamente en un valor de significación. Las métricas automáticas de similitud no sustituirán la evaluación humana ni serán el resultado principal.
+
+\section{Gestión de datos y consideraciones éticas}\label{gestiuxf3n-de-datos-y-consideraciones-uxe9ticas}
+
+Se mantendrá un registro de las fuentes, licencias, transformaciones, exclusiones, particiones, versiones del modelo y decisiones de análisis. Los archivos de evaluación conservarán identificadores seudónimos y las puntuaciones originales, además de las decisiones de adjudicación. Se establecerán copias de seguridad y acceso restringido a los datos de evaluación.
+
+No se recopilarán datos personales sensibles mediante las preguntas. Si se invita a hablantes o evaluadores a participar, se explicarán el propósito, el uso de sus aportes y las condiciones de almacenamiento, y se solicitará su consentimiento. Antes de iniciar esa participación se confirmará si corresponde revisión o autorización ética institucional. Solo se redistribuirán recursos cuya licencia lo permita; las fuentes restringidas se citarán y describirán sin publicar sus contenidos protegidos.

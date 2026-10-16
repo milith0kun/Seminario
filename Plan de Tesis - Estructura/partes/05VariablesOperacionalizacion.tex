@@ -1,0 +1,153 @@
+\section{Variables y operacionalización}\label{variables-operacionalizacion}
+
+\subsection{Variables de investigación}\label{variables-de-investigaciuxf3n}
+
+\subsubsection{Variable independiente}\label{variable-independiente}
+
+\textbf{Condición de adaptación del modelo.}
+
+Se trata de una variable categórica con dos niveles:
+
+\begin{itemize}
+\tightlist
+\item
+  A: modelo original.
+\item
+  B: mismo modelo adaptado mediante QLoRA.
+\end{itemize}
+
+\subsubsection{Variable dependiente}\label{variable-dependiente}
+
+\textbf{Calidad de las respuestas breves a preguntas cotidianas en quechua sureño.}
+
+Se medirá mediante pertinencia, corrección lingüística y adecuación a la variedad.
+
+El indicador principal será la aceptabilidad global de la respuesta.
+
+\subsubsection{Variables de control y estratificación}\label{variables-de-control-y-estratificaciuxf3n}
+
+Se controlarán:
+
+\begin{itemize}
+\tightlist
+\item
+  Identidad y versión del modelo base.
+\item
+  Conjunto de preguntas de prueba.
+\item
+  Plantilla de instrucciones.
+\item
+  Configuración de generación.
+\item
+  Límite máximo de tokens de salida.
+\item
+  Entorno de inferencia.
+\item
+  Criterios de evaluación.
+\end{itemize}
+
+Se registrarán como factores de estratificación:
+
+\begin{itemize}
+\tightlist
+\item
+  Variedad lingüística.
+\item
+  Dominio temático.
+\item
+  Tipo de pregunta.
+\item
+  Longitud de entrada.
+\end{itemize}
+
+\subsection{Operacionalización de variables}\label{operacionalizaciuxf3n-de-variables}
+
+La Tabla~\ref{tab:operacionalizacion} relaciona cada variable con sus dimensiones, indicadores, escala de medición y fuente prevista.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Operacionalización de las variables}
+\label{tab:operacionalizacion}
+\small
+\begin{tabularx}{\textwidth}{@{}P{2.45cm}P{2.4cm}L P{1.7cm}P{2.4cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Dimensión} & \textbf{Indicador} & \textbf{Escala} & \textbf{Fuente} \\
+\midrule
+Condición de adaptación & Estado del modelo & Modelo original o el mismo modelo adaptado mediante QLoRA & Nominal & Configuración experimental \\
+Calidad de respuesta & Pertinencia & Puntuación de la rúbrica: 0, 1 o 2 & Ordinal & Evaluación humana \\
+Calidad de respuesta & Corrección lingüística & Puntuación de la rúbrica: 0, 1 o 2 & Ordinal & Evaluación humana \\
+Calidad de respuesta & Adecuación a la variedad & Puntuación de la rúbrica: 0, 1 o 2 & Ordinal & Evaluación humana \\
+Calidad de respuesta & Aceptabilidad global & Aceptable o no aceptable según regla predefinida & Nominal dicotómica & Rúbrica adjudicada \\
+Desempeño técnico complementario & Memoria & Pico de memoria de GPU durante entrenamiento e inferencia & Razón & Registro técnico \\
+Desempeño técnico complementario & Latencia & Segundos por respuesta & Razón & Registro técnico \\
+Desempeño técnico complementario & Entrenamiento & Duración y número de parámetros entrenables & Razón & Registro técnico \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \textit{Nota.} Las medidas técnicas serán descriptivas y no constituirán una segunda variable dependiente principal.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Criterio de aceptabilidad global}\label{criterio-de-aceptabilidad-global}
+
+Cada dimensión recibirá una puntuación de 0 a 2.
+
+Una respuesta será clasificada como aceptable si cumple simultáneamente:
+
+\begin{itemize}
+\tightlist
+\item
+  Pertinencia: 2 puntos.
+\item
+  Corrección lingüística: al menos 1 punto.
+\item
+  Adecuación a la variedad: al menos 1 punto.
+\end{itemize}
+
+Una respuesta que no conteste la pregunta no será aceptable, aunque su formulación sea lingüísticamente correcta.
+
+Este criterio deberá ser aprobado durante la validación de la rúbrica, antes de la evaluación final.
+
+Para cada condición $c$ y variedad, la proporción de respuestas aceptables se calculará como:
+\begin{equation}
+\widehat{p}_{c}=\frac{n_{\mathrm{aceptables},c}}{N_c},
+\label{eq:proporcion_aceptabilidad}
+\end{equation}
+donde $n_{\mathrm{aceptables},c}$ es el número de respuestas clasificadas como aceptables y $N_c$ es el número de preguntas de prueba de esa variedad evaluadas en la condición $c$.
+
+La diferencia pareada de interés entre las dos condiciones se expresará como:
+\begin{equation}
+\widehat{\Delta p}=\widehat{p}_{\mathrm{QLoRA}}-\widehat{p}_{\mathrm{original}}.
+\label{eq:efecto_adaptacion}
+\end{equation}
+El signo y la magnitud se estimarán con los datos; no se presupone una mejora.
+
+\subsection{Matriz de consistencia}\label{matriz-de-consistencia}
+
+La Tabla~\ref{tab:matriz-consistencia-capitulo} muestra la correspondencia entre los problemas, los objetivos, las hipótesis y el método propuesto.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Matriz de consistencia de la investigación}
+\label{tab:matriz-consistencia-capitulo}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}P{3.45cm}P{3.7cm}P{2.65cm}L@{}}
+\toprule
+\textbf{Problema} & \textbf{Objetivo} & \textbf{Variable o resultado} & \textbf{Procedimiento} \\
+\midrule
+¿Qué efecto tiene adaptar mediante QLoRA un modelo de lenguaje compacto sobre la calidad de sus respuestas breves a preguntas cotidianas en quechua sureño? & Evaluar el efecto de adaptar mediante QLoRA un modelo de lenguaje compacto sobre la calidad de sus respuestas breves a preguntas cotidianas en quechua sureño. & Condición de adaptación; calidad de respuestas y aceptabilidad global. & Comparación pareada con las mismas preguntas; evaluación humana ciega y análisis por variedad. \\
+\addlinespace[0.15cm]
+¿Cómo construir y validar un conjunto de preguntas y respuestas cotidianas que permita evaluar las variedades chanka y collao sin confundir datos de traducción con datos de generación de respuestas? & Construir y validar un corpus de preguntas y respuestas breves de uso cotidiano en quechua sureño, con identificación de las variedades chanka y collao y separación de datos para entrenamiento, validación y prueba. & Calidad y composición del corpus & Auditoría de fuentes, revisión lingüística y partición por grupos semánticos. \\
+\addlinespace[0.15cm]
+¿Cómo adaptar un único modelo de lenguaje compacto mediante QLoRA para la generación de respuestas breves en quechua sureño, considerando las restricciones computacionales disponibles? & Evaluar la factibilidad computacional y, si resulta viable, adaptar un único modelo de lenguaje compacto mediante QLoRA y documentar su configuración. & Condición de adaptación & Piloto, ajuste supervisado y registro de configuración si el entrenamiento es viable. \\
+\addlinespace[0.15cm]
+¿Qué diferencias se observan en la aceptabilidad, pertinencia, corrección lingüística y adecuación a la variedad de las respuestas del modelo antes y después de la adaptación? & Comparar, mediante evaluación humana y análisis estadístico pareado, la calidad de las respuestas generadas por el mismo modelo antes y después de su adaptación, presentando resultados generales y diferenciados por variedad. & Aceptabilidad y dimensiones de calidad & Generación controlada, evaluación ciega con rúbrica y análisis estadístico pareado. \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

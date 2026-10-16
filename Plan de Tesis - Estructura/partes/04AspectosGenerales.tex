@@ -1,175 +1,63 @@
-\newpage
+\section{Problema específico}\label{planteamiento-del-problema}
 
-% =========================================================================
-% CAPÍTULO I: GENERALIDADES
-% =========================================================================
-\chapter{Generalidades}
+El problema central consiste en determinar si la adaptación mediante QLoRA produce una diferencia medible en la calidad de las respuestas del modelo y establecer los límites de esa diferencia para las variedades chanka y collao.
 
-\section{Planteamiento del problema}
+\subsection{Problema general}\label{121-problema-general}
 
-\subsection{Descripción del problema}
-El desarrollo de herramientas computacionales para lenguas con menos recursos digitales enfrenta limitaciones de datos, representación y evaluación. Para el quechua, los trabajos disponibles documentan tanto la creación de corpus como la formalización de recursos léxicos, y también muestran que la variedad y el tipo de información lingüística afectan las tareas de traducción automática \parencite{Orcotoma2025,Duran2026,Court2024}. Estos antecedentes no permiten atribuir una única causa ni una magnitud uniforme a las dificultades de procesamiento del Quechua Collao.
+\textbf{¿Qué efecto tiene adaptar mediante QLoRA un modelo de lenguaje compacto sobre la calidad de sus respuestas breves a preguntas cotidianas en quechua sureño?}
 
-Los modelos que dependen de servicios remotos no pueden atender solicitudes cuando el dispositivo carece de conexión. La ejecución local evita esa dependencia durante la inferencia, pero obliga a trabajar dentro de los límites de memoria y procesamiento disponibles; las técnicas de cuantización pueden reducir el tamaño del modelo a costa de compromisos que deben medirse en el equipo objetivo \parencite{Xu2024}.
+\subsection{Problemas específicos}\label{122-problemas-especuxedficos}
 
-La generación aumentada por recuperación (RAG) incorpora fragmentos de documentos al contexto de entrada para que la respuesta pueda apoyarse en información externa. Su desempeño depende de la recuperación y de la capacidad del modelo para usar el contexto. En una evaluación de tutoría educativa, un modelo pequeño tuvo dificultades con contextos extensos o irrelevantes; ese resultado evidencia un riesgo de diseño, no una conclusión directa sobre Quechua Collao \parencite{Hevia2025}.
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  ¿Cómo construir y validar un conjunto de preguntas y respuestas cotidianas que permita evaluar las variedades chanka y collao sin confundir datos de traducción con datos de generación de respuestas?
+\item
+  ¿Cómo adaptar un único modelo de lenguaje compacto mediante QLoRA para la generación de respuestas breves en quechua sureño, considerando las restricciones computacionales disponibles?
+\item
+  ¿Qué diferencias se observan en la aceptabilidad, pertinencia, corrección lingüística y adecuación a la variedad de las respuestas del modelo antes y después de la adaptación?
+\end{enumerate}
 
-El ajuste de bajo rango sobre modelos cuantizados ofrece una alternativa al entrenamiento completo, pero sus necesidades de hardware dependen del tamaño del modelo y de la configuración. El trabajo original de QLoRA informa resultados en equipos con recursos considerablemente mayores que la GPU local de 4 GB considerada en este proyecto, por lo que no se asumirá que el ajuste será viable antes de probarlo \parencite{Dettmers2023}. El problema de investigación consiste, por tanto, en determinar cómo se comporta una arquitectura compacta que combine recuperación local y adaptación bajo las restricciones reales del entorno.
+\section{Propuesta, objetivo y justificación}\label{propuesta-objetivo-justificacion}
 
-\subsection{Identificación del problema}
-El problema central es la falta de evidencia experimental comparable sobre la calidad lingüística, la fidelidad al contexto recuperado y la eficiencia computacional de una arquitectura local SLM--RAG para Quechua Collao. Se evaluará el aporte adicional de QLoRA solo si el ajuste y la inferencia con el adaptador son viables en el entorno disponible.
+\subsection{Propuesta}\label{propuesta-de-investigacion}
 
-La Figura~\ref{fig:arbol_problemas} organiza los factores del estudio y las dimensiones cuyo comportamiento aún debe evaluarse. Las conexiones expresan relaciones por contrastar, no causas ni efectos ya demostrados.
+Se propone construir y validar un corpus de preguntas y respuestas cotidianas por variedad, comprobar la factibilidad computacional y, solo si resulta viable, adaptar mediante QLoRA el modelo candidato. Después se compararán las respuestas del mismo modelo antes y después del ajuste, con las mismas preguntas de prueba y una evaluación humana. El estudio busca aportar evidencia experimental reproducible; no anticipa que QLoRA mejorará las respuestas.
 
-\begin{figure}[H]
-\centering
-\caption{Problema central, factores por examinar y dimensiones por evaluar}
-\label{fig:arbol_problemas}
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[every node/.style={text width=3.8cm, minimum height=1.65cm}]
-\node[tcentral, text width=9.2cm, minimum height=1.8cm] (centro) at (0,0) {\textbf{Problema central}\\[2pt]Falta evidencia comparable sobre calidad lingüística, fidelidad al contexto y eficiencia de SLM--RAG local para generación contextualizada en Quechua Collao};
+\subsection{Objetivo general}\label{131-objetivo-general}
 
-\node[tnaranja] (c1) at (-5.5,-3.2) {\textbf{Factor: fuentes}\\[2pt]Cobertura, licencia y variedad de los documentos por verificar};
-\node[tnaranja] (c2) at (0,-3.2) {\textbf{Factor: modelo}\\[2pt]Uso del contexto; QLoRA solo si ajuste e inferencia adaptada son viables};
-\node[tnaranja] (c3) at (5.5,-3.2) {\textbf{Factor: protocolo}\\[2pt]Condiciones comunes para comparar consultas y configuraciones};
+\textbf{Evaluar el efecto de adaptar mediante QLoRA un modelo de lenguaje compacto sobre la calidad de sus respuestas breves a preguntas cotidianas en quechua sureño.}
 
-\node[trojo] (e1) at (-5.5,3.2) {\textbf{Dimensión por evaluar}\\[2pt]Pertinencia de los fragmentos recuperados (P@k)};
-\node[trojo] (e2) at (0,3.2) {\textbf{Dimensión por evaluar}\\[2pt]Similitud de respuestas y sustento en la evidencia};
-\node[trojo] (e3) at (5.5,3.2) {\textbf{Dimensión por evaluar}\\[2pt]Latencia, memoria y viabilidad de ejecución offline};
+\subsection{Objetivos específicos}\label{132-objetivos-especuxedficos}
 
-\foreach \n in {c1,c2,c3} \draw[techa] (\n) -- (centro);
-\foreach \n in {e1,e2,e3} \draw[techa] (centro) -- (\n);
-\end{tikzpicture}}
-\end{figure}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Construir y validar un corpus de preguntas y respuestas breves de uso cotidiano en quechua sureño, con identificación de las variedades chanka y collao y separación de datos para entrenamiento, validación y prueba.
+\item
+  Evaluar la factibilidad computacional y, si resulta viable, adaptar un único modelo de lenguaje compacto mediante QLoRA y documentar su configuración.
+\item
+  Comparar, mediante evaluación humana y análisis estadístico pareado, la calidad de las respuestas generadas por el mismo modelo antes y después de su adaptación, presentando resultados generales y diferenciados por variedad.
+\end{enumerate}
 
-\subsection{Formulación del problema}
-\paragraph{Problema general.}
-¿Cómo se comporta una arquitectura SLM--RAG para la generación contextualizada en Quechua Collao dentro de un entorno computacional offline, y qué aporte adicional presenta QLoRA si el ajuste y la inferencia con adaptador son viables?
+\input{partes/04Hipotesis}
 
-\paragraph{Problemas específicos.}
-\begin{itemize}
-	\item \textbf{PE1 (Datos y Recuperación):} ¿Cómo estructurar e indexar semánticamente una base de conocimiento documental bilingüe para optimizar la recuperación local en Quechua Collao?
-\item \textbf{PE2 (Núcleo Técnico y Adaptación):} Si el ajuste y la inferencia con adaptador son viables, ¿qué diferencia produce QLoRA en la fidelidad al contexto de una configuración SLM--RAG bajo las mismas condiciones locales?
-\item \textbf{PE3 (Evaluación Computacional):} ¿Qué diferencias de similitud de respuesta, fidelidad al contexto y eficiencia computacional se observan entre SLM base, SLM--RAG y SLM--RAG--QLoRA, cuando esta última condición sea viable?
-\end{itemize}
+\subsection{Justificación}\label{justificacion-de-la-investigacion}
 
-\section{Objetivos de la investigación}
+\noindent\textbf{Científica.} La investigación abordará una tarea de generación textual distinta de la traducción automática: producir respuestas breves a preguntas formuladas directamente en quechua sureño. Su aporte será evidencia experimental sobre el efecto de adaptar mediante QLoRA un modelo compacto en una tarea y un ámbito lingüístico definidos. No se afirmará que QLoRA sea una técnica nueva ni que no existan estudios previos sobre generación de lenguaje en quechua. La comparación reproducible entre el mismo modelo antes y después de su adaptación se acompañará de un protocolo de evaluación lingüística.
 
-\subsection{Objetivo general}
-Diseñar e implementar una arquitectura SLM--RAG para la generación contextualizada en Quechua Collao dentro de un entorno computacional offline, y evaluar el aporte adicional de QLoRA si el ajuste y la inferencia con adaptador son viables.
+\noindent\textbf{Metodológica.} Se establecerá un procedimiento que contemple procedencia de datos, identificación de variedades, separación de particiones, control de contaminación, evaluación ciega, acuerdo entre evaluadores y análisis estadístico. Este procedimiento permitirá interpretar los resultados con mayor rigor que una demostración funcional del modelo.
 
-\subsection{Objetivos específicos}
-\begin{itemize}
-	\item \textbf{OE1 (Datos y Recuperación):} Curar, estructurar e indexar semánticamente una base de conocimiento documental bilingüe para optimizar la recuperación local en Quechua Collao.
-\item \textbf{OE2 (Núcleo Técnico y Adaptación):} Implementar e integrar adaptadores QLoRA en la configuración SLM--RAG y comparar su fidelidad al contexto con la configuración SLM--RAG sin adaptación, si el ajuste y la inferencia con el adaptador son viables en el entorno local.
-\item \textbf{OE3 (Evaluación Computacional):} Comparar SLM base, SLM--RAG y SLM--RAG--QLoRA, cuando esta última condición sea viable, mediante indicadores de similitud de respuesta, fidelidad al contexto y eficiencia computacional.
-\end{itemize}
+\noindent\textbf{Tecnológica.} Se estudiará la utilización de un modelo compacto y una técnica de ajuste fino eficiente en un escenario de recursos computacionales limitados. Se registrarán las condiciones de entrenamiento e inferencia, sin asumir que QLoRA garantiza compatibilidad con cualquier GPU.
 
-La Figura~\ref{fig:arbol_objetivos} presenta el objetivo general y la secuencia de trabajo de los objetivos específicos: preparar los datos y la recuperación, integrar el núcleo técnico y evaluar las condiciones viables. Los ODS 9 y 10 se mantienen como contexto motivacional en la justificación; el estudio no los incorpora como fines ni mide sus impactos.
+\noindent\textbf{Lingüística y social.} El trabajo buscará contribuir a la documentación y evaluación de tecnologías relacionadas con el quechua sureño. La participación de hablantes competentes permitirá reconocer diferencias entre las variedades estudiadas y evitar que la evaluación dependa exclusivamente de indicadores automáticos. Los resultados no se presentarán como sustitutos del conocimiento de los hablantes ni como una herramienta lingüística validada para cualquier situación comunicativa.
 
-\begin{figure}[H]
-\centering
-\caption{Objetivo general y secuencia de los objetivos específicos}
-\label{fig:arbol_objetivos}
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[every node/.style={text width=4.0cm, minimum height=1.7cm}]
-\node[tcentral, text width=9.2cm, minimum height=1.9cm] (centro) at (0,3.0) {\textbf{Objetivo general}\\[2pt]Diseñar e implementar SLM--RAG local para generación contextualizada en Quechua Collao offline; evaluar QLoRA solo si ajuste e inferencia adaptada son viables};
+\subsection{Alcances y limitaciones}\label{alcances-limitaciones}
 
-\node[tteal] (m1) at (-5.5,-0.4) {\textbf{OE1 · Datos y recuperación}\\[2pt]Curar, estructurar e indexar fuentes; medir pertinencia con P@k};
-\node[tteal] (m2) at (0,-0.4) {\textbf{OE2 · Núcleo y adaptación}\\[2pt]Integrar SLM--RAG; probar QLoRA si ajuste e inferencia adaptada son viables};
-\node[tteal] (m3) at (5.5,-0.4) {\textbf{OE3 · Evaluación}\\[2pt]Comparar similitud, fidelidad y eficiencia entre condiciones viables};
+\noindent\textbf{Temática.} La tarea consistirá en responder preguntas cotidianas de un solo turno mediante textos breves. Se priorizarán preguntas sobre situaciones sociales, actividades habituales, alimentos, familia y otros contextos sencillos que puedan ser evaluados por hablantes competentes. Se excluirán consultas médicas, jurídicas y financieras; preguntas de actualidad; información personal desconocida; y solicitudes que requieran búsquedas externas. Las preguntas deberán contener información suficiente para producir una respuesta razonable o pertenecer a situaciones comunicativas de conocimiento cotidiano. No se evaluará al modelo por inventar datos personales que no conoce.
 
-\draw[techa] (m1) -- (m2);
-\draw[techa] (m2) -- (m3);
-\end{tikzpicture}}
-\end{figure}
+\noindent\textbf{Lingüística.} Se estudiarán el quechua chanka o ayacuchano, identificado habitualmente con \texttt{quy}, y el quechua collao o cusqueño, identificado habitualmente con \texttt{quz}. Los ejemplos deberán estar etiquetados y validados para la variedad correspondiente. Los datos de quechua de Puno (\texttt{qxp}) no se incorporarán automáticamente como equivalentes a los de chanka o collao. Las conclusiones se limitarán a las variedades, los temas y las condiciones efectivamente estudiados.
 
-\section{Hipótesis de la investigación}
+\noindent\textbf{Tecnológica.} Se empleará un único modelo compacto, cuyo candidato inicial será Qwen2.5-0.5B-Instruct, y una única técnica de adaptación, QLoRA, siempre que supere la prueba de factibilidad. No se implementarán RAG, bases vectoriales, recuperación de documentos, reconocimiento de voz ni comparación entre arquitecturas.
 
-\subsection{Hipótesis general}
-En las condiciones de prueba definidas, si QLoRA resulta viable, la configuración SLM--RAG--QLoRA obtendrá mayor fidelidad al contexto y similitud con las respuestas de referencia que SLM--RAG; la evaluación también describirá sus diferencias frente al SLM base y su costo computacional.
-
-\subsection{Hipótesis específicas}
-\begin{itemize}
-\item \textbf{HE1 (Datos y recuperación):} Con las consultas y etiquetas de relevancia definidas, la indexación semántica local recuperará una mayor proporción de fragmentos pertinentes que la búsqueda léxica de referencia.
-\item \textbf{HE2 (Núcleo técnico y adaptación):} Si el ajuste QLoRA y la inferencia con el adaptador son viables, SLM--RAG--QLoRA obtendrá mayor fidelidad al contexto que SLM--RAG, manteniendo constantes el modelo base, las fuentes, las consultas y los parámetros de generación.
-\item \textbf{HE3 (Evaluación computacional):} Si las tres configuraciones pueden ejecutarse, SLM--RAG--QLoRA obtendrá mayor similitud con las respuestas de referencia y mayor fidelidad al contexto que SLM base y SLM--RAG, según las métricas preestablecidas.
-\end{itemize}
-
-\section{Justificación de la investigación}
-La investigación se justifica por la necesidad de estudiar alternativas de generación que puedan ejecutarse sin conexión y apoyarse en documentos trazables en Quechua Collao. La propuesta se organiza desde cuatro perspectivas de ingeniería:
-
-\begin{itemize}
-\item \textbf{Justificación teórica:} Examina la relación entre recuperación documental, modelos compactos y adaptación de bajo rango en una tarea de generación para Quechua Collao. Los antecedentes sobre traducción de quechua muestran que el tipo de contexto puede influir de manera distinta en el resultado, por lo que la propuesta requiere una evaluación específica \parencite{Court2024}.
-\item \textbf{Justificación práctica:} El prototipo se diseñará para funcionar localmente y sin conexión durante la inferencia. Su utilidad y calidad deberán medirse; el plan no presupone que las respuestas serán siempre precisas ni que todos los componentes podrán ejecutarse en la GPU local de 4 GB.
-\item \textbf{Justificación metodológica:} Propone pruebas computacionales comparativas para medir el comportamiento del modelo base, la recuperación local y la adaptación QLoRA mediante indicadores de calidad y eficiencia.
-\item \textbf{Justificación tecnológica y social:} El posible aporte se relaciona con el acceso a tecnologías locales y con la disponibilidad de recursos lingüísticos. El vínculo con los ODS 9 y 10 se plantea como motivación, no como un impacto social que el experimento vaya a medir \parencite{UnitedNations2015}:
-	\begin{itemize}
-\item \textbf{ODS 9 — Industria, innovación e infraestructura:} Se vincula con la exploración de una arquitectura de procesamiento local y eficiente.
-\item \textbf{ODS 10 — Reducción de las desigualdades:} Se vincula con la investigación de herramientas digitales para una lengua originaria; el proyecto no medirá reducción de brechas sociales.
-	\end{itemize}
-\end{itemize}
-
-\section{Alcances y limitaciones}
-
-\subsection{Alcances}
-El presente estudio abarca el diseño, implementación y evaluación experimental de una arquitectura SLM--RAG con QLoRA para inferencia local offline en Quechua Collao:
-
-\begin{itemize}
-\item \textbf{Alcance tecnológico:} Comprende la selección de un SLM abierto de la familia Qwen2.5 como candidato, la evaluación de cuantización e inferencia local y la integración con recuperación documental local. QLoRA se probará como componente condicionado a la viabilidad de memoria; la cuantización, el formato y el motor final se fijarán y documentarán antes de la comparación \parencite{qwen2024,Dettmers2023}.
-\item \textbf{Alcance lingüístico:} Se delimita a materiales identificados como Quechua Collao. Cada fuente y consulta conservará una etiqueta de idioma y variedad; no se extrapolarán resultados a otras variedades quechuas.
-\item \textbf{Alcance experimental y métrico:} La evaluación comparará similitud de respuesta mediante chrF++ (métrica de n-gramas de caracteres y palabras) y BLEU (\textit{Bilingual Evaluation Understudy}), con SacreBLEU como implementación; también medirá recuperación y fidelidad al contexto mediante indicadores definidos y eficiencia local mediante latencia, tokens por segundo y consumo de RAM/VRAM \parencite{popovic-2017-chrf,Post2018}.
-	\item \textbf{Alcance disciplinar:} Se ubica estrictamente dentro de la Ciencia de la Computación, la Inteligencia Artificial y la Ingeniería de Sistemas, en las subáreas de Procesamiento de Lenguaje Natural y Sistemas Distribuidos/Edge Computing.
-\end{itemize}
-
-\subsection{Limitaciones}
-Se reconocen las siguientes limitaciones del estudio:
-\begin{itemize}
-\item \textbf{Disponibilidad y cobertura de datos:} Los recursos quechuas existentes no garantizan cobertura suficiente de todas las consultas o registros del Quechua Collao; la selección, licencia y trazabilidad del corpus limitarán el alcance de la evaluación \parencite{Orcotoma2025,Duran2026}.
-\item \textbf{Variación lingüística y tokenización:} Los resultados no se generalizarán a otras variedades quechuas. La segmentación de subpalabras y sus efectos sobre memoria y calidad se medirán en el modelo elegido, sin asumir una razón fija frente al español.
-\item \textbf{Capacidad de hardware local:} La GPU disponible cuenta con 4~GB de VRAM. El ajuste QLoRA de un modelo compacto puede no ser viable en ese dispositivo; se informará cualquier reducción de alcance, uso de CPU u otra condición computacional, sin presentar las alternativas como equivalentes.
-	\item \textbf{Modalidad textual:} El sistema procesa y genera exclusivamente texto digital; el procesamiento de habla (reconocimiento y síntesis de voz) queda fuera de la delimitación del presente proyecto.
-\end{itemize}
-
-\section{Matriz de consistencia metodológica}
-La Tabla~\ref{tab:matriz_consistencia} resume la correspondencia entre los problemas, objetivos, hipótesis, variables e instrumentos propuestos.
-
-\begin{table}[H]
-\centering
-\caption{Matriz de consistencia metodológica del proyecto de tesis}
-\label{tab:matriz_consistencia}
-\scriptsize
-\begin{tabularx}{\textwidth}{@{}p{2.8cm}p{3.0cm}p{3.0cm}p{2.4cm}X@{}}
-\toprule
-\rowcolor{tcAzul!12}
-\textbf{Problema} & \textbf{Objetivo} & \textbf{Hipótesis} & \textbf{Variable(s)} & \textbf{Instrumento / Métrica} \\
-\midrule
-\multicolumn{5}{l}{\textbf{Nivel General}} \\
-¿Cómo se comporta una arquitectura SLM--RAG para la generación contextualizada en Quechua Collao dentro de un entorno computacional sin conexión, y qué aporte adicional presenta QLoRA si el ajuste y la inferencia con adaptador son viables? &
-Diseñar e implementar una arquitectura SLM--RAG para la generación contextualizada en Quechua Collao dentro de un entorno computacional sin conexión, y evaluar el aporte adicional de QLoRA si el ajuste y la inferencia con adaptador son viables. &
-Si QLoRA resulta viable, SLM--RAG--QLoRA obtendrá mayor fidelidad al contexto y similitud con las respuestas de referencia que SLM--RAG; también se describirá su diferencia frente al SLM base y su costo computacional. &
-\textbf{VI:} Configuración del sistema.\newline
-\textbf{VD:} Calidad lingüística, fidelidad y eficiencia. & 
-Consultas repetidas por configuración; métricas lingüísticas, de RAG y de rendimiento. \\
-\midrule
-\multicolumn{5}{l}{\textbf{Nivel Específico (Fases Metodológicas de Ingeniería)}} \\
-\textbf{PE1 (Datos y Recuperación):} ¿Cómo estructurar e indexar semánticamente una base documental bilingüe para optimizar la recuperación local en Quechua Collao? & 
-\textbf{OE1:} Curar, estructurar e indexar semánticamente una base documental bilingüe para optimizar la recuperación local en Quechua Collao. & 
-\textbf{HE1:} La indexación semántica local recuperará una mayor proporción de fragmentos pertinentes que la búsqueda léxica de referencia, según las etiquetas definidas. & 
-Precisión de recuperación (P@k) y trazabilidad de fuentes. & 
-Índice local, consultas con documentos pertinentes identificados y registro de fragmentos recuperados. \\
-\midrule
-\textbf{PE2 (Núcleo y Adaptación):} Si el ajuste y la inferencia con adaptador son viables, ¿qué diferencia produce QLoRA en la fidelidad al contexto de SLM--RAG bajo las mismas condiciones locales? &
-\textbf{OE2:} Implementar e integrar adaptadores QLoRA en SLM--RAG y comparar su fidelidad al contexto con SLM--RAG sin adaptación, si el ajuste y la inferencia con adaptador son viables. &
-\textbf{HE2:} Si el ajuste QLoRA y la inferencia con el adaptador son viables, SLM--RAG--QLoRA tendrá mayor fidelidad al contexto que SLM--RAG, manteniendo constantes modelo, fuentes, consultas y parámetros. &
-Fidelidad al contexto; latencia; tokens por segundo; RAM y VRAM. &
-Comparación pareada por consulta; ficha experimental y telemetría del mismo equipo. \\
-\midrule
-\textbf{PE3 (Evaluación Computacional):} ¿Qué diferencias de similitud de respuesta, fidelidad al contexto y eficiencia se observan entre SLM, SLM--RAG y SLM--RAG--QLoRA, cuando esta última condición sea viable? &
-\textbf{OE3:} Comparar SLM base, SLM--RAG y SLM--RAG--QLoRA, cuando esta última condición sea viable, mediante indicadores de similitud de respuesta, fidelidad al contexto y eficiencia computacional. &
-\textbf{HE3:} Si las tres configuraciones pueden ejecutarse, SLM--RAG--QLoRA obtendrá mayor similitud con las respuestas de referencia y mayor fidelidad que SLM y SLM--RAG. &
-chrF++; BLEU; P@k; fidelidad al contexto; latencia y memoria. &
-Scripts documentados, revisión lingüística y factual, SacreBLEU y análisis de medidas repetidas. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\noindent\textbf{Experimental.} Se compararán dos condiciones del mismo modelo: (A) modelo original y (B) modelo adaptado mediante QLoRA. Ambas utilizarán las mismas preguntas de prueba, instrucciones equivalentes y parámetros de generación. La interpretación se limitará a este modelo, el corpus validado, las variedades y el protocolo efectivamente evaluados.

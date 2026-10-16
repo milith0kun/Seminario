@@ -1,145 +1,134 @@
 % =========================================================================
-% ANEXOS DEL PLAN DE TESIS
+% APÉNDICES: INSTRUMENTOS Y FORMATOS PROPUESTOS (SIN DATOS DE RESULTADOS)
 % =========================================================================
 \clearpage
 \phantomsection
-\chapter*{Anexos}
-\addcontentsline{toc}{chapter}{Anexos}
+\appendix
+\renewcommand{\chaptername}{Apéndice}
 
-\section*{Anexo 1: Matriz de consistencia lógica}
-\phantomsection
+\chapter{Matriz de consistencia}
 \label{anexo:matriz_consistencia}
-\addcontentsline{toc}{section}{Anexo 1: Matriz de consistencia lógica}
+
+La Tabla~\ref{tab:anexo-matriz-consistencia} integra el problema, los objetivos, la hipótesis, el indicador principal y el método previsto para comprobar su correspondencia.
 
 \begin{table}[H]
 \centering
 \begin{threeparttable}
-\caption{Matriz de consistencia lógica de la investigación}
-\label{tab:anexo_matriz_consistencia}
+\caption{Matriz de consistencia de la investigación}
+\label{tab:anexo-matriz-consistencia}
 \scriptsize
-\begin{tabularx}{\textwidth}{@{}p{2.6cm}p{2.6cm}p{2.6cm}p{2.8cm}X@{}}
+\begin{tabularx}{\textwidth}{@{}P{2.15cm}P{3.45cm}P{3.45cm}L@{}}
 \toprule
 \rowcolor{tcAzul!12}
-\textbf{Problemas} & \textbf{Objetivos} & \textbf{Hipótesis} & \textbf{Variables e indicadores} & \textbf{Método} \\
+\textbf{Componente} & \textbf{Problema} & \textbf{Objetivo} & \textbf{Hipótesis, indicador y método} \\
 \midrule
-\textbf{Problema general:} ¿Cómo se comporta una arquitectura SLM--RAG para la generación contextualizada en Quechua Collao dentro de un entorno computacional sin conexión, y qué aporte adicional presenta QLoRA si el ajuste y la inferencia con adaptador son viables? &
-\textbf{Objetivo general:} Diseñar e implementar una arquitectura SLM--RAG para la generación contextualizada en Quechua Collao y evaluar el aporte adicional de QLoRA si el ajuste y la inferencia con adaptador son viables. &
-\textbf{Hipótesis general:} Si QLoRA es viable, SLM--RAG--QLoRA obtendrá mayor fidelidad al contexto y similitud con referencias que SLM--RAG; también se describirán sus diferencias frente al SLM base y su costo computacional. &
-\textbf{VI:} configuración del sistema. \textbf{VD:} similitud con referencias, fidelidad y eficiencia. &
-Enfoque cuantitativo; investigación aplicada y tecnológica; experimento computacional comparativo con consultas repetidas. \\
+General & ¿Qué efecto tiene adaptar mediante QLoRA un modelo de lenguaje compacto sobre la calidad de sus respuestas breves a preguntas cotidianas en quechua sureño? & Evaluar el efecto de adaptar mediante QLoRA un modelo de lenguaje compacto sobre la calidad de sus respuestas breves a preguntas cotidianas en quechua sureño. & $H_1$: existe diferencia en la proporción de respuestas aceptables; $H_0$: no existe diferencia. Indicador principal: aceptabilidad adjudicada. Comparación pareada con las mismas preguntas. \\
 \addlinespace
-\textbf{Problema específico 1:} ¿Cómo estructurar e indexar una base documental bilingüe para recuperar información pertinente en Quechua Collao? &
-\textbf{Objetivo específico 1:} Curar, estructurar e indexar documentos bilingües para recuperación local. &
-\textbf{Hipótesis específica 1:} La indexación semántica recuperará una mayor proporción de fragmentos pertinentes que la búsqueda léxica de referencia, según las consultas y etiquetas definidas. &
-Precisión de recuperación (P@k), cobertura de fuentes y trazabilidad documental. &
-Corpus con etiquetas de idioma y variedad; índice local y consultas con evidencia relevante identificada. \\
+Específico 1 & ¿Cómo construir y validar un conjunto de preguntas y respuestas cotidianas que permita evaluar las variedades chanka y collao sin confundir datos de traducción con datos de generación de respuestas? & Construir y validar un corpus de preguntas y respuestas breves de uso cotidiano en quechua sureño, con identificación de las variedades chanka y collao y separación de datos para entrenamiento, validación y prueba. & Método: auditoría de fuentes, revisión lingüística y separación por grupos semánticos. Producto previsto: corpus documentado y particiones. \\
 \addlinespace
-\textbf{Problema específico 2:} Si el ajuste y la inferencia con adaptador son viables, ¿qué diferencia produce QLoRA en la fidelidad al contexto de SLM--RAG bajo las mismas condiciones locales? &
-\textbf{Objetivo específico 2:} Integrar QLoRA en SLM--RAG y comparar su fidelidad al contexto con SLM--RAG sin adaptación, si el ajuste y la inferencia con adaptador son viables. &
-\textbf{Hipótesis específica 2:} Si el ajuste QLoRA y la inferencia con el adaptador son viables, SLM--RAG--QLoRA tendrá mayor fidelidad al contexto que SLM--RAG, manteniendo constantes las demás condiciones. &
-Fidelidad al contexto; latencia; tokens por segundo; RAM y VRAM. &
-Registro de configuración y telemetría; prueba de viabilidad previa al experimento completo. \\
+Específico 2 & ¿Cómo adaptar un único modelo de lenguaje compacto mediante QLoRA para la generación de respuestas breves en quechua sureño, considerando las restricciones computacionales disponibles? & Evaluar la factibilidad computacional y, si resulta viable, adaptar un único modelo de lenguaje compacto mediante QLoRA y documentar su configuración. & Método: prueba piloto y ajuste supervisado con QLoRA solo si el entrenamiento es viable. Producto previsto: registro del piloto y configuración. \\
 \addlinespace
-\textbf{Problema específico 3:} ¿Qué diferencias de similitud de respuesta, fidelidad al contexto y eficiencia se observan entre SLM, SLM--RAG y SLM--RAG--QLoRA, cuando esta última condición sea viable? &
-\textbf{Objetivo específico 3:} Comparar SLM base, SLM--RAG y SLM--RAG--QLoRA, cuando esta última condición sea viable, mediante indicadores de similitud de respuesta, fidelidad al contexto y eficiencia computacional. &
-\textbf{Hipótesis específica 3:} Si las tres configuraciones pueden ejecutarse, SLM--RAG--QLoRA obtendrá mayor similitud con las respuestas de referencia y mayor fidelidad que SLM y SLM--RAG. &
-chrF++; BLEU; P@k; fidelidad al contexto; latencia y memoria. &
-Banco provisional de consultas; comparaciones pareadas y prueba global si se evalúan tres condiciones. \\
+Específico 3 & ¿Qué diferencias se observan en la aceptabilidad, pertinencia, corrección lingüística y adecuación a la variedad de las respuestas del modelo antes y después de la adaptación? & Comparar, mediante evaluación humana y análisis estadístico pareado, la calidad de las respuestas generadas por el mismo modelo antes y después de su adaptación, presentando resultados generales y diferenciados por variedad. & Indicador principal: aceptabilidad; dimensiones secundarias: pertinencia, corrección lingüística y adecuación a la variedad. Método: evaluación ciega y análisis pareado. \\
 \bottomrule
 \end{tabularx}
 \begin{tablenotes}
-\scriptsize
-\item \textit{Nota.} El tamaño de 100 consultas y la evaluación de QLoRA son provisionales. Se confirmarán después de validar el corpus y la viabilidad del hardware.
+\item \textit{Nota.} QLoRA, el tamaño del corpus, el equipo de evaluación y los parámetros son propuestas sujetas al piloto y a la disponibilidad comprobada. No se reportan datos ni resultados experimentales en esta matriz.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
 \clearpage
-\section*{Anexo 2: Ficha técnica de registro experimental}
-\phantomsection
+\chapter{Ficha técnica de registro experimental}
 \label{anexo:ficha_tecnica}
-\addcontentsline{toc}{section}{Anexo 2: Ficha técnica de registro experimental}
 
-\begin{table}[H]
-\centering
-\caption{Ficha para registrar una corrida experimental}
-\label{tab:ficha_tecnica}
-\begin{tabularx}{\textwidth}{@{}p{5.0cm}X@{}}
-\toprule
-\textbf{Campo} & \textbf{Registro durante la ejecución} \\
-\midrule
-Identificador & Completar al ejecutar \\
-Configuración & SLM base / SLM--RAG / SLM--RAG--QLoRA, según viabilidad \\
-Dispositivo y entorno & Modelo del equipo, sistema operativo y versiones \\
-Modelo y cuantización & Nombre, versión y formato realmente utilizados \\
-Consulta y variedad & Consulta evaluada, idioma y variedad identificados \\
-Fragmentos recuperados & Identificadores de fuente y fragmentos entregados al modelo \\
-Latencia y rendimiento & Medición en milisegundos y tokens por segundo \\
-Consumo de memoria & Pico de RAM y VRAM medidos \\
-Salida y métricas & Respuesta generada y puntuaciones calculadas \\
-Observaciones & Errores, interrupciones y notas del evaluador \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\clearpage
-\section*{Anexo 3: Rúbrica de revisión lingüística y factual}
-\phantomsection
-\label{anexo:revision_linguistica}
-\addcontentsline{toc}{section}{Anexo 3: Rúbrica de revisión lingüística y factual}
+La Tabla~\ref{tab:ficha-tecnica} ofrece campos en blanco para documentar cada corrida, sus condiciones, las respuestas generadas y las observaciones técnicas.
 
 \begin{table}[H]
 \centering
 \begin{threeparttable}
-\caption{Rúbrica para revisar respuestas generadas en Quechua Collao}
-\label{tab:revision_linguistica}
+\caption{Ficha vacía para registrar una corrida experimental}
+\label{tab:ficha-tecnica}
 \small
-\begin{tabularx}{\textwidth}{@{}p{2.7cm}X X X@{}}
+\begin{tabularx}{\textwidth}{@{}P{4.0cm}L@{}}
 \toprule
-\textbf{Criterio} & \textbf{Insuficiente (1)} & \textbf{Parcial (2--3)} & \textbf{Adecuado (4--5)} \\
+\textbf{Campo} & \textbf{Registro al ejecutar} \\
 \midrule
-Comprensión de la consulta & No responde a la pregunta o altera su sentido. & Responde parcialmente o añade contenido no solicitado. & Responde al propósito de la consulta de forma directa. \\
-\addlinespace
-Corrección lingüística & Errores que impiden comprender el sentido en la variedad indicada. & El sentido general se entiende, aunque requiere correcciones. & Redacción comprensible y consistente con Quechua Collao. \\
-\addlinespace
-Fidelidad a la fuente & Incluye afirmaciones que contradicen o no aparecen en la evidencia. & La mayoría de afirmaciones se sustenta, con omisiones o dudas. & Las afirmaciones evaluables se sustentan en la fuente proporcionada. \\
-\addlinespace
-Variedad y vocabulario & Mezcla variedades o usa vocabulario que cambia el significado. & Mantiene parcialmente la variedad, con usos que requieren revisión. & Conserva la variedad y el vocabulario pertinentes a la consulta. \\
+Identificador de corrida & \rule{0pt}{2.4ex} \hfill \\
+Fecha y responsable & \rule{0pt}{2.4ex} \hfill \\
+Condición & Modelo original / modelo QLoRA \\
+Modelo y revisión exacta & \rule{0pt}{2.4ex} \hfill \\
+Variedad y pregunta de prueba & Chanka / collao; identificador de pregunta: \rule{2.4cm}{0.4pt} \\
+Instrucción y parámetros de generación & \rule{0pt}{2.4ex} \hfill \\
+Versión del adaptador y parámetros de entrenamiento & Completar solo en la condición adaptada \\
+Respuesta generada & \rule{0pt}{2.4ex} \hfill \\
+Latencia y memoria máxima & Registrar valores observados y unidad \\
+Puntuaciones por criterio y evaluador seudónimo & Pertinencia / corrección / variedad; conservar cada valoración \\
+Adjudicación y observaciones & Registrar discrepancias, decisión y cualquier error técnico \\
 \bottomrule
 \end{tabularx}
 \begin{tablenotes}
-\scriptsize
-\item \textit{Nota.} La ficha será aplicada por una persona competente en Quechua Collao, con criterios acordados antes de evaluar. Si participan evaluadores, se registrará el procedimiento de revisión y resolución de discrepancias. La rúbrica complementa, pero no sustituye, las métricas automáticas.
+\item \textit{Nota.} Formato en blanco. No contiene mediciones, salidas ni resultados previamente obtenidos.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
 \clearpage
-\section*{Anexo 4: Plantilla del banco de consultas de evaluación}
-\phantomsection
-\label{anexo:banco_consultas}
-\addcontentsline{toc}{section}{Anexo 4: Plantilla del banco de consultas de evaluación}
+\chapter{Rúbrica de evaluación de respuestas}
+\label{anexo:revision_linguistica}
+
+La Tabla~\ref{tab:rubrica-respuestas} presenta los descriptores propuestos para las tres dimensiones de calidad y la regla preliminar de aceptabilidad, que se validará durante el piloto.
 
 \begin{table}[H]
 \centering
 \begin{threeparttable}
-\caption{Estructura prevista para documentar consultas de evaluación}
-\label{tab:banco_consultas}
-\small
-\begin{tabularx}{\textwidth}{@{}c p{3.1cm} X p{4.1cm}@{}}
+\caption{Rúbrica propuesta para evaluar respuestas breves en quechua sureño}
+\label{tab:rubrica-respuestas}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}P{2.7cm}LLL@{}}
 \toprule
-\textbf{ID} & \textbf{Tema e idioma / variedad} & \textbf{Consulta} & \textbf{Fuente, referencia y pasajes pertinentes} \\
+\textbf{Dimensión} & \textbf{0: insuficiente} & \textbf{1: parcialmente adecuada} & \textbf{2: adecuada} \\
 \midrule
-Q01 & Pendiente de selección; por identificar & Completar tras curar las fuentes & Registrar documento, respuesta verificable e identificadores de evidencia \\
+Pertinencia & No responde a la pregunta o altera su intención. & Responde solo una parte o añade información que dificulta identificar la contestación. & Responde de forma directa a la intención de la pregunta. \\
 \addlinespace
-Q02 & Pendiente de selección; por identificar & Completar tras curar las fuentes & Registrar documento, respuesta verificable e identificadores de evidencia \\
+Corrección lingüística & La formulación impide comprender la respuesta en la variedad indicada. & El sentido general se comprende, aunque requiere correcciones lingüísticas. & La respuesta es comprensible y lingüísticamente aceptable según el criterio acordado con hablantes. \\
 \addlinespace
-Q03 & Pendiente de selección; por identificar & Completar tras curar las fuentes & Registrar documento, respuesta verificable e identificadores de evidencia \\
+Adecuación a la variedad & La respuesta no corresponde a la variedad solicitada o contiene formas que alteran su interpretación. & La variedad puede identificarse, pero hay mezcla o formas que requieren revisión. & La respuesta es adecuada para la variedad solicitada, admitiendo variantes documentadas. \\
 \bottomrule
 \end{tabularx}
 \begin{tablenotes}
-\scriptsize
-\item \textit{Nota.} Plantilla del instrumento; no representa consultas ni resultados ya validados. Se registrarán los fragmentos considerados pertinentes para contrastar la recuperación. El banco previsto se completará después de verificar las fuentes y la cobertura lingüística.
+\item \textit{Nota.} Se clasifica como aceptable una respuesta con pertinencia = 2, corrección lingüística $\geq 1$ y adecuación a la variedad $\geq 1$. Una respuesta que no contesta la pregunta no es aceptable. La rúbrica se validará durante el piloto y se congelará antes de la evaluación final.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\clearpage
+\chapter{Plantilla de registro del corpus}
+\label{anexo:banco_consultas}
+
+La Tabla~\ref{tab:plantilla-corpus} reúne los campos necesarios para identificar cada ejemplo, documentar su procedencia y registrar su variedad, revisión y partición.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Campos propuestos para documentar los pares de pregunta y respuesta}
+\label{tab:plantilla-corpus}
+\small
+\begin{tabularx}{\textwidth}{@{}P{4.3cm}P{3.8cm}L@{}}
+\toprule
+\textbf{Campo} & \textbf{Valor por completar} & \textbf{Uso en el estudio} \\
+\midrule
+Identificador & \rule{0pt}{2.4ex} & Seguimiento sin usar nombres personales. \\
+Pregunta & \rule{0pt}{2.4ex} & Entrada idéntica para las dos condiciones de prueba. \\
+Respuesta de referencia & \rule{0pt}{2.4ex} & Orienta la validación del ejemplo; no reemplaza la evaluación humana del modelo. \\
+Variedad & Chanka / collao & Estratificación, asignación de evaluadores y presentación de resultados. \\
+Dominio e intención & \rule{0pt}{2.4ex} & Descripción temática y comunicativa. \\
+Fuente, licencia y procedencia & \rule{0pt}{2.4ex} & Auditoría de permisos y trazabilidad. \\
+Revisión lingüística & \rule{0pt}{2.4ex} & Responsable seudónimo, estado y observaciones de validación. \\
+Grupo semántico y partición & Entrenamiento / validación / prueba / piloto & Evita que paráfrasis o preguntas equivalentes se distribuyan entre conjuntos. \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \textit{Nota.} Plantilla vacía. Los ejemplos se incorporarán solo después de validar su variedad, respuesta, procedencia y permiso de uso.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

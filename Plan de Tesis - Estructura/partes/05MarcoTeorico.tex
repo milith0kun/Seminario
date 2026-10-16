@@ -1,88 +1,130 @@
-\section{Fundamentos teóricos}
+\section{Bases teóricas}\label{bases-teuxf3ricas}
 
-\subsection{Modelos compactos e inferencia local}
-Los modelos de lenguaje estiman distribuciones de probabilidad sobre secuencias de tokens y generan texto de manera autorregresiva. Los modelos compactos reducen el número de parámetros respecto de modelos de mayor tamaño, lo que puede facilitar su ejecución local; esa reducción no garantiza por sí sola calidad suficiente para una tarea o lengua determinada. La revisión de modelos en dispositivos describe cuantización y otras técnicas de compresión como herramientas para ajustarse a límites de memoria, con compromisos que deben observarse durante la evaluación \parencite{Xu2024}.
+\subsection{Procesamiento del lenguaje natural}\label{procesamiento-del-lenguaje-natural}
 
-Como línea base, el proyecto considera Qwen2.5-3B-Instruct, sujeto a la verificación de disponibilidad, licencia y compatibilidad con el entorno de inferencia local \parencite{qwen2024}. Se registrarán la revisión exacta y el formato utilizado; la familia y el tamaño del modelo no se tratarán como garantía de desempeño en Quechua Collao.
+El procesamiento del lenguaje natural (PLN) estudia métodos computacionales para analizar, interpretar y generar lenguaje humano.
 
-\subsection{Generación aumentada por recuperación}
-La generación aumentada por recuperación combina un modelo generativo con una memoria documental externa. En una configuración densa, una consulta y cada fragmento se representan como vectores; la recuperación ordena los fragmentos según una función de similitud y entrega los más pertinentes al modelo generativo \parencite{Lewis2020}. La similitud del coseno se expresa como:
+En esta investigación se abordará la generación de respuestas textuales breves, no la traducción automática.
+
+\subsection{Arquitectura Transformer}\label{arquitectura-transformer}
+
+La arquitectura Transformer, presentada por \textcite{Vaswani2017}, utiliza mecanismos de atención para representar relaciones entre elementos de una secuencia.
+
+Los modelos de lenguaje autorregresivos basados en esta arquitectura generan texto mediante la predicción sucesiva de tokens.
+
+En la autoatención, las representaciones de consulta ($Q$), clave ($K$) y valor ($V$) determinan cómo se pondera la información de la secuencia. La operación se expresa como:
 \begin{equation}
-\label{eq:similitud_coseno}
-\operatorname{sim}(q,d)=\frac{\mathbf{e}_q\cdot\mathbf{e}_d}{\|\mathbf{e}_q\|\,\|\mathbf{e}_d\|}.
-\end{equation}
-
-La fórmula describe un criterio de ordenamiento, no una garantía de que el fragmento recuperado sea pertinente ni de que el modelo lo utilice correctamente. Por ello, la propuesta medirá por separado la recuperación documental y la calidad de las respuestas. El tamaño de los fragmentos, el modelo de embeddings, el índice y el número de resultados recuperados se mantendrán documentados como parámetros del experimento.
-
-La precisión en los primeros $k$ resultados se calculará como la proporción de fragmentos recuperados que fueron etiquetados como pertinentes para la consulta:
-\begin{equation}
-\label{eq:precision_at_k}
-P@k=\frac{|\{d\in\mathcal{C}_k:d\text{ es pertinente}\}|}{k}.
-\end{equation}
-Esta métrica requiere etiquetar la pertinencia de los fragmentos para cada consulta antes de la evaluación.
-
-\subsection{Adaptación de bajo rango y QLoRA}
-La adaptación de bajo rango representa una actualización de pesos mediante dos matrices de rango reducido. En la formulación utilizada en este plan:
-\begin{equation}
-\label{eq:descomposicion_lora}
-W=W_0+\Delta W=W_0+\frac{\alpha}{r}(B A),
-\end{equation}
-donde $W_0$ son los pesos preentrenados, $A$ y $B$ son matrices entrenables, $r$ es el rango y $\alpha$ es un factor de escala. Esta parametrización corresponde a LoRA \parencite{Hu2021LoRA}. QLoRA conserva el modelo base cuantizado y adapta matrices de bajo rango; los beneficios de memoria comunicados en el artículo original deben interpretarse en las condiciones de hardware y entrenamiento evaluadas por sus autores \parencite{Dettmers2023}.
-
-En las capas de autoatención, las representaciones de entrada se proyectan en consultas, claves y valores:
-\begin{equation}
-\label{eq:proyecciones_atencion}
-Q=XW_q,\qquad K=XW_k,\qquad V=XW_v.
-\end{equation}
-La operación de atención escalada se define como:
-\begin{equation}
+\operatorname{Attention}(Q,K,V)=\operatorname{softmax}\left(\frac{QK^{\mathsf T}}{\sqrt{d_k}}\right)V.
 \label{eq:autoatencion}
-\operatorname{Attention}(Q,K,V)=\operatorname{softmax}\!\left(\frac{QK^{\mathsf T}}{\sqrt{d_k}}\right)V.
 \end{equation}
-La salida de la proyección del bloque se representa como:
+En esta expresión, $d_k$ es la dimensión de las claves y el factor de escala evita que los productos internos crezcan con la dimensión.
+
+\subsection{Modelo de lenguaje compacto}\label{modelo-de-lenguaje-compacto}
+
+Para esta investigación, se considerará compacto un modelo con menos de mil millones de parámetros.
+
+Esta definición es operacional y se utilizará únicamente para delimitar el estudio.
+
+El tamaño reducido puede favorecer su utilización en hardware limitado, pero no garantiza competencia en una lengua de pocos recursos.
+
+\subsection{Qwen2.5-0.5B-Instruct}\label{qwen25-05b-instruct}
+
+Qwen2.5-0.5B-Instruct es un modelo autorregresivo ajustado para seguir instrucciones, con aproximadamente 490 millones de parámetros \parencite{QwenCard2024}.
+
+Se utilizará como candidato inicial por su tamaño, disponibilidad pública y licencia Apache 2.0.
+
+Su documentación no demuestra específicamente un rendimiento adecuado en quechua sureño. Por tanto, será necesaria una prueba preliminar de tokenización, generación y compatibilidad técnica.
+
+\subsection{Ajuste fino supervisado}\label{ajuste-fino-supervisado}
+
+El ajuste fino supervisado consiste en adaptar un modelo mediante ejemplos que contienen entradas y salidas esperadas.
+
+En este estudio, las entradas serán preguntas cotidianas y las salidas serán respuestas breves validadas en quechua sureño.
+
+Durante el entrenamiento se procurará que la función de pérdida se aplique principalmente a los tokens de la respuesta, evitando utilizar las instrucciones como objetivo de predicción.
+
+\subsection{QLoRA}\label{qlora}
+
+QLoRA es una técnica de adaptación eficiente que permite entrenar adaptadores de bajo rango sobre un modelo base cuantizado \parencite{Dettmers2023}. Sea $W_0$ la matriz de pesos preentrenada y congelada durante el ajuste; la actualización se parametriza como:
+
+La cuantización reduce el espacio necesario para almacenar determinados pesos, mientras que los adaptadores concentran los parámetros entrenables.
+
+Su aplicación estará condicionada a la compatibilidad del hardware y del software disponible.
+
+En LoRA, la actualización de una matriz de pesos congelada se representa mediante dos matrices entrenables de rango reducido:
 \begin{equation}
-\label{eq:salida_atencion}
-\operatorname{Output}=\operatorname{Attention}(Q,K,V)W_o.
+\Delta W=\frac{\alpha}{r}BA,
+\label{eq:descomposicion_lora}
 \end{equation}
-Estas expresiones formalizan componentes de la arquitectura Transformer \parencite{Vaswani2017}; no implican que adaptar todas las matrices sea la única estrategia. La ubicación de los adaptadores será un parámetro que deberá fijarse en la implementación.
+donde $r$ es el rango y $\alpha$ es el factor de escala. La ecuación describe la parametrización de LoRA; no implica que el ajuste vaya a mejorar la calidad de las respuestas.
 
-\subsection{Recursos digitales y variación del Quechua Collao}
-El Quechua Collao requiere que la preparación de datos conserve la identidad de la variedad y la procedencia de cada texto. Los antecedentes disponibles describen corpus obtenidos de materiales bilingües y recursos léxicos con reglas morfológicas, pero no sustituyen la validación de las fuentes que se incorporen al índice documental \parencite{Orcotoma2025,Duran2026}. En tareas de traducción, además, se han observado diferencias según el tipo de contexto proporcionado, lo que respalda la necesidad de medir el comportamiento lingüístico para la tarea concreta y no inferirlo a partir de otra dirección de traducción \parencite{Court2024}.
+\subsection{Generación de respuestas breves}\label{generaciuxf3n-de-respuestas-breves}
 
-\subsection{Evaluación de generación y recuperación}
-La evaluación considerará dimensiones distintas: similitud de texto con referencias, recuperación de evidencia, correspondencia de las respuestas con el contexto y costo de ejecución. chrF++ combina n-gramas de caracteres y palabras \parencite{popovic-2017-chrf}; SacreBLEU facilita la comparación reproducible de puntajes BLEU cuando se registran sus parámetros \parencite{Post2018}. Para recuperación aumentada, RAGAS propone métricas automatizadas como fidelidad y relevancia, que en este proyecto se usarán como indicadores complementarios y solo tras comprobar su aplicabilidad a Quechua Collao \parencite{Ragas2024}. La latencia, el uso de RAM/VRAM y los tokens generados por segundo se obtendrán mediante medición instrumentada en el entorno descrito en el capítulo metodológico.
+La generación de respuestas breves consiste en producir una contestación concisa que atienda una pregunta.
 
-\begin{algoritmo}[H]
-\centering
-\caption{Flujo de inferencia propuesto para SLM--RAG con adaptación QLoRA}
-\label{alg:pipeline_rag}
-\begin{minipage}{0.96\textwidth}
-\vspace{2pt}\hrule height 0.8pt\vspace{4pt}
-\small
-\textbf{Entrada:} Consulta $q$, colección documental indexada $\mathcal{D}$, modelo base $W_0$, adaptadores QLoRA opcionales $\{A_l,B_l\}$ y cantidad de fragmentos $k$.\\
-\textbf{Salida:} Respuesta $y$ en el idioma solicitado, acompañada de los fragmentos recuperados para su trazabilidad.
-\vspace{3pt}\hrule height 0.4pt\vspace{4pt}
-\begin{enumerate}[1.]
-    \item Codificar la consulta y obtener su representación vectorial $\mathbf{e}_q$.
-    \item Calcular similitudes con los fragmentos documentales y recuperar los $k$ candidatos mejor posicionados.
-    \item Construir el contexto con instrucciones, fragmentos recuperados y consulta.
-    \item Generar una respuesta con el modelo base; activar la configuración adaptada solo si el ajuste y la inferencia con el adaptador son viables.
-    \item Registrar la respuesta, los fragmentos, la latencia y el consumo de memoria para la evaluación.
+Para este estudio, una respuesta deberá:
+
+\begin{itemize}
+\tightlist
+\item
+  Estar formulada en quechua.
+\item
+  Corresponder a la variedad solicitada.
+\item
+  Atender directamente la intención de la pregunta.
+\item
+  Evitar información no solicitada o inventada.
+\item
+  Mantener una extensión preferente de una o dos oraciones.
+\end{itemize}
+
+La longitud se controlará también mediante un límite técnico de tokens, pero no se equipararán automáticamente los tokens con palabras u oraciones.
+
+\subsection{Quechua sureño}\label{quechua-sureuxf1o}
+
+El estudio comprenderá las variedades chanka y collao.
+
+Se utilizará el \emph{Manual de escritura quechua sureño} del Ministerio de Educación como referencia de escritura, complementado con la revisión de hablantes competentes.
+
+Las decisiones sobre variantes aceptables se documentarán antes de la evaluación.
+
+\subsection{Calidad de respuesta}\label{calidad-de-respuesta}
+
+La calidad de respuesta será un constructo evaluado mediante tres dimensiones:
+
+\textbf{Pertinencia:} correspondencia entre la pregunta y la contestación.
+
+\textbf{Corrección lingüística:} aceptabilidad y comprensibilidad de la formulación.
+
+\textbf{Adecuación a la variedad:} correspondencia con la variedad lingüística solicitada.
+
+Se establecerá un criterio binario de aceptabilidad global a partir de estas dimensiones.
+
+\section{Síntesis del estado del arte y brecha de investigación}\label{suxedntesis-del-estado-del-arte-y-brecha-de-investigaciuxf3n}
+
+La revisión presentada identifica cuatro líneas de investigación relacionadas:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Traducción automática quechua--español.
+\item
+  Construcción y preparación de recursos lingüísticos.
+\item
+  Adaptación eficiente de modelos.
+\item
+  Evaluación multilingüe y generación textual.
 \end{enumerate}
-\vspace{3pt}\hrule height 0.8pt\vspace{2pt}
-\end{minipage}
-\end{algoritmo}
 
-\section{Definición de términos básicos}
-\begin{description}
-    \item[Adaptador de bajo rango:] Parámetros entrenables que representan una actualización de pesos mediante matrices de rango reducido.
-    \item[Corpus paralelo:] Colección de textos alineados entre dos lenguas o variedades, con correspondencia documentada entre sus segmentos.
-    \item[Embedding:] Representación vectorial de una consulta o fragmento, utilizada para calcular similitud y ordenar candidatos de recuperación.
-    \item[Fidelidad al contexto:] Grado en que las afirmaciones de una respuesta se sostienen en la evidencia recuperada; se tratará como indicador y se interpretará junto con sus limitaciones.
-    \item[Inferencia local:] Generación ejecutada en el dispositivo o equipo del usuario sin enviar la consulta a un servicio remoto durante la ejecución.
-    \item[Quechua Collao:] Variedad quechua delimitada por el estudio. Los datos y resultados del proyecto no se generalizarán automáticamente a otras variedades.
-    \item[QLoRA:] Método de ajuste eficiente que combina pesos base cuantizados con adaptadores de bajo rango entrenables \parencite{Dettmers2023}.
-    \item[Cuantización:] Representación de pesos del modelo con menor precisión numérica para reducir su tamaño en memoria, con posibles cambios en el rendimiento.
-    \item[RAG:] Arquitectura que recupera documentos externos y los incorpora como contexto de entrada para la generación \parencite{Lewis2020}.
-    \item[SLM:] Modelo de lenguaje compacto seleccionado considerando el tamaño, la licencia, la calidad esperada y los recursos del dispositivo.
-\end{description}
+Los antecedentes demuestran que estas líneas cuentan con investigaciones previas. Por ello, no se planteará como novedad la utilización de QLoRA, la construcción de un modelo de traducción ni la generación de texto en quechua considerada de manera general.
+
+La brecha específica de este estudio se formula de la siguiente manera:
+
+\textbf{Falta establecer, para las condiciones delimitadas de esta investigación, qué efecto produce adaptar mediante QLoRA un único modelo compacto sobre la aceptabilidad de respuestas breves a preguntas cotidianas en quechua sureño, utilizando un corpus validado y una evaluación humana diferenciada para las variedades chanka y collao.}
+
+Esta brecha es una hipótesis de trabajo fundamentada en los antecedentes examinados, no una declaración de inexistencia absoluta de estudios similares.
+
+La contribución esperada será un resultado experimental reproducible, acompañado de un conjunto de evaluación documentado y un análisis de las limitaciones del modelo.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

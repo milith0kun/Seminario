@@ -1,36 +1,34 @@
 % =========================================================================
-% SECCIONES PRELIMINARES: ÍNDICES, ABREVIATURAS, SÍMBOLOS Y GLOSARIO
+% ÍNDICES PRELIMINARES, ABREVIATURAS, SÍMBOLOS Y GLOSARIO
 % =========================================================================
 
-% 1. ÍNDICE GENERAL
-\newpage
+% Índice general
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Índice general}
-\tableofcontents 
+\tableofcontents
 
-% 2. ÍNDICE DE FIGURAS
-\newpage
-\phantomsection
-\addcontentsline{toc}{chapter}{Índice de figuras}
-\renewcommand{\listfigurename}{Índice de figuras}
-\listoffigures
-
-% 3. ÍNDICE DE TABLAS
-\newpage
+% Índices de elementos del documento
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Índice de tablas}
 \renewcommand{\listtablename}{Índice de tablas}
 \renewcommand{\tablename}{Tabla}
 \listoftables
 
-% 4. ÍNDICE DE ALGORITMOS
-\newpage
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Índice de figuras}
+\renewcommand{\listfigurename}{Índice de figuras}
+\listoffigures
+
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Índice de algoritmos}
 \listof{algoritmo}{Índice de algoritmos}
 
-% 5. LISTA DE ABREVIATURAS Y ACRÓNIMOS
-\newpage
+% Abreviaturas empleadas en el plan
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Lista de abreviaturas}
 \chapter*{Lista de abreviaturas}
@@ -38,42 +36,24 @@
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{3.2cm}X@{}}
+\begin{tabularx}{\textwidth}{@{}P{2.7cm}L@{}}
 \toprule
 \rowcolor{tcAzul!12}
-\textbf{Abreviatura / Sigla} & \textbf{Significado y Descripción Técnica} \\
+\textbf{Abreviatura} & \textbf{Significado} \\
 \midrule
-\textbf{AMLQ} & Academia Mayor de la Lengua Quechua (Cusco, Perú). \\
-\textbf{BLEU} & \textit{Bilingual Evaluation Understudy} (métrica de concordancia de n-gramas léxicos). \\
-\textbf{chrF++} & \textit{Character $n$-gram F-score with word $n$-grams}, métrica de similitud léxica a nivel de caracteres y palabras. \\
-\textbf{CPU} & \textit{Central Processing Unit} (unidad central de procesamiento). \\
-\textbf{DSR} & \textit{Design Science Research} (marco metodológico de investigación en ciencias del diseño). \\
-\textbf{FAISS} & \textit{Facebook AI Similarity Search} (biblioteca de búsqueda vectorial densa eficiente). \\
-\textbf{GPU} & \textit{Graphics Processing Unit} (unidad de procesamiento gráfico acelerado). \\
-\textbf{HE} & Hipótesis Específica (HE1, HE2, HE3). \\
-\textbf{HG} & Hipótesis General de la investigación. \\
-\textbf{LLM} & \textit{Large Language Model} (modelo de lenguaje de gran escala). \\
-\textbf{LoRA} & \textit{Low-Rank Adaptation} (técnica de adaptación mediante descomposición de bajo rango). \\
-\textbf{ODS} & Objetivos de Desarrollo Sostenible de las Naciones Unidas (ODS 9 y ODS 10). \\
-\textbf{OE} & Objetivo Específico (OE1, OE2, OE3). \\
-\textbf{OG} & Objetivo General de la investigación. \\
-\textbf{P@k} & \textit{Precision at k}: proporción de fragmentos pertinentes entre los primeros $k$ recuperados. \\
-\textbf{PE} & Problema Específico (PE1, PE2, PE3). \\
-\textbf{PG} & Problema General de la investigación. \\
-\textbf{PLN} & Procesamiento de Lenguaje Natural (equivalente a NLP en inglés). \\
-\textbf{QLoRA} & \textit{Quantized Low-Rank Adaptation} (adaptación de bajo rango sobre un modelo base cuantizado; su viabilidad se comprobará en el entorno). \\
-\textbf{RAG} & \textit{Retrieval-Augmented Generation} (generación aumentada por recuperación). \\
-\textbf{RAGAS} & \textit{Retrieval Augmented Generation Assessment}; marco de métricas para evaluación de sistemas RAG, cuya aplicabilidad al Quechua Collao deberá comprobarse. \\
-\textbf{RAM} & \textit{Random Access Memory} (memoria principal del sistema). \\
-\textbf{SLM} & \textit{Small Language Model} (modelo de lenguaje compacto; en este estudio, candidato de hasta 3B parámetros). \\
-\textbf{TPS} & \textit{Tokens Per Second} (rendimiento de generación de tokens por segundo). \\
-\textbf{VRAM} & \textit{Video Random Access Memory} (memoria gráfica de video dedicada). \\
+\textbf{GPU} & \textit{Graphics Processing Unit}; unidad de procesamiento gráfico. \\
+\textbf{LoRA} & \textit{Low-Rank Adaptation}; adaptación de bajo rango. \\
+\textbf{NF4} & \textit{4-bit NormalFloat}; formato de cuantización de cuatro bits utilizado en la configuración piloto propuesta. \\
+\textbf{PLN} & Procesamiento del lenguaje natural. \\
+\textbf{QLoRA} & \textit{Quantized Low-Rank Adaptation}; adaptación de bajo rango sobre un modelo base cuantizado. \\
+\textbf{RAM} & \textit{Random Access Memory}; memoria principal del sistema. \\
+\textbf{VRAM} & \textit{Video Random Access Memory}; memoria de la unidad de procesamiento gráfico. \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-% 6. LISTA DE SÍMBOLOS Y NOTACIÓN MATEMÁTICA
-\newpage
+% Símbolos que aparecen en las ecuaciones y el análisis
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Lista de símbolos}
 \chapter*{Lista de símbolos}
@@ -81,36 +61,32 @@
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{3.2cm}X@{}}
+\begin{tabularx}{\textwidth}{@{}P{3.2cm}L@{}}
 \toprule
 \rowcolor{tcAzul!12}
-\textbf{Símbolo / Notación} & \textbf{Definición y Rol Computacional} \\
+\textbf{Símbolo} & \textbf{Definición} \\
 \midrule
-$W_0$ & Matriz de pesos preentrenada del SLM; se congelará durante el ajuste ($W_0 \in \mathbb{R}^{d_{\mathrm{out}} \times d_{\mathrm{in}}}$). \\
-$\Delta W$ & Matriz de actualización adaptativa acumulada sobre los pesos del modelo ($\Delta W \in \mathbb{R}^{d_{\mathrm{out}} \times d_{\mathrm{in}}}$). \\
-$A$ & Matriz de proyección de bajo rango inicializada de forma aleatoria ($A \in \mathbb{R}^{r \times d_{\mathrm{in}}}$). \\
-$B$ & Matriz de proyección de bajo rango inicializada en ceros ($B \in \mathbb{R}^{d_{\mathrm{out}} \times r}$). \\
-$r$ & Rango de las matrices de bajo rango, que se fijará durante el diseño experimental ($r \ll \min(d_{\mathrm{out}},d_{\mathrm{in}})$). \\
-$\alpha$ & Factor de escala de la actualización LoRA, cuyo valor se especificará en la configuración experimental. \\
-$x$ & Vector de activación de entrada a la capa Transformer (tokens de consulta + contexto RAG). \\
-$h$ & Vector de activación adaptado de salida: $h = W_0 x + \frac{\alpha}{r} (B \cdot A) x$. \\
-$Q, K, V$ & Matrices de Consulta (\textit{Query}), Clave (\textit{Key}) y Valor (\textit{Value}) en las capas de autoatención. \\
-$W_q, W_k, W_v, W_o$ & Matrices de proyección lineal de los cabezales de atención objetivo del ajuste fino QLoRA. \\
-$d_k$ & Dimensión de escalamiento de los vectores de clave en el producto escalar de autoatención. \\
-$\mathbf{e}_q$ & Vector de incrustación denso (\textit{embedding}) de la consulta formulada por el usuario. \\
-$\mathbf{e}_d$ & Vector de incrustación denso del fragmento documental indexado en la base de conocimiento. \\
-$q$ & Consulta de entrada al sistema de recuperación. \\
-$d$ & Fragmento documental candidato para una consulta. \\
-$\text{sim}(q, d)$ & Similitud del coseno normalizada entre los vectores de consulta y fragmento documental. \\
-$\mathcal{D}$ & Colección curada de fragmentos documentales bilingües indexados en la base vectorial local. \\
-$\mathcal{C}_k$ & Conjunto de los $k$ fragmentos documentales de mayor afinidad semántica recuperados. \\
-$P@k$ & Proporción de fragmentos pertinentes en el conjunto de los primeros $k$ resultados recuperados. \\
+$Q$, $K$, $V$ & Representaciones de consulta, clave y valor en el mecanismo de atención. \\
+$d_k$ & Dimensión de las representaciones de clave; factor de escala en la autoatención. \\
+$W_0$ & Matriz de pesos preentrenada que permanece congelada durante la adaptación LoRA. \\
+$\Delta W$ & Actualización de los pesos representada mediante matrices de bajo rango. \\
+$A$, $B$ & Matrices entrenables que parametrizan la actualización de bajo rango. \\
+$r$ & Rango de las matrices $A$ y $B$. \\
+$\alpha$ & Factor de escala de la actualización LoRA. \\
+$c$ & Condición evaluada: modelo original o modelo adaptado mediante QLoRA. \\
+$N_c$ & Número de preguntas de prueba evaluadas en la condición $c$ para una variedad. \\
+$n_{\mathrm{aceptables},c}$ & Número de respuestas aceptables en la condición $c$. \\
+$\widehat{p}_c$ & Proporción estimada de respuestas aceptables en la condición $c$. \\
+$\widehat{\Delta p}$ & Diferencia entre las proporciones de respuestas aceptables del modelo QLoRA y del modelo original. \\
+$q_i$ & Pregunta de prueba identificada con el índice $i$. \\
+$y_{i,A}$, $y_{i,B}$ & Respuestas a la pregunta $q_i$ del modelo original y del modelo QLoRA, respectivamente. \\
+$H_0$, $H_1$ & Hipótesis nula y alternativa de la comparación principal. \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-% 7. ÍNDICE DE ECUACIONES
-\newpage
+% Índice de ecuaciones con numeración y páginas obtenidas automáticamente
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Índice de ecuaciones}
 \chapter*{Índice de ecuaciones}
@@ -118,60 +94,55 @@ $P@k$ & Proporción de fragmentos pertinentes en el conjunto de los primeros $k$
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{9.0cm}c@{}}
+\begin{tabularx}{\textwidth}{@{}P{2.2cm}Lcc@{}}
 \toprule
 \rowcolor{tcAzul!12}
-\textbf{Ecuación} & \textbf{Descripción Matemática y Teórica} & \textbf{Página} \\
+\textbf{Número} & \textbf{Descripción} & \textbf{Ecuación} & \textbf{Página} \\
 \midrule
-Ecuación (1) & Métrica de similitud del coseno para recuperación densa de fragmentos documentales & \pageref{eq:similitud_coseno} \\
-Ecuación (2) & Precisión entre los primeros $k$ fragmentos recuperados (P@k) & \pageref{eq:precision_at_k} \\
-Ecuación (3) & Descomposición de bajo rango para adaptación eficiente de pesos (LoRA / QLoRA) & \pageref{eq:descomposicion_lora} \\
-Ecuación (4) & Proyecciones lineales de consulta ($Q$), clave ($K$) y valor ($V$) en capas Transformer & \pageref{eq:proyecciones_atencion} \\
-Ecuación (5) & Mecanismo de autoatención con producto escalar escalado (\textit{Scaled Dot-Product Attention}) & \pageref{eq:autoatencion} \\
-Ecuación (6) & Proyección lineal de salida multicabezal del bloque de atención Transformer & \pageref{eq:salida_atencion} \\
+Autoatención & Atención de producto escalar escalado en la arquitectura Transformer & (\ref{eq:autoatencion}) & \pageref{eq:autoatencion} \\
+LoRA & Descomposición de bajo rango de la actualización de pesos & (\ref{eq:descomposicion_lora}) & \pageref{eq:descomposicion_lora} \\
+Aceptabilidad & Proporción de respuestas aceptables por condición & (\ref{eq:proporcion_aceptabilidad}) & \pageref{eq:proporcion_aceptabilidad} \\
+Efecto & Diferencia pareada entre proporciones de aceptabilidad & (\ref{eq:efecto_adaptacion}) & \pageref{eq:efecto_adaptacion} \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-% 8. ÍNDICE DE ANEXOS
-\newpage
+% Índice de anexos
+\clearpage
 \phantomsection
-\addcontentsline{toc}{chapter}{Índice de anexos}
-\chapter*{Índice de anexos}
+\addcontentsline{toc}{chapter}{Índice de apéndices (anexos)}
+\chapter*{Índice de apéndices (anexos)}
 
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{2.6cm}p{8.5cm}c@{}}
+\begin{tabularx}{\textwidth}{@{}P{2.0cm}Lc@{}}
 \toprule
 \rowcolor{tcAzul!12}
-\textbf{Identificador} & \textbf{Título y Contenido del Anexo} & \textbf{Página} \\
+\textbf{Anexo} & \textbf{Contenido} & \textbf{Página} \\
 \midrule
-Anexo 1 & Matriz de consistencia lógica de la investigación & \pageref{anexo:matriz_consistencia} \\
-Anexo 2 & Ficha técnica para registro de corridas experimentales & \pageref{anexo:ficha_tecnica} \\
-Anexo 3 & Rúbrica de revisión lingüística y factual & \pageref{anexo:revision_linguistica} \\
-Anexo 4 & Banco de consultas patrón de evaluación & \pageref{anexo:banco_consultas} \\
+A & Matriz de consistencia alineada con problemas, objetivos, hipótesis y método & \pageref{anexo:matriz_consistencia} \\
+B & Ficha vacía para registrar condiciones y salidas de cada corrida & \pageref{anexo:ficha_tecnica} \\
+C & Rúbrica para valorar las respuestas breves en quechua sureño & \pageref{anexo:revision_linguistica} \\
+D & Plantilla de registro del corpus y de sus particiones & \pageref{anexo:banco_consultas} \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-% 9. GLOSARIO DE TÉRMINOS
-\newpage
+% Glosario
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Glosario de términos}
 \chapter*{Glosario de términos}
 
-\begin{description}[leftmargin=1.8em, itemsep=0.6em]
-\item[\textbf{Aglutinación:}] Proceso morfológico en el que una palabra puede incorporar varios sufijos, cada uno con una función gramatical o discursiva.
-\item[\textbf{Alucinación:}] Respuesta generada que contiene afirmaciones no sustentadas por la información disponible o por las fuentes consultadas.
-\item[\textbf{Cuantización:}] Representación de los pesos de un modelo con menor precisión numérica para reducir el espacio requerido en memoria; su efecto sobre calidad y velocidad debe medirse.
-\item[\textbf{Design Science Research (DSR):}] Enfoque de investigación que diseña, construye y evalúa un artefacto para atender un problema delimitado.
-\item[\textbf{Embedding:}] Representación vectorial de una consulta o fragmento documental usada para calcular similitud.
-\item[\textbf{Fidelidad al contexto:}] Grado en que las afirmaciones de una respuesta se sustentan en el contexto recuperado, según una métrica o protocolo definido.
-\item[\textbf{Generación aumentada por recuperación (RAG):}] Arquitectura que recupera documentos externos y los incorpora como contexto para una respuesta generada.
-\item[\textbf{Inferencia local:}] Ejecución del modelo en el equipo del usuario sin enviar la consulta a un servicio remoto durante la generación.
-\item[\textbf{NormalFloat de 4 bits (NF4):}] Formato de cuantización de 4 bits descrito como parte del método QLoRA.
-\item[\textbf{QLoRA:}] Método que combina un modelo base cuantizado y adaptadores entrenables de bajo rango; su viabilidad depende del modelo, la configuración y el hardware.
-\item[\textbf{Quechua Collao:}] Variedad quechua delimitada como objeto de este estudio; los datos deberán conservar esta etiqueta y su procedencia.
-\item[\textbf{Small Language Model (SLM):}] Modelo de lenguaje compacto; para esta propuesta se considera como candidato uno de hasta tres mil millones de parámetros.
+\begin{description}[leftmargin=2.0em,itemsep=0.5em]
+\item[\textbf{Aceptabilidad global:}] Clasificación binaria de una respuesta derivada de los umbrales definidos para pertinencia, corrección lingüística y adecuación a la variedad.
+\item[\textbf{Adaptación eficiente:}] Ajuste de un modelo que reduce los parámetros entrenables o los recursos requeridos; en este estudio se operacionaliza mediante QLoRA.
+\item[\textbf{Corpus de preguntas y respuestas:}] Conjunto documentado de preguntas y respuestas con etiquetas lingüísticas, temáticas, de procedencia y de partición.
+\item[\textbf{Evaluación ciega:}] Procedimiento en que quienes califican no conocen si cada respuesta proviene del modelo original o del adaptado.
+\item[\textbf{Grupo semántico:}] Conjunto de preguntas equivalentes o estrechamente relacionadas que debe conservarse en una sola partición para reducir contaminación.
+\item[\textbf{Modelo de lenguaje compacto:}] Modelo definido operacionalmente para esta propuesta como uno con menos de mil millones de parámetros.
+\item[\textbf{QLoRA:}] Técnica de adaptación que combina cuantización del modelo base con adaptadores entrenables de bajo rango.
+\item[\textbf{Tokenizador:}] Componente que convierte el texto en unidades discretas procesables por el modelo; sus fragmentaciones se revisarán para ambas variedades.
+\item[\textbf{Variedad lingüística:}] Forma lingüística identificada y delimitada en los datos; esta propuesta distingue quechua chanka y quechua collao.
 \end{description}
